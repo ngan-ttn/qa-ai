@@ -1,0 +1,12 @@
+{
+  "schema_version": "1.0",
+  "name": "QA-AI",
+  "version": "1.0.0",
+  "description": "Vendor-neutral QA Skill Framework for generating structured QA deliverables from software requirements.",
+  "entry_point": "FRAMEWORK.md",
+  "components": {
+    "shared": "shared/",
+    "skills": "skills/",
+    "workflows": "workflows/"
+  }
+}
