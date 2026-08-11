@@ -2,11 +2,11 @@
 
 ## Purpose
 
-The `testcase-quality-review` workflow defines the process for evaluating and improving existing test artifacts.
+The `testcase-quality-review` workflow defines the coordinated process for evaluating the quality and coverage of an existing structured test case model.
 
-This workflow guides the AI assistant in reviewing testcase quality by applying relevant QA skills, standards, and validation resources.
+This workflow orchestrates the `coverage-reviewer` capability with relevant upstream QA artifacts and shared resources to produce a structured coverage assessment.
 
-The workflow focuses on the review process, not on storing testcase design knowledge or defining review criteria in detail.
+The workflow defines review orchestration and artifact dependencies. It does not generate or modify test cases, duplicate the internal review logic owned by the coverage-reviewer skill, or redefine detailed review criteria maintained in shared resources.
 
 ---
 
@@ -14,171 +14,187 @@ The workflow focuses on the review process, not on storing testcase design knowl
 
 This workflow should be used when:
 
-* Existing test cases need quality evaluation
-* Test coverage needs to be reviewed before execution
-* Requirements changes require existing test cases to be assessed
-* Test artifacts need improvement before being reused
-* QA teams need a structured review process
+- Existing structured test cases need quality evaluation
+- Test coverage needs to be assessed before execution or reuse
+- Testcase completeness, consistency, or traceability needs to be reviewed
+- Requirement or business-rule context is available for validating testcase coverage
+- QA teams need a structured testcase quality review process
 
 This workflow should not be used for:
 
-* Creating new test cases from requirements
-* Executing test cases
-* Analyzing regression scope
-* Reviewing automation code
+- Creating new test cases from requirements
+- Modifying existing test cases
+- Executing test cases
+- Performing regression impact analysis
+- Reviewing automation code
 
 ---
 
 ## Input
 
-The workflow requires existing QA artifacts as input.
-
 ### Required Input
 
-Examples:
+The workflow requires a structured test case model suitable for `skills/coverage-reviewer`.
 
-* Existing test cases
-* Existing test scenarios
+Typical required information includes:
+
+- Structured test cases
+- Test case relationships
+- Preconditions
+- Test steps
+- Expected results
 
 ### Optional Input
 
-Examples:
+Upstream artifacts may be supplied to strengthen coverage and traceability assessment:
 
-* Requirement documents
-* User stories
-* Acceptance criteria
-* Business rules
-* Previous review results
-* Related QA documents
+- Structured test scenario model
+- Structured business rule model
+- Structured requirement analysis
+- Previous coverage assessment
+- Related QA context
 
-The workflow should identify missing information or unclear review scope before performing the review.
+The workflow should not reconstruct missing upstream artifacts as confirmed information. Missing context that affects review confidence should remain visible in the assessment.
+
+---
+
+## Workflow Flow
+
+```text
+Structured Test Case Model
+        │
+        ├── Optional: Structured Test Scenario Model
+        ├── Optional: Structured Business Rule Model
+        └── Optional: Structured Requirement Analysis
+        │
+        ▼
+Coverage Reviewer
+        │
+        ▼
+Structured Coverage Assessment
+```
+
+The structured test case model is the primary review target. Available upstream artifacts provide additional evidence for completeness and traceability assessment.
 
 ---
 
 ## Workflow Steps
 
-The workflow follows these execution steps:
+### Step 1: Validate Review Input
 
-### Step 1: Understand Review Scope
-
-Analyze the provided test artifacts and available context.
+Confirm that a structured test case model is available and contains sufficient information for coverage review.
 
 Identify:
 
-* Review objectives
-* Related features
-* Applicable requirements
-* Expected review scope
+- Review scope
+- Available test case information
+- Available upstream artifacts
+- Missing context that may affect assessment confidence
 
 ---
 
-### Step 2: Analyze Test Coverage
+### Step 2: Review Test Cases
 
-Evaluate whether existing test artifacts sufficiently represent the intended testing scope.
+Execute `skills/coverage-reviewer` using the structured test case model as the required input.
 
-Consider:
-
-* Feature coverage
-* Scenario coverage
-* Business rule coverage
-* Missing validation areas
+Available upstream artifacts should be supplied as optional context when they are valid and applicable to the current scope.
 
 ---
 
-### Step 3: Review Testcase Quality
+### Step 3: Assess Completeness
 
-Review the test artifacts using applicable QA standards and practices.
+Evaluate whether the structured test case model sufficiently represents the applicable testing scope supported by the available evidence.
 
-Consider:
-
-* Clarity
-* Consistency
-* Completeness
-* Maintainability
+Coverage gaps should be identified without inventing unsupported requirement behavior.
 
 ---
 
-### Step 4: Identify Gaps and Improvements
+### Step 4: Assess Consistency
 
-Identify areas that may require improvement.
-
-Examples:
-
-* Missing scenarios
-* Unclear information
-* Incomplete coverage
-* Potential duplication
+Identify inconsistencies, duplicates, or logical conflicts within the structured test case model and against valid upstream artifacts when available.
 
 ---
 
-### Step 5: Generate Review Result
+### Step 5: Assess Traceability
 
-Produce review outcomes based on identified findings.
+Verify traceability from test cases to available upstream QA artifacts, including test scenarios, business rules, and requirement analysis where those artifacts are provided.
 
-The review result should provide actionable information for improving the test artifacts.
+Missing upstream artifacts should be reported as a traceability limitation rather than silently reconstructed.
 
 ---
 
-### Step 6: Validate Review Findings
+### Step 6: Produce and Validate Coverage Assessment
 
-Ensure review results are:
+Produce the structured coverage assessment defined by `skills/coverage-reviewer` and validate that findings are supported by the provided artifacts.
 
-* Relevant to the provided input
-* Clearly explained
-* Traceable to identified issues
-* Consistent with applicable QA standards
+Validation should confirm:
+
+- Coverage findings reflect the reviewed test case model
+- Coverage gaps are explicitly identified
+- Consistency findings are evidence-based
+- Traceability findings accurately reflect available upstream artifacts
+- Open questions or review limitations remain visible
+- Applicable standards and output structures are followed
 
 ---
 
 ## Required Skills
 
-This workflow may require the following skills:
+This workflow coordinates the following skill:
 
-| Skill                         | Purpose                                               |
-| ----------------------------- | ----------------------------------------------------- |
-| `skills/requirement-analysis` | Understand requirement context during testcase review |
-| `skills/test-design`          | Evaluate scenario and coverage quality                |
-| `skills/testing-fundamentals` | Apply general testing principles during review        |
+| Skill | Purpose |
+|---|---|
+| `skills/coverage-reviewer` | Evaluate completeness, consistency, and traceability of structured test cases and produce a structured coverage assessment |
 
-The workflow references these skills but does not contain their detailed knowledge.
+Requirement analysis, business rule extraction, scenario generation, and testcase generation are not implicitly executed by this workflow. Their artifacts may be consumed as optional review context when already available.
 
 ---
 
 ## Required Resources
 
-This workflow may use resources from the shared directory.
+The participating skill may resolve applicable resources from the shared module, including:
 
-| Resource                  | Purpose                                  |
-| ------------------------- | ---------------------------------------- |
-| `shared/standards/`       | Provide QA standards and review guidance |
-| `shared/templates/`       | Provide review output structures         |
-| `shared/checklists/`      | Provide validation criteria              |
-| `shared/prompt-patterns/` | Provide reusable instruction patterns    |
+| Resource | Purpose |
+|---|---|
+| `shared/standards/` | Apply applicable coverage and artifact standards |
+| `shared/templates/` | Structure coverage assessment output |
+| `shared/checklists/` | Support applicable review validation |
+| `shared/prompt-patterns/` | Provide reusable review instructions where required |
 
-The workflow applies these resources but does not redefine them.
+The workflow references these resources without duplicating their detailed review rules.
 
 ---
 
 ## Output
 
-The expected outputs of this workflow include:
+The workflow produces:
 
-* Testcase review findings
-* Coverage improvement suggestions
-* Quality assessment results
+- Structured coverage assessment
 
-Output formats should follow applicable templates defined in shared resources.
+Typical assessment content may include:
+
+- Coverage findings
+- Coverage gaps
+- Consistency findings
+- Traceability findings
+- Open questions
+
+The exact output structure should follow the applicable templates and output standards defined in shared resources.
+
+This workflow produces review findings only. It does not automatically modify, regenerate, or approve the reviewed test cases.
 
 ---
 
 ## Validation
 
-The workflow output should be validated to ensure:
+The workflow is complete when:
 
-* Findings are based on provided test artifacts
-* Identified issues are actionable
-* Improvement suggestions are relevant
-* Review results follow applicable QA standards
-* Output structure follows defined templates
+- A valid structured test case model has been reviewed
+- Applicable upstream artifacts have been used when available
+- Completeness, consistency, and traceability have been assessed
+- Findings are supported by the provided artifacts
+- Review limitations and unresolved gaps are explicitly represented
+- The structured coverage assessment satisfies the coverage-reviewer output contract
+- Applicable standards and templates are followed
 
-Detailed validation criteria should be maintained in the relevant shared checklists.
+This workflow does not generate test cases, modify reviewed artifacts, perform regression impact analysis, execute tests, or manage test results.
