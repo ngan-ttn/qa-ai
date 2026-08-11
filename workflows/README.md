@@ -2,167 +2,208 @@
 
 ## Overview
 
-The `workflows` directory contains reusable QA task execution flows that guide the AI assistant in performing specific testing activities.
+The `workflows` directory contains reusable QA execution flows that coordinate one or more QA skills to complete specific testing activities.
 
-In this context, the AI assistant refers to any AI system using this skill repository to perform QA-related tasks.
+A workflow defines how QA capabilities are sequenced, how artifacts move between stages, which shared resources are applied, and how workflow outputs are validated.
 
-Workflows define how QA knowledge and shared resources are applied together to complete a specific task and produce consistent QA outputs.
+Examples of workflows include:
 
-Examples of workflows:
+- Requirement-based testcase generation
+- Testcase quality review
+- Regression impact analysis
 
-* Requirement-based testcase generation
-* Testcase quality review
-* Regression impact analysis
+Workflows define orchestration. They do not own the internal capability logic of skills or the detailed content of shared resources.
 
 ---
 
 ## Purpose
 
-The purpose of workflows is to provide a structured process for completing QA tasks.
+The purpose of workflows is to provide a repeatable and explicit execution process for multi-stage QA tasks.
 
-Skills provide QA knowledge, and shared resources provide standards and reusable assets. However, a complete QA task requires a defined process to apply those resources effectively.
+Skills provide atomic QA capabilities. Shared resources provide reusable standards, templates, checklists, prompt patterns, knowledge, and terminology. Workflows coordinate these components into a defined task flow.
 
-Workflows bridge this gap by defining:
+A workflow may define:
 
-* Task execution steps
-* Required inputs
-* Required QA knowledge
-* Required resources
-* Expected outputs
-* Validation points
+- Required inputs
+- Required skills
+- Skill execution order
+- Artifact dependencies
+- Applicable shared resources
+- Review or validation points
+- Intermediate artifacts
+- Final outputs
+- Completion conditions
 
 ---
 
-## Role in AI Skill Learning System
+## Role in QA-AI
 
-Within the AI Skill Learning System, each component has a specific responsibility:
+The primary runtime relationship is:
 
 ```text
-skills/
-
-Provide QA knowledge
-
-        |
-
-        v
-
-shared/
-
-Provide standards and reusable resources
-
-        |
-
-        v
-
-workflows/
-
-Define QA task execution flows
-
-        |
-
-        v
-
-QA Output
+User Request
+      │
+      ▼
+FRAMEWORK.md
+      │
+      ▼
+Workflow
+      │
+      ▼
+Skills
+      │
+      ▼
+Shared Resources
+      │
+      ▼
+QA Artifacts
 ```
 
-The workflow layer does not replace knowledge or standards.
+Responsibilities remain separated:
 
-It defines how existing knowledge and resources are combined and applied during a QA activity.
+```text
+FRAMEWORK.md
+    → Defines how QA-AI operates and resolves execution
+
+workflows/
+    → Defines which capabilities execute and in what sequence
+
+skills/
+    → Defines atomic QA capabilities and their input/output contracts
+
+shared/
+    → Provides reusable standards, templates, checklists, prompt patterns,
+      knowledge, and glossary resources
+```
+
+The workflow layer does not replace skill capabilities or shared resources. It coordinates them.
 
 ---
 
 ## Relationship With Other Components
 
-Workflows work together with other components in the system.
-
-| Component                 | Responsibility                                |
-| ------------------------- | --------------------------------------------- |
-| `skills/`                 | Provide QA knowledge and testing capabilities |
-| `shared/standards/`       | Define QA principles and common rules         |
-| `shared/templates/`       | Define output structures and formats          |
-| `shared/checklists/`      | Define validation criteria                    |
-| `shared/prompt-patterns/` | Provide reusable instruction patterns         |
-| `workflows/`              | Define execution flows for specific QA tasks  |
+| Component | Responsibility |
+|---|---|
+| `FRAMEWORK.md` | Define framework operating and resolution rules |
+| `skills/` | Define atomic QA capabilities and capability contracts |
+| `shared/standards/` | Define common QA and artifact rules |
+| `shared/templates/` | Define output structures and formats |
+| `shared/checklists/` | Define reusable validation criteria |
+| `shared/prompt-patterns/` | Provide reusable instruction patterns |
+| `shared/knowledge/` | Provide reusable QA knowledge |
+| `shared/glossary/` | Provide shared terminology |
+| `workflows/` | Define multi-skill orchestration and artifact dependencies |
 
 Example:
 
 ```text
-Requirement
-
-    |
-
-    v
-
+Requirement Information
+        │
+        ▼
 Testcase Generation Workflow
-
-    |
-
-    +----------------+
-    |                |
-    v                v
-
-Test Design Skill   Testcase Template
-
-    |
-
-    v
-
-Generated Test Cases
-
-    |
-
-    v
-
-Testcase Checklist Validation
+        │
+        ▼
+Requirement Analyzer
+        │
+        ▼
+Structured Requirement Analysis
+        │
+        ▼
+Business Rule Extractor
+        │
+        ▼
+Structured Business Rule Model
+        │
+        ▼
+Scenario Generator
+        │
+        ▼
+Structured Test Scenario Model
+        │
+        ▼
+Testcase Generator
+        │
+        ▼
+Structured Test Case Model
 ```
+
+Each participating skill may resolve the shared resources required by its own capability contract.
 
 ---
 
 ## Workflow Concept
 
-A workflow is a repeatable process for completing a specific QA task by applying relevant skills and shared resources.
+A workflow is a reusable orchestration definition for completing a QA task that requires coordinated capabilities or explicit artifact dependencies.
 
-A workflow defines:
+A workflow should define the following.
 
 ### Input
 
-Information required to start the workflow.
+Information or artifacts required to start the workflow.
 
 Examples:
 
-* Requirement document
-* User story
-* Existing test cases
-* Change request
-* Test result information
-
----
+- Requirement information
+- Structured QA artifacts
+- Existing test cases
+- Change information
+- Coverage assessment
 
 ### Process
 
-The execution steps required to complete the task.
+The ordered stages required to complete the task.
 
-A workflow typically includes:
+A workflow may:
 
-* Analyze input
-* Identify required skills
-* Apply relevant shared resources
-* Perform QA activities
-* Generate or update QA artifacts
-* Validate results
+- Validate input readiness
+- Invoke required skills
+- Pass validated artifacts between skills
+- Reuse existing valid upstream artifacts
+- Apply workflow-level review points
+- Validate workflow completion
 
----
+A workflow should not reproduce the detailed processing steps already owned by participating skills.
 
 ### Output
 
-The expected result produced by the workflow.
+The artifacts produced by workflow execution.
 
-Examples:
+Outputs may include:
 
-* Test scenarios
-* Test cases
-* Review findings
-* Regression analysis result
+- Intermediate artifacts consumed by downstream skills
+- Final user-facing QA artifacts
+- Review assessments
+- Regression impact analysis
+
+The workflow should distinguish intermediate artifacts from final deliverables where relevant.
+
+---
+
+## Artifact Dependencies
+
+Workflows must preserve declared artifact dependencies.
+
+Example:
+
+```text
+Structured Test Scenario Model
+        ↓
+Testcase Generator
+        ↓
+Structured Test Case Model
+        ↓
+Coverage Reviewer
+        ↓
+Structured Coverage Assessment
+        ↓
+Regression Impact
+        ↓
+Structured Regression Impact Analysis
+```
+
+A downstream skill must not execute before its required upstream artifact is available.
+
+When a valid upstream artifact already exists and remains applicable to the current scope, the workflow should reuse it rather than regenerate equivalent information unnecessarily.
 
 ---
 
@@ -172,11 +213,10 @@ Each workflow should be organized as:
 
 ```text
 workflow-name/
-
 └── README.md
 ```
 
-Each workflow README should describe:
+Each workflow README should normally describe:
 
 ```md
 ## Purpose
@@ -184,6 +224,8 @@ Each workflow README should describe:
 ## When To Use
 
 ## Input
+
+## Workflow Flow
 
 ## Workflow Steps
 
@@ -196,7 +238,15 @@ Each workflow README should describe:
 ## Validation
 ```
 
-The workflow documentation should explain how the workflow operates without duplicating detailed knowledge, templates, or checklist definitions.
+A section may be omitted only when it is not applicable to the workflow.
+
+Workflow documentation should explain orchestration without duplicating:
+
+- Skill processing logic
+- Knowledge articles
+- Standards
+- Templates
+- Checklist definitions
 
 ---
 
@@ -204,34 +254,56 @@ The workflow documentation should explain how the workflow operates without dupl
 
 Current workflows:
 
-| Workflow                  | Purpose                                                  |
-| ------------------------- | -------------------------------------------------------- |
-| `testcase-generation`     | Generate test scenarios and test cases from requirements |
-| `testcase-quality-review` | Review and improve existing test cases                   |
-| `regression-analysis`     | Analyze change impact and define regression scope        |
+| Workflow | Purpose |
+|---|---|
+| `testcase-generation` | Transform requirement information into structured test scenarios and test cases |
+| `testcase-quality-review` | Evaluate completeness, consistency, and traceability of structured test cases |
+| `regression-analysis` | Analyze regression impact and determine regression scope from validated QA artifacts |
 
-Additional workflows can be added when new QA task capabilities are required.
+These workflows may be executed independently when their required inputs are already available or composed as part of a broader QA-AI execution path.
 
 ---
 
-## Adding New Workflow
+## Workflow Boundaries
 
-New workflows should be added when a QA activity requires a defined and reusable execution flow.
-
-A new workflow should:
-
-* Have a clear purpose
-* Define required inputs
-* Define execution steps
-* Identify required skills
-* Identify required shared resources
-* Define expected outputs
-* Include validation criteria
+A workflow owns orchestration only.
 
 A workflow should not:
 
-* Store QA knowledge that belongs to `skills/`
-* Define output formats that belong to `shared/templates/`
-* Replace validation rules from `shared/checklists/`
+- Redefine the internal capability logic of a skill
+- Store QA knowledge that belongs under `shared/knowledge/`
+- Define output formats that belong under `shared/templates/`
+- Redefine common rules owned by `shared/standards/`
+- Duplicate validation criteria maintained under `shared/checklists/`
+- Introduce platform-specific QA behavior
+- Invent missing business or system behavior
 
-New workflows should extend system capability while maintaining clear separation between knowledge, standards, and execution flow.
+When another framework component already owns a concern, the workflow should reference or consume that component instead of duplicating it.
+
+---
+
+## Adding a New Workflow
+
+A new workflow should be added when a QA activity requires a reusable orchestration path that is not already covered by an existing workflow.
+
+Before adding a workflow, confirm that:
+
+- The QA objective is distinct from existing workflows
+- Multiple capabilities or explicit artifact dependencies require orchestration
+- Required skills already exist or are separately defined
+- Inputs and outputs can be clearly identified
+- Execution order can be explicitly defined
+- Workflow-level validation or completion criteria are meaningful
+
+A new workflow should:
+
+- Have a clear purpose
+- Define required and optional inputs
+- Define participating skills
+- Define execution order
+- Define artifact dependencies
+- Identify relevant shared resources
+- Define outputs
+- Define validation and completion conditions
+
+New workflows should extend QA-AI orchestration while preserving the responsibility boundaries defined by `FRAMEWORK.md`, `skills/`, and `shared/`.
