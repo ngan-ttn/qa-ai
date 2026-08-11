@@ -152,7 +152,7 @@ Open items remain for behaviors whose expected results are not defined by the re
 | R9 | TC-015, TC-016, TC-020 | Covered | Active lock and expiration behavior are represented within the defined requirement boundary. |
 | R10 | TC-012, TC-013, TC-020 | Covered | Authentication prohibition during lock is represented. |
 | R11 | TC-014 | Covered | Required locked-account message has focused verification. |
-| R12 | TC-016, TC-019, TC-020 | Covered | Automatic unlock behavior is represented. |
+| R12 | TC-016, TC-020 | Covered | Automatic unlock behavior is represented. |
 | R13 | TC-017, TC-020 | Covered | Authentication availability after unlock is represented. |
 | R14 | TC-018, TC-019 | Covered | Restarted failed-login tracking is represented. |
 
@@ -196,7 +196,7 @@ Open items remain for behaviors whose expected results are not defined by the re
 | BR-004 | TC-015, TC-016 | Covered | Active and expired lock-period conditions are represented. |
 | BR-005 | TC-012, TC-013 | Covered | Locked-state authentication rejection is represented. |
 | BR-006 | TC-014 | Covered | Required user feedback has focused verification. |
-| BR-007 | TC-016, TC-019 | Covered | Automatic state transition is represented. |
+| BR-007 | TC-016 | Covered | Automatic state transition is represented. |
 | BR-008 | TC-017 | Covered | Authentication availability after unlock is represented. |
 | BR-009 | TC-018, TC-019 | Covered | Restarted tracking receives focused and lifecycle coverage. |
 

@@ -890,7 +890,7 @@ These candidates should be converted into executable test cases only after the a
 | R9 | TC-015, TC-016, TC-020 |
 | R10 | TC-012, TC-013, TC-020 |
 | R11 | TC-014, TC-020 |
-| R12 | TC-016, TC-017, TC-019, TC-020 |
+| R12 | TC-016, TC-020 |
 | R13 | TC-017, TC-020 |
 | R14 | TC-018, TC-019 |
 | AC-01 | TC-004, TC-005 |
