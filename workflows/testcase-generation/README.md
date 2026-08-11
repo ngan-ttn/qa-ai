@@ -2,11 +2,11 @@
 
 ## Purpose
 
-The `testcase-generation` workflow defines the process for transforming QA inputs into structured test scenarios and test cases.
+The `testcase-generation` workflow defines the coordinated process for transforming requirement information into structured test scenarios and executable test cases.
 
-This workflow guides the AI assistant in applying relevant QA skills and shared resources to create consistent and reviewable test artifacts.
+This workflow orchestrates the QA capabilities required to analyze requirement information, extract business rules, generate test scenarios, and generate test cases while reusing intermediate artifacts across stages.
 
-The workflow focuses on the execution process of testcase generation, not on storing testing knowledge or defining output formats.
+The workflow defines execution order and artifact dependencies. It does not duplicate the internal capability logic owned by individual skills or the output structures owned by shared templates.
 
 ---
 
@@ -14,170 +14,190 @@ The workflow focuses on the execution process of testcase generation, not on sto
 
 This workflow should be used when:
 
-* New requirements need test coverage
-* New user stories need validation scenarios
-* Acceptance criteria need to be converted into test cases
-* Business rules need to be analyzed for testing activities
-* Existing feature changes require new test coverage
+- New requirements need test coverage
+- New user stories need validation scenarios and test cases
+- Acceptance criteria need to be transformed into executable test cases
+- Business rules need to be carried through scenario and testcase generation
+- Existing feature changes require new or updated test coverage
 
 This workflow should not be used for:
 
-* Reviewing existing testcase quality
-* Analyzing regression impact
-* Executing test cases
-* Managing test execution results
+- Reviewing existing testcase quality
+- Performing coverage review of an existing testcase set
+- Analyzing regression impact
+- Executing test cases
+- Managing test execution results
 
 ---
 
 ## Input
 
-The workflow requires QA-related information as input.
-
 ### Required Input
+
+The workflow requires requirement information that can be processed by the upstream analysis capability.
 
 Examples:
 
-* Requirement document
-* User story
-* Acceptance criteria
-* Feature description
+- Requirement document
+- User story
+- Acceptance criteria
+- Feature specification
 
 ### Optional Input
 
 Examples:
 
-* Existing test cases
-* Business rules
-* Previous release information
-* Related QA documents
+- Existing structured requirement analysis
+- Existing structured business rule model
+- Existing structured test scenario model
+- Business context
+- Related QA documents
+- Existing test cases for reference
 
-The workflow should identify missing or unclear information before generating test artifacts.
+Valid existing upstream artifacts should be reused instead of regenerated when they remain applicable to the current scope.
+
+Missing, ambiguous, or conflicting information should be identified according to the participating skill contracts and framework rules.
+
+---
+
+## Workflow Flow
+
+```text
+Requirement Information
+        ↓
+Requirement Analyzer
+        ↓
+Structured Requirement Analysis
+        ↓
+Business Rule Extractor
+        ↓
+Structured Business Rule Model
+        ↓
+Scenario Generator
+        ↓
+Structured Test Scenario Model
+        ↓
+Testcase Generator
+        ↓
+Structured Test Case Model
+```
+
+Each downstream stage should consume the validated artifact produced by the preceding stage rather than independently reinterpreting the original requirement.
 
 ---
 
 ## Workflow Steps
 
-The workflow follows these execution steps:
+### Step 1: Analyze Requirement
 
-### Step 1: Understand Input
+Execute `skills/requirement-analyzer` when a valid structured requirement analysis is not already available.
 
-Analyze the provided QA information.
-
-Identify:
-
-* Feature scope
-* User roles
-* Main functionality
-* Available business information
+The resulting structured requirement analysis becomes the authoritative upstream artifact for business rule extraction within this workflow execution.
 
 ---
 
-### Step 2: Analyze Requirement
+### Step 2: Extract Business Rules
 
-Review the input to identify testing-related information.
+Execute `skills/business-rule-extractor` using the structured requirement analysis.
 
-Consider:
-
-* Functional behavior
-* Business rules
-* User flows
-* Dependencies
-* Constraints
+The resulting structured business rule model should preserve relevant rules, relationships, dependencies, constraints, exceptions, and unresolved items required by downstream scenario generation.
 
 ---
 
-### Step 3: Identify Test Scope
+### Step 3: Generate Test Scenarios
 
-Determine the areas that require validation.
+Execute `skills/scenario-generator` using the structured business rule model.
 
-Identify:
-
-* Main scenarios
-* Alternative flows
-* Negative scenarios
-* Important business conditions
+The resulting structured test scenario model should represent meaningful validation objectives, relevant user journeys, scenario relationships, dependencies, and identified gaps.
 
 ---
 
-### Step 4: Generate Test Scenarios
+### Step 4: Generate Test Cases
 
-Create high-level test scenarios based on the identified scope.
+Execute `skills/testcase-generator` using the structured test scenario model.
 
-Each scenario should represent a meaningful validation objective.
-
----
-
-### Step 5: Generate Test Cases
-
-Transform identified test scenarios into structured test cases by applying relevant QA skills and shared resources.
-
-The generated test cases should follow the defined testcase standards and templates.
+Generated test cases should be executable, organized, and aligned with the applicable testcase templates and standards.
 
 ---
 
-### Step 6: Validate Output
+### Step 5: Validate Workflow Output
 
-Review generated test artifacts before completion.
+Validate that the workflow completed its required artifact chain and that each output satisfies the applicable skill contract.
 
-Validation should focus on:
+Validation should confirm:
 
-* Requirement coverage
-* Scenario completeness
-* Consistency with applicable QA standards
-* Compliance with required output structure
+- Required upstream artifacts are available
+- Business rules remain consistent with the analyzed requirement
+- Test scenarios remain traceable to applicable business behavior
+- Test cases remain aligned with the structured test scenarios
+- Applicable QA standards and templates are followed
+- Missing, duplicate, ambiguous, or conflicting information identified by participating skills remains visible where relevant
 
-Detailed validation rules should be maintained in shared checklists.
+Detailed artifact-specific validation criteria should remain in the applicable shared checklists and skill definitions.
+
+Coverage review of the generated testcase set is outside this workflow's responsibility and should be performed by the applicable quality-review capability or workflow.
 
 ---
 
 ## Required Skills
 
-This workflow may require the following skills:
+This workflow coordinates the following skills:
 
-| Skill                         | Purpose                                           |
-| ----------------------------- | ------------------------------------------------- |
-| `skills/requirement-analysis` | Analyze requirements and identify testing scope   |
-| `skills/test-design`          | Create effective test scenarios and test cases    |
-| `skills/functional-testing`   | Ensure functional behavior is properly considered |
+| Skill | Purpose |
+|---|---|
+| `skills/requirement-analyzer` | Transform requirement information into structured requirement analysis |
+| `skills/business-rule-extractor` | Transform structured requirement analysis into a structured business rule model |
+| `skills/scenario-generator` | Transform structured business rules into a structured test scenario model |
+| `skills/testcase-generator` | Transform structured test scenarios into a structured test case model |
 
-The workflow references these skills but does not contain their detailed knowledge.
+The workflow defines how these capabilities are sequenced and connected but does not redefine their internal processing logic.
 
 ---
 
 ## Required Resources
 
-This workflow may use resources from the shared directory.
+The participating skills may resolve applicable resources from the shared module, including:
 
-| Resource                  | Purpose                               |
-| ------------------------- | ------------------------------------- |
-| `shared/templates/`       | Provide output structures and formats |
-| `shared/checklists/`      | Provide validation criteria           |
-| `shared/prompt-patterns/` | Provide reusable instruction patterns |
+| Resource | Purpose |
+|---|---|
+| `shared/standards/` | Apply applicable QA and artifact standards |
+| `shared/templates/` | Structure generated QA artifacts |
+| `shared/checklists/` | Support applicable validation activities |
+| `shared/prompt-patterns/` | Provide reusable instruction patterns where required by participating skills |
 
-The workflow applies these resources but does not redefine them.
+The workflow references shared resources through participating skill dependencies and does not duplicate their detailed content.
 
 ---
 
 ## Output
 
-The expected outputs of this workflow include:
+The workflow produces the following artifact chain:
 
-* Test scenarios
-* Structured test cases
-* Test coverage information
+- Structured requirement analysis
+- Structured business rule model
+- Structured test scenario model
+- Structured test case model
 
-Output formats should follow the applicable templates defined in shared resources.
+The primary user-facing deliverables for testcase-generation execution are typically:
+
+- Test scenarios
+- Test cases
+
+Intermediate artifacts may remain internal unless requested by the user or required as workflow deliverables by the execution context.
+
+Output formats should follow the applicable templates and output standards defined in shared resources.
 
 ---
 
 ## Validation
 
-The workflow output should be validated to ensure:
+The workflow is complete when:
 
-* Required testing scope has been considered
-* Generated artifacts are consistent with the input
-* Applicable QA standards are followed
-* Output structure follows defined templates
-* Results are suitable for further QA activities
+- Required stages have completed or valid existing upstream artifacts have been reused
+- Artifact dependencies are satisfied
+- The structured test scenario model is suitable for testcase generation
+- The structured test case model is suitable for downstream QA activities
+- Applicable standards and templates are followed
+- Blocking information gaps are resolved or explicitly reported
 
-Detailed validation criteria should be maintained in the relevant shared checklists.
+This workflow does not perform testcase coverage review, regression impact analysis, test execution, or test result management.
