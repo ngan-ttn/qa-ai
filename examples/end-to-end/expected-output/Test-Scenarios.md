@@ -67,7 +67,7 @@ The techniques guide scenario generation but do not introduce behavior that is a
 | TS-011 | Account Isolation | Verify Account B can authenticate normally while Account A is approaching or has reached its lock threshold. | Isolation / Positive | High | R5, BR-001, RISK-004 |
 | TS-012 | Locked State | Verify a locked account cannot authenticate using the correct password. | Negative / State | High | R10, AC-03, BR-005, RISK-005 |
 | TS-013 | Locked State | Verify a login attempt made while the account is locked is rejected. | Negative / State | High | R10, AC-03, BR-005 |
-| TS-014 | User Feedback | Verify the required temporary-lock message is displayed when login is attempted while locked. | UI / Functional | Medium | R11, AC-03, BR-006, RISK-008 |
+| TS-014 | User Feedback | Verify the required temporary-lock message is displayed when login is attempted while locked. | Functional / User Feedback | Medium | R11, AC-03, BR-006, RISK-008 |
 | TS-015 | Lock Duration | Verify the account remains locked before the 30-minute lock period expires. | Time Boundary | High | R9, BR-004, RISK-006 |
 | TS-016 | Automatic Unlock | Verify the account automatically unlocks after the 30-minute lock period expires. | Time Boundary / State Transition | High | R12, AC-04, BR-007, RISK-007 |
 | TS-017 | Post-Unlock Authentication | Verify authentication is available again after automatic unlock. | Positive / State | High | R13, AC-04, BR-008, RISK-007 |
