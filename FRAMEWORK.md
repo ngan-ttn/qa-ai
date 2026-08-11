@@ -485,7 +485,9 @@ Only the dependencies required for that execution should be loaded.
 
 ### 4.5 Multi-Stage Execution
 
-When the requested objective requires multiple dependent capabilities, QA-AI should resolve an applicable workflow.
+When the requested objective requires multiple dependent capabilities, QA-AI should resolve and execute the applicable workflow.
+
+A multi-stage execution progressively transforms requirement information into structured QA artifacts.
 
 Example:
 
@@ -505,13 +507,37 @@ Risk Analysis
 Test Scenarios
       │
       ▼
-Coverage Review
+Test Cases
       │
       ▼
-Test Cases
+Coverage Review
 ```
 
 Intermediate artifacts should be reused by downstream skills instead of repeatedly deriving the same information from the original requirement.
+
+The execution order must follow the applicable workflow and the input/output contracts of the participating skills.
+
+For example:
+
+```text
+Test Scenarios
+      │
+      ▼
+Testcase Generator
+      │
+      ▼
+Structured Test Case Model
+      │
+      ▼
+Coverage Reviewer
+      │
+      ▼
+Structured Coverage Assessment
+```
+
+A downstream capability must not be executed before its required upstream artifact is available.
+
+The runtime may perform prerequisite analysis internally when required, but it should only present artifacts that are requested by the user or defined as deliverables by the selected workflow.
 
 ---
 
@@ -1127,10 +1153,10 @@ Risk Analysis
 Test Scenarios
      │
      ▼
-Coverage Review
+Test Cases
      │
      ▼
-Test Cases
+Coverage Review
 ```
 
 The exact chain is determined by the selected workflow.
@@ -1630,8 +1656,8 @@ A multi-stage workflow may produce a feature package such as:
     ├── Business-Rules.md
     ├── Risk-Analysis.md
     ├── Test-Scenarios.md
-    ├── Coverage-Review.md
     ├── Test-Cases.md
+    ├── Coverage-Review.md
     ├── Regression-Analysis.md
     ├── Test-Data.md
     └── metadata.json
