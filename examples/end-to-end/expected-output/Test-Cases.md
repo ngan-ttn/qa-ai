@@ -11,7 +11,6 @@ The test cases are derived from:
 - `Business-Rules.md`
 - `Risk-Analysis.md`
 - `Test-Scenarios.md`
-- `Coverage-Review.md`
 
 The approved scenario baseline is:
 
@@ -20,6 +19,8 @@ TS-001 → TS-020
 ```
 
 Clarification-dependent candidates `CTS-001 → CTS-009` are excluded from executable test cases until their expected behavior is defined.
+
+`Coverage-Review.md` is generated after this artifact and evaluates the completed structured test case model.
 
 ---
 
@@ -61,7 +62,7 @@ This artifact describes the logical data required for execution without assuming
 |---|---|---|---|---|
 | TC-001 | TS-001 | Login successfully with valid credentials for an unlocked account | Medium | Not Run |
 | TC-002 | TS-002 | Reject login with an incorrect password | High | Not Run |
-| TC-003 | TS-003 | Track an incorrect-password attempt for the corresponding account | High | Not Run |
+| TC-003 | TS-003 | Track failed-login attempts for the corresponding account | High | Not Run |
 | TC-004 | TS-004 | Keep account unlocked after the first consecutive failed login | High | Not Run |
 | TC-005 | TS-005 | Keep account unlocked after four consecutive failed logins | High | Not Run |
 | TC-006 | TS-006 | Lock account on the fifth consecutive failed login | High | Not Run |
@@ -156,7 +157,7 @@ Password: Incorrect password
 
 ---
 
-## TC-003 — Track Failed Attempt for the Corresponding Account
+## TC-003 — Track Failed-Login Attempts for the Corresponding Account
 
 **Scenario:** TS-003  
 **Module:** Failed Login Tracking  
@@ -174,22 +175,20 @@ Password: Incorrect password
 1. Attempt to log in to Account A using an incorrect password.
 2. Repeat the incorrect-password login until Account A has accumulated four consecutive failed attempts.
 3. Verify Account A remains unlocked.
-4. Submit one additional incorrect-password attempt for Account A.
 
 ### Test Data
 
 ```text
 Account: Account A
 Starting failure sequence: Fresh
-Password: Incorrect
+Incorrect attempts performed: 4
 ```
 
 ### Expected Result
 
-- The first four failed attempts are associated with Account A.
-- Account A remains unlocked after four consecutive failures.
-- The next incorrect-password attempt is treated as Account A's fifth consecutive failure.
-- Account A becomes temporarily locked.
+- Each failed attempt is associated with Account A's failed-login sequence.
+- Account A remains unlocked after four consecutive failed attempts.
+- No threshold-lock verification is performed in this test case; fifth-failure behavior is covered by TC-006.
 
 ---
 
@@ -277,7 +276,6 @@ Consecutive incorrect-password attempts: 4
 1. Enter the registered email address.
 2. Enter an incorrect password.
 3. Submit the login request.
-4. Attempt another login using the correct password.
 
 ### Test Data
 
@@ -290,7 +288,7 @@ Next password: Incorrect
 
 - The fifth incorrect-password login fails.
 - The account becomes temporarily locked.
-- A subsequent login attempt is rejected even when the correct password is entered.
+- Correct-password behavior during an active lock is covered separately by TC-012.
 
 ---
 
@@ -429,22 +427,21 @@ Sequence B: 2 failures
 
 1. Perform four consecutive incorrect-password attempts for Account A.
 2. Perform one incorrect-password attempt for Account B.
-3. Attempt to log in to Account B using the correct password.
-4. Submit a fifth consecutive incorrect-password attempt for Account A.
+3. Verify both accounts remain unlocked.
 
 ### Test Data
 
 ```text
-Account A: 4 → 5 failed attempts
+Account A: 4 failed attempts
 Account B: 1 failed attempt
 ```
 
 ### Expected Result
 
-- Account A remains unlocked after its first four failures.
-- Account B's failed attempt does not combine with Account A's failed attempts.
-- Account B remains unlocked and can authenticate with valid credentials.
-- Account A becomes locked only after Account A reaches its own fifth consecutive failure.
+- Account A remains unlocked after its four consecutive failures.
+- Account B remains unlocked after its own single failed attempt.
+- Account B's failure does not combine with Account A's failures to trigger a lock on either account.
+- Authentication behavior for an unaffected account while another account is locked is covered separately by TC-011.
 
 ---
 
@@ -893,7 +890,7 @@ These candidates should be converted into executable test cases only after the a
 | R7 | TC-007, TC-008, TC-009 |
 | R8 | TC-006, TC-019, TC-020 |
 | R9 | TC-015, TC-016, TC-020 |
-| R10 | TC-006, TC-012, TC-013, TC-019, TC-020 |
+| R10 | TC-012, TC-013, TC-019, TC-020 |
 | R11 | TC-014, TC-020 |
 | R12 | TC-016, TC-017, TC-019, TC-020 |
 | R13 | TC-017, TC-020 |
@@ -906,9 +903,9 @@ These candidates should be converted into executable test cases only after the a
 
 ---
 
-# 8. Test Case Quality Review
+# 8. Generation Validation
 
-The generated test cases satisfy the following baseline:
+The generated test cases satisfy the following baseline before downstream coverage review:
 
 ```text
 Confirmed scenarios only       → PASS
@@ -936,6 +933,8 @@ Background-job validation
 ```
 
 because these mechanisms are not supplied by the current end-to-end input.
+
+Detailed completeness, consistency, duplicate-objective, and traceability assessment is performed downstream in `Coverage-Review.md`.
 
 ---
 
@@ -980,6 +979,8 @@ Risks
 20 Confirmed Scenarios
     ↓
 20 Detailed Test Cases
+    ↓
+Coverage Review
 ```
 
 Clarification-dependent behavior remains outside the executable baseline until its expected behavior is confirmed.
