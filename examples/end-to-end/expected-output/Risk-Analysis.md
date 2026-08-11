@@ -573,9 +573,9 @@ Downstream test design should not invent expected behavior for them.
 | RISK-007 | BR-004, BR-007, BR-008 | R9, R12, R13, AC-04 |
 | RISK-008 | BR-006 | R11, AC-03 |
 | RISK-009 | BR-009 | R14 |
-| RISK-010 | BR-004, BR-005 | RA-AMB-002 |
-| RISK-011 | BR-001 | CQ-004 |
-| RISK-012 | BR-002 | CQ-005 |
+| RISK-010 | BR-004, BR-005 | Q-001, Q-002 |
+| RISK-011 | BR-001 | Q-004, Q-005 |
+| RISK-012 | BR-002 | Q-006 |
 
 ---
 
