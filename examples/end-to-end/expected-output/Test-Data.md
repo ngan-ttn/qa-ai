@@ -11,8 +11,8 @@ The data is derived from:
 - `Business-Rules.md`
 - `Risk-Analysis.md`
 - `Test-Scenarios.md`
-- `Coverage-Review.md`
 - `Test-Cases.md`
+- `Coverage-Review.md`
 
 The confirmed executable baseline is:
 
@@ -48,6 +48,7 @@ The test data should satisfy the following principles:
 6. Avoid relying on uncontrolled state left by previous test execution.
 7. Reuse accounts only when the required initial state can be restored reliably.
 8. Do not assign values for undefined behavior.
+9. Use placeholders for environment-specific secrets and credentials.
 
 ---
 
@@ -71,37 +72,39 @@ Additional isolation data is required for multi-account scenarios.
 
 ## 4. Account Test Data
 
-| Data ID | Account | Example Email | Valid Password | Initial Logical State | Primary Purpose |
+| Data ID | Account | Example Email | Valid Password Reference | Initial Logical State | Primary Purpose |
 |---|---|---|---|---|---|
-| TD-ACC-001 | Account A | `qa.lock.a@example.com` | `ValidPass_A1!` | Registered / Unlocked / Fresh failure sequence | Normal authentication and threshold testing |
-| TD-ACC-002 | Account B | `qa.lock.b@example.com` | `ValidPass_B1!` | Registered / Unlocked / Fresh failure sequence | Account-isolation testing |
-| TD-ACC-003 | Account C | `qa.lock.c@example.com` | `ValidPass_C1!` | Registered / Unlocked / Fresh failure sequence | Successful-login reset testing |
-| TD-ACC-004 | Account D | `qa.lock.d@example.com` | `ValidPass_D1!` | Registered / Unlocked / Four consecutive failures | Fifth-failure lock testing |
-| TD-ACC-005 | Account E | `qa.lock.e@example.com` | `ValidPass_E1!` | Registered / Locked / Active lock period | Locked-state authentication testing |
-| TD-ACC-006 | Account F | `qa.lock.f@example.com` | `ValidPass_F1!` | Registered / Locked / Lock period ready to expire | Automatic-unlock testing |
-| TD-ACC-007 | Account G | `qa.lock.g@example.com` | `ValidPass_G1!` | Registered / Automatically unlocked | Post-unlock tracking |
-| TD-ACC-008 | Account H | `qa.lock.h@example.com` | `ValidPass_H1!` | Registered / Automatically unlocked / Fresh post-unlock sequence | Repeated lifecycle testing |
+| TD-ACC-001 | Account A | `qa.lock.a@example.com` | `<VALID_PASSWORD_A>` | Registered / Unlocked / Fresh failure sequence | Normal authentication and threshold testing |
+| TD-ACC-002 | Account B | `qa.lock.b@example.com` | `<VALID_PASSWORD_B>` | Registered / Unlocked / Fresh failure sequence | Account-isolation testing |
+| TD-ACC-003 | Account C | `qa.lock.c@example.com` | `<VALID_PASSWORD_C>` | Registered / Unlocked / Fresh failure sequence | Successful-login reset testing |
+| TD-ACC-004 | Account D | `qa.lock.d@example.com` | `<VALID_PASSWORD_D>` | Registered / Unlocked / Four consecutive failures | Fifth-failure lock testing |
+| TD-ACC-005 | Account E | `qa.lock.e@example.com` | `<VALID_PASSWORD_E>` | Registered / Locked / Active lock period | Locked-state authentication testing |
+| TD-ACC-006 | Account F | `qa.lock.f@example.com` | `<VALID_PASSWORD_F>` | Registered / Locked / Lock period ready to expire | Automatic-unlock testing |
+| TD-ACC-007 | Account G | `qa.lock.g@example.com` | `<VALID_PASSWORD_G>` | Registered / Automatically unlocked | Post-unlock tracking |
+| TD-ACC-008 | Account H | `qa.lock.h@example.com` | `<VALID_PASSWORD_H>` | Registered / Automatically unlocked / Fresh post-unlock sequence | Repeated lifecycle testing |
 
-The account names and credentials are illustrative.
+The account names and email addresses are illustrative synthetic values.
 
-Actual environments may use different synthetic credentials.
+Password references are placeholders and must be resolved to approved non-production credentials in the execution environment.
 
 ---
 
 ## 5. Password Data
 
-| Data ID | Type | Example Value | Usage |
+| Data ID | Type | Placeholder | Usage |
 |---|---|---|---|
-| TD-PWD-001 | Correct password for Account A | `ValidPass_A1!` | Normal successful authentication |
-| TD-PWD-002 | Correct password for Account B | `ValidPass_B1!` | Account-isolation authentication |
-| TD-PWD-003 | Correct password for Account C | `ValidPass_C1!` | Counter-reset authentication |
-| TD-PWD-004 | Generic incorrect password | `WrongPass_01!` | Failed-login generation |
-| TD-PWD-005 | Alternate incorrect password | `WrongPass_02!` | Optional repeated-failure variation |
-| TD-PWD-006 | Correct password for locked Account E | `ValidPass_E1!` | Verify valid credentials cannot bypass lock |
+| TD-PWD-001 | Correct password for Account A | `<VALID_PASSWORD_A>` | Normal successful authentication |
+| TD-PWD-002 | Correct password for Account B | `<VALID_PASSWORD_B>` | Account-isolation authentication |
+| TD-PWD-003 | Correct password for Account C | `<VALID_PASSWORD_C>` | Counter-reset authentication |
+| TD-PWD-004 | Generic incorrect password | `<INVALID_PASSWORD_1>` | Failed-login generation |
+| TD-PWD-005 | Alternate incorrect password | `<INVALID_PASSWORD_2>` | Optional repeated-failure variation |
+| TD-PWD-006 | Correct password for locked Account E | `<VALID_PASSWORD_E>` | Verify valid credentials cannot bypass lock |
 
 The requirement does not require different incorrect values for each failed attempt.
 
 The same incorrect password may therefore be reused unless the execution environment imposes additional constraints.
+
+Placeholder values do not imply any password-format or password-policy requirement.
 
 ---
 
@@ -276,15 +279,15 @@ Supports:
 
 ## 9. Account Isolation Data
 
-### TD-SET-ISOLATION-001
+### TD-SET-ISOLATION-001 — Independent Failure Sequences
 
 | Attribute | Account A | Account B |
 |---|---|---|
 | Account | TD-ACC-001 | TD-ACC-002 |
 | Initial State | Unlocked | Unlocked |
-| Failure Sequence | 4 failures | 0 failures |
-| Next Action | Additional failed login | Valid authentication |
-| Required Isolation | Failure state remains Account A-specific | Account B remains unaffected |
+| Failure Sequence | 4 failures | 1 failure |
+| Required State | Unlocked | Unlocked |
+| Required Isolation | Account A failures remain Account A-specific | Account B failure remains Account B-specific |
 
 Confirmed requirement relationship:
 
@@ -297,6 +300,20 @@ Account A Failed State
 Supports:
 
 - TC-010
+
+---
+
+### TD-SET-ISOLATION-002 — Authentication of Unaffected Account
+
+| Attribute | Account A | Account B |
+|---|---|---|
+| Account | Account A | TD-ACC-002 |
+| State | Locked | Unlocked |
+| Next Action | None | Valid authentication |
+| Required Result | Remains independent | Authentication succeeds |
+
+Supports:
+
 - TC-011
 
 ---
@@ -576,10 +593,10 @@ Failure Sequence:
 Fresh
 
 Valid Credential:
-Available
+Available through approved non-production credential reference
 
 Incorrect Credential:
-Available
+Available through synthetic invalid-password reference
 
 Lock Threshold:
 5 consecutive failures
@@ -628,7 +645,7 @@ Supports:
 |---|---|
 | TC-001 | TD-ACC-001, TD-PWD-001, TD-STATE-000 |
 | TC-002 | TD-ACC-001, TD-PWD-004, TD-STATE-000 |
-| TC-003 | TD-ACC-001, TD-PWD-004, TD-STATE-000 through TD-STATE-005 |
+| TC-003 | TD-ACC-001, TD-PWD-004, TD-STATE-000 through TD-STATE-004 |
 | TC-004 | TD-ACC-001, TD-PWD-004, TD-STATE-000 |
 | TC-005 | TD-SET-THRESHOLD-001 |
 | TC-006 | TD-SET-THRESHOLD-002 |
@@ -636,7 +653,7 @@ Supports:
 | TC-008 | TD-SET-RESET-002 |
 | TC-009 | TD-SET-RESET-003 |
 | TC-010 | TD-SET-ISOLATION-001 |
-| TC-011 | TD-SET-ISOLATION-001, TD-PWD-002 |
+| TC-011 | TD-SET-ISOLATION-002, TD-PWD-002 |
 | TC-012 | TD-SET-LOCKED-001 |
 | TC-013 | TD-SET-LOCKED-002 |
 | TC-014 | TD-SET-LOCKED-002, Required Lock Message |
@@ -697,7 +714,7 @@ These constraints are derived from the requirement's account-specific behavior.
 
 ## 20. Sensitive Data Guidance
 
-The example uses synthetic credentials only.
+The example uses synthetic account identifiers and credential placeholders only.
 
 Do not use:
 
@@ -708,7 +725,7 @@ Real customer authentication data
 Copied production credentials
 ```
 
-Actual execution should use approved non-production accounts.
+Actual execution should resolve placeholders to approved non-production credentials without committing real secrets to the example artifact.
 
 ---
 
@@ -806,7 +823,9 @@ Test Scenarios
     ↓
 Test Cases
     ↓
+Coverage Review
+    ↓
 Test Data
 ```
 
-No implementation-specific setup mechanism or clarification-dependent business behavior is fabricated.
+No implementation-specific setup mechanism, real credential value, or clarification-dependent business behavior is fabricated.
