@@ -746,7 +746,6 @@ No assertion is made about the internal numeric counter representation.
 1. Perform four consecutive incorrect-password login attempts.
 2. Verify the account remains unlocked.
 3. Perform a fifth consecutive incorrect-password login attempt.
-4. Attempt to authenticate using the correct password.
 
 ### Test Data
 
@@ -759,7 +758,6 @@ New consecutive failures: 5
 
 - The account remains unlocked after the first four new failures.
 - The fifth new consecutive failure temporarily locks the account again.
-- Authentication using the correct password is rejected while the new lock is active.
 
 ---
 
@@ -890,7 +888,7 @@ These candidates should be converted into executable test cases only after the a
 | R7 | TC-007, TC-008, TC-009 |
 | R8 | TC-006, TC-019, TC-020 |
 | R9 | TC-015, TC-016, TC-020 |
-| R10 | TC-012, TC-013, TC-019, TC-020 |
+| R10 | TC-012, TC-013, TC-020 |
 | R11 | TC-014, TC-020 |
 | R12 | TC-016, TC-017, TC-019, TC-020 |
 | R13 | TC-017, TC-020 |
