@@ -1055,6 +1055,7 @@ Its table names, columns, keys, relationships, constraints, and records are synt
 A real database fixture instance must replace illustrative values with schema and data supported by authoritative technical sources.
 
 A requirement dataset must not be cited as the source of a physical database schema unless that dataset explicitly defines the implementation details being represented.
+
 --- 
 
 ## Fixture Lifecycle
