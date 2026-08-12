@@ -240,7 +240,8 @@ The canonical framework documentation is maintained under `docs/`.
 | `04-Repository-Convention.md` | Repository conventions |
 | `05-Skill-Development-Guide.md` | Skill development guidance |
 | `06-Knowledge-Management.md` | Knowledge architecture and management |
-| `07-Workflow-Design.md` | Workflow design guidance |
+| `07-Versioning.md` | Versioning strategy |
+| `08-Workflow-Design.md` | Workflow design guidance |
 | `09-Contribution.md` | Contribution guidance |
 | `10-How-To-Use.md` | Framework usage guidance |
 | `11-Roadmap.md` | Canonical implementation roadmap |
@@ -412,6 +413,10 @@ This distinction prevents future architecture from being treated as current repo
 
 ## Versioning
 
+QA-AI follows the versioning strategy defined in:
+
+    docs/07-Versioning.md
+
 The repository-level version is defined in:
 
     VERSION
@@ -419,8 +424,6 @@ The repository-level version is defined in:
 Notable repository changes are recorded in:
 
     CHANGELOG.md
-
-Repository versioning and changelog governance are maintained together at the repository level.
 
 ---
 
@@ -431,7 +434,7 @@ Before modifying framework components, review:
 - `docs/04-Repository-Convention.md`
 - `docs/05-Skill-Development-Guide.md`
 - `docs/06-Knowledge-Management.md`
-- `docs/07-Workflow-Design.md`
+- `docs/08-Workflow-Design.md`
 - `docs/09-Contribution.md`
 
 Changes should preserve established component boundaries and avoid redefining canonical behavior in downstream layers.
