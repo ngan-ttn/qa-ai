@@ -180,7 +180,7 @@ The table below defines the current approved API knowledge baseline.
 | Error Response Design | `Error-Response-Design.md` | Error Handling | Intermediate | HTTP Status Codes | High | Approved |
 | Retry Strategy | `Retry-Strategy.md` | Error Handling | Intermediate | HTTP Status Codes, Idempotency | Medium | Approved |
 | Timeout Handling | `Timeout-Handling.md` | Error Handling | Intermediate | HTTP Fundamentals | Medium | Approved |
-| API Test Strategy | `API-Test-Strategy.md` | API Testing | Intermediate | REST Architecture | High | Approved |
+| API Test Strategy | `API-Test-Strategy.md` | API Testing | Intermediate | API Fundamentals, HTTP Fundamentals | High | Approved |
 | Functional API Testing | `Functional-API-Testing.md` | API Testing | Foundation | API Test Strategy | High | Approved |
 | Contract Testing | `Contract-Testing.md` | API Testing | Intermediate | API Test Strategy | High | Approved |
 | Integration Testing | `Integration-Testing.md` | API Testing | Intermediate | Functional API Testing | High | Approved |
@@ -255,22 +255,14 @@ HTTP Fundamentals
       ├── Communication
       ├── REST Architecture → API Design
       ├── Authentication → Authorization → Security
-      └── Status Codes → Error Handling
+      ├── Status Codes → Error Handling
+      └── API Test Strategy → API Testing
 
-API Test Strategy
-      ├── Functional API Testing
-      ├── Contract Testing
-      ├── Integration Testing
-      ├── Performance Testing
-      ├── Security Testing
-      └── API Mocking
-
-Foundation + Design + Security + Failure Handling
-      ↓
-Advanced Topics
+API Fundamentals
+      └── Advanced Topics
 ```
 
-This is a recommended conceptual path, not a mandatory reading sequence.
+This is a recommended conceptual path, not a mandatory reading sequence. Advanced API styles may rely on non-HTTP transports or interaction semantics, so REST architecture is not a universal prerequisite for API testing.
 
 ---
 
@@ -303,6 +295,29 @@ The API baseline is considered complete when:
 
 ---
 
+## Cross-Review Result
+
+The 2026-08-12 cross-review covered all seven knowledge categories and the complete 40-article physical baseline.
+
+Review checks included:
+
+- mandatory section compliance;
+- metadata consistency;
+- technical and terminology consistency;
+- HTTP vs REST boundary correctness;
+- authentication vs authorization separation;
+- synchronous vs asynchronous semantics;
+- retry, timeout, and idempotency relationships;
+- API-testing scope boundaries;
+- advanced API style independence;
+- cross-domain references;
+- duplicate-responsibility detection;
+- physical files vs Catalog reconciliation.
+
+All blocking findings were resolved before freeze. Final cross-review result: **PASS**.
+
+---
+
 ## Baseline Status
 
 ```text
@@ -310,6 +325,7 @@ Folder: shared/knowledge/api/
 Physical Knowledge Articles: 40
 Cataloged Knowledge Articles: 40
 Catalog Status: Approved
+Cross-Review Result: PASS
 Baseline State: Frozen
 Freeze Date: 2026-08-12
 ```
