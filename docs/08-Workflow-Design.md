@@ -1,4 +1,4 @@
-# Versioning
+# Workflow Design
 
 > Version: 1.0.0
 > Status: Draft
@@ -10,275 +10,99 @@
 
 ## Overview
 
-This document defines the versioning strategy used throughout the QA-AI framework.
+This document defines how Workflows are designed, organized, and maintained within the QA-AI framework.
 
-Versioning enables contributors to track changes, maintain compatibility, and manage the evolution of the repository over time.
+A Workflow coordinates multiple Skills into a structured process to accomplish a complete QA objective.
 
-A consistent versioning policy helps users understand the impact of updates and supports long-term maintenance.
+Workflows improve consistency, reusability, and automation while keeping individual Skills independent.
 
 ---
 
 ## Objectives
 
-This document aims to:
+This guide aims to:
 
-- Standardize version management
-- Define release policies
-- Support backward compatibility
-- Improve change traceability
-- Simplify repository maintenance
+- Standardize Workflow design
+- Promote modular execution
+- Define orchestration principles
+- Encourage Skill reusability
+- Support future automation
 
 ---
 
 # 2. Scope
 
-This versioning policy applies to:
+This document applies to all Workflows within the QA-AI repository.
 
-- Repository
-- Documentation
-- Skills
-- Knowledge
-- Workflows
-- Templates
-- Checklists
+It covers:
 
----
-
-# 3. Version Format
-
-QA-AI follows Semantic Versioning.
-
-```
-MAJOR.MINOR.PATCH
-```
-
-Example:
-
-```
-1.0.0
-```
+- Workflow architecture
+- Workflow lifecycle
+- Workflow structure
+- Dependency rules
+- Design principles
+- Validation standards
 
 ---
 
-## MAJOR
+# 3. What is a Workflow?
 
-Increment when introducing incompatible changes.
+Refer to:
 
-Examples:
+```
+02-Core-Concepts.md
+```
 
-- Repository restructuring
-- Breaking architecture changes
-- Removing supported components
+A Workflow is an orchestration layer that coordinates multiple Skills to achieve a complete QA outcome.
+
+A Workflow defines execution order but does not replace the responsibilities of individual Skills.
 
 ---
 
-## MINOR
+# 4. Workflow Principles
 
-Increment when adding new functionality without breaking compatibility.
+Every Workflow should follow these principles.
 
-Examples:
+## Modular
 
-- New Skills
-- New Knowledge
-- New Workflows
-- New Templates
+A Workflow should consist of independent Skills.
 
 ---
 
-## PATCH
+## Reusable
 
-Increment when making backward-compatible improvements.
-
-Examples:
-
-- Documentation updates
-- Grammar fixes
-- Bug fixes
-- Minor clarifications
+A Workflow should be reusable across different QA projects.
 
 ---
 
-# 4. Repository Version
+## Predictable
 
-The repository has a single official version stored in:
-
-```
-VERSION
-```
-
-The same version should appear in:
-
-- README
-- Release Notes
-- Git Tags
+The same input should produce a consistent execution sequence.
 
 ---
 
-# 5. Document Version
+## Extensible
 
-Each document should include metadata.
-
-Example:
-
-```
-Version: 1.0.0
-Status: Draft
-Last Updated: YYYY-MM-DD
-```
-
-Major document revisions should update the document version.
+New Skills should be added without redesigning the entire Workflow.
 
 ---
 
-# 6. Skill Versioning
+## Maintainable
 
-Each Skill maintains its own version.
-
-Version updates should occur when:
-
-- Input changes
-- Output changes
-- Logic changes
-- Structure changes
-
-Documentation-only changes may use PATCH increments.
+Workflow logic should remain simple and easy to modify.
 
 ---
 
-# 7. Knowledge Versioning
+# 5. Workflow Lifecycle
 
-Knowledge versions should change when:
-
-- Concepts are added
-- Definitions change
-- Best practices are updated
-- References are revised
-
-Editorial corrections may use PATCH increments.
-
----
-
-# 8. Workflow Versioning
-
-Workflow versions should change when:
-
-- Execution sequence changes
-- Skills are added or removed
-- Inputs change
-- Outputs change
-
-Minor documentation updates do not require a MAJOR version.
-
----
-
-# 9. Release Types
-
-QA-AI supports three release types.
-
-## Major Release
-
-Introduces significant architectural or functional changes.
-
-Example:
+A Workflow follows the lifecycle below.
 
 ```
-2.0.0
-```
-
----
-
-## Minor Release
-
-Introduces new capabilities while maintaining compatibility.
-
-Example:
-
-```
-1.2.0
-```
-
----
-
-## Patch Release
-
-Fixes defects or improves documentation.
-
-Example:
-
-```
-1.2.3
-```
-
----
-
-# 10. Changelog
-
-All notable changes should be recorded in:
-
-```
-CHANGELOG.md
-```
-
-Each release should include:
-
-- Version
-- Release date
-- Summary
-- Added
-- Changed
-- Fixed
-- Removed (if applicable)
-
----
-
-# 11. Backward Compatibility
-
-Whenever possible:
-
-- Existing Skills should continue to work.
-- Existing Knowledge should remain valid.
-- Existing Workflows should not break.
-
-Breaking changes should only occur in MAJOR releases.
-
----
-
-# 12. Deprecation Policy
-
-Components should not be removed immediately.
-
-Recommended lifecycle:
-
-```
-Active
+Identify Process
 
 ↓
 
-Deprecated
-
-↓
-
-Archived
-
-↓
-
-Removed
-```
-
-Deprecation should include:
-
-- Reason
-- Replacement (if available)
-- Planned removal version
-
----
-
-# 13. Release Process
-
-Each release should follow this sequence.
-
-```
-Development
+Design Workflow
 
 ↓
 
@@ -286,48 +110,219 @@ Review
 
 ↓
 
-Testing
+Validate
 
 ↓
 
-Documentation Update
+Publish
 
 ↓
 
-Version Update
+Maintain
 
 ↓
 
-CHANGELOG Update
-
-↓
-
-Release
-
-↓
-
-Tag
+Retire (if required)
 ```
 
 ---
 
-# 14. Version Review Checklist
+# 6. Workflow Structure
 
-Before releasing a new version, verify:
+Each Workflow should define:
 
-- Version number is correct
-- CHANGELOG is updated
-- Documentation is synchronized
-- References remain valid
-- Repository builds successfully
-- Deprecated items are documented
+- Purpose
+- Scope
+- Inputs
+- Skills
+- Execution Sequence
+- Outputs
+- Validation
+- Dependencies
 
 ---
 
-# 15. References
+## Recommended Structure
 
-- README.md
-- CHANGELOG.md
-- VERSION
+```text
+Workflow/
+│
+├── README.md
+├── Workflow.md
+├── Input.md
+├── Output.md
+├── Flow.md
+├── Examples/
+└── Checklist.md
+```
+
+---
+
+# 7. Workflow Components
+
+## Input
+
+Defines the information required before execution.
+
+Examples:
+
+- Requirement Documents
+- API Specifications
+- Existing Test Cases
+
+---
+
+## Skills
+
+A Workflow coordinates one or more Skills.
+
+Examples:
+
+- Requirement Analyzer
+- Business Rule Extractor
+- Scenario Generator
+- Test Case Generator
+- Regression Analyzer
+
+---
+
+## Output
+
+Defines the expected artifacts produced by the Workflow.
+
+Examples:
+
+- Requirement Analysis
+- Test Scenarios
+- Test Cases
+- Regression Report
+
+---
+
+## Validation
+
+Ensures Workflow outputs satisfy predefined quality criteria.
+
+Validation should reference existing Checklists rather than duplicate them.
+
+---
+
+# 8. Workflow Dependency Rules
+
+A Workflow may depend on:
+
+- Skills
+- Templates
+- Checklists
+- Standards
+
+A Workflow should not depend on:
+
+- Generated Outputs from unrelated Workflows
+- Temporary files
+- AI platform-specific features
+
+---
+
+# 9. Workflow Design Guidelines
+
+When designing a Workflow:
+
+- Define a clear objective.
+- Use existing Skills whenever possible.
+- Avoid duplicate execution steps.
+- Keep execution order logical.
+- Minimize unnecessary dependencies.
+- Design for future extension.
+
+---
+
+# 10. Example Workflow
+
+```
+Requirement
+
+↓
+
+Requirement Analyzer
+
+↓
+
+Business Rule Extractor
+
+↓
+
+Risk Analyzer
+
+↓
+
+Scenario Generator
+
+↓
+
+Test Case Generator
+
+↓
+
+Coverage Review
+
+↓
+
+Final Output
+```
+
+This example demonstrates how independent Skills are orchestrated into a complete QA process.
+
+---
+
+# 11. Workflow Quality Checklist
+
+Before publishing a Workflow, verify:
+
+- Objective is clearly defined
+- Inputs are complete
+- Outputs are specified
+- Skills are reusable
+- Execution sequence is logical
+- Dependencies are valid
+- Documentation is complete
+- Examples are provided
+
+---
+
+# 12. Common Mistakes
+
+Avoid the following:
+
+- Embedding execution logic into Skills
+- Combining unrelated QA processes
+- Creating circular dependencies
+- Skipping validation
+- Hardcoding platform-specific behavior
+- Duplicating existing Workflows
+
+---
+
+# 13. Future Evolution
+
+Future Workflow enhancements may include:
+
+- Conditional execution
+- Parallel Skill execution
+- Automated Workflow validation
+- AI Agent orchestration
+- Event-driven workflows
+- Workflow analytics
+
+These enhancements should remain compatible with the architectural principles defined in the framework.
+
+---
+
+# 14. References
+
+- 01-Architecture.md
+- 02-Core-Concepts.md
+- 03-Design-Decisions.md
 - 04-Repository-Convention.md
-- 09-Contribution.md
+- 05-Skill-Development-Guide.md
+- 06-Knowledge-Management.md
