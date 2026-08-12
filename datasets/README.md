@@ -263,7 +263,13 @@ Criteria, rubrics, and scoring remain separated so evaluation logic can evolve w
 
 ### `benchmark/`
 
-`benchmark/` contains data used to compare QA-AI behavior across controlled executions.
+`benchmark/` defines the controlled benchmark framework used to compare QA-AI behavior across executions.
+
+At the current framework stage, the files under this directory define canonical benchmark models for:
+
+- Baseline benchmarking
+- Cross-platform benchmarking
+- Regression benchmarking
 
 ```text
 benchmark/
@@ -272,39 +278,142 @@ benchmark/
 └── regression/
 ```
 
+The benchmark model documents define how benchmark records should be structured, executed, compared, interpreted, and maintained.
+
+They are not themselves benchmark execution records.
+
+#### Benchmark Definition and Benchmark Record
+
+QA-AI distinguishes between a benchmark definition and a benchmark record.
+
+##### Benchmark Definition
+
+A benchmark definition specifies the canonical purpose, inputs, comparison rules, evaluation requirements, lifecycle, and boundaries for a benchmark type.
+
+The current benchmark files under `datasets/benchmark/` are benchmark definitions.
+
+They establish reusable benchmarking contracts without claiming that a benchmark execution has already occurred.
+
+##### Benchmark Record
+
+A benchmark record represents the controlled result of an actual benchmark execution performed according to a benchmark definition.
+
+Depending on the benchmark type, a record may identify:
+
+- Requirement dataset and version
+- Fixture instances and versions when applicable
+- QA-AI framework version
+- Skill or workflow version
+- Execution platform
+- Model or execution configuration when applicable
+- Evaluation criteria
+- Evaluation rubric
+- Scoring configuration
+- Generated artifact reference
+- Evaluation result
+- Comparison target
+- Benchmark outcome
+- Execution timestamp or run identifier
+
+A benchmark record must be traceable to the exact inputs and evaluation configuration used for that execution.
+
+The canonical relationship is:
+
+`Benchmark Definition → governs → Benchmark Execution → produces → Benchmark Record`
+
+Benchmark execution may use controlled dataset components:
+
+`Requirement Dataset + Fixture Instance + QA-AI Configuration → Execution → Generated Artifact → Evaluation → Benchmark Record`
+
+Not every benchmark requires every optional input.
+
 #### `baseline/`
 
-Contains approved benchmark references representing known framework behavior under a defined evaluation configuration.
+`baseline/` defines the canonical baseline benchmark model.
 
-A baseline provides a stable comparison point for later runs.
+A baseline benchmark establishes an approved reference point representing known QA-AI behavior under a controlled dataset and evaluation configuration.
+
+Conceptually:
+
+`Controlled Execution → Evaluation → Approved Baseline Record`
+
+An approved baseline record may later be used as the comparison target for regression or other controlled benchmark executions.
+
+A baseline definition is not itself proof that an approved baseline record already exists.
 
 #### `cross-platform/`
 
-Supports comparison of QA-AI behavior across supported AI platforms or execution environments.
+`cross-platform/` defines the canonical model for comparing QA-AI behavior across supported AI platforms or execution environments.
 
-Equivalent requirement inputs and evaluation definitions should be used when comparing platforms.
+Equivalent controlled inputs and compatible evaluation definitions should be used when comparing platforms.
 
-Platform-specific differences are not automatically defects unless they violate the applicable QA-AI contract or evaluation criteria.
+Conceptually:
+
+`Same Controlled Inputs → Platform A Execution`
+
+`Same Controlled Inputs → Platform B Execution`
+
+followed by:
+
+`Evaluation Results → Cross-Platform Comparison Record`
+
+Platform-specific differences are not automatically defects.
+
+A difference becomes relevant when it affects the applicable QA-AI contract, evaluation criteria, quality threshold, or comparison objective.
 
 #### `regression/`
 
-Supports detection of quality regressions between framework versions, configurations, or evaluation runs.
+`regression/` defines the canonical model for detecting quality regressions between framework versions, configurations, or controlled executions.
 
 A typical comparison is:
 
 ```text
-Approved Baseline
+Approved Baseline Record
       ↓
-Current Execution
+Current Controlled Execution
       ↓
 Evaluation
       ↓
 Comparison
       ↓
-Regression Result
+Regression Benchmark Record
 ```
 
-The purpose is to identify whether a framework change reduces previously validated QA capability.
+The purpose is to identify whether a framework, skill, workflow, prompt, configuration, or other controlled change reduces previously validated QA capability.
+
+Regression comparison requires compatible inputs and evaluation conditions.
+
+If material benchmark inputs change, direct comparison must be reviewed before a regression conclusion is accepted.
+
+#### Current Benchmark Scope
+
+Phase 8 establishes the canonical benchmark-definition foundation.
+
+The presence of a benchmark definition does not imply that an actual benchmark execution or benchmark record already exists.
+
+Benchmark records should be created only when QA-AI performs a real controlled benchmark execution.
+
+This prevents specification examples or hypothetical values from being mistaken for measured framework performance.
+
+When benchmark records are introduced, they must conform to the applicable benchmark definition and remain traceable to their execution inputs.
+
+#### Benchmark Boundaries
+
+Benchmark definitions and records must remain separate from source requirements and golden outputs.
+
+A benchmark definition or record must not:
+
+- Modify source requirement behavior.
+- Treat illustrative examples as measured results.
+- Fabricate execution results.
+- Fabricate evaluation scores.
+- Claim cross-platform equivalence without controlled comparison.
+- Claim regression without a compatible comparison target.
+- Silently compare materially different dataset or fixture versions.
+- Encode unsupported product behavior.
+- Replace golden outputs as reviewed QA reference artifacts.
+
+If no benchmark execution has occurred, no benchmark record should be created merely for structural completeness.
 
 ---
 ### `fixtures/`
