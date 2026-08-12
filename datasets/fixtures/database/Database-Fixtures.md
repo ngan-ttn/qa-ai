@@ -2,7 +2,7 @@
 
 ## Fixture Metadata
 
-- Fixture ID: `FIXTURE-DATABASE-001`
+- Fixture Model ID: `FIXTURE-MODEL-DATABASE-001`
 - Fixture Type: `Database`
 - Scope: `QA-AI Controlled Database Testing Context`
 - Status: `Approved`
@@ -173,7 +173,20 @@ Do not populate missing sections with invented schema or data.
 ## Fixture Identification
 
 Each database fixture should have a stable identifier.
+### Fixture Model ID vs Fixture ID
 
+The fixture model and fixture instances use separate identifier namespaces.
+
+- `Fixture Model ID` identifies this canonical fixture specification.
+- `Fixture ID` identifies a concrete database fixture instance created from the model.
+
+The canonical database fixture model uses:
+
+`FIXTURE-MODEL-DATABASE-001`
+
+Concrete database fixture instances use the pattern defined below.
+
+These identifiers must not be treated as interchangeable.
 Recommended pattern:
 
 `DB-FIX-<DOMAIN>-<NUMBER>`

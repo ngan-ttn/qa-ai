@@ -2,7 +2,7 @@
 
 ## Fixture Metadata
 
-- Fixture ID: `FIXTURE-UI-001`
+- Fixture Model ID: `FIXTURE-MODEL-UI-001`
 - Fixture Type: `UI`
 - Scope: `QA-AI Controlled UI Testing Context`
 - Status: `Approved`
@@ -193,7 +193,20 @@ Missing UI behavior must not be filled with invented values.
 ## Fixture Identification
 
 Each UI fixture should have a stable identifier.
+### Fixture Model ID vs Fixture ID
 
+The fixture model and fixture instances use separate identifier namespaces.
+
+- `Fixture Model ID` identifies this canonical fixture specification.
+- `Fixture ID` identifies a concrete UI fixture instance created from the model.
+
+The canonical UI fixture model uses:
+
+`FIXTURE-MODEL-UI-001`
+
+Concrete UI fixture instances use the pattern defined below.
+
+These identifiers must not be treated as interchangeable.
 Recommended pattern:
 
 `UI-FIX-<DOMAIN>-<NUMBER>`
@@ -1289,54 +1302,62 @@ Unused fields should not be populated with fabricated values.
 
 ## Example Canonical Fixture
 
-Example serialized representation:
+The following serialized representation is illustrative only.
 
-    fixture_id: UI-FIX-AUTH-001
+Its screen, fields, actions, states, and values demonstrate the fixture structure and are not derived from any QA-AI requirement dataset.
+
+    fixture_id: UI-FIX-EXAMPLE-001
     version: 1.0.0
-    domain: authentication
+    domain: example
     surface: web
-    status: Approved
+    status: Example
 
     screen:
-      id: login
-      name: Login
+      id: example_form
+      name: Example Form
 
     fields:
-      email:
-        label: Email
+      resource_name:
+        label: Resource Name
         type: text
         required: true
         state: editable
 
-      password:
-        label: Password
-        type: password
-        required: true
+      resource_type:
+        label: Resource Type
+        type: dropdown
+        required: false
         state: editable
 
     actions:
-      login:
+      submit:
         type: button
-        label: Login
+        label: Submit
         visible: true
 
     states:
       default:
-        login:
+        submit:
           visible: true
 
-      locked_account:
-        authentication_result: rejected
+      read_only:
+        resource_name:
+          state: read-only
+
+        resource_type:
+          state: read-only
 
     source_reference:
-      dataset_id: REQ-AUTH-001
+      type: illustrative-example
+      authoritative: false
 
-The example demonstrates fixture structure.
+The example demonstrates the canonical UI fixture structure only.
 
-It does not define the complete UI behavior of `REQ-AUTH-001` or any production login implementation.
+Its screen, fields, labels, control types, actions, states, and values are synthetic and must not be treated as authoritative UI behavior.
 
----
+A real UI fixture instance must replace illustrative values with information supported by authoritative requirements, specifications, designs, or approved UI references.
 
+An illustrative example must not reference a requirement dataset as its source unless the represented UI behavior is actually defined by that dataset.
 ## Fixture Lifecycle
 
 The recommended UI fixture lifecycle is:

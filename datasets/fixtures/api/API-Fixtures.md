@@ -2,7 +2,7 @@
 
 ## Fixture Metadata
 
-- Fixture ID: `FIXTURE-API-001`
+- Fixture Model ID: `FIXTURE-MODEL-API-001`
 - Fixture Type: `API`
 - Scope: `QA-AI Controlled API Testing Context`
 - Status: `Approved`
@@ -161,7 +161,20 @@ Sections that do not apply may be omitted rather than populated with invented va
 ## Fixture Identification
 
 Each fixture should have a stable identifier.
+### Fixture Model ID vs Fixture ID
 
+The fixture model and fixture instances use separate identifier namespaces.
+
+- `Fixture Model ID` identifies this canonical fixture specification.
+- `Fixture ID` identifies a concrete API fixture instance created from the model.
+
+The canonical API fixture model uses:
+
+`FIXTURE-MODEL-API-001`
+
+Concrete API fixture instances use the pattern defined below.
+
+These identifiers must not be treated as interchangeable.
 Recommended pattern:
 
 `API-FIX-<DOMAIN>-<NUMBER>`

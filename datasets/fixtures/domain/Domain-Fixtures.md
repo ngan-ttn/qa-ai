@@ -2,7 +2,7 @@
 
 ## Fixture Metadata
 
-- Fixture ID: `FIXTURE-DOMAIN-001`
+- Fixture Model ID: `FIXTURE-MODEL-DOMAIN-001`
 - Fixture Type: `Domain`
 - Scope: `QA-AI Controlled Business-Domain Context`
 - Status: `Approved`
@@ -176,7 +176,20 @@ Unknown domain behavior must not be filled with assumptions.
 ## Fixture Identification
 
 Each domain fixture should have a stable identifier.
+### Fixture Model ID vs Fixture ID
 
+The fixture model and fixture instances use separate identifier namespaces.
+
+- `Fixture Model ID` identifies this canonical fixture specification.
+- `Fixture ID` identifies a concrete domain fixture instance created from the model.
+
+The canonical domain fixture model uses:
+
+`FIXTURE-MODEL-DOMAIN-001`
+
+Concrete domain fixture instances use the pattern defined below.
+
+These identifiers must not be treated as interchangeable.
 Recommended pattern:
 
 `DOMAIN-FIX-<DOMAIN>-<NUMBER>`
@@ -860,49 +873,61 @@ Unused fields should not be populated with invented information.
 
 ## Example Canonical Fixture
 
-Example serialized representation:
+The following serialized representation is illustrative only.
 
-    fixture_id: DOMAIN-FIX-PERMIT-001
+Its terminology, entities, relationships, roles, and values demonstrate the fixture structure and are not derived from any QA-AI requirement dataset.
+
+    fixture_id: DOMAIN-FIX-EXAMPLE-001
     version: 1.0.0
-    status: Approved
+    status: Example
 
     domain:
-      id: import-permit
-      name: Import Permit Management
+      id: example-domain
+      name: Example Domain
 
     terms:
-      UPN:
-        definition: Unique Product Number used to identify a product.
+      Resource:
+        definition: Synthetic domain concept used only to demonstrate the fixture structure.
 
-      Import Permit:
-        definition: Approval record defining permitted product coverage.
+      Resource Group:
+        definition: Synthetic grouping concept used only to demonstrate a domain relationship.
 
     entities:
-      Product:
+      Resource:
         identifiers:
-          - UPN
+          - Resource ID
 
-      ImportPermit:
+      ResourceGroup:
         relationships:
-          covers:
-            target: Product
+          contains:
+            target: Resource
 
     roles:
-      RA:
-        name: Regulatory Affairs
+      ExampleRole:
+        name: Example Role
+        description: Synthetic role used only to demonstrate role representation.
+
+    classifications:
+      resource_type:
+        completeness: example-only
+        values:
+          - Type A
+          - Type B
 
     related_fixtures:
-      - UI-FIX-PERMIT-001
+      - UI-FIX-EXAMPLE-001
 
     source_reference:
-      type: approved-domain-definition
+      type: illustrative-example
+      authoritative: false
 
-The example demonstrates fixture structure.
+The example demonstrates the canonical domain fixture structure only.
 
-It does not define every Import Permit business rule or any specific feature workflow.
+Its terminology, entities, relationships, roles, classifications, and values are synthetic and must not be treated as authoritative domain knowledge.
 
----
+A real domain fixture instance must replace illustrative values with information supported by authoritative or explicitly approved domain sources.
 
+An illustrative example must not reference a requirement dataset or domain source as authoritative unless the represented domain information is actually defined by that source.
 ## Fixture Lifecycle
 
 The recommended domain fixture lifecycle is:
