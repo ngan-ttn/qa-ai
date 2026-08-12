@@ -1,256 +1,506 @@
 # QA-AI
 
-> **A reusable AI framework for Software Quality Assurance**
+> **A reusable, platform-independent AI framework for Software Quality Assurance**
 
-QA-AI is a structured knowledge repository that enables AI assistants to perform software testing tasks consistently, accurately, and with reusable knowledge.
+QA-AI is a structured framework for enabling AI systems to perform software Quality Assurance activities consistently using reusable QA knowledge, skills, workflows, standards, examples, and evaluation assets.
 
-Instead of relying on long prompts, QA-AI separates **Knowledge**, **Skills**, **Standards**, and **Workflows** into maintainable documents that can be shared across different AI platforms.
+Instead of embedding QA behavior inside long platform-specific prompts, QA-AI separates reusable QA capabilities into maintainable framework components.
 
----
-
-# Vision
-
-Build a reusable QA framework where knowledge is independent of AI models.
-
-The repository should allow different AI platforms to generate consistent QA outputs by consuming the same knowledge base, standards, and workflows.
+The framework is designed so that the same QA definitions can eventually be consumed by different AI platforms without redefining the underlying QA behavior.
 
 ---
 
-# Goals
+## Vision
 
-- Build a reusable QA knowledge repository
-- Standardize AI-generated QA outputs
-- Separate knowledge from prompts
-- Reduce duplicated prompt engineering
-- Support multiple AI platforms
-- Make QA knowledge easy to maintain and extend
+Build a reusable QA framework where QA knowledge and capabilities remain independent from individual AI models and platforms.
+
+QA-AI aims to provide a common foundation for generating consistent, traceable, and maintainable QA outputs across different AI execution environments.
 
 ---
 
-# Key Features
+## Goals
 
-- 📚 Structured Knowledge Base
-- 🧩 Modular AI Skills
-- 📋 Reusable Templates
-- ✅ QA Checklists
-- 🔄 Standardized Workflows
-- 📖 Documentation-first Architecture
-- 🏗 Extensible Repository Design
-- 🌍 Platform Independent
-
----
-
-# Repository Structure
-
-```text
-QA-AI/
-│
-├── README.md
-├── CHANGELOG.md
-├── VERSION
-├── LICENSE
-├── .gitignore
-│
-├── docs/
-├── shared/
-├── skills/
-├── examples/
-├── workflows/
-├── datasets/
-├── output/
-└── scripts/
-```
+- Build reusable QA knowledge and capabilities.
+- Standardize AI-generated QA artifacts.
+- Separate QA knowledge from platform-specific prompting.
+- Reduce duplicated prompt engineering.
+- Define reusable QA skills and workflows.
+- Provide controlled examples and evaluation datasets.
+- Support measurable QA output quality.
+- Enable future multi-platform integration.
+- Keep framework components maintainable and extensible.
 
 ---
 
-# Quick Start
+## Core Architecture
 
-## 1. Clone the repository
+QA-AI separates QA behavior into reusable framework layers.
 
-```bash
-git clone <repository-url>
-```
+    Standards and Conventions
+            ↓
+    Knowledge and Templates
+            ↓
+    Skills
+            ↓
+    Workflows
+            ↓
+    Examples
+            ↓
+    Datasets and Evaluation
+            ↓
+    Automation
+            ↓
+    Platform Integration
 
-## 2. Open the project
+Each layer has a distinct responsibility.
 
-Use any Markdown editor such as:
+| Component | Responsibility |
+|---|---|
+| Standards | Define shared documentation, naming, metadata, output, and prompt conventions. |
+| Templates | Define reusable structures for QA artifacts. |
+| Checklists | Provide reusable quality-review criteria. |
+| Knowledge | Provide reusable QA, testing, API, database, and domain knowledge. |
+| Skills | Define individual reusable QA capabilities. |
+| Workflows | Coordinate multiple QA capabilities into ordered processes. |
+| Examples | Demonstrate expected input-to-output transformations. |
+| Datasets | Provide controlled requirements, golden references, evaluation definitions, benchmarks, and fixture models. |
+| Scripts | Provide future deterministic validation, evaluation, export, and maintenance automation. |
+| Platform Integration | Adapt the platform-independent framework for supported AI runtimes. |
 
-- Visual Studio Code
-- Cursor
-- Windsurf
+Detailed architecture is defined in:
+
+    docs/01-Architecture.md
 
 ---
 
-## 3. Read the documentation
+## Repository Structure
+
+    QA-AI/
+    │
+    ├── README.md
+    ├── CHANGELOG.md
+    ├── VERSION
+    ├── LICENSE
+    ├── manifest.json
+    │
+    ├── docs/
+    │
+    ├── shared/
+    │   ├── standards/
+    │   ├── templates/
+    │   ├── checklists/
+    │   ├── prompt-patterns/
+    │   ├── knowledge/
+    │   └── glossary/
+    │
+    ├── skills/
+    ├── workflows/
+    ├── examples/
+    ├── datasets/
+    └── scripts/
+
+### `docs/`
+
+Contains canonical framework architecture, concepts, design decisions, development guidance, usage guidance, and the implementation roadmap.
+
+### `shared/`
+
+Contains reusable assets shared across skills and workflows:
+
+    shared/
+    ├── standards/
+    ├── templates/
+    ├── checklists/
+    ├── prompt-patterns/
+    ├── knowledge/
+    └── glossary/
+
+### `skills/`
+
+Contains reusable QA capabilities.
+
+Current skill foundation includes capabilities for:
+
+- requirement analysis;
+- business-rule extraction;
+- scenario generation;
+- test-case generation;
+- coverage review;
+- regression-related analysis.
+
+The skill library will be expanded in a later implementation phase.
+
+### `workflows/`
+
+Contains reusable multi-step QA workflows.
+
+Current workflow coverage includes:
+
+- test-case generation;
+- test-case quality review;
+- regression analysis.
+
+### `examples/`
+
+Contains representative input and expected-output examples for standalone QA capabilities and end-to-end artifact generation.
+
+### `datasets/`
+
+Contains controlled assets used to evaluate QA-AI behavior.
+
+    datasets/
+    ├── requirements/
+    ├── golden-output/
+    ├── evaluation/
+    ├── benchmark/
+    └── fixtures/
+
+The dataset architecture distinguishes canonical definitions from runtime execution artifacts.
+
+For example:
+
+    Fixture Model
+        ↓
+    Fixture Instance
+
+and:
+
+    Benchmark Definition
+        ↓
+    Benchmark Execution
+        ↓
+    Benchmark Record
+
+Runtime instances and benchmark records are created only when actual execution requires them.
+
+### `scripts/`
+
+Contains the planned structure for deterministic framework tooling.
+
+Script implementation is intentionally deferred to a later phase.
+
+Existing script placeholders represent planned architecture and should not be interpreted as incomplete current-phase work.
+
+---
+
+## Core Concepts
+
+QA-AI is built around several reusable concepts.
+
+| Concept | Description |
+|---|---|
+| Knowledge | Reusable information used to support QA reasoning. |
+| Skill | A focused reusable QA capability. |
+| Workflow | An ordered process coordinating QA capabilities. |
+| Template | A standardized structure for QA artifacts. |
+| Checklist | Criteria used to review QA artifact quality. |
+| Standard | Shared framework conventions and rules. |
+| Example | A representative input/output reference. |
+| Dataset | Controlled data used for examples, evaluation, and benchmarking. |
+| Golden Output | A canonical reference used to evaluate expected QA output characteristics. |
+| Fixture Model | A reusable definition of controlled execution context. |
+| Benchmark Definition | A canonical definition of how a comparison should be performed. |
+
+Detailed terminology is defined in:
+
+    docs/02-Core-Concepts.md
+
+and:
+
+    shared/glossary/
+
+---
+
+## Framework Capabilities
+
+The current framework foundation supports reusable definitions for activities including:
+
+- requirement analysis;
+- business-rule extraction;
+- test-scenario generation;
+- test-case generation;
+- test-case quality review;
+- coverage review;
+- regression analysis;
+- QA artifact evaluation.
+
+Additional QA capabilities are planned as the skill and knowledge libraries expand.
+
+---
+
+## Documentation
+
+The canonical framework documentation is maintained under `docs/`.
+
+| Document | Purpose |
+|---|---|
+| `01-Architecture.md` | Framework and repository architecture |
+| `02-Core-Concepts.md` | Core framework terminology |
+| `03-Design-Decisions.md` | Architectural design rationale |
+| `04-Repository-Convention.md` | Repository conventions |
+| `05-Skill-Development-Guide.md` | Skill development guidance |
+| `06-Knowledge-Management.md` | Knowledge architecture and management |
+| `07-Workflow-Design.md` | Workflow design guidance |
+| `08-Versioning.md` | Versioning strategy |
+| `09-Contribution.md` | Contribution guidance |
+| `10-How-To-Use.md` | Framework usage guidance |
+| `11-Roadmap.md` | Canonical implementation roadmap |
+
+---
+
+## Getting Started
+
+### 1. Clone the Repository
+
+    git clone <repository-url>
+
+### 2. Read the Core Documentation
 
 Recommended reading order:
 
-1. README.md
-2. docs/01-Architecture.md
-3. docs/02-Core-Concepts.md
-4. docs/03-Design-Decisions.md
-5. docs/04-Repository-Convention.md
+1. `README.md`
+2. `docs/01-Architecture.md`
+3. `docs/02-Core-Concepts.md`
+4. `docs/03-Design-Decisions.md`
+5. `docs/04-Repository-Convention.md`
+6. `docs/10-How-To-Use.md`
+7. `docs/11-Roadmap.md`
+
+### 3. Explore the Framework Components
+
+For reusable QA behavior, review:
+
+    shared/
+    skills/
+    workflows/
+
+For reference implementations, review:
+
+    examples/
+
+For controlled evaluation assets, review:
+
+    datasets/
+
+### 4. Follow the Current Implementation Roadmap
+
+Implementation work should follow:
+
+    docs/11-Roadmap.md
+
+Future-phase components should not be implemented merely because placeholders already exist.
 
 ---
 
-## 4. Start building Skills
+## Design Principles
 
-After understanding the repository architecture, begin implementing reusable QA Skills.
+QA-AI follows several guiding principles.
 
----
+### Knowledge First
 
-# Core Concepts
+QA behavior should be supported by explicit reusable knowledge rather than hidden inside prompts.
 
-QA-AI is built around several core concepts.
+### Single Responsibility
 
-| Concept | Description |
-|----------|-------------|
-| Knowledge | Reusable QA knowledge |
-| Skill | A single AI capability |
-| Workflow | Ordered execution of Skills |
-| Template | Standardized output format |
-| Checklist | QA validation criteria |
-| Standard | Repository conventions |
-| Example | Input/output reference |
+Each framework component should have a clear responsibility and avoid unnecessary overlap.
 
-Detailed explanations are available in:
+### Documentation First
 
-```
-docs/02-Core-Concepts.md
-```
+Important framework behavior should be documented before automation depends on it.
 
----
+### Reusability
 
-# Documentation
+Knowledge, skills, workflows, and evaluation definitions should be reusable across different contexts.
 
-| Document | Purpose |
-|----------|---------|
-| 01-Architecture.md | Repository architecture |
-| 02-Core-Concepts.md | Core terminology |
-| 03-Design-Decisions.md | Design rationale |
-| 04-Repository-Convention.md | Repository conventions |
-| 05-Skill-Development-Guide.md | Skill development guide |
-| 06-Knowledge-Management.md | Knowledge management |
-| 07-Workflow-Design.md | Workflow design |
-| 08-Versioning.md | Versioning strategy |
-| 09-Contribution.md | Contribution guide |
-| 10-How-To-Use.md | Usage guide |
-| 11-Roadmap.md | Project roadmap |
+### Platform Independence
+
+Core QA behavior should not depend on ChatGPT, Claude, or another specific AI runtime.
+
+### Standardization
+
+QA outputs should follow shared conventions, templates, and quality criteria.
+
+### Traceability
+
+Generated QA artifacts should remain traceable to their source requirements, rules, assumptions, and upstream artifacts where applicable.
+
+### Maintainability
+
+Framework components should be understandable, reviewable, and independently maintainable.
+
+### Validation Before Expansion
+
+Stable framework layers should be reviewed before downstream implementation expands their use.
 
 ---
 
-# Repository Philosophy
+## Platform Integration
 
-QA-AI follows several guiding principles:
+QA-AI is designed for future use across multiple AI platforms.
 
-- Knowledge First
-- Single Responsibility
-- Documentation First
-- Reusability
-- Platform Independence
-- Standardization
-- Maintainability
-- Extensibility
+Potential platform targets include:
 
-Detailed explanations are available in:
+- ChatGPT;
+- Claude;
+- other compatible AI runtimes.
 
-```
-docs/03-Design-Decisions.md
-```
+Platform integration is **not yet part of the implemented framework scope**.
 
----
+Platform-specific adapters and packaging are planned for a later implementation phase.
 
-# Supported AI Platforms
+The intended architecture is:
 
-QA-AI is designed to work with:
+    QA-AI Core
+        ↓
+    Platform Adapter
+        ↓
+    Platform Runtime
 
-| Platform | Status |
-|----------|--------|
-| ChatGPT | ✅ |
-| Claude | ✅ |
-| Gemini | ✅ |
-| Cursor | ✅ |
-| Ollama | ✅ |
-| OpenAI API | ✅ |
-| Local Agents | ✅ |
+Platform adapters may translate packaging or execution mechanics, but should not redefine core QA behavior.
 
 ---
 
-# Current Roadmap
+## Current Implementation Status
 
-Current milestone:
+QA-AI is under active development.
 
-**Milestone 1 — Framework Foundation**
+Current roadmap status:
 
-Focus areas:
+| Phase | Status |
+|---|---|
+| Framework Foundation | Completed |
+| Shared Standards and Foundations | Completed |
+| Workflow Library | Completed |
+| Skill Library Foundation | Completed |
+| Knowledge Foundation | Completed |
+| Examples and End-to-End Validation | Completed |
+| Framework Integration and Validation | Completed |
+| Datasets and Evaluation | Frozen |
+| Repository Completion and Alignment | **In Progress** |
+| Knowledge Library Completion | Planned |
+| Skill Library Expansion | Planned |
+| Scripts Implementation | Planned |
+| Platform Integration | Planned |
 
-- Repository architecture
-- Documentation
-- Standards
-- Versioning
-- Development guidelines
+Current implementation position:
 
-Future milestones include:
+    Phase 9 — Repository Completion and Alignment
+    └── Phase 9.2 — Root README Synchronization
 
-- Shared Knowledge Base
-- QA Skills
-- Workflow Automation
-- AI Agent Integration
+The canonical implementation roadmap is:
 
-See:
-
-```
-docs/11-Roadmap.md
-```
-
----
-
-# Contributing
-
-Before contributing, please read:
-
-- Repository Convention
-- Skill Development Guide
-- Contribution Guide
-
-Located in:
-
-```
-docs/
-```
+    docs/11-Roadmap.md
 
 ---
 
-# Version
+## Current and Future Scope
 
-Current Version
+The current repository contains both implemented framework components and intentionally planned structures.
 
-```
-1.0.0
-```
+A planned component is not automatically an incomplete component.
 
-Versioning follows Semantic Versioning.
+In particular:
+
+- `datasets/` is a frozen framework foundation;
+- remaining knowledge-library population is planned;
+- additional skills are planned;
+- script implementation is planned;
+- platform adapters are planned.
+
+This distinction prevents future architecture from being treated as current repository defects.
 
 ---
 
-# License
+## Versioning
 
-This project is released under the MIT License.
+QA-AI follows the versioning strategy defined in:
+
+    docs/08-Versioning.md
+
+The repository-level `VERSION` and `CHANGELOG.md` are maintained as part of framework governance.
 
 ---
 
-# Project Status
+## Contributing
 
-🟢 Active Development
+Before modifying framework components, review:
+
+- `docs/04-Repository-Convention.md`
+- `docs/05-Skill-Development-Guide.md`
+- `docs/06-Knowledge-Management.md`
+- `docs/07-Workflow-Design.md`
+- `docs/09-Contribution.md`
+
+Changes should preserve established component boundaries and avoid redefining canonical behavior in downstream layers.
+
+---
+
+## Roadmap
+
+The implementation roadmap is maintained in:
+
+    docs/11-Roadmap.md
+
+The roadmap is the canonical source for:
+
+- completed implementation phases;
+- the current implementation phase;
+- planned future phases;
+- phase dependencies;
+- phase exit criteria.
+
+Repository implementation and roadmap status should remain synchronized.
+
+---
+
+## Project Status
+
+**Active Development**
 
 Current phase:
 
-Framework Foundation
+    Phase 9 — Repository Completion and Alignment
+
+Current activity:
+
+    Phase 9.2 — Root README Synchronization
+
+Stable evaluation foundation:
+
+    Phase 8 — Datasets and Evaluation: Frozen
 
 ---
 
-# Contact
+## License
 
-This repository is intended to serve as a long-term foundation for building reusable AI-powered QA capabilities.
+Repository licensing is defined by:
 
-Feedback and improvements are always welcome.
+    LICENSE
+
+License governance is finalized as part of the repository governance work in Phase 9.
+
+---
+
+## Summary
+
+QA-AI provides a structured foundation for reusable AI-assisted Software Quality Assurance.
+
+The framework separates:
+
+    QA Knowledge
+        ↓
+    Standards and Templates
+        ↓
+    Skills
+        ↓
+    Workflows
+        ↓
+    Examples
+        ↓
+    Datasets and Evaluation
+        ↓
+    Automation
+        ↓
+    Platform Integration
+
+The current focus is repository alignment before continuing with knowledge-library completion, skill expansion, deterministic automation, and platform integration.
