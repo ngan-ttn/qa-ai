@@ -881,61 +881,60 @@ Unused fields should not be populated with fabricated values.
 
 ## Example Canonical Fixture
 
-Example serialized representation:
+The following serialized representation is illustrative only.
 
-    fixture_id: API-FIX-AUTH-001
+Its values demonstrate the fixture structure and are not derived from any QA-AI requirement dataset.
+
+    fixture_id: API-FIX-EXAMPLE-001
     version: 1.0.0
-    domain: authentication
-    status: Approved
+    domain: example
+    status: Example
 
     endpoint:
       method: POST
-      path: /api/v1/login
+      path: /api/example/resources
 
     authentication:
-      required: false
+      required: true
+      type: bearer
+      token: "<valid-test-token>"
 
     request:
       content_type: application/json
 
       fields:
-        email:
+        resource_name:
           type: string
           required: true
-          format: email
-
-        password:
-          type: string
-          required: true
-          min_length: 8
 
     responses:
       success:
         status: 200
 
         body:
-          user_id: usr_001
-          access_token: "<token>"
+          resource_id: res_001
+          resource_name: Example Resource
 
-      invalid_credentials:
-        status: 401
+      invalid_request:
+        status: 400
 
         body:
-          code: INVALID_CREDENTIALS
+          code: EXAMPLE_VALIDATION_ERROR
 
     example_data:
-      email: qa.user@example.test
-      password: TestPass123
+      resource_name: Example Resource
 
     source_reference:
-      requirement_id: REQ-AUTH-001
+      type: illustrative-example
+      authoritative: false
 
-The example illustrates the fixture model.
+The example demonstrates the canonical fixture structure only.
 
-It does not establish authentication behavior for every QA-AI dataset.
+Its endpoint, fields, response codes, validation behavior, and example values are synthetic and must not be treated as authoritative API behavior.
 
----
+A real fixture instance must replace illustrative values with information supported by its authoritative source.
 
+An illustrative example must not reference a requirement dataset as its source unless the represented API behavior is actually defined by that dataset.
 ## Fixture Lifecycle
 
 The recommended fixture lifecycle is:
