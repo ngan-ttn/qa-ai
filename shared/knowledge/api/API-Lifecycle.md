@@ -146,7 +146,7 @@ An older endpoint version is scheduled for retirement. QA validates warning comm
 - `Contract-Testing.md` verifies provider-consumer expectations.
 - `API-Test-Strategy.md` organizes API validation activities.
 - `API-Mocking.md` can support testing before dependent services are fully available.
-- `Continuous-Improvement.md` in `../qa/` provides broader quality-improvement context.
+- `../qa/Continuous-Improvement.md` provides broader quality-improvement context.
 
 ## References
 
