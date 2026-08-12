@@ -2,88 +2,66 @@
 
 ## Purpose
 
-The **Quality Assurance** catalog defines the knowledge architecture and implementation roadmap for quality assurance concepts, methodologies, and engineering practices within the QA-AI framework.
+The **Quality Assurance** catalog defines the approved knowledge architecture for quality assurance concepts, methodologies, and engineering practices within the QA-AI framework.
 
 Its primary objectives are to:
 
-- Establish a structured knowledge base for software quality assurance.
-- Organize QA concepts into logical knowledge domains.
-- Provide a consistent learning path for QA engineers and AI capabilities.
-- Serve as the implementation backlog for QA knowledge articles.
-- Enable reusable QA knowledge across multiple skills and workflows.
-- Support long-term scalability and maintainability of the knowledge repository.
+- organize QA knowledge into clear and maintainable domains;
+- provide a consistent learning and reasoning path for QA engineers and AI capabilities;
+- define the authoritative set of QA knowledge articles in `shared/knowledge/qa/`;
+- make prerequisite and cross-article relationships explicit;
+- support reusable QA reasoning across skills and workflows;
+- prevent knowledge duplication across QA, testing-techniques, API, database, and domain knowledge areas.
 
-Rather than acting as a simple document index, this catalog serves as the authoritative roadmap for developing and maintaining the Quality Assurance knowledge domain.
+This catalog is the source of truth for the current QA knowledge baseline.
 
 ---
 
 ## Scope
 
-This catalog covers knowledge related to software quality assurance, including:
+This catalog covers reusable knowledge related to:
 
-- Quality engineering principles
-- Software development and testing lifecycles
-- Requirement engineering
-- Test management
-- Defect management
-- Quality assurance practices
-- Continuous quality improvement
+- software quality foundations;
+- software development and testing lifecycles;
+- requirement engineering;
+- test management;
+- defect management;
+- quality practices;
+- quality measurement and continuous improvement.
 
-The catalog focuses on **quality assurance methodologies, processes, and engineering practices**.
+The catalog focuses on **quality assurance concepts, processes, and engineering practices**.
 
-The following topics are intentionally excluded because they belong to other knowledge domains.
+The following topics are intentionally owned by other knowledge domains.
 
 | Topic | Knowledge Domain |
-|---------|------------------|
-| Equivalence Partitioning | Testing Techniques |
-| Boundary Value Analysis | Testing Techniques |
-| Decision Table Testing | Testing Techniques |
-| State Transition Testing | Testing Techniques |
-| API Architecture | API |
-| HTTP | API |
-| SQL | Database |
-| Database Design | Database |
-| Banking | Domain |
-| Healthcare | Domain |
-| Warehouse Management | Domain |
-
----
-
-## Objectives
-
-The Quality Assurance knowledge base aims to:
-
-- Build a comprehensive understanding of software quality assurance.
-- Explain QA processes throughout the software development lifecycle.
-- Promote consistent quality engineering practices.
-- Improve requirement analysis and defect prevention.
-- Strengthen planning, execution, and quality governance.
-- Support AI reasoning throughout QA workflows.
-- Establish reusable QA knowledge across projects and industries.
+|---|---|
+| Equivalence Partitioning | `../testing-techniques/` |
+| Boundary Value Analysis | `../testing-techniques/` |
+| Decision Table Testing | `../testing-techniques/` |
+| State Transition Testing | `../testing-techniques/` |
+| Exploratory Testing | `../testing-techniques/` |
+| API Architecture and HTTP | `../api/` |
+| SQL and database validation concepts | `../database/` |
+| Industry-specific business knowledge | `../domain/` |
 
 ---
 
 ## Knowledge Architecture
 
-Quality Assurance knowledge is organized according to major QA disciplines commonly adopted in professional software engineering.
+The QA knowledge domain is organized into six categories.
 
 ```text
 Quality Assurance
-
+│
 ├── Foundations
-│
 ├── Requirement Engineering
-│
 ├── Test Management
-│
 ├── Defect Management
-│
 ├── Quality Practices
-│
 └── Continuous Improvement
 ```
 
-Each category groups related concepts that support a specific aspect of software quality assurance.
+Each category owns a distinct responsibility while remaining connected to the broader QA knowledge graph.
 
 ---
 
@@ -91,451 +69,322 @@ Each category groups related concepts that support a specific aspect of software
 
 ### Foundations
 
-Foundation articles introduce the core concepts that define software quality assurance and establish the common language used throughout the repository.
+Foundation articles establish the common quality and lifecycle concepts used throughout the QA knowledge base.
 
 ```text
 Foundations
-
 ├── Software Quality
 ├── Quality Assurance vs Quality Control
-├── SDLC
-├── STLC
+├── Software Development Life Cycle
+├── Software Testing Life Cycle
 └── Testing Principles
 ```
 
-These articles provide the conceptual foundation for all subsequent QA knowledge.
-
----
-
 ### Requirement Engineering
 
-Requirement Engineering focuses on understanding, analyzing, validating, and tracing software requirements throughout the development lifecycle.
+Requirement Engineering articles explain how requirement information is created, analyzed, reviewed, and translated into acceptance-significant behavior.
 
 ```text
 Requirement Engineering
-
+├── Requirement Engineering
 ├── Requirement Analysis
-├── Requirement Traceability
-├── Business Rule Analysis
+├── Requirement Review
 └── Acceptance Criteria
 ```
 
-These articles support accurate requirement understanding and improve downstream testing quality.
-
----
-
 ### Test Management
 
-Test Management covers planning, organizing, monitoring, and controlling software testing activities.
+Test Management articles explain how testing direction, scope, effort, progress, and completion are organized.
 
 ```text
 Test Management
-
 ├── Test Planning
 ├── Test Strategy
 ├── Test Estimation
-├── Test Environment Management
-└── Test Data Management
+├── Test Monitoring and Control
+└── Test Closure
 ```
-
-These articles provide guidance for managing testing activities efficiently and consistently.
-
----
 
 ### Defect Management
 
-Defect Management focuses on identifying, classifying, tracking, analyzing, and resolving software defects.
+Defect Management articles explain how defects are reported, classified, verified, analyzed, and used for quality learning.
 
 ```text
 Defect Management
-
 ├── Defect Lifecycle
+├── Defect Reporting
 ├── Defect Severity and Priority
+├── Defect Analysis
 ├── Root Cause Analysis
-└── Defect Triage
+└── Retesting
 ```
-
-These articles help improve defect handling and quality communication across development teams.
-
----
 
 ### Quality Practices
 
-Quality Practices describe engineering approaches that improve software quality throughout the testing lifecycle.
+Quality Practices articles provide reusable approaches for selecting, evaluating, and maintaining meaningful quality coverage.
 
 ```text
 Quality Practices
-
-├── Risk-Based Testing
 ├── Regression Testing
-├── Smoke Testing
-├── Sanity Testing
-├── Test Coverage
-└── Release Readiness
+├── Risk-Based Testing
+├── Functional and Non-Functional Testing
+├── Static and Dynamic Testing
+└── Verification and Validation
 ```
-
-These practices support effective test execution, risk reduction, and release confidence.
-
----
 
 ### Continuous Improvement
 
-Continuous Improvement focuses on measuring, evaluating, and improving QA effectiveness over time.
+Continuous Improvement articles explain how testing and product-quality evidence can be measured, interpreted, and converted into learning.
 
 ```text
 Continuous Improvement
-
 ├── Test Metrics
-├── Test Reporting
-├── Lessons Learned
-└── QA Best Practices
+├── Quality Metrics
+└── Continuous Improvement
 ```
 
-These articles promote continuous learning and long-term quality improvement.
+---
+
 ## Article Catalog
 
-The following catalog defines all planned knowledge articles for the **Quality Assurance** knowledge base.
+The table below defines the current approved QA knowledge baseline.
 
-Each article is classified by category, learning level, prerequisite knowledge, implementation priority, and current implementation status.
-
-| Article | Category | Level | Prerequisites | Priority | Status |
-|----------|----------|-------|---------------|----------|--------|
-| Software Quality | Foundations | Foundation | None | High | Planned |
-| Quality Assurance vs Quality Control | Foundations | Foundation | Software Quality | High | Planned |
-| SDLC | Foundations | Foundation | None | High | Planned |
-| STLC | Foundations | Foundation | SDLC | High | Planned |
-| Testing Principles | Foundations | Foundation | Software Quality | High | Planned |
-| Requirement Analysis | Requirement Engineering | Foundation | STLC | High | Planned |
-| Requirement Traceability | Requirement Engineering | Intermediate | Requirement Analysis | High | Planned |
-| Business Rule Analysis | Requirement Engineering | Intermediate | Requirement Analysis | High | Planned |
-| Acceptance Criteria | Requirement Engineering | Foundation | Requirement Analysis | High | Planned |
-| Test Planning | Test Management | Intermediate | STLC | High | Planned |
-| Test Strategy | Test Management | Intermediate | Test Planning | High | Planned |
-| Test Estimation | Test Management | Advanced | Test Planning | Medium | Planned |
-| Test Environment Management | Test Management | Intermediate | Test Planning | Medium | Planned |
-| Test Data Management | Test Management | Intermediate | Test Planning | High | Planned |
-| Defect Lifecycle | Defect Management | Foundation | STLC | High | Planned |
-| Defect Severity and Priority | Defect Management | Foundation | Defect Lifecycle | High | Planned |
-| Root Cause Analysis | Defect Management | Advanced | Defect Lifecycle | Medium | Planned |
-| Defect Triage | Defect Management | Intermediate | Defect Lifecycle | Medium | Planned |
-| Risk-Based Testing | Quality Practices | Advanced | Test Strategy | High | Planned |
-| Regression Testing | Quality Practices | Foundation | STLC | High | Planned |
-| Smoke Testing | Quality Practices | Foundation | STLC | High | Planned |
-| Sanity Testing | Quality Practices | Foundation | Regression Testing | Medium | Planned |
-| Test Coverage | Quality Practices | Intermediate | Test Planning | High | Planned |
-| Release Readiness | Quality Practices | Intermediate | Test Strategy | Medium | Planned |
-| Test Metrics | Continuous Improvement | Intermediate | Test Planning | Medium | Planned |
-| Test Reporting | Continuous Improvement | Intermediate | Test Metrics | Medium | Planned |
-| Lessons Learned | Continuous Improvement | Intermediate | Test Reporting | Low | Planned |
-| QA Best Practices | Continuous Improvement | Advanced | Test Strategy | Medium | Planned |
+| Article | File | Category | Level | Prerequisites | Priority | Status |
+|---|---|---|---|---|---|---|
+| Software Quality | `Software-Quality.md` | Foundations | Foundation | None | High | Approved |
+| Quality Assurance vs Quality Control | `Quality-Assurance-vs-Quality-Control.md` | Foundations | Foundation | Software Quality | High | Approved |
+| Software Development Life Cycle | `SDLC.md` | Foundations | Foundation | None | High | Approved |
+| Software Testing Life Cycle | `STLC.md` | Foundations | Foundation | SDLC | High | Approved |
+| Testing Principles | `Testing-Principles.md` | Foundations | Foundation | Software Quality | High | Approved |
+| Requirement Engineering | `Requirement-Engineering.md` | Requirement Engineering | Foundation | SDLC | High | Approved |
+| Requirement Analysis | `Requirement-Analysis.md` | Requirement Engineering | Foundation | Requirement Engineering | High | Approved |
+| Requirement Review | `Requirement-Review.md` | Requirement Engineering | Intermediate | Requirement Analysis | High | Approved |
+| Acceptance Criteria | `Acceptance-Criteria.md` | Requirement Engineering | Foundation | Requirement Analysis | High | Approved |
+| Test Planning | `Test-Planning.md` | Test Management | Intermediate | STLC | High | Approved |
+| Test Strategy | `Test-Strategy.md` | Test Management | Intermediate | Test Planning | High | Approved |
+| Test Estimation | `Test-Estimation.md` | Test Management | Advanced | Test Planning | Medium | Approved |
+| Test Monitoring and Control | `Test-Monitoring-and-Control.md` | Test Management | Intermediate | Test Planning | High | Approved |
+| Test Closure | `Test-Closure.md` | Test Management | Intermediate | Test Monitoring and Control | High | Approved |
+| Defect Lifecycle | `Defect-Lifecycle.md` | Defect Management | Foundation | STLC | High | Approved |
+| Defect Reporting | `Defect-Reporting.md` | Defect Management | Foundation | Defect Lifecycle | High | Approved |
+| Defect Severity and Priority | `Defect-Severity-and-Priority.md` | Defect Management | Foundation | Defect Lifecycle | High | Approved |
+| Defect Analysis | `Defect-Analysis.md` | Defect Management | Intermediate | Defect Reporting | Medium | Approved |
+| Root Cause Analysis | `Root-Cause-Analysis.md` | Defect Management | Advanced | Defect Analysis | Medium | Approved |
+| Retesting | `Retesting.md` | Defect Management | Foundation | Defect Lifecycle | High | Approved |
+| Regression Testing | `Regression-Testing.md` | Quality Practices | Foundation | STLC | High | Approved |
+| Risk-Based Testing | `Risk-Based-Testing.md` | Quality Practices | Advanced | Test Strategy | High | Approved |
+| Functional and Non-Functional Testing | `Functional-and-Non-Functional-Testing.md` | Quality Practices | Foundation | Software Quality | High | Approved |
+| Static and Dynamic Testing | `Static-and-Dynamic-Testing.md` | Quality Practices | Foundation | Testing Principles | High | Approved |
+| Verification and Validation | `Verification-and-Validation.md` | Quality Practices | Intermediate | Requirement Engineering | Medium | Approved |
+| Test Metrics | `Test-Metrics.md` | Continuous Improvement | Intermediate | Test Monitoring and Control | Medium | Approved |
+| Quality Metrics | `Quality-Metrics.md` | Continuous Improvement | Intermediate | Software Quality | Medium | Approved |
+| Continuous Improvement | `Continuous-Improvement.md` | Continuous Improvement | Advanced | Test Metrics, Defect Analysis | Medium | Approved |
 
 ---
 
 ## Category Summary
 
-| Category | Articles | Purpose |
-|----------|---------:|---------|
-| Foundations | 5 | Introduce the core concepts of software quality assurance. |
-| Requirement Engineering | 4 | Understand, analyze, and manage software requirements. |
-| Test Management | 5 | Plan, organize, and control testing activities. |
-| Defect Management | 4 | Manage defects throughout their lifecycle. |
-| Quality Practices | 6 | Improve software quality through proven QA practices. |
-| Continuous Improvement | 4 | Measure, evaluate, and continuously improve QA effectiveness. |
-| **Total** | **28** | |
+| Category | Articles | Status | Purpose |
+|---|---:|---|---|
+| Foundations | 5 | Approved | Establish core quality and lifecycle concepts. |
+| Requirement Engineering | 4 | Approved | Understand, analyze, and review software requirements. |
+| Test Management | 5 | Approved | Plan, guide, monitor, and close testing activities. |
+| Defect Management | 6 | Approved | Report, classify, verify, and analyze defects. |
+| Quality Practices | 5 | Approved | Apply risk-aware and lifecycle-aware quality practices. |
+| Continuous Improvement | 3 | Approved | Measure quality evidence and drive improvement. |
+| **Total** | **28** | **Approved** | Current QA knowledge baseline. |
+
+The catalog count must match the physical knowledge articles in `shared/knowledge/qa/`, excluding `README.md` and `Catalog.md`.
 
 ---
 
 ## Knowledge Levels
 
-Knowledge articles are organized into progressive learning levels.
-
 ### Foundation
 
-Foundation articles introduce the essential concepts every QA engineer should understand.
-
-Characteristics:
-
-- Minimal prerequisites
-- Frequently used in software projects
-- Establish the basis for all subsequent QA knowledge
-
----
+Foundation articles establish concepts required for routine QA reasoning and have minimal prerequisites.
 
 ### Intermediate
 
-Intermediate articles expand foundational knowledge by introducing practical QA methodologies and engineering practices.
-
-Characteristics:
-
-- Require prior understanding of QA fundamentals
-- Frequently applied in day-to-day QA activities
-- Improve planning, execution, and quality control
-
----
+Intermediate articles combine foundational concepts into practical QA management, review, analysis, or evaluation practices.
 
 ### Advanced
 
-Advanced articles focus on organizational practices, strategic thinking, and continuous quality improvement.
+Advanced articles require broader context, judgment, or multiple prerequisite concepts and support more complex quality decisions.
 
-Characteristics:
-
-- Require multiple prerequisite concepts
-- Applicable to complex projects and mature QA organizations
-- Support QA leadership and AI-assisted quality engineering
+Knowledge level describes conceptual dependency and expected reasoning depth. It does not represent job seniority.
 
 ---
 
 ## Priority Definitions
 
-Priority indicates the recommended implementation order of individual knowledge articles.
+Priority indicates the importance of an article to the QA-AI knowledge graph and downstream capabilities.
 
 | Priority | Description |
-|----------|-------------|
-| High | Core QA knowledge required by multiple skills, workflows, and repositories. |
-| Medium | Supporting knowledge that extends QA capability. |
-| Low | Specialized knowledge intended for mature QA practices. |
+|---|---|
+| High | Core knowledge required by multiple QA skills or workflows. |
+| Medium | Supporting knowledge that extends or deepens QA reasoning. |
+| Low | Specialized knowledge with narrower reusable scope. |
+
+Priority is not a document-quality rating.
 
 ---
 
 ## Status Definitions
 
-Status indicates the implementation state of each knowledge article.
+Catalog status describes implementation readiness of each knowledge article.
 
 | Status | Description |
-|--------|-------------|
-| Planned | The article has been identified but has not yet been implemented. |
-| In Progress | The article is currently being developed. |
-| Review | The article has completed drafting and is under review. |
-| Approved | The article has passed review and is ready for production use. |
-| Deprecated | The article is retained for historical purposes and is no longer recommended. |
+|---|---|
+| Planned | Identified but not yet implemented. |
+| In Progress | Currently being developed. |
+| Review | Draft completed and undergoing review. |
+| Approved | Passed review and accepted for active QA-AI use. |
+| Deprecated | Retained for historical compatibility but no longer recommended. |
+
+The current QA baseline contains **28 Approved articles** and no Planned, In Progress, or Review articles.
+
+---
 
 ## Learning Path
 
-The following learning path is recommended for QA engineers who are developing professional software quality assurance knowledge.
+A recommended conceptual progression is:
 
 ```text
 Foundations
-        │
-        ▼
+    │
+    ▼
 Requirement Engineering
-        │
-        ▼
+    │
+    ▼
 Test Management
-        │
-        ▼
-Defect Management
-        │
-        ▼
-Quality Practices
-        │
-        ▼
+    │
+    ├──────────────┐
+    ▼              ▼
+Defect Management Quality Practices
+    │              │
+    └──────┬───────┘
+           ▼
 Continuous Improvement
 ```
 
-The learning path gradually introduces software quality assurance concepts from fundamental principles to advanced engineering practices. Each category builds upon the knowledge established in the previous stage, enabling learners to develop comprehensive QA capabilities.
-
----
-
-## Implementation Phases
-
-Knowledge articles should be implemented incrementally to establish a solid quality assurance foundation before introducing advanced QA practices.
-
-### Phase 1 — Foundations
-
-**Objective**
-
-Establish a common understanding of software quality assurance and software development lifecycles.
-
-**Articles**
-
-- Software Quality
-- Quality Assurance vs Quality Control
-- SDLC
-- STLC
-- Testing Principles
-
----
-
-### Phase 2 — Requirement Engineering
-
-**Objective**
-
-Develop the ability to analyze, validate, and manage software requirements effectively.
-
-**Articles**
-
-- Requirement Analysis
-- Requirement Traceability
-- Business Rule Analysis
-- Acceptance Criteria
-
----
-
-### Phase 3 — Test Management
-
-**Objective**
-
-Introduce planning, organization, estimation, and management techniques for software testing.
-
-**Articles**
-
-- Test Planning
-- Test Strategy
-- Test Estimation
-- Test Environment Management
-- Test Data Management
-
----
-
-### Phase 4 — Defect Management
-
-**Objective**
-
-Build knowledge for effective defect handling, communication, and continuous quality improvement.
-
-**Articles**
-
-- Defect Lifecycle
-- Defect Severity and Priority
-- Defect Triage
-- Root Cause Analysis
-
----
-
-### Phase 5 — Quality Practices
-
-**Objective**
-
-Introduce practical QA methodologies that improve testing effectiveness and release quality.
-
-**Articles**
-
-- Risk-Based Testing
-- Regression Testing
-- Smoke Testing
-- Sanity Testing
-- Test Coverage
-- Release Readiness
-
----
-
-### Phase 6 — Continuous Improvement
-
-**Objective**
-
-Develop continuous improvement practices through measurement, reporting, and organizational learning.
-
-**Articles**
-
-- Test Metrics
-- Test Reporting
-- Lessons Learned
-- QA Best Practices
+This learning path is guidance rather than a mandatory reading sequence.
 
 ---
 
 ## Dependency Map
 
-The following dependency map illustrates conceptual relationships between knowledge articles.
+The principal knowledge relationships are:
 
 ```text
 Software Quality
-        │
-        ├── Quality Assurance vs Quality Control
-        │
-        ├── SDLC
-        │       │
-        │       └── STLC
-        │               │
-        │               ├── Requirement Analysis
-        │               │       ├── Requirement Traceability
-        │               │       ├── Business Rule Analysis
-        │               │       └── Acceptance Criteria
-        │               │
-        │               ├── Test Planning
-        │               │       ├── Test Strategy
-        │               │       ├── Test Estimation
-        │               │       ├── Test Environment Management
-        │               │       └── Test Data Management
-        │               │
-        │               └── Defect Lifecycle
-        │                       ├── Defect Severity and Priority
-        │                       ├── Defect Triage
-        │                       └── Root Cause Analysis
-        │
-        ├── Regression Testing
-        │       └── Sanity Testing
-        │
-        ├── Test Strategy
-        │       ├── Risk-Based Testing
-        │       └── Release Readiness
-        │
-        └── Test Planning
-                ├── Test Coverage
-                └── Test Metrics
-                        │
-                        └── Test Reporting
-                                │
-                                ├── Lessons Learned
-                                └── QA Best Practices
+├── Quality Assurance vs Quality Control
+├── Testing Principles
+├── Functional and Non-Functional Testing
+└── Quality Metrics
+
+SDLC
+├── STLC
+└── Requirement Engineering
+
+Requirement Engineering
+├── Requirement Analysis
+│   ├── Requirement Review
+│   └── Acceptance Criteria
+└── Verification and Validation
+
+STLC
+├── Test Planning
+│   ├── Test Strategy
+│   │   └── Risk-Based Testing
+│   ├── Test Estimation
+│   ├── Test Monitoring and Control
+│   │   ├── Test Closure
+│   │   └── Test Metrics
+│   └── Regression Testing
+└── Defect Lifecycle
+    ├── Defect Reporting
+    │   └── Defect Analysis
+    │       ├── Root Cause Analysis
+    │       └── Continuous Improvement
+    ├── Defect Severity and Priority
+    └── Retesting
+
+Testing Principles
+└── Static and Dynamic Testing
+
+Regression Testing
+├── Retesting
+├── Defect Analysis
+└── Risk-Based Testing
+
+Test Metrics
+└── Continuous Improvement
+
+Quality Metrics
+└── Continuous Improvement
 ```
 
----
-
-## Implementation Guidelines
-
-When implementing knowledge articles, follow these principles:
-
-- Implement articles according to the defined implementation phases.
-- Complete prerequisite articles before dependent articles.
-- Follow the standard Knowledge Article template.
-- Keep articles technology-independent whenever possible.
-- Avoid overlapping with Testing Techniques, API, Database, and Domain knowledge.
-- Maintain consistency with repository documentation standards.
-- Update article status after every review cycle.
-- Periodically review dependencies as the knowledge base evolves.
+The map represents primary conceptual dependencies, not every cross-reference between articles.
 
 ---
 
-## Expansion Roadmap
+## Usage in QA-AI
 
-Future knowledge articles may include:
+The QA knowledge domain supports reusable reasoning across capabilities such as:
 
-### Modern QA Practices
+- requirement analysis;
+- business-rule extraction;
+- risk analysis;
+- scenario generation;
+- testcase generation;
+- coverage review;
+- regression analysis;
+- defect-report review;
+- test-data planning;
+- quality-status reasoning.
 
-- Shift-Left Testing
-- Shift-Right Testing
-- Continuous Testing
-- DevTestOps
-- Quality Engineering
-
-### Quality Frameworks
-
-- Test Maturity Model Integration (TMMi)
-- Test Process Improvement (TPI)
-- ISO 25010 Software Quality Model
-- IEEE Software Testing Standards
-
-### AI-Driven Quality Assurance
-
-- AI-Assisted Requirement Analysis
-- AI-Assisted Test Planning
-- AI-Assisted Defect Analysis
-- AI Quality Governance
-
-Future additions should remain within the scope of **quality assurance methodologies, engineering practices, and quality management**, while avoiding overlap with other knowledge domains.
+Knowledge articles provide conceptual context. They do not replace project requirements, standards, workflows, templates, or authoritative domain rules.
 
 ---
 
-## References
+## Freeze Baseline
 
-Related repository resources include:
+The QA knowledge folder is frozen as the approved baseline on **2026-08-12**.
 
-- `shared/knowledge/README.md`
-- `shared/knowledge/testing-techniques/`
-- `shared/glossary/QA-Terms.md`
-- `shared/standards/`
-- `shared/templates/`
-- `shared/checklists/`
-- `skills/`
-- `workflows/`
+```text
+Folder: shared/knowledge/qa/
+Physical Knowledge Articles: 28
+Cataloged Knowledge Articles: 28
+Catalog Status: Approved
+Baseline State: Frozen
+```
+
+`Frozen` is a repository maintenance state, not a document metadata lifecycle value.
+
+After freeze:
+
+1. Existing articles should not be changed casually.
+2. Corrections or conceptual changes require targeted review of the affected article.
+3. Cross-reference impact must be reviewed when an article is renamed, moved, added, deprecated, or materially re-scoped.
+4. `Catalog.md` and `README.md` must be updated whenever the physical QA knowledge architecture changes.
+5. New articles must follow `shared/standards/Knowledge-Article.md` before being added to the approved baseline.
+6. Cross-domain concepts should remain in their owning knowledge domain and be referenced rather than duplicated.
+
+---
+
+## Review Gate
+
+The frozen baseline has been reviewed for:
+
+- physical file and catalog consistency;
+- mandatory Knowledge Article structure;
+- terminology consistency;
+- scope boundaries;
+- cross-article duplication;
+- cross-reference accuracy;
+- human readability;
+- AI readability and independent retrieval;
+- project-specific assumption safety.
+
+Any future baseline change should pass the same review dimensions before the folder is considered frozen again.

@@ -755,7 +755,7 @@ For QA-AI specifically:
 
 ### Testing Techniques
 
-`shared/knowledge/testing-techniques/` provides structured methods for designing representative test coverage.
+`../testing-techniques/` provides structured methods for designing representative test coverage.
 
 These concepts complement Software Quality but address different aspects of QA reasoning.
 
