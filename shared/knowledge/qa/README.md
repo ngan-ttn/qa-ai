@@ -2,21 +2,34 @@
 
 ## Purpose
 
-The `qa` module provides reusable knowledge about software quality assurance principles, processes, methodologies, and best practices.
+The `qa` knowledge module provides reusable knowledge about software quality assurance concepts, lifecycles, requirement engineering, test management, defect management, quality practices, measurement, and continuous improvement.
 
-Its purpose is to establish a comprehensive knowledge base that supports QA activities throughout the software development lifecycle.
+Its purpose is to establish a coherent QA knowledge base that supports both human practitioners and QA-AI capabilities throughout the software lifecycle.
 
-This module serves as a reference for understanding quality assurance concepts rather than defining project-specific processes or standards.
+This module explains **concepts and reasoning guidance**. It does not define project-specific requirements, standards, templates, checklists, workflows, role ownership, release gates, or business rules.
 
 ---
 
 ## Scope
 
-This module contains conceptual and practical knowledge related to software quality assurance.
+The module covers:
 
-It does not define repository standards, templates, checklists, workflows, or testing techniques.
+- software quality foundations;
+- SDLC and STLC concepts;
+- testing principles;
+- requirement engineering and requirement review;
+- acceptance criteria;
+- test planning, strategy, estimation, monitoring, and closure;
+- defect lifecycle, reporting, classification, analysis, RCA, and retesting;
+- regression and risk-based testing;
+- functional/non-functional and static/dynamic testing perspectives;
+- verification and validation;
+- test and quality metrics;
+- continuous improvement.
 
-Instead, it explains QA methodologies, processes, quality management practices, and testing strategies.
+Detailed test-design techniques remain in `../testing-techniques/` rather than being duplicated here.
+
+API, database, and domain-specific knowledge remain in their respective knowledge modules.
 
 ---
 
@@ -27,87 +40,196 @@ shared/
 └── knowledge/
     └── qa/
         ├── README.md
-        ├── SDLC.md
-        ├── STLC.md
-        ├── Test-Planning.md
-        ├── Test-Strategy.md
-        ├── Risk-Based-Testing.md
-        ├── Defect-Lifecycle.md
-        ├── Requirement-Analysis.md
-        ├── Regression-Testing.md
-        └── ...
+        ├── Catalog.md
+        │
+        ├── Foundations
+        │   ├── Software-Quality.md
+        │   ├── Quality-Assurance-vs-Quality-Control.md
+        │   ├── SDLC.md
+        │   ├── STLC.md
+        │   └── Testing-Principles.md
+        │
+        ├── Requirement Engineering
+        │   ├── Requirement-Engineering.md
+        │   ├── Requirement-Analysis.md
+        │   ├── Requirement-Review.md
+        │   └── Acceptance-Criteria.md
+        │
+        ├── Test Management
+        │   ├── Test-Planning.md
+        │   ├── Test-Strategy.md
+        │   ├── Test-Estimation.md
+        │   ├── Test-Monitoring-and-Control.md
+        │   └── Test-Closure.md
+        │
+        ├── Defect Management
+        │   ├── Defect-Lifecycle.md
+        │   ├── Defect-Reporting.md
+        │   ├── Defect-Severity-and-Priority.md
+        │   ├── Defect-Analysis.md
+        │   ├── Root-Cause-Analysis.md
+        │   └── Retesting.md
+        │
+        ├── Quality Practices
+        │   ├── Regression-Testing.md
+        │   ├── Risk-Based-Testing.md
+        │   ├── Functional-and-Non-Functional-Testing.md
+        │   ├── Static-and-Dynamic-Testing.md
+        │   └── Verification-and-Validation.md
+        │
+        └── Continuous Improvement
+            ├── Test-Metrics.md
+            ├── Quality-Metrics.md
+            └── Continuous-Improvement.md
 ```
+
+The category labels above are conceptual groupings. The physical files remain directly under `shared/knowledge/qa/`.
+
+`Catalog.md` is the authoritative source for article classification, prerequisites, priority, and implementation status.
 
 ---
 
 ## Knowledge Areas
 
-Typical topics include:
+### Foundations
 
-- Software Development Life Cycle (SDLC)
-- Software Testing Life Cycle (STLC)
-- Test Planning
-- Test Strategy
-- Test Estimation
-- Requirement Analysis
-- Defect Management
-- Risk-Based Testing
-- Regression Testing
-- Test Reporting
-- Release Readiness
+Establish the meaning of software quality, QA/QC, software lifecycles, and testing principles.
+
+### Requirement Engineering
+
+Explain how requirement information is defined, analyzed, reviewed, and translated into acceptance-significant behavior.
+
+### Test Management
+
+Explain how testing is planned, guided, estimated, monitored, controlled, and closed.
+
+### Defect Management
+
+Explain how defects are reported, classified, tracked, verified, analyzed, and used for learning.
+
+### Quality Practices
+
+Explain reusable testing and evaluation perspectives that support risk-aware coverage and quality reasoning.
+
+### Continuous Improvement
+
+Explain how testing and product-quality evidence can be measured and converted into focused improvement.
 
 ---
 
-## Article Structure
+## Knowledge Article Standard
 
-Each knowledge article should explain:
+All QA knowledge articles follow `../../standards/Knowledge-Article.md`.
 
-- What the concept is
-- Why it is important
-- When it should be applied
-- Key principles
-- Typical workflow or lifecycle
-- Best practices
-- Common mistakes
-- Related concepts
+The 12 mandatory sections are:
+
+```text
+1. Overview
+2. Purpose
+3. Core Concepts
+4. How It Works
+5. When to Use
+6. When Not to Use
+7. Advantages
+8. Limitations
+9. Examples
+10. Best Practices
+11. Related Knowledge
+12. References
+```
+
+Optional sections such as `Common Mistakes`, `Comparison`, `FAQ`, or `AI Considerations` may be added when they improve the article.
+
+Article headings should use a consistent hierarchy:
+
+```text
+# Article Title
+## Mandatory / major section
+### Concept or subsection
+#### Deeper subsection — only when needed
+```
 
 ---
 
 ## Design Principles
 
-Knowledge articles should:
+QA knowledge articles should:
 
-- Focus on concepts rather than project implementation.
-- Remain methodology-independent where possible.
-- Be applicable across different industries and domains.
-- Use standardized QA terminology.
-- Support reusable AI reasoning and decision making.
+- focus on reusable concepts rather than project implementation;
+- remain methodology-independent where practical;
+- use established QA terminology consistently;
+- explain boundaries with related articles instead of duplicating them;
+- include practical examples that improve reasoning;
+- distinguish generic guidance from project-specific facts;
+- preserve uncertainty when authoritative information is missing;
+- support independent AI retrieval without requiring hidden conversation context;
+- avoid inventing business rules, thresholds, roles, or governance.
 
 ---
 
-## Relationships
+## Cross-Domain Relationships
 
-This module supports:
+The QA module commonly references:
 
-- Requirement Analysis
-- Risk Analysis
-- Scenario Generation
-- Test Case Generation
-- Regression Analysis
-- Coverage Review
-- Bug Report Review
+- `../testing-techniques/` for systematic test-design techniques;
+- `../api/` for API-specific knowledge;
+- `../database/` for database-specific knowledge;
+- `../domain/` for business-domain knowledge;
+- `../../glossary/` for shared terminology;
+- `../../templates/` for output structures;
+- `../../checklists/` for review controls;
+- `../../../skills/` for QA-AI capabilities;
+- `../../../workflows/` for multi-skill execution flows.
 
-Knowledge in this module may be referenced by multiple skills and workflows throughout the QA-AI framework.
+Cross-domain knowledge should be referenced rather than copied into the QA module without a clear ownership reason.
+
+---
+
+## QA-AI Usage
+
+Knowledge in this module supports capabilities such as:
+
+- requirement analysis;
+- business-rule extraction;
+- risk analysis;
+- scenario generation;
+- testcase generation;
+- coverage review;
+- regression analysis;
+- defect-report review;
+- test-data planning;
+- quality-status reasoning.
+
+Knowledge articles provide reasoning context. Authoritative project inputs remain the source of truth for actual expected behavior.
+
+---
+
+## Freeze Baseline
+
+The current QA knowledge baseline contains **28 knowledge articles** and is frozen on **2026-08-12** after cross-artifact review.
+
+The approved article list and status are maintained in `Catalog.md`.
+
+Freeze means:
+
+- the current architecture is considered stable;
+- existing articles should not be changed casually;
+- material changes require targeted self-review and cross-reference review;
+- additions, removals, renames, or category changes require `Catalog.md` and `README.md` updates;
+- affected articles must continue to comply with `../../standards/Knowledge-Article.md` before the baseline is frozen again.
+
+`Frozen` describes the repository maintenance state. It is not a document metadata status.
 
 ---
 
 ## References
 
-Related modules include:
+Primary repository references include:
 
-- `shared/glossary/`
-- `shared/prompt-patterns/`
-- `shared/templates/`
-- `shared/knowledge/testing-techniques/`
-- `skills/`
-- `workflows/`
+- `Catalog.md`
+- `../../standards/Knowledge-Article.md`
+- `../../standards/Metadata.md`
+- `../testing-techniques/`
+- `../../glossary/`
+- `../../../skills/`
+- `../../../workflows/`
