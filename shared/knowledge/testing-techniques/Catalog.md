@@ -215,44 +215,47 @@ Advanced Techniques
 ```
 
 These techniques extend traditional testing practices to support modern architectures, AI-assisted quality assurance, and advanced software validation.
+
+---
+
 ## Article Catalog
 
-The following catalog defines all planned knowledge articles for the **Testing Techniques** knowledge base.
+The following catalog defines all knowledge articles currently represented in the **Testing Techniques** knowledge base.
 
 Each article is classified by category, learning level, implementation priority, prerequisite knowledge, and current implementation status.
 
 | Article | Category | Level | Prerequisites | Priority | Status |
 |----------|----------|-------|---------------|----------|--------|
-| Black Box Testing | Foundation | Foundation | None | High | Planned |
-| White Box Testing | Foundation | Foundation | None | High | Planned |
-| Gray Box Testing | Foundation | Foundation | Black Box Testing, White Box Testing | Medium | Planned |
-| Equivalence Partitioning | Specification-Based | Foundation | Black Box Testing | High | Planned |
-| Boundary Value Analysis | Specification-Based | Foundation | Black Box Testing, Equivalence Partitioning | High | Planned |
-| Decision Table Testing | Specification-Based | Intermediate | Black Box Testing | High | Planned |
-| State Transition Testing | Specification-Based | Intermediate | Black Box Testing | High | Planned |
-| Cause-Effect Graphing | Specification-Based | Intermediate | Decision Table Testing | Medium | Planned |
-| Use Case Testing | Specification-Based | Intermediate | Black Box Testing | Medium | Planned |
-| Statement Coverage | Structure-Based | Intermediate | White Box Testing | Medium | Planned |
-| Branch Coverage | Structure-Based | Intermediate | Statement Coverage | Medium | Planned |
-| Decision Coverage | Structure-Based | Advanced | Branch Coverage | Low | Planned |
-| Condition Coverage | Structure-Based | Advanced | Decision Coverage | Low | Planned |
-| Path Coverage | Structure-Based | Advanced | Branch Coverage | Low | Planned |
-| Modified Condition Decision Coverage (MC/DC) | Structure-Based | Advanced | Condition Coverage | Low | Planned |
-| Error Guessing | Experience-Based | Foundation | Black Box Testing | Medium | Planned |
-| Exploratory Testing | Experience-Based | Intermediate | Black Box Testing | Medium | Planned |
-| Session-Based Testing | Experience-Based | Intermediate | Exploratory Testing | Medium | Planned |
-| Checklist-Based Testing | Experience-Based | Intermediate | Black Box Testing | Medium | Planned |
-| Pairwise Testing | Combinatorial | Advanced | Equivalence Partitioning | Medium | Planned |
-| Orthogonal Array Testing | Combinatorial | Advanced | Pairwise Testing | Low | Planned |
-| Combinatorial Testing | Combinatorial | Advanced | Pairwise Testing | Low | Planned |
-| Model-Based Testing | Model-Based | Advanced | State Transition Testing | Medium | Planned |
-| Finite State Machine Testing | Model-Based | Advanced | State Transition Testing | Medium | Planned |
-| Mutation Testing | Advanced | Advanced | White Box Testing | Low | Planned |
-| Fuzz Testing | Advanced | Advanced | Black Box Testing | Medium | Planned |
-| Property-Based Testing | Advanced | Advanced | Black Box Testing | Low | Planned |
-| AI-Assisted Test Design | Advanced | Advanced | Black Box Testing | High | Planned |
-| Prompt-Based Test Generation | Advanced | Advanced | AI-Assisted Test Design | High | Planned |
-| Chaos Testing | Advanced | Advanced | System Architecture Fundamentals | Medium | Planned |
+| Black Box Testing | Foundation | Foundation | None | High | Draft |
+| White Box Testing | Foundation | Foundation | None | High | Draft |
+| Gray Box Testing | Foundation | Foundation | Black Box Testing, White Box Testing | Medium | Draft |
+| Equivalence Partitioning | Specification-Based | Foundation | Black Box Testing | High | Draft |
+| Boundary Value Analysis | Specification-Based | Foundation | Black Box Testing, Equivalence Partitioning | High | Draft |
+| Decision Table Testing | Specification-Based | Intermediate | Black Box Testing | High | Draft |
+| State Transition Testing | Specification-Based | Intermediate | Black Box Testing | High | Draft |
+| Cause-Effect Graphing | Specification-Based | Intermediate | Decision Table Testing | Medium | Draft |
+| Use Case Testing | Specification-Based | Intermediate | Black Box Testing | Medium | Draft |
+| Statement Coverage | Structure-Based | Intermediate | White Box Testing | Medium | Draft |
+| Branch Coverage | Structure-Based | Intermediate | Statement Coverage | Medium | Draft |
+| Decision Coverage | Structure-Based | Advanced | Branch Coverage | Low | Draft |
+| Condition Coverage | Structure-Based | Advanced | Decision Coverage | Low | Draft |
+| Path Coverage | Structure-Based | Advanced | Branch Coverage | Low | Draft |
+| Modified Condition Decision Coverage (MC/DC) | Structure-Based | Advanced | Condition Coverage | Low | Draft |
+| Error Guessing | Experience-Based | Foundation | Black Box Testing | Medium | Draft |
+| Exploratory Testing | Experience-Based | Intermediate | Black Box Testing | Medium | Draft |
+| Session-Based Testing | Experience-Based | Intermediate | Exploratory Testing | Medium | Draft |
+| Checklist-Based Testing | Experience-Based | Intermediate | Black Box Testing | Medium | Draft |
+| Pairwise Testing | Combinatorial | Advanced | Equivalence Partitioning | Medium | Draft |
+| Orthogonal Array Testing | Combinatorial | Advanced | Pairwise Testing | Low | Draft |
+| Combinatorial Testing | Combinatorial | Advanced | Pairwise Testing | Low | Draft |
+| Model-Based Testing | Model-Based | Advanced | State Transition Testing | Medium | Draft |
+| Finite State Machine Testing | Model-Based | Advanced | State Transition Testing | Medium | Draft |
+| Mutation Testing | Advanced | Advanced | White Box Testing | Low | Draft |
+| Fuzz Testing | Advanced | Advanced | Black Box Testing | Medium | Draft |
+| Property-Based Testing | Advanced | Advanced | Black Box Testing | Low | Draft |
+| AI-Assisted Test Design | Advanced | Advanced | Black Box Testing | High | Draft |
+| Prompt-Based Test Generation | Advanced | Advanced | AI-Assisted Test Design | High | Draft |
+| Chaos Testing | Advanced | Advanced | System Architecture Fundamentals | Medium | Draft |
 
 ---
 
@@ -330,10 +333,14 @@ Status indicates the current implementation state of each knowledge article.
 | Status | Description |
 |--------|-------------|
 | Planned | The article has been identified but has not yet been implemented. |
+| Draft | The article exists as a substantive draft but has not yet completed formal review and approval. |
 | In Progress | The article is currently being written or updated. |
 | Review | The article has been completed and is under quality review. |
 | Approved | The article has been reviewed and approved for production use. |
 | Deprecated | The article is retained for historical purposes and is no longer recommended. |
+
+---
+
 ## Learning Path
 
 The following learning path is recommended for QA engineers who are learning software testing techniques.
