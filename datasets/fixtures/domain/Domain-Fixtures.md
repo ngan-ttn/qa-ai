@@ -928,6 +928,8 @@ Its terminology, entities, relationships, roles, classifications, and values are
 A real domain fixture instance must replace illustrative values with information supported by authoritative or explicitly approved domain sources.
 
 An illustrative example must not reference a requirement dataset or domain source as authoritative unless the represented domain information is actually defined by that source.
+---
+
 ## Fixture Lifecycle
 
 The recommended domain fixture lifecycle is:

@@ -948,6 +948,8 @@ Its endpoint, fields, response codes, validation behavior, and example values ar
 A real fixture instance must replace illustrative values with information supported by its authoritative source.
 
 An illustrative example must not reference a requirement dataset as its source unless the represented API behavior is actually defined by that dataset.
+---
+
 ## Fixture Lifecycle
 
 The recommended fixture lifecycle is:

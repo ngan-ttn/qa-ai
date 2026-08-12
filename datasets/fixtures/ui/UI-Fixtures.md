@@ -1358,6 +1358,8 @@ Its screen, fields, labels, control types, actions, states, and values are synth
 A real UI fixture instance must replace illustrative values with information supported by authoritative requirements, specifications, designs, or approved UI references.
 
 An illustrative example must not reference a requirement dataset as its source unless the represented UI behavior is actually defined by that dataset.
+---
+
 ## Fixture Lifecycle
 
 The recommended UI fixture lifecycle is:

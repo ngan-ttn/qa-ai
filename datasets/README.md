@@ -45,8 +45,8 @@ datasets/
 | `requirements/` | Controlled requirement inputs organized by evaluation complexity. |
 | `golden-output/` | Reviewed reference QA artifacts associated with requirement datasets. |
 | `evaluation/` | Criteria, rubrics, and scoring definitions used to assess generated outputs. |
-| `benchmark/` | Data used for baseline, cross-platform, and regression comparisons. |
-| `fixtures/` | Supporting API, database, domain, and UI data for controlled evaluation contexts. |
+| `benchmark/` | Canonical definitions for baseline, cross-platform, and regression benchmarking. |
+| `fixtures/` | Canonical API, database, domain, and UI fixture models for controlled evaluation contexts. |
 
 The directory must not define Skill behavior, Workflow orchestration, runtime instructions, or normal project execution outputs.
 
@@ -416,6 +416,7 @@ A benchmark definition or record must not:
 If no benchmark execution has occurred, no benchmark record should be created merely for structural completeness.
 
 ---
+
 ### `fixtures/`
 
 `fixtures/` provides controlled supporting context used to establish reproducible QA-AI execution and evaluation conditions.
@@ -518,6 +519,7 @@ A fixture instance must not:
 
 If no external context is required for a dataset, a fixture instance does not need to be created merely for structural completeness.
 ---
+
 ## Dataset Relationships
 
 A standard evaluation flow is:
