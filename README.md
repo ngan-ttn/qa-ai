@@ -241,7 +241,6 @@ The canonical framework documentation is maintained under `docs/`.
 | `05-Skill-Development-Guide.md` | Skill development guidance |
 | `06-Knowledge-Management.md` | Knowledge architecture and management |
 | `07-Workflow-Design.md` | Workflow design guidance |
-| `08-Versioning.md` | Versioning strategy |
 | `09-Contribution.md` | Contribution guidance |
 | `10-How-To-Use.md` | Framework usage guidance |
 | `11-Roadmap.md` | Canonical implementation roadmap |
@@ -385,7 +384,7 @@ Current roadmap status:
 Current implementation position:
 
     Phase 9 — Repository Completion and Alignment
-    └── Phase 9.2 — Root README Synchronization
+    └── Phase 9.5 — Cross-Repository Consistency Review
 
 The canonical implementation roadmap is:
 
@@ -413,11 +412,15 @@ This distinction prevents future architecture from being treated as current repo
 
 ## Versioning
 
-QA-AI follows the versioning strategy defined in:
+The repository-level version is defined in:
 
-    docs/08-Versioning.md
+    VERSION
 
-The repository-level `VERSION` and `CHANGELOG.md` are maintained as part of framework governance.
+Notable repository changes are recorded in:
+
+    CHANGELOG.md
+
+Repository versioning and changelog governance are maintained together at the repository level.
 
 ---
 
@@ -463,7 +466,7 @@ Current phase:
 
 Current activity:
 
-    Phase 9.2 — Root README Synchronization
+    Phase 9.5 — Cross-Repository Consistency Review
 
 Stable evaluation foundation:
 
@@ -473,11 +476,11 @@ Stable evaluation foundation:
 
 ## License
 
-Repository licensing is defined by:
+QA-AI is released under the MIT License.
+
+Repository licensing terms are defined in:
 
     LICENSE
-
-License governance is finalized as part of the repository governance work in Phase 9.
 
 ---
 
