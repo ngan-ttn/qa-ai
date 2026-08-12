@@ -376,16 +376,15 @@ Current roadmap status:
 | Examples and End-to-End Validation | Completed |
 | Framework Integration and Validation | Completed |
 | Datasets and Evaluation | Frozen |
-| Repository Completion and Alignment | **In Progress** |
-| Knowledge Library Completion | Planned |
+| Repository Completion and Alignment | Completed |
+| Knowledge Library Completion | **In Progress** |
 | Skill Library Expansion | Planned |
 | Scripts Implementation | Planned |
 | Platform Integration | Planned |
 
 Current implementation position:
 
-    Phase 9 — Repository Completion and Alignment
-    └── Phase 9.5 — Cross-Repository Consistency Review
+    Phase 10 — Knowledge Library Completion
 
 The canonical implementation roadmap is:
 
@@ -402,7 +401,8 @@ A planned component is not automatically an incomplete component.
 In particular:
 
 - `datasets/` is a frozen framework foundation;
-- remaining knowledge-library population is planned;
+- Phase 9 repository alignment is complete;
+- knowledge-library completion is now in progress;
 - additional skills are planned;
 - script implementation is planned;
 - platform adapters are planned.
@@ -463,13 +463,13 @@ Repository implementation and roadmap status should remain synchronized.
 
 **Active Development**
 
-Current phase:
+Completed phase:
 
     Phase 9 — Repository Completion and Alignment
 
-Current activity:
+Current phase:
 
-    Phase 9.5 — Cross-Repository Consistency Review
+    Phase 10 — Knowledge Library Completion
 
 Stable evaluation foundation:
 
@@ -509,4 +509,4 @@ The framework separates:
         ↓
     Platform Integration
 
-The current focus is repository alignment before continuing with knowledge-library completion, skill expansion, deterministic automation, and platform integration.
+Repository alignment is complete. The current focus is completing the reusable knowledge library before skill expansion, deterministic automation, and platform integration.
