@@ -749,7 +749,7 @@ Phase 9 is complete when:
 
 Current activity:
 
-    Phase 9.1 — Roadmap Synchronization
+    Phase 9.5 — Cross-Repository Consistency Review
 
 ---
 
@@ -1107,7 +1107,7 @@ Current implementation status:
 Current implementation position:
 
     Phase 9
-    └── 9.1 Roadmap Synchronization
+    └── 9.5 Cross-Repository Consistency Review
 
 Phase 8 is frozen and should be treated as a stable evaluation foundation unless a validated downstream requirement requires revision.
 
