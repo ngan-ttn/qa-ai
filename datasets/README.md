@@ -307,10 +307,16 @@ Regression Result
 The purpose is to identify whether a framework change reduces previously validated QA capability.
 
 ---
-
 ### `fixtures/`
 
-`fixtures/` contains supporting data used to establish controlled evaluation conditions.
+`fixtures/` provides controlled supporting context used to establish reproducible QA-AI execution and evaluation conditions.
+
+At the current framework stage, the files under this directory define canonical fixture models for:
+
+- API context
+- Database context
+- Domain context
+- UI context
 
 ```text
 fixtures/
@@ -320,7 +326,39 @@ fixtures/
 └── ui/
 ```
 
-Fixtures may provide contextual information such as:
+The fixture model documents define how fixture instances should be structured, validated, versioned, and used.
+
+They are not themselves executable fixture instances.
+
+#### Fixture Model and Fixture Instance
+
+QA-AI distinguishes between a fixture model and a fixture instance.
+
+##### Fixture Model
+
+A fixture model defines the canonical structure, rules, boundaries, lifecycle, and quality requirements for a fixture type.
+
+Examples:
+
+- `FIXTURE-MODEL-API-001`
+- `FIXTURE-MODEL-DATABASE-001`
+- `FIXTURE-MODEL-DOMAIN-001`
+- `FIXTURE-MODEL-UI-001`
+
+The current files under `datasets/fixtures/` are fixture model specifications.
+
+##### Fixture Instance
+
+A fixture instance is concrete controlled context created according to a fixture model.
+
+Examples:
+
+- `API-FIX-AUTH-001`
+- `DB-FIX-ORDER-001`
+- `DOMAIN-FIX-INVENTORY-001`
+- `UI-FIX-PERMIT-001`
+
+Depending on the fixture type, an instance may provide contextual information such as:
 
 - API contracts
 - Example API requests and responses
@@ -330,14 +368,47 @@ Fixtures may provide contextual information such as:
 - UI field definitions
 - UI states
 
-Fixtures are supporting evaluation inputs, not primary requirement sources.
+Fixture instances must remain source-supported, deterministic, traceable, and safe.
 
-A fixture must not silently introduce business rules that should be defined by the requirement or another authoritative source.
+The canonical relationship is:
 
-Not every requirement dataset requires a fixture.
+`Fixture Model → defines → Fixture Instance`
 
+A fixture instance may then participate in QA-AI execution:
+
+`Requirement Dataset + Fixture Instance → QA-AI Execution → Generated Artifact`
+
+#### Current Fixture Scope
+
+Phase 8 establishes the canonical fixture-model foundation.
+
+The presence of a fixture model does not imply that a concrete fixture instance already exists for every dataset.
+
+Concrete fixture instances should be introduced only when a dataset, example, evaluation, benchmark, or executable workflow requires controlled supporting context.
+
+This avoids creating speculative fixture data before a real consumer exists.
+
+When fixture instances are introduced, they must conform to the applicable canonical fixture model.
+
+Not every requirement dataset requires a fixture instance.
+
+#### Fixture Boundaries
+
+Fixtures are supporting execution and evaluation inputs, not primary requirement sources.
+
+A fixture instance must not:
+
+- Introduce unsupported feature behavior.
+- Silently override authoritative requirements.
+- Introduce business rules that belong in the requirement or another authoritative source.
+- Encode golden-output answers.
+- Encode benchmark scores or evaluation ratings.
+- Invent technical implementation where the source does not define it.
+- Depend unnecessarily on uncontrolled production data.
+- Contain real secrets or sensitive production information.
+
+If no external context is required for a dataset, a fixture instance does not need to be created merely for structural completeness.
 ---
-
 ## Dataset Relationships
 
 A standard evaluation flow is:
