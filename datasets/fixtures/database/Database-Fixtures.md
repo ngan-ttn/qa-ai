@@ -973,15 +973,19 @@ Unused fields should not be populated with invented values.
 
 ## Example Canonical Fixture
 
-Example serialized representation:
+The following serialized representation is illustrative only.
 
-    fixture_id: DB-FIX-ORDER-001
+Its schema, records, relationships, and values demonstrate the fixture structure and are not derived from any QA-AI requirement dataset.
+
+    fixture_id: DB-FIX-EXAMPLE-001
     version: 1.0.0
-    domain: order
-    status: Approved
+    domain: example
+    status: Example
+
+    schema_level: physical-example
 
     tables:
-      customers:
+      example_parent:
         primary_key:
           - id
 
@@ -990,11 +994,11 @@ Example serialized representation:
             type: string
             nullable: false
 
-          status:
+          name:
             type: string
             nullable: false
 
-      orders:
+      example_child:
         primary_key:
           - id
 
@@ -1003,7 +1007,7 @@ Example serialized representation:
             type: string
             nullable: false
 
-          customer_id:
+          parent_id:
             type: string
             nullable: false
 
@@ -1012,30 +1016,32 @@ Example serialized representation:
             nullable: false
 
         foreign_keys:
-          - column: customer_id
+          - column: parent_id
             references:
-              table: customers
+              table: example_parent
               column: id
 
     records:
-      customers:
-        - id: cus_001
+      example_parent:
+        - id: parent_001
+          name: Example Parent
+
+      example_child:
+        - id: child_001
+          parent_id: parent_001
           status: active
 
-      orders:
-        - id: ord_001
-          customer_id: cus_001
-          status: pending
-
     source_reference:
-      dataset_id: REQ-ORDER-001
+      type: illustrative-example
+      authoritative: false
 
-The example demonstrates fixture structure.
+The example demonstrates the canonical database fixture structure only.
 
-It does not define canonical order-domain behavior for all datasets.
+Its table names, columns, keys, relationships, constraints, and records are synthetic and must not be treated as authoritative database behavior.
 
----
+A real database fixture instance must replace illustrative values with schema and data supported by authoritative technical sources.
 
+A requirement dataset must not be cited as the source of a physical database schema unless that dataset explicitly defines the implementation details being represented.
 ## Fixture Lifecycle
 
 The recommended lifecycle is:
