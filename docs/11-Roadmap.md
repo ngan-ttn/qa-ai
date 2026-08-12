@@ -144,8 +144,8 @@ The QA-AI implementation roadmap is organized into the following phases.
 | Phase 6 | Examples and End-to-End Validation | Completed |
 | Phase 7 | Framework Integration and Validation | Completed |
 | Phase 8 | Datasets and Evaluation | Frozen |
-| Phase 9 | Repository Completion and Alignment | In Progress |
-| Phase 10 | Knowledge Library Completion | Planned |
+| Phase 9 | Repository Completion and Alignment | Completed |
+| Phase 10 | Knowledge Library Completion | In Progress |
 | Phase 11 | Skill Library Expansion | Planned |
 | Phase 12 | Scripts Implementation | Planned |
 | Phase 13 | Platform Integration | Planned |
@@ -745,11 +745,9 @@ Phase 9 is complete when:
 
 ### Status
 
-`In Progress`
+`Completed`
 
-Current activity:
-
-    Phase 9.5 — Cross-Repository Consistency Review
+Phase 9 completed after repository governance, documentation navigation, foundation cleanup, and cross-repository consistency review were aligned with the implemented framework state.
 
 ---
 
@@ -808,7 +806,11 @@ Phase 10 is complete when:
 
 ### Status
 
-`Planned`
+`In Progress`
+
+Current activity:
+
+    Phase 10 — Knowledge Library Completion
 
 ---
 
@@ -1096,20 +1098,22 @@ Current implementation status:
     Examples and E2E Validation           COMPLETE
     Framework Integration                 COMPLETE
     Datasets and Evaluation               FROZEN
+    Repository Completion and Alignment   COMPLETE
 
-    Repository Completion and Alignment   IN PROGRESS
+    Knowledge Library Completion          IN PROGRESS
 
-    Knowledge Library Completion          PLANNED
     Skill Library Expansion               PLANNED
     Scripts Implementation                PLANNED
     Platform Integration                  PLANNED
 
 Current implementation position:
 
-    Phase 9
-    └── 9.5 Cross-Repository Consistency Review
+    Phase 10
+    └── Knowledge Library Completion
 
 Phase 8 is frozen and should be treated as a stable evaluation foundation unless a validated downstream requirement requires revision.
+
+Phase 9 is complete and provides the aligned repository baseline for Phase 10.
 
 The presence of planned placeholders in later-phase directories does not change the current implementation status.
 
@@ -1164,9 +1168,9 @@ The current implementation path is:
         ↓
     Datasets and Evaluation
         ↓
-    Repository Alignment        ← CURRENT
+    Repository Alignment
         ↓
-    Knowledge Completion
+    Knowledge Completion         ← CURRENT
         ↓
     Skill Expansion
         ↓
