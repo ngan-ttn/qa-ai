@@ -40,26 +40,27 @@
     },
     "11": {
       "name": "Skill Library Expansion",
-      "status": "In Progress",
+      "status": "Review",
       "tracking_unit": "skill",
-      "progress": {"completed": 0, "total": 5, "unit": "expansion_skills"},
+      "progress": {"completed": 5, "total": 5, "unit": "expansion_skills"},
       "foundation_baseline": {
         "count": 6,
         "phase": 4,
         "note": "Foundation skills are not counted toward Phase 11 progress."
       },
       "components": {
-        "risk-analyzer": {"status": "Planned"},
-        "bug-report-reviewer": {"status": "Planned"},
-        "api-test-generator": {"status": "Planned"},
-        "sql-validation": {"status": "Planned"},
-        "test-data-generator": {"status": "Planned"}
+        "risk-analyzer": {"status": "Completed"},
+        "bug-report-reviewer": {"status": "Completed"},
+        "api-test-generator": {"status": "Completed"},
+        "sql-validation": {"status": "Completed"},
+        "test-data-generator": {"status": "Completed"}
       },
       "excluded_candidates": {
         "regression-analyzer": {
           "reason": "Not added because regression-impact already owns change-impact and regression-scope analysis; a second broad regression analyzer would materially overlap the existing foundation capability."
         }
-      }
+      },
+      "review_gate": "All five expansion skill files are implemented and individually self-reviewed. Phase remains Review until final cross-skill consistency review passes."
     },
     "12": {"name": "Scripts Implementation", "status": "Planned"},
     "13": {"name": "Platform Integration", "status": "Planned"}
