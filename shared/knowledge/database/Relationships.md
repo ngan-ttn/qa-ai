@@ -5,47 +5,78 @@
 > Last Updated: 2026-08-13
 
 ## Overview
-Relationships describe associations among data entities, commonly one-to-one, one-to-many, or many-to-many.
+
+**Relationships** describe how records or business entities associate with one another. In relational databases, relationships are typically represented by keys, foreign keys, junction tables, or agreed logical references.
 
 ## Purpose
-Help QA translate business associations into relational validation coverage.
+
+This article helps QA translate relationship requirements into validation of cardinality, ownership, optionality, referential integrity, and join behavior.
 
 ## Core Concepts
-### Cardinality
-Defines how many records may participate on each side.
+
+### One-to-One
+One record is associated with at most one corresponding record on the other side.
+
+### One-to-Many
+One parent can relate to many children while each child relates to one parent under the model.
+
+### Many-to-Many
+Both sides can relate to multiple records, commonly implemented through an associative table.
+
 ### Optionality
-Defines whether participation is required.
-### Junction Table
-Many-to-many relationships are commonly represented through an associative table.
+A relationship can be mandatory or optional. Nullability and constraints may reflect this but should be confirmed against requirements.
+
+### Ownership and Lifecycle
+Deleting or changing one record may or may not affect related records. Ownership semantics are business/design decisions, not implied by cardinality alone.
 
 ## How It Works
-Keys, foreign keys, unique constraints, and application logic implement relationship rules.
+
+Keys connect records, and queries use joins to retrieve related data. Constraints can enforce existence, but cardinality such as one-to-one may also require uniqueness constraints.
 
 ## When to Use
-Use for entity modeling, joins, referential integrity, and relationship-specific business rules.
+
+Use relationship knowledge for schema review, joins, CRUD, cascade behavior, permissions tied to ownership, migration, and domain-model reconciliation.
 
 ## When Not to Use
-Do not infer cardinality only from sample data.
+
+Do not infer relationship rules solely from foreign-key presence. A database can permit technically valid relationships that violate application-specific business rules.
 
 ## Advantages
-Explicit relationships improve data consistency and queryability.
+
+Explicit relationship models make data dependencies testable and improve consistency across CRUD and reporting flows.
 
 ## Limitations
-Database constraints may represent only part of the domain relationship semantics.
+
+Complex temporal, hierarchical, polymorphic, or cross-service relationships may not be fully represented by simple foreign keys.
 
 ## Examples
-One customer may have many orders; an order belongs to one customer according to the approved model.
+
+### One-to-One
+A user has at most one profile row. A foreign key plus uniqueness constraint may enforce this.
+
+### One-to-Many
+One order contains many items. Deleting an item should not delete the order unless a specific rule says otherwise.
+
+### Many-to-Many
+Products belong to many categories through `product_category`. QA checks duplicate pairs and missing associations.
 
 ## Best Practices
-- Verify cardinality and optionality against requirements.
-- Test creation, reassignment, and deletion effects.
-- Validate both constraints and application behavior.
+
+- Confirm cardinality and optionality from authoritative models.
+- Validate positive and invalid relationships.
+- Test relationship lifecycle behavior on update/delete.
+- Check uniqueness needed to enforce one-to-one or junction semantics.
+- Reconcile application/domain relationships with physical implementation without assuming one-to-one mapping.
 
 ## Related Knowledge
+
 - `Foreign-Keys.md`
+- `Primary-Keys.md`
+- `Constraints.md`
 - `Joins.md`
 - `Normalization.md`
 
 ## References
+
 - Relational modeling literature.
-- ISO/IEC 9075, SQL.
+- Target schema and DBMS constraint documentation.

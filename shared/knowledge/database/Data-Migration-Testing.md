@@ -5,49 +5,106 @@
 > Last Updated: 2026-08-13
 
 ## Overview
-Data migration testing validates movement or transformation of data between schemas, systems, versions, or storage models.
+
+**Data migration testing** validates movement or transformation of data between schemas, databases, versions, platforms, or storage models. It covers completeness, accuracy, transformation rules, relationships, restart behavior, compatibility, and post-migration usability.
 
 ## Purpose
-Ensure migrated data is complete, accurate, transformed correctly, referentially valid, and operationally usable.
+
+This article gives QA a comprehensive model for validating high-risk data changes where defects can be silent, large-scale, or difficult to reverse.
 
 ## Core Concepts
-### Source-to-Target Mapping
-Defines how fields and records transform.
+
+### Source and Target
+The migration has defined source populations and target representations. Both must be identified precisely.
+
+### Mapping
+Each source field/entity is mapped to a target field/entity or intentionally excluded according to approved rules.
+
+### Transformation
+Values can be normalized, converted, split, merged, defaulted, recalculated, or remapped.
+
 ### Reconciliation
-Compares counts, keys, totals, and representative details.
-### Cutover and Recovery
-Migration must account for failure, restart, rollback, or restore according to the approved plan.
+Counts, keys, sums, hashes, or other independent checks compare source and target coverage.
+
+### Reject / Error Handling
+Invalid or unmappable records need defined handling, reporting, retry, and remediation.
+
+### Idempotency / Restartability
+A migration may need safe restart after interruption without duplicating or corrupting already processed data.
+
+### Cutover and Compatibility
+Application versions, writes during migration, dual-run periods, and rollback or roll-forward strategy affect correctness.
 
 ## How It Works
-QA baselines source data, executes migration in a controlled environment, validates target schema/data, tests transformed business behavior, and reconciles discrepancies.
+
+```text
+Profile source data
+      ↓
+Apply mapping / transformation
+      ↓
+Load target
+      ↓
+Validate constraints and relationships
+      ↓
+Reconcile populations and values
+      ↓
+Application-level verification
+```
+
+Migration quality should be assessed using independent expected results rather than trusting the migration tool's success message alone.
 
 ## When to Use
-Use for upgrades, platform moves, schema redesigns, mergers, imports, and historical backfills.
+
+Use migration testing for schema upgrades, platform changes, system consolidation, legacy replacement, data backfill, tenant movement, warehouse loads, and large reference/master-data changes.
 
 ## When Not to Use
-Do not rely only on row counts when transformations or filtering occur.
+
+Do not run destructive or irreversible migrations on shared or production data for exploratory testing. Do not treat equal row counts as sufficient proof of correctness when transformations or filtering exist.
 
 ## Advantages
-Migration testing reduces corruption, omission, duplication, and compatibility risk.
+
+Migration testing detects missing, duplicated, truncated, mis-mapped, corrupted, or incorrectly transformed data before business use.
 
 ## Limitations
-Production-scale volume, sensitive data, and cutover timing may be difficult to reproduce exactly.
+
+Large datasets make full row-by-row comparison expensive. Historical data can already contain defects, and source/target models may intentionally differ.
 
 ## Examples
-A legacy status code may map to a new enum; QA validates every supported mapping plus unmapped-value handling.
+
+### Type Conversion
+A text amount becomes decimal. QA identifies invalid legacy strings, precision/rounding rules, rejected rows, and target totals.
+
+### Restart
+The migration stops after 60%. On restart, already migrated rows must not be duplicated if restartability is required.
+
+### Relationship Migration
+Parent and child tables are migrated separately. QA checks key remapping and confirms no target orphans remain.
+
+### Cutover
+Writes continue briefly during migration. QA validates the approved synchronization or freeze strategy so late source changes are not lost.
 
 ## Best Practices
-- Freeze mapping rules before reconciliation.
-- Test nulls, duplicates, boundaries, and rejected records.
-- Reconcile at multiple levels.
-- Validate restart/idempotency when migration is rerunnable.
-- Protect sensitive source data.
+
+- Profile source quality before defining expected results.
+- Build explicit source-to-target mapping coverage.
+- Validate counts, keys, relationships, values, aggregates, and rejected records.
+- Test boundaries, nulls, encoding, dates, precision, and large values.
+- Use checksums or sampling only as part of a broader evidence strategy.
+- Test restart, retry, rollback/roll-forward, and cutover paths.
+- Compare application behavior after migration, not only database contents.
+- Preserve audit evidence while protecting sensitive data.
 
 ## Related Knowledge
+
 - `Data-Validation.md`
 - `Database-Lifecycle.md`
+- `Transactions.md`
+- `Constraints.md`
 - `Backup-and-Recovery.md`
+- `Data-Warehousing.md`
 
 ## References
-- Approved migration specification and runbook.
-- Target DBMS migration documentation.
+
+- Target migration design and mapping specification.
+- Source and target DBMS documentation.
+- Organization migration and recovery procedures.

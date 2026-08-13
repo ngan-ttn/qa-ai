@@ -5,47 +5,96 @@
 > Last Updated: 2026-08-13
 
 ## Overview
-Locking is a concurrency-control mechanism that restricts incompatible access to database resources.
+
+**Locking** is a concurrency-control mechanism in which a DBMS coordinates access to resources by granting and waiting on lock modes. Locks may apply to rows, keys, pages, tables, metadata, predicates, or other product-specific resources.
 
 ## Purpose
-Support analysis of blocking, deadlocks, lost updates, and concurrent-write behavior.
+
+This article helps QA analyze blocking, deadlocks, lost responsiveness, transaction contention, and behavior under concurrent reads and writes.
 
 ## Core Concepts
-### Shared and Exclusive Intent
-Lock modes represent compatible and incompatible access intentions; exact modes vary by DBMS.
-### Granularity
-Locks may apply to rows, pages, tables, metadata, or other resources.
+
+### Shared or Read Lock
+Allows compatible reading while restricting certain writes under lock-based implementations.
+
+### Exclusive or Write Lock
+Protects modifications from incompatible concurrent access.
+
+### Lock Granularity
+Fine-grained locks increase concurrency but require more lock management; coarse locks can increase blocking.
+
+### Lock Duration
+Some locks last for a statement, others until transaction end, depending on isolation and DBMS rules.
+
+### Blocking
+One transaction waits because another holds an incompatible lock.
+
 ### Deadlock
-Transactions can wait cyclically until the DBMS selects a victim or resolves the cycle.
+Transactions form a wait cycle. The DBMS typically detects the cycle and aborts one participant.
+
+### Lock Escalation
+Some products replace many fine-grained locks with a coarser lock under configured conditions.
 
 ## How It Works
-The lock manager grants, queues, converts, and releases locks according to compatibility and transaction state.
+
+```text
+T1 acquires A
+T2 acquires B
+T1 waits for B
+T2 waits for A
+      ↓
+Deadlock detector
+      ↓
+One transaction aborted
+```
+
+MVCC systems can reduce some read and write blocking but still use locks for writes, metadata, or other operations.
 
 ## When to Use
-Use for contention, deadlock, concurrent update, and long-running transaction tests.
+
+Use locking knowledge for concurrency defects, timeout investigation, batch processing, high-contention updates, migrations, DDL blocking, and deadlock testing.
 
 ## When Not to Use
-Do not assume an MVCC system has no locks or that all reads block writes.
+
+Do not assume a slow query is blocked without evidence. Do not force locks or terminate sessions in shared environments unless operationally authorized.
 
 ## Advantages
-Locks protect conflicting operations and help preserve consistency.
+
+Locks provide strong coordination and can enforce serial access to conflicting operations.
 
 ## Limitations
-Contention can reduce throughput and create timeouts or deadlocks.
+
+Poor lock ordering, long transactions, broad scans, or high contention can reduce throughput and create deadlocks. Lock behavior is highly product-specific.
 
 ## Examples
-Two transactions updating the same row may cause one to wait or fail depending on the engine and timing.
+
+### Blocking Update
+T1 updates a row and keeps the transaction open. T2 attempts to update the same row and waits until T1 commits, rolls back, or a timeout occurs.
+
+### Deadlock
+T1 updates object A then B; T2 updates B then A. Opposite acquisition order can form a cycle and cause one transaction to abort.
+
+### DDL Lock
+A schema change waits behind a long-running transaction or blocks application queries, depending on DBMS metadata-lock semantics.
 
 ## Best Practices
-- Observe blocking with approved monitoring tools.
-- Keep transactions short.
-- Test recovery after deadlock/timeout.
-- Avoid relying on timing alone for concurrency tests.
+
+- Keep transactions short and predictable.
+- Acquire resources in consistent order where application design allows.
+- Capture blocking and deadlock diagnostics rather than relying on elapsed time alone.
+- Test application behavior after lock timeout or deadlock victim errors.
+- Consider indexes and query predicates because they can affect locked ranges and resources.
+- Confirm MVCC and locking behavior from target documentation.
 
 ## Related Knowledge
+
+- `Transactions.md`
 - `Isolation-Levels.md`
 - `Concurrency-Control.md`
+- `Indexes.md`
 - `Performance-Monitoring.md`
 
 ## References
-- Target DBMS concurrency-control documentation.
+
+- Database concurrency-control literature.
+- Target DBMS locking and deadlock documentation.

@@ -5,48 +5,81 @@
 > Last Updated: 2026-08-13
 
 ## Overview
-Constraints are declarative rules that restrict stored data to valid structural states.
+
+A **database constraint** is a rule enforced by the DBMS to restrict allowed table states. Common constraints include primary key, foreign key, unique, check, and not-null constraints.
 
 ## Purpose
-Provide QA guidance for testing database-enforced integrity independently from application validation.
+
+Constraint knowledge helps QA separate structural integrity enforced by the database from validation performed only by applications or services.
 
 ## Core Concepts
+
 ### NOT NULL
-Requires a value.
-### UNIQUE and PRIMARY KEY
-Enforce uniqueness.
+Requires a column to contain a non-null value.
+
+### UNIQUE
+Prevents duplicate values or value combinations under DBMS-specific null semantics.
+
+### PRIMARY KEY
+Defines the principal unique row identifier.
+
 ### FOREIGN KEY
-Enforces eligible references.
+Requires valid references to an allowed parent key.
+
 ### CHECK
-Restricts values using a predicate where supported.
+Evaluates a predicate over row values according to product semantics.
+
+### Deferrable / Timing Behavior
+Some DBMSs can defer certain constraint checks until transaction commit; others check immediately.
 
 ## How It Works
-The DBMS evaluates applicable constraints during data changes and rejects operations that violate them.
+
+During data modification, the DBMS evaluates applicable constraints. A violating statement or transaction is rejected according to constraint timing and engine behavior.
 
 ## When to Use
-Use for negative testing, integrity validation, schema review, and migrations.
+
+Use constraints for negative data tests, schema review, migration validation, duplicate prevention, referential checks, and defect isolation.
 
 ## When Not to Use
-Do not assume constraints encode every business rule.
+
+Do not assume every business rule should or can be a database constraint. Cross-service, temporal, authorization, and workflow rules often live elsewhere.
 
 ## Advantages
-Constraints protect integrity regardless of which application writes the data.
+
+Constraints provide centralized protection against invalid structural state regardless of which authorized application writes the data.
 
 ## Limitations
-Complex cross-record or temporal business rules may require other mechanisms.
+
+Constraints may be absent, disabled, deferred, or insufficient for business semantics. Product differences in nulls, expressions, and deferral matter.
 
 ## Examples
-A check constraint may prevent a negative quantity even if a client bypasses UI validation.
+
+### Unique Constraint
+A duplicate external reference is rejected even if two concurrent requests reach the database at nearly the same time.
+
+### Check Constraint
+A quantity column may be constrained to non-negative values; QA still verifies whether zero is allowed by the business rule.
+
+### Foreign Key
+A child row cannot reference a missing parent while the constraint is active.
 
 ## Best Practices
-- Test each constraint's valid and invalid boundaries.
-- Verify constraint names/messages only when contractually relevant.
-- Check existing data before adding stricter constraints.
+
+- Inspect actual constraint definitions before deriving expectations.
+- Test boundary, null, duplicate, and reference violations.
+- Validate application error handling when the DB rejects a write.
+- Do not duplicate business-rule assumptions into database expectations.
+- Include constraint changes in regression and migration review.
 
 ## Related Knowledge
+
 - `Primary-Keys.md`
 - `Foreign-Keys.md`
+- `Columns.md`
+- `Transactions.md`
 - `Data-Validation.md`
 
 ## References
-- ISO/IEC 9075, SQL.
+
+- ISO/IEC 9075, integrity constraints.
+- Target DBMS constraint documentation.

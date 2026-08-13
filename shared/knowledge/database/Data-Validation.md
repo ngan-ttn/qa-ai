@@ -5,51 +5,102 @@
 > Last Updated: 2026-08-13
 
 ## Overview
-Data validation verifies that stored and derived data matches approved rules, mappings, relationships, and expected state transitions.
+
+**Data validation** verifies that stored or transferred data is complete, accurate, consistent, correctly related, and aligned with authoritative requirements. Database validation can compare expected state to persisted state, reconcile populations, and detect anomalies hidden by UI-level testing.
 
 ## Purpose
-Provide a systematic approach for backend assertions beyond simply checking that a row exists.
+
+This article gives QA a systematic approach to validating database data without conflating database structure with business truth.
 
 ## Core Concepts
+
 ### Completeness
-Required data is present.
+Expected records and required fields are present, and no required population is missing.
+
 ### Accuracy
-Values match expected source or calculation.
+Stored values match authoritative inputs, calculations, transformations, or source data.
+
 ### Consistency
-Related representations agree according to the contract.
-### Integrity
-Keys and constraints remain valid.
+Related representations of the same fact agree where the design requires them to agree.
+
+### Validity
+Values satisfy schema and business rules applicable to the field or record.
+
+### Uniqueness
+Records are unique according to the actual business or technical key definition.
+
+### Referential Integrity
+Relationships point to valid referenced records where such integrity is required.
+
+### Timeliness
+Data freshness may matter for replicas, warehouses, reports, caches, and asynchronous flows.
 
 ## How It Works
-Expected data is derived from requirements and controlled inputs, then compared with database results using deterministic queries or reconciliation rules.
+
+A validation flow is:
+
+```text
+Authoritative expectation
+       ↓
+Identify keys and population
+       ↓
+Query actual data
+       ↓
+Compare value + relationship + count
+       ↓
+Investigate mismatches
+```
+
+Expected values should come from requirements, controlled input, independent calculations, or trusted source datasets rather than being reconstructed from the same implementation logic under test.
 
 ## When to Use
-Use for persistence, calculations, integrations, reporting, migrations, and defect investigation.
+
+Use data validation for CRUD, imports, reports, migrations, reconciliation, audit data, transformations, integration, warehouse pipelines, and defect investigation.
 
 ## When Not to Use
-Do not expose or copy sensitive production data unnecessarily.
+
+Do not validate by merely comparing one derived system output against another derived from the same defective source. Do not expose sensitive data in screenshots or shared evidence unnecessarily.
 
 ## Advantages
-Direct validation can isolate backend defects and detect hidden corruption.
+
+Data validation can detect silent corruption, mapping errors, missing rows, duplicates, incorrect relationships, and transformation defects.
 
 ## Limitations
-A database snapshot may be temporarily stale in asynchronous/eventual-consistency workflows.
+
+A database snapshot may be temporarily stale or incomplete under asynchronous systems. Queries can also be wrong, so validation logic itself must be reviewed and independently reasoned about.
 
 ## Examples
-After a refund, QA verifies the transaction record, status, amount, relationship to the original transaction, and expected balance effect.
+
+### Import Validation
+For a 1,000-row import, QA verifies processed, successful, failed, and persisted populations reconcile according to documented handling rules.
+
+### Field Mapping
+An API field `approvedAt` is normalized to UTC in the database. QA compares equivalent instants rather than raw display strings.
+
+### Duplicate Detection
+Grouping by the true business key reveals duplicate active records while historical versions are excluded according to the data model.
 
 ## Best Practices
-- Define authoritative source and timing.
-- Validate nulls, duplicates, boundaries, and relationships.
-- Reconcile counts and totals where appropriate.
-- Avoid assuming eventual updates are immediate.
+
+- Define the expected population before querying.
+- Use stable keys and independent expected values.
+- Validate counts, fields, relationships, and side effects together.
+- Account for nulls, precision, timezone, soft delete, and history.
+- Reconcile aggregates back to detail samples.
+- Separate source-of-truth validation from replica or warehouse freshness.
+- Keep validation SQL versioned and peer-reviewed for critical checks.
+- Mask or omit sensitive values in test evidence.
 
 ## Related Knowledge
+
+- `Database-Test-Strategy.md`
 - `CRUD-Verification.md`
-- `Constraints.md`
+- `Joins.md`
 - `Aggregation.md`
+- `Constraints.md`
 - `Data-Migration-Testing.md`
 
 ## References
-- Project data contracts and schema documentation.
-- ISO/IEC 9075, SQL.
+
+- Data-quality and reconciliation practices.
+- Target project data contract and schema documentation.
