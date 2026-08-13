@@ -7,7 +7,6 @@ from __future__ import annotations
 
 import argparse
 import sys
-from datetime import datetime, timezone
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[2]
@@ -21,8 +20,7 @@ from scripts.utils.file_utils import read_json, read_text, write_json
 def run(golden: str, actual: str, score_file: str | None = None) -> dict[str, object]:
     comparison = compare(read_text(golden), read_text(actual))
     score = read_json(score_file) if score_file else None
-    result = {
-        "generated_at": datetime.now(timezone.utc).isoformat(),
+    result: dict[str, object] = {
         "golden": golden,
         "actual": actual,
         "comparison": comparison,
