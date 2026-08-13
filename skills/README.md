@@ -2,208 +2,232 @@
 
 ## Purpose
 
-The `skills` module defines the core QA capabilities of the system.
+The `skills` module defines reusable, platform-independent QA capabilities for the QA-AI framework.
 
-Each skill is responsible for a single capability within the QA lifecycle and transforms one structured artifact into another through a well-defined processing flow.
+Each skill owns one primary capability, declares a clear input/output contract, consumes shared framework resources where appropriate, and can participate in one or more workflows without embedding workflow orchestration inside the skill itself.
 
-Together, these skills form a progressive capability pipeline that supports requirement understanding, QA artifact generation, and quality assessment.
+The skill library contains a six-skill foundation established in Phase 4 and five expansion skills introduced in Phase 11.
+
+---
+
+## Canonical Skill Inventory
+
+The canonical target baseline contains 11 skills.
+
+| Capability Group | Skill | Phase | Primary Output |
+|---|---|---|---|
+| Requirement Understanding | `requirement-analyzer` | Phase 4 | Structured Requirement Analysis |
+| Requirement Understanding | `business-rule-extractor` | Phase 4 | Structured Business Rule Model |
+| Requirement Understanding | `risk-analyzer` | Phase 11 | Structured Risk Analysis |
+| Test Design | `scenario-generator` | Phase 4 | Structured Test Scenario Model |
+| Test Design | `testcase-generator` | Phase 4 | Structured Test Case Model |
+| Test Design | `test-data-generator` | Phase 11 | Structured Test Data Model |
+| Quality Assessment | `coverage-reviewer` | Phase 4 | Structured Coverage Assessment |
+| Quality Assessment | `regression-impact` | Phase 4 | Structured Regression Impact Analysis |
+| Quality Assessment | `bug-report-reviewer` | Phase 11 | Structured Bug Report Review |
+| Technical Validation | `api-test-generator` | Phase 11 | Structured API Test Model |
+| Technical Validation | `sql-validation` | Phase 11 | Structured SQL Validation Model |
+
+`regression-impact` remains the canonical regression-impact capability. A separate `regression-analyzer` skill is intentionally not introduced because it would materially overlap with the existing capability.
 
 ---
 
 ## Architecture Overview
 
-The QA capability pipeline is organized into three logical layers.
+The skill library is organized into four capability groups rather than one mandatory linear pipeline.
 
 ```text
-                 QA Capability Pipeline
+                         QA Skill Library
 
-               Raw Requirement
-                      │
-                      ▼
-        ┌──────────────────────────┐
-        │     Analysis Layer       │
-        └──────────────────────────┘
-                      │
-                      ▼
-        Requirement Analyzer
-                      │
-                      ▼
-    Structured Requirement Analysis
-                      │
-                      ▼
-      Business Rule Extractor
-                      │
-                      ▼
-     Structured Business Rule Model
-                      │
-                      ▼
-        ┌──────────────────────────┐
-        │    Generation Layer      │
-        └──────────────────────────┘
-                      │
-                      ▼
-         Scenario Generator
-                      │
-                      ▼
-     Structured Test Scenario Model
-                      │
-                      ▼
-         Testcase Generator
-                      │
-                      ▼
-      Structured Test Case Model
-                      │
-                      ▼
-        ┌──────────────────────────┐
-        │    Assessment Layer      │
-        └──────────────────────────┘
-                      │
-                      ▼
-        Coverage Reviewer
-                      │
-                      ▼
-   Structured Coverage Assessment
-                      │
-                      ▼
-         Regression Impact
-                      │
-                      ▼
-Structured Regression Impact Analysis
+        ┌───────────────────────────────────────────┐
+        │ Requirement Understanding                 │
+        │                                           │
+        │ requirement-analyzer                      │
+        │ business-rule-extractor                   │
+        │ risk-analyzer                             │
+        └───────────────────────────────────────────┘
+                         │
+                         ▼
+        ┌───────────────────────────────────────────┐
+        │ Test Design                               │
+        │                                           │
+        │ scenario-generator                        │
+        │ testcase-generator                        │
+        │ test-data-generator                       │
+        └───────────────────────────────────────────┘
+                         │
+                         ▼
+        ┌───────────────────────────────────────────┐
+        │ Quality Assessment                        │
+        │                                           │
+        │ coverage-reviewer                         │
+        │ regression-impact                         │
+        │ bug-report-reviewer                       │
+        └───────────────────────────────────────────┘
+
+        ┌───────────────────────────────────────────┐
+        │ Technical Validation                      │
+        │                                           │
+        │ api-test-generator                        │
+        │ sql-validation                            │
+        └───────────────────────────────────────────┘
 ```
+
+The main requirement-to-test flow may progressively refine artifacts, but specialized skills can also run independently when their required inputs are available.
 
 ---
 
 ## Architecture Principles
 
-The skills module follows several architectural principles.
-
-### Progressive Refinement
-
-Each skill consumes the structured output of the previous skill and produces a new structured artifact for downstream capabilities.
-
----
-
 ### Single Responsibility
 
-Each skill owns exactly one QA capability.
+Each skill owns one primary QA capability. A skill must not absorb responsibilities already owned by another skill merely because those responsibilities are commonly used together.
 
-Responsibilities do not overlap.
+### Contract-Based Composition
 
----
+Skills communicate through explicit input and output artifacts. Downstream consumers should not need to infer hidden intermediate reasoning.
 
-### Capability-Based Design
+### Progressive Refinement Without Mandatory Linearity
 
-Skills describe capabilities rather than implementation details.
+Some capabilities naturally form a refinement chain, but the library does not require every skill to execute in one universal sequence. Specialized technical or review capabilities may be invoked independently.
 
-The internal implementation of a capability may evolve without changing its external contract.
+### Generic Core and Specialized Capabilities
 
----
+Generic test-design skills own technology-neutral reasoning. Technical skills specialize that reasoning for a technical surface without redefining the generic capability.
 
-### Reusable Components
+For example:
 
-Skills are designed to be reusable across different workflows.
+```text
+scenario-generator / testcase-generator
+        ↓ generic test design
+api-test-generator
+        ↓ API-specific test design
 
-A workflow orchestrates multiple skills to accomplish a larger QA objective.
+requirement/business/test artifacts
+        ↓ persistence validation need
+sql-validation
+        ↓ database/SQL-specific validation
+```
 
----
+### Shared Knowledge and Standards
 
-### Shared Standards
+Skills consume reusable resources from `shared/` and should reference relevant knowledge rather than duplicate it.
 
-Skills consume common standards, templates, prompt patterns, and checklists from the `shared` module instead of redefining them.
+Authoritative project inputs always take precedence over generic shared knowledge.
 
----
+### Platform Independence
 
-## Skill Categories
-
-### Analysis Layer
-
-Transforms raw requirement information into structured analytical artifacts.
-
-| Skill | Output |
-|--------|--------|
-| `requirement-analyzer` | Structured Requirement Analysis |
-| `business-rule-extractor` | Structured Business Rule Model |
-
----
-
-### Generation Layer
-
-Transforms structured analytical artifacts into structured testing artifacts.
-
-| Skill | Output |
-|--------|--------|
-| `scenario-generator` | Structured Test Scenario Model |
-| `testcase-generator` | Structured Test Case Model |
+Skills define QA capabilities, not ChatGPT-, Claude-, or other platform-specific execution behavior. Platform packaging belongs to adapters/integration layers.
 
 ---
 
-### Assessment Layer
+## Capability Groups
 
-Evaluates structured QA artifacts and produces decision-support artifacts.
+### Requirement Understanding
 
-| Skill | Output |
-|--------|--------|
-| `coverage-reviewer` | Structured Coverage Assessment |
-| `regression-impact` | Structured Regression Impact Analysis |
+| Skill | Owns | Does Not Own |
+|---|---|---|
+| `requirement-analyzer` | Requirement interpretation and structured requirement analysis | Business-rule extraction, test generation |
+| `business-rule-extractor` | Explicit and derived business-rule structuring | Requirement rewriting, test generation |
+| `risk-analyzer` | QA risk identification, assessment, prioritization, and risk-to-test guidance | Detailed scenario/testcase generation |
+
+### Test Design
+
+| Skill | Owns | Does Not Own |
+|---|---|---|
+| `scenario-generator` | Technology-neutral test scenario generation | Detailed executable test cases |
+| `testcase-generator` | Detailed technology-neutral test-case generation | Coverage review or technical specialization |
+| `test-data-generator` | Test-data requirements, partitions, datasets, and constraints | Environment provisioning or runtime fixture architecture |
+
+### Quality Assessment
+
+| Skill | Owns | Does Not Own |
+|---|---|---|
+| `coverage-reviewer` | Completeness, consistency, and traceability assessment | Generating missing test artifacts |
+| `regression-impact` | Change impact, affected areas, regression scope, and priority | Regression execution planning or test execution |
+| `bug-report-reviewer` | Bug-report completeness, reproducibility, evidence, and actionability review | Defect lifecycle ownership or fixing defects |
+
+### Technical Validation
+
+| Skill | Owns | Does Not Own |
+|---|---|---|
+| `api-test-generator` | API-specific test design and validation coverage | Generic test-design ownership or API implementation |
+| `sql-validation` | Structured database/SQL validation logic for QA verification | Database implementation, schema design, or query optimization |
 
 ---
 
 ## Skill Structure
 
-Every skill follows the same documentation structure.
+Every skill README follows the same canonical structure:
 
 ```text
-Purpose
+# Skill Name
 
-Capability
-
-When To Use
-
-Input
-
-Processing
-
-Output
-
-Dependencies
-
-Consumers
-
-Limitations
-
-Validation
+## Purpose
+## Capability
+## When To Use
+## Input
+### Required Input
+### Optional Input
+## Processing
+### Step 1 — ...
+### Step 2 — ...
+## Output
+## Dependencies
+## Consumers
+## Limitations
+## Validation
 ```
 
-This consistent structure makes every skill easier to understand, maintain, and extend.
+Additional subsections may be added when they materially improve the capability contract, but the canonical sections must remain recognizable and responsibility boundaries must stay explicit.
 
 ---
 
 ## Dependencies
 
-Skills may consume reusable resources from the shared module.
+Skills may consume reusable resources from:
 
 ```text
 shared/
 ├── standards/
 ├── templates/
 ├── checklists/
-└── prompt-patterns/
+├── prompt-patterns/
+├── knowledge/
+└── glossary/
 ```
 
-Skills reference these resources but do not redefine them.
+A skill references these resources but does not redefine their canonical content.
+
+Knowledge should be selected according to the task. For example, `api-test-generator` may consume API and testing-technique knowledge, while `sql-validation` may consume database and QA knowledge.
 
 ---
 
-## Workflows
+## Consumers and Workflows
 
-Skills are building blocks rather than end-user features.
+Skills are reusable building blocks. Workflows coordinate multiple skills when a larger QA objective requires orchestration.
 
-Multiple skills can be composed into workflows such as:
+A workflow may use only the skills required for its objective. The existence of 11 canonical skills does not imply that every workflow must invoke all 11.
 
-- Testcase Generation
-- Regression Analysis
+Workflow definitions remain under `workflows/`.
 
-Workflow definitions are maintained separately under the `workflows` module.
+---
+
+## Phase 11 Expansion
+
+Phase 11 adds five capabilities to the six-skill Phase 4 foundation:
+
+1. `risk-analyzer`
+2. `bug-report-reviewer`
+3. `api-test-generator`
+4. `sql-validation`
+5. `test-data-generator`
+
+The expansion order is intentional: establish cross-cutting risk reasoning first, then review quality, then technical specialization, and finally reusable test-data generation.
+
+A Phase 11 skill is counted as completed only after its capability contract is complete, self-review issues are fixed, dependencies and boundaries are validated, and the artifact passes the applicable quality gate.
+
+The Phase 11 baseline is frozen only after all five expansion skills pass cross-skill consistency review.
 
 ---
 
@@ -211,9 +235,12 @@ Workflow definitions are maintained separately under the `workflows` module.
 
 The skills module is designed to provide:
 
-- Clear capability boundaries
-- Progressive artifact refinement
-- High reusability
-- Consistent documentation
-- Scalable architecture
-- Maintainable QA capabilities
+- clear and non-overlapping capability ownership;
+- explicit reusable contracts;
+- progressive artifact refinement where appropriate;
+- standalone specialized capabilities where appropriate;
+- consistent documentation;
+- shared-knowledge reuse;
+- platform independence;
+- scalable workflow composition;
+- maintainable QA reasoning boundaries.
