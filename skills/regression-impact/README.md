@@ -2,33 +2,31 @@
 
 ## Purpose
 
-The `regression-impact` skill transforms structured coverage assessments into structured regression impact analysis that supports downstream QA activities.
+The `regression-impact` skill transforms an authoritative change description plus relevant baseline QA context into a structured regression impact analysis.
 
-The skill focuses on analyzing the impact of changes on existing QA artifacts. It does not generate testing artifacts, review test case quality, or create regression execution plans.
+It owns change-impact reasoning, affected-area identification, regression-scope definition, and regression prioritization. It does not generate new test scenarios or test cases, review testcase quality, or create an execution schedule.
 
 ---
 
 ## Capability
 
-This skill provides the capability to analyze the impact of changes on structured QA artifacts.
-
-Its primary objective is to transform structured coverage assessment information into a structured regression impact analysis that supports downstream QA activities.
-
-Capability flow:
-
 ```text
-Structured Coverage Assessment
+Authoritative Change Description + Baseline Context
         ↓
-Identify Changes
+Establish Change Delta
         ↓
-Analyze Impact
+Trace Directly Affected Behavior
         ↓
-Identify Regression Scope
+Trace Dependent / Indirect Impact
         ↓
-Prioritize Regression Areas
+Map Existing Coverage
+        ↓
+Define and Prioritize Regression Scope
         ↓
 Structured Regression Impact Analysis
 ```
+
+Regression scope must be derived from the actual change and known dependencies. Existing coverage is evidence used during the analysis; it is not a substitute for the change description.
 
 ---
 
@@ -36,13 +34,11 @@ Structured Regression Impact Analysis
 
 Use this skill when:
 
-- Requirement changes need impact assessment
-- Regression testing scope needs to be identified
-- Existing QA artifacts require impact analysis
-- Regression priorities need to be determined
-- Downstream QA activities require structured regression impact analysis
-
-This skill should be executed after coverage assessment and before downstream regression testing activities.
+- a requirement, rule, interface, workflow, schema, or implementation behavior changes;
+- regression scope must be identified or reprioritized;
+- existing QA artifacts need change-impact assessment;
+- a release/change requires traceable regression reasoning;
+- downstream QA activities need a structured affected-area model.
 
 ---
 
@@ -50,102 +46,117 @@ This skill should be executed after coverage assessment and before downstream re
 
 ### Required Input
 
-Examples:
+At least:
 
-- Structured coverage assessment
-- Coverage findings
-- Coverage gaps
-- Traceability findings
+- an authoritative change description or structured before/after requirement context; and
+- sufficient baseline context to identify what existing behavior may be affected.
+
+Baseline context may be supplied through requirement analysis, business rules, architecture/dependency information, or existing QA artifacts.
 
 ### Optional Input
 
-Examples:
+- Structured Coverage Assessment;
+- Structured Risk Analysis;
+- Structured Test Case Model;
+- Structured Test Scenario Model;
+- Structured Business Rule Model;
+- Structured Requirement Analysis;
+- API/interface dependencies;
+- database/data dependencies;
+- historical defect or regression information;
+- release scope.
 
-- Structured test case model
-- Structured test scenario model
-- Structured business rule model
-- Structured requirement analysis
-- Requirement change information
-
-The skill should identify incomplete, uncertain, or missing impact information during analysis.
+A coverage assessment is strongly useful when available, but it is not a mandatory prerequisite for every standalone impact analysis.
 
 ---
 
 ## Processing
 
-The skill performs the following logical processing activities.
+### Step 1 — Establish the Change Delta
 
-### Step 1 — Identify Changes
+Identify what changed, what did not change, affected actors/interfaces/data, and the authoritative source of the change. If before/after behavior is unclear, record the ambiguity rather than inventing a delta.
 
-Identify the changes that require regression impact analysis.
+### Step 2 — Identify Direct Impact
 
----
+Trace the change to directly affected requirements, rules, flows, states, interfaces, data, and existing QA artifacts.
 
-### Step 2 — Analyze Impact
+### Step 3 — Identify Indirect Impact
 
-Analyze how the identified changes affect existing QA artifacts.
+Follow known dependencies to identify adjacent or shared behavior that may regress, including shared rules, integrations, permissions, persistence, state transitions, reusable components, and downstream/upstream effects.
 
----
+Do not infer implementation coupling that is not supported by project context.
 
-### Step 3 — Identify Regression Scope
+### Step 4 — Map Existing Coverage
 
-Determine the areas that require regression testing.
+When coverage/test artifacts are available, determine which existing scenarios/cases already cover affected behavior, which require update, which remain valid, and where gaps exist.
 
----
+### Step 5 — Incorporate Risk Context
 
-### Step 4 — Prioritize Regression Areas
+Use Structured Risk Analysis or supported risk reasoning to distinguish business-critical, failure-sensitive, uncertain, or high-blast-radius areas. Risk informs priority; this skill does not redefine the risk model.
 
-Prioritize regression activities based on the identified impact.
+### Step 6 — Define Regression Scope
 
----
+Classify regression areas as required, recommended, unaffected/retained, or uncertain according to supported evidence. Preserve traceability from each scope decision to the change/dependency that justifies it.
 
-### Step 5 — Produce Structured Regression Impact Analysis
+### Step 7 — Prioritize Regression Areas
 
-Organize the analysis results into a structured representation suitable for downstream QA activities.
+Prioritize based on change proximity, dependency strength, business criticality, failure consequence, historical evidence, and coverage gaps. Do not invent project-specific probability, cost, or release thresholds.
+
+### Step 8 — Produce Structured Regression Impact Analysis
+
+Organize the result into a reusable decision-support artifact with assumptions and open questions visible.
 
 ---
 
 ## Output
 
-The skill produces a structured regression impact analysis that supports downstream QA activities.
+Typical fields include:
 
-Typical outputs may include:
+| Field | Description |
+|---|---|
+| Impact ID | Stable identifier |
+| Change Trace | Source change driving the impact |
+| Affected Area | Requirement, flow, API, data, role, state, etc. |
+| Impact Type | Direct, indirect, coverage update, uncertainty |
+| Existing Coverage | Relevant existing scenario/test references |
+| Regression Decision | Required, recommended, retained/unaffected, uncertain |
+| Priority | Supported relative priority |
+| Rationale | Evidence supporting scope decision |
+| Dependencies | Known impact paths |
+| Assumptions / Questions | Missing information affecting confidence |
 
-- Impact findings
-- Affected areas
-- Regression scope
-- Priority assessment
-- Dependencies
-- Assumptions
-- Open questions
-
-The exact output structure should follow the applicable templates defined in the shared resources.
+The exact rendering follows applicable shared output standards and templates.
 
 ---
 
 ## Dependencies
 
-This skill may use resources from the shared module.
-
 | Resource | Purpose |
-|----------|---------|
-| `shared/standards/` | Apply regression impact analysis standards |
-| `shared/templates/` | Structure regression impact analysis output |
-| `shared/prompt-patterns/` | Apply reusable regression analysis prompts |
+|---|---|
+| `shared/standards/` | Output and documentation conventions |
+| `shared/templates/` | Regression analysis structure where applicable |
+| `shared/checklists/` | Review/coverage quality controls where applicable |
+| `shared/prompt-patterns/` | Reusable impact-analysis reasoning |
+| `shared/knowledge/qa/` | Regression, risk, lifecycle, traceability context |
+| `shared/knowledge/api/` | API dependency reasoning when relevant |
+| `shared/knowledge/database/` | Persistence/data dependency reasoning when relevant |
+| `shared/knowledge/domain/` | Business dependency/context reasoning when relevant |
 
-The skill consumes these resources but does not redefine them.
+Project change information and architecture/dependency evidence override generic knowledge.
 
 ---
 
 ## Consumers
 
-This skill represents the final analytical stage of the QA capability pipeline.
+The output supports:
 
-Its output supports regression-related decision-making and may be used by downstream QA activities.
+- regression planning and execution decisions;
+- `coverage-reviewer` when post-change coverage needs reassessment;
+- `scenario-generator` or `testcase-generator` only when the analysis identifies genuinely missing/changed coverage requiring regeneration;
+- `workflows/regression-analysis`;
+- future deterministic reporting/export tooling.
 
-It may also be invoked by workflows such as:
-
-- `workflows/regression-analysis`
+These are optional feedback paths, not a mandatory circular pipeline.
 
 ---
 
@@ -153,26 +164,28 @@ It may also be invoked by workflows such as:
 
 This skill does not:
 
-- Analyze raw requirements
-- Generate test scenarios
-- Generate test cases
-- Review testcase quality
-- Create regression execution plans
-- Schedule testing activities
-
-These responsibilities belong to other specialized processes or specialized skills.
+- invent a change when no authoritative delta is supplied;
+- generate detailed test scenarios or executable test cases;
+- review testcase quality as its primary responsibility;
+- create regression execution plans or schedules;
+- infer undocumented implementation coupling;
+- determine release approval;
+- execute regression tests;
+- replace specialist security/safety impact analysis.
 
 ---
 
 ## Validation
 
-The output of this skill should be validated to ensure:
+Validate that:
 
-- Impact findings accurately reflect the identified changes
-- Regression scope is clearly identified
-- Priorities are logically determined
-- Dependencies are accurately represented
-- The output is structured and reusable for downstream QA activities
-- The output supports regression-related decision-making without additional interpretation
-
-Detailed validation criteria should be maintained in the relevant shared checklists.
+- every impact finding traces to an authoritative change and supported dependency;
+- direct and indirect impact are distinguished;
+- unchanged areas are not included merely because they are nearby;
+- existing coverage is reused where valid rather than duplicated;
+- coverage gaps and outdated tests are explicit;
+- risk influences priority without being redefined;
+- regression decisions include rationale;
+- unsupported implementation assumptions are visible;
+- uncertainty and missing dependency information are explicit;
+- the output is actionable without requiring downstream consumers to reconstruct the impact reasoning.
