@@ -1,112 +1,149 @@
-# Database
+# Database Knowledge
 
 ## Purpose
 
-The `database` module provides reusable knowledge about database concepts, data management, and database validation practices.
+The `shared/knowledge/database/` module provides reusable, vendor-independent knowledge about relational databases, data modeling, SQL, transactional integrity, database performance, database testing, and selected modern data architectures.
 
-Its purpose is to establish a comprehensive knowledge base that supports understanding, designing, querying, and validating data across different database systems.
+It supports human QA work and QA-AI reasoning during requirement analysis, test generation, SQL validation, regression analysis, migration review, concurrency analysis, and defect investigation.
 
-This module serves as a reference for database concepts rather than defining project-specific implementations or database products.
+This module does not define project-specific schemas, credentials, production data, retention policies, recovery objectives, performance thresholds, or database products.
 
 ---
 
 ## Scope
 
-This module contains conceptual and practical knowledge related to databases and data management.
+The Database knowledge domain contains seven areas:
 
-It does not define repository standards, templates, checklists, workflows, or glossary definitions.
+```text
+Database
+├── Foundations
+├── Data Modeling
+├── SQL Fundamentals
+├── Data Integrity
+├── Performance
+├── Database Testing
+└── Advanced Topics
+```
 
-Instead, it explains database architecture, relational concepts, transactions, data integrity, SQL fundamentals, and database testing practices.
+Knowledge owned by other domains remains outside this folder:
+
+- generic QA lifecycle and management → `../qa/`
+- API behavior → `../api/`
+- test-design techniques → `../testing-techniques/`
+- industry-specific data models → `../domain/`
 
 ---
 
 ## Module Structure
 
-```text
-shared/
-└── knowledge/
-    └── database/
-        ├── README.md
-        ├── SQL.md
-        ├── Transactions.md
-        ├── Constraints.md
-        ├── Relationships.md
-        ├── Indexes.md
-        ├── Normalization.md
-        ├── Data-Integrity.md
-        ├── Database-Testing.md
-        └── ...
-```
+The folder contains **42 approved knowledge articles**, excluding `README.md` and `Catalog.md`.
+
+### Foundations — 5
+`Database-Fundamentals.md`, `Relational-Database-Concepts.md`, `Database-Architecture.md`, `Database-Objects.md`, `Database-Lifecycle.md`
+
+### Data Modeling — 8
+`Tables.md`, `Columns.md`, `Rows.md`, `Primary-Keys.md`, `Foreign-Keys.md`, `Relationships.md`, `Constraints.md`, `Normalization.md`
+
+### SQL Fundamentals — 7
+`SQL-Overview.md`, `Data-Definition-Language.md`, `Data-Manipulation-Language.md`, `Data-Query-Language.md`, `Joins.md`, `Aggregation.md`, `Views.md`
+
+### Data Integrity — 6
+`Transactions.md`, `ACID-Properties.md`, `Commit-and-Rollback.md`, `Isolation-Levels.md`, `Locking.md`, `Concurrency-Control.md`
+
+### Performance — 5
+`Indexes.md`, `Query-Optimization.md`, `Execution-Plans.md`, `Partitioning.md`, `Performance-Monitoring.md`
+
+### Database Testing — 6
+`Database-Test-Strategy.md`, `Data-Validation.md`, `CRUD-Verification.md`, `Stored-Procedure-Testing.md`, `Trigger-Testing.md`, `Data-Migration-Testing.md`
+
+### Advanced Topics — 5
+`Backup-and-Recovery.md`, `Replication.md`, `Sharding.md`, `Data-Warehousing.md`, `NoSQL-Overview.md`
 
 ---
 
-## Knowledge Areas
+## Standard Article Structure
 
-Typical topics include:
+Every article follows `../../standards/Knowledge-Article.md` and contains the 12 mandatory sections:
 
-- Relational Database Concepts
-- SQL Fundamentals
-- Transactions
-- Data Integrity
-- Constraints
-- Relationships
-- Indexes
-- Database Normalization
-- Database Performance
-- Database Testing
-- Data Validation
-
----
-
-## Article Structure
-
-Each knowledge article should explain:
-
-- What the concept is
-- Why it is important
-- When it should be applied
-- How it works
-- Best practices
-- Common mistakes
-- Related concepts
+1. `Overview`
+2. `Purpose`
+3. `Core Concepts`
+4. `How It Works`
+5. `When to Use`
+6. `When Not to Use`
+7. `Advantages`
+8. `Limitations`
+9. `Examples`
+10. `Best Practices`
+11. `Related Knowledge`
+12. `References`
 
 ---
 
 ## Design Principles
 
-Knowledge articles should:
+Database articles must:
 
-- Focus on concepts rather than vendor-specific implementations.
-- Remain applicable across different relational database systems.
-- Explain industry-standard database principles.
-- Use standardized database terminology.
-- Support reusable AI reasoning and data validation activities.
+- keep one primary responsibility per article;
+- remain vendor-independent unless a vendor distinction is necessary for accuracy;
+- separate database guarantees from application/business guarantees;
+- distinguish logical models from physical implementation;
+- avoid inventing schema, transaction, consistency, retention, recovery, or performance requirements;
+- treat project documentation and actual DBMS configuration as authoritative;
+- protect sensitive data and encourage least-privilege validation;
+- cross-reference related articles instead of duplicating them;
+- support both human readability and AI retrieval.
+
+---
+
+## Content Depth Gate
+
+Passing the 12-section structure is necessary but not sufficient. An approved article must also contain enough substance for standalone QA and QA-AI reasoning.
+
+At minimum, review must confirm that:
+
+- `Core Concepts` explains the concepts needed to reason about the topic, not only names them;
+- `How It Works` explains the relevant behavior, lifecycle, or interaction model;
+- `Examples` include realistic QA-relevant situations rather than one-line placeholders;
+- `Limitations` make technology, configuration, and architectural boundaries explicit;
+- `Best Practices` are actionable without inventing project-specific policy;
+- QA implications, failure modes, and cross-article boundaries are clear where relevant;
+- the article is not a structurally complete but semantically shallow skeleton.
+
+The current 42-article baseline passed this depth gate after the final cross-review and rewrite cycle.
+
+---
+
+## QA-AI Usage
+
+This domain supports database-aware requirement analysis, SQL validation, CRUD verification, integrity and relationship checks, transaction/concurrency reasoning, migration reconciliation, performance investigation, and database-focused regression analysis.
+
+QA-AI must not infer production access, destructive-test permission, schema details, or database guarantees from generic knowledge.
 
 ---
 
 ## Relationships
 
-This module supports:
+- `../qa/` — QA strategy, risk, regression, defect and quality concepts.
+- `../api/` — API contracts and integration behavior.
+- `../testing-techniques/` — systematic test design.
+- `../domain/` — business-specific data meaning.
+- `../../glossary/Database-Terms.md` — concise terminology.
+- `../../../skills/` and `../../../workflows/` — consumers of reusable database knowledge.
 
-- Requirement Analysis
-- SQL Validation
-- Database Verification
-- Test Case Generation
-- Regression Analysis
-- Bug Report Review
+---
 
-Knowledge in this module may be referenced by multiple skills and workflows throughout the QA-AI framework.
+## Maintenance and Freeze Policy
+
+`Catalog.md` is the source of truth for the approved Database knowledge baseline. The current baseline is frozen after full structural, depth, and cross-article review. `Frozen` is a repository baseline state; article lifecycle metadata uses `Approved`.
+
+A frozen article may be changed when a technical error, material standard change, cross-domain correction, content-depth regression, or approved architecture expansion requires it. Any change must preserve physical-file ↔ Catalog consistency and trigger appropriate cross-review.
 
 ---
 
 ## References
 
-Related modules include:
-
-- `shared/glossary/`
-- `shared/prompt-patterns/`
-- `shared/templates/`
-- `shared/knowledge/qa/`
-- `shared/knowledge/api/`
-- `skills/`
-- `workflows/`
+- `Catalog.md`
+- `../../standards/Knowledge-Article.md`
+- `../../standards/Metadata.md`
+- `../../standards/Naming.md`
