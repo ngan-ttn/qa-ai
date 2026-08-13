@@ -40,27 +40,23 @@
     },
     "11": {
       "name": "Skill Library Expansion",
-      "status": "Review",
+      "status": "Frozen",
       "tracking_unit": "skill",
       "progress": {"completed": 5, "total": 5, "unit": "expansion_skills"},
-      "foundation_baseline": {
-        "count": 6,
-        "phase": 4,
-        "note": "Foundation skills are not counted toward Phase 11 progress."
-      },
+      "library_baseline": {"foundation": 6, "expansion": 5, "total": 11},
       "components": {
-        "risk-analyzer": {"status": "Completed"},
-        "bug-report-reviewer": {"status": "Completed"},
-        "api-test-generator": {"status": "Completed"},
-        "sql-validation": {"status": "Completed"},
-        "test-data-generator": {"status": "Completed"}
+        "risk-analyzer": {"status": "Frozen"},
+        "bug-report-reviewer": {"status": "Frozen"},
+        "api-test-generator": {"status": "Frozen"},
+        "sql-validation": {"status": "Frozen"},
+        "test-data-generator": {"status": "Frozen"}
       },
       "excluded_candidates": {
         "regression-analyzer": {
-          "reason": "Not added because regression-impact already owns change-impact and regression-scope analysis; a second broad regression analyzer would materially overlap the existing foundation capability."
+          "reason": "Not added because regression-impact owns change-impact and regression-scope analysis; a second broad regression analyzer would materially overlap the canonical capability."
         }
       },
-      "review_gate": "All five expansion skill files are implemented and individually self-reviewed. Phase remains Review until final cross-skill consistency review passes."
+      "freeze_gate": "Passed final 11-skill cross-review covering ownership, input/output contracts, dependency direction, feedback-cycle safety, knowledge dependencies, and downstream usability. Blocking issues were fixed before freeze."
     },
     "12": {"name": "Scripts Implementation", "status": "Planned"},
     "13": {"name": "Platform Integration", "status": "Planned"}
