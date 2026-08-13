@@ -1,8 +1,8 @@
 # QA-AI Implementation Roadmap
 
-> Version: 1.0.0  
-> Status: Draft  
-> Last Updated: 2026-08-12
+> Version: 1.1.0  
+> Status: Approved  
+> Last Updated: 2026-08-13
 
 ---
 
@@ -10,129 +10,98 @@
 
 This document defines the canonical implementation roadmap for the QA-AI framework.
 
-The roadmap describes:
+It describes:
 
-- how the framework is implemented incrementally;
-- the responsibility and scope of each implementation phase;
-- the major deliverables produced by each phase;
-- dependencies between phases;
-- exit criteria required before a phase can be considered complete;
-- the current implementation status of the framework;
-- planned implementation work that has not yet started.
+- the implementation phases of QA-AI;
+- the responsibility and scope of each phase;
+- major deliverables and dependencies;
+- exit criteria and implementation status;
+- the current implementation focus;
+- how roadmap progress is synchronized with repository component status.
 
-This roadmap is intended to answer:
-
-> What has been implemented, what is currently being implemented, and what should be implemented next?
-
-Detailed component design belongs to the corresponding architecture documents, standards, skills, workflows, knowledge articles, datasets, and component-level README files.
-
-This roadmap does not replace those documents.
+Detailed component design remains in the corresponding standards, skills, workflows, knowledge articles, datasets, examples, scripts, adapters, and component-level README files.
 
 ---
 
 ## 2. Roadmap Principles
 
-QA-AI is implemented incrementally.
-
-Each phase should establish a stable foundation for the phases that depend on it.
-
 ### 2.1 Foundation Before Automation
 
-Framework concepts, standards, structures, and contracts should be established before automation is introduced.
-
-Automation should consume stable framework components rather than define them implicitly.
+Framework concepts, standards, structures, and contracts must be stable before automation is introduced.
 
 ### 2.2 Reusable Components Before Platform Integration
 
-Core QA capabilities should remain platform-independent.
-
-Skills, workflows, knowledge, datasets, evaluation models, and scripts should be reusable before platform-specific integration is introduced.
-
-Platform adapters should translate platform behavior without redefining core QA behavior.
+Core QA capabilities remain platform-independent. Platform adapters translate packaging and execution mechanics without redefining QA behavior.
 
 ### 2.3 Definition Before Execution
 
-Canonical definitions should exist before runtime executions are produced.
+Canonical definitions precede runtime artifacts.
 
-For fixtures:
-
-    Fixture Model
-        ↓
-    Fixture Instance
-
-For benchmarks:
-
-    Benchmark Definition
-        ↓
-    Benchmark Execution
-        ↓
-    Benchmark Record
-
-Runtime artifacts should be produced only when an actual consumer or execution requires them.
+```text
+Fixture Model → Fixture Instance
+Benchmark Definition → Benchmark Execution → Benchmark Record
+```
 
 ### 2.4 Validation Before Expansion
 
-Each major framework layer should be reviewed and validated before the next layer significantly expands its dependency on that layer.
-
-This reduces propagation of structural inconsistencies.
+A framework layer should pass its defined quality gate before downstream layers significantly expand their dependency on it.
 
 ### 2.5 Explicit Phase Boundaries
 
-Work intentionally scheduled for a future phase is not considered incomplete work in the current phase.
+Work intentionally scheduled for a future phase is not incomplete work in the current phase.
 
-For example:
-
-    Planned ≠ Incomplete
-
-A placeholder may exist to reserve framework structure without requiring implementation during the current phase.
+```text
+Planned ≠ Incomplete
+```
 
 ### 2.6 Freeze Stable Foundations
 
-A phase may be frozen after:
+A phase may be frozen after its intended scope is complete, required artifacts are present, cross-artifact consistency has been reviewed, blocking issues are resolved, and downstream phases can safely depend on it.
 
-- its intended scope is complete;
-- required artifacts are present;
-- cross-artifact consistency has been reviewed;
-- blocking issues have been resolved;
-- downstream phases can safely depend on its outputs.
+### 2.7 Progress From Verified State
 
-Frozen artifacts should not be modified casually.
+Roadmap progress is derived from verified component state rather than file existence alone.
 
-Changes should be driven by validated framework requirements or downstream integration needs.
+```text
+File exists              ≠ Completed
+Content written          ≠ Completed
+Quality gate passed      = Completed
+Cross-component baseline = Frozen
+```
+
+The machine-readable source of truth is:
+
+```text
+roadmap-status.json
+```
+
+Tracking behavior is governed by:
+
+```text
+shared/standards/Roadmap-Progress.md
+```
 
 ---
 
 ## 3. Status Definitions
 
-The roadmap uses the following implementation statuses.
-
 | Status | Meaning |
 |---|---|
-| `Planned` | The phase is defined but implementation has not started. |
+| `Planned` | Defined but implementation has not started. |
 | `In Progress` | Implementation is actively underway. |
-| `Review` | Primary implementation is complete and undergoing consistency or quality review. |
-| `Completed` | The defined scope and exit criteria have been satisfied. |
-| `Frozen` | The phase is completed and considered a stable dependency for downstream implementation. |
+| `Review` | Primary implementation is complete and undergoing quality or consistency review. |
+| `Completed` | Defined scope and exit criteria have been satisfied. |
+| `Frozen` | Completed and accepted as a stable downstream dependency. |
 
-A phase may move through:
+Canonical lifecycle:
 
-    Planned
-       ↓
-    In Progress
-       ↓
-    Review
-       ↓
-    Completed
-       ↓
-    Frozen
-
-Not every phase must immediately move from `Completed` to `Frozen`.
+```text
+Planned → In Progress → Review → Completed → Frozen
+```
 
 ---
 
 ## 4. Implementation Overview
-
-The QA-AI implementation roadmap is organized into the following phases.
 
 | Phase | Name | Status |
 |---|---|---|
@@ -145,34 +114,17 @@ The QA-AI implementation roadmap is organized into the following phases.
 | Phase 7 | Framework Integration and Validation | Completed |
 | Phase 8 | Datasets and Evaluation | Frozen |
 | Phase 9 | Repository Completion and Alignment | Completed |
-| Phase 10 | Knowledge Library Completion | In Progress |
-| Phase 11 | Skill Library Expansion | Planned |
+| Phase 10 | Knowledge Library Completion | Frozen |
+| Phase 11 | Skill Library Expansion | In Progress |
 | Phase 12 | Scripts Implementation | Planned |
 | Phase 13 | Platform Integration | Planned |
 
-The roadmap intentionally progresses from:
+Current focus:
 
-    Foundation
-        ↓
-    Shared Standards
-        ↓
-    Reusable QA Components
-        ↓
-    Knowledge
-        ↓
-    Examples
-        ↓
-    Integration Validation
-        ↓
-    Datasets and Evaluation
-        ↓
-    Repository Alignment
-        ↓
-    Library Expansion
-        ↓
-    Automation
-        ↓
-    Platform Integration
+```text
+Phase 11 — Skill Library Expansion
+Progress: 0 / 5 expansion skills
+```
 
 ---
 
@@ -182,37 +134,17 @@ The roadmap intentionally progresses from:
 
 Establish the conceptual and architectural foundation of QA-AI.
 
-### Scope
+### Primary Scope
 
-Phase 1 defines the framework itself before implementation of reusable QA components.
-
-The phase establishes:
-
-- framework purpose;
-- architecture;
-- core concepts;
-- framework structure;
-- component responsibilities;
-- relationships between framework layers;
-- execution concepts;
-- governance concepts.
-
-### Deliverables
-
-Primary deliverables are maintained under:
-
-    docs/
-
-The documentation foundation defines how the rest of the repository should be organized and interpreted.
+```text
+docs/
+```
 
 ### Exit Criteria
 
-Phase 1 is complete when:
-
-- the purpose of QA-AI is defined;
-- major framework components are identified;
-- component boundaries are documented;
-- the repository architecture is understandable;
+- framework purpose is defined;
+- major components and boundaries are documented;
+- repository architecture is understandable;
 - downstream implementation can follow a stable conceptual model.
 
 ### Status
@@ -227,47 +159,24 @@ Phase 1 is complete when:
 
 Create reusable standards and shared assets that ensure consistent behavior across QA-AI components.
 
-### Scope
+### Primary Scope
 
-Phase 2 establishes reusable framework-level resources under:
-
-    shared/
-
-including:
-
-    shared/
-    ├── standards/
-    ├── templates/
-    ├── checklists/
-    ├── prompt-patterns/
-    └── glossary/
-
-These resources provide common conventions for documentation, metadata, naming, output, prompting, review, and QA terminology.
-
-### Deliverables
-
-Key deliverables include:
-
-- documentation standards;
-- metadata conventions;
-- naming conventions;
-- output conventions;
-- prompt standards;
-- QA artifact templates;
-- review checklists;
-- reusable prompt patterns;
-- shared glossary definitions.
+```text
+shared/
+├── standards/
+├── templates/
+├── checklists/
+├── prompt-patterns/
+└── glossary/
+```
 
 ### Exit Criteria
 
-Phase 2 is complete when:
-
 - reusable standards are documented;
-- templates are available for core QA artifacts;
-- review checklists exist for supported QA activities;
-- prompt patterns can be reused by skills and workflows;
-- shared terminology is defined;
-- downstream components can reference shared resources instead of redefining them.
+- templates exist for core QA artifacts;
+- review checklists exist for supported activities;
+- reusable prompt patterns are available;
+- shared terminology is defined.
 
 ### Status
 
@@ -281,42 +190,21 @@ Phase 2 is complete when:
 
 Define reusable multi-step QA workflows that coordinate framework capabilities.
 
-### Scope
+### Baseline
 
-Phase 3 establishes the workflow layer under:
-
-    workflows/
-
-Initial workflow coverage includes:
-
-    testcase-generation/
-    testcase-quality-review/
-    regression-analysis/
-
-Workflows define orchestration between QA activities without embedding platform-specific execution behavior.
-
-### Deliverables
-
-Each workflow defines, where applicable:
-
-- purpose;
-- input;
-- workflow stages;
-- skill or capability dependencies;
-- intermediate artifacts;
-- output;
-- quality controls;
-- failure or clarification paths.
+```text
+workflows/
+├── testcase-generation/
+├── testcase-quality-review/
+└── regression-analysis/
+```
 
 ### Exit Criteria
 
-Phase 3 is complete when:
-
-- initial core workflows are documented;
-- workflow responsibilities are separated from skill responsibilities;
-- workflow stages have clear inputs and outputs;
-- shared standards are referenced where applicable;
-- workflows can be understood independently from any AI platform.
+- core workflows are documented;
+- workflow and skill responsibilities are separated;
+- stages have clear inputs and outputs;
+- workflows remain platform-independent.
 
 ### Status
 
@@ -330,51 +218,47 @@ Phase 3 is complete when:
 
 Establish the initial reusable QA skill architecture.
 
-### Scope
+### Canonical Foundation Baseline
 
-Phase 4 introduces the skill layer under:
+```text
+skills/
+├── requirement-analyzer/
+├── business-rule-extractor/
+├── scenario-generator/
+├── testcase-generator/
+├── coverage-reviewer/
+└── regression-impact/
+```
 
-    skills/
+Foundation capability chain:
 
-Initial skills provide reusable QA reasoning capabilities such as:
+```text
+Requirement Analysis
+        ↓
+Business Rule Extraction
+        ↓
+Scenario Generation
+        ↓
+Testcase Generation
+        ↓
+Coverage Review
+        ↓
+Regression Impact
+```
 
-- requirement analysis;
-- business-rule extraction;
-- scenario generation;
-- test-case generation;
-- coverage review;
-- regression-related analysis.
-
-Skills are designed as reusable capabilities rather than platform-specific prompts.
-
-### Deliverables
-
-Each implemented skill defines:
-
-- purpose;
-- capability boundary;
-- supported inputs;
-- expected outputs;
-- workflow;
-- quality expectations;
-- dependencies;
-- exclusions and non-responsibilities.
+These six skills belong to the Phase 4 baseline and are not counted as Phase 11 expansion progress.
 
 ### Exit Criteria
 
-Phase 4 is complete when:
-
-- the initial skill architecture exists;
-- skill boundaries are explicit;
+- initial skill architecture exists;
+- capability boundaries are explicit;
 - skills can participate in workflows;
-- skills consume shared standards and knowledge where appropriate;
-- skill behavior is not coupled to a specific AI platform.
+- skills consume shared resources where appropriate;
+- behavior is platform-independent.
 
 ### Status
 
-`Completed`
-
-Additional skills are intentionally deferred to Phase 11.
+`Completed — 6/6 foundation skills`
 
 ---
 
@@ -382,53 +266,31 @@ Additional skills are intentionally deferred to Phase 11.
 
 ### Objective
 
-Establish the knowledge architecture used by QA skills and workflows.
+Establish the knowledge architecture used by skills and workflows.
 
 ### Scope
 
-Phase 5 introduces structured QA knowledge under:
-
-    shared/knowledge/
-
-The knowledge architecture includes:
-
-    shared/knowledge/
-    ├── testing-techniques/
-    ├── qa/
-    ├── api/
-    ├── database/
-    └── domain/
-
-This phase establishes the knowledge organization model, catalogs, article standards, and initial knowledge content.
-
-It does not require every planned knowledge article to be completed.
-
-### Deliverables
-
-Key deliverables include:
-
-- knowledge-library structure;
-- knowledge catalogs;
-- knowledge article standard;
-- testing-technique taxonomy;
-- initial testing-technique articles;
-- knowledge navigation conventions.
+```text
+shared/knowledge/
+├── testing-techniques/
+├── qa/
+├── api/
+├── database/
+└── domain/
+```
 
 ### Exit Criteria
 
-Phase 5 is complete when:
-
-- the knowledge architecture is stable;
-- knowledge categories are defined;
-- catalogs provide discoverability;
+- knowledge architecture is stable;
+- categories and catalogs are defined;
 - article structure is standardized;
-- downstream skills can reference the knowledge layer.
+- downstream components can reference the knowledge layer.
 
 ### Status
 
 `Completed`
 
-Full knowledge-library population is intentionally deferred to Phase 10.
+Full population was completed later in Phase 10.
 
 ---
 
@@ -438,52 +300,34 @@ Full knowledge-library population is intentionally deferred to Phase 10.
 
 Demonstrate how framework components transform QA inputs into expected QA artifacts.
 
-### Scope
+### Representative Chain
 
-Phase 6 introduces canonical examples under:
-
-    examples/
-
-Examples cover standalone QA capabilities and end-to-end artifact generation.
-
-The end-to-end example demonstrates a transformation chain such as:
-
-    Sample Requirement
-            ↓
-    Requirement Analysis
-            ↓
-    Business Rules
-            ↓
-    Risk Analysis
-            ↓
-    Test Scenarios
-            ↓
-    Coverage Review
-            ↓
-    Test Cases
-            ↓
-    Regression Analysis
-            ↓
-    Test Data
-
-### Deliverables
-
-Examples contain, where applicable:
-
-    input/
-    expected-output/
-
-Expected outputs demonstrate intended framework behavior rather than platform-specific formatting.
+```text
+Sample Requirement
+        ↓
+Requirement Analysis
+        ↓
+Business Rules
+        ↓
+Risk Analysis
+        ↓
+Test Scenarios
+        ↓
+Coverage Review
+        ↓
+Test Cases
+        ↓
+Regression Analysis
+        ↓
+Test Data
+```
 
 ### Exit Criteria
 
-Phase 6 is complete when:
-
 - major QA artifacts have representative examples;
-- example inputs and outputs are traceable;
-- end-to-end artifact relationships are demonstrated;
-- examples align with shared standards and templates;
-- examples can support future evaluation and integration work.
+- inputs and outputs are traceable;
+- end-to-end relationships are demonstrated;
+- examples align with framework standards.
 
 ### Status
 
@@ -495,42 +339,15 @@ Phase 6 is complete when:
 
 ### Objective
 
-Validate that framework components operate coherently as a system rather than as isolated documentation.
-
-### Scope
-
-Phase 7 focuses on cross-component consistency across:
-
-    standards
-    templates
-    checklists
-    knowledge
-    skills
-    workflows
-    examples
-
-The phase validates:
-
-- naming consistency;
-- artifact contracts;
-- input/output compatibility;
-- workflow-to-skill relationships;
-- example-to-framework alignment;
-- cross-artifact traceability.
-
-### Deliverables
-
-Phase 7 primarily produces framework corrections and alignment rather than introducing a separate runtime layer.
+Validate that standards, templates, checklists, knowledge, skills, workflows, and examples operate coherently as one framework.
 
 ### Exit Criteria
 
-Phase 7 is complete when:
-
-- major framework components use compatible terminology;
-- downstream artifacts can consume upstream artifacts;
+- terminology is compatible across components;
+- upstream/downstream contracts align;
 - duplicate responsibilities are minimized;
-- examples represent the intended framework behavior;
-- major cross-artifact inconsistencies have been resolved.
+- examples represent intended framework behavior;
+- blocking cross-artifact inconsistencies are resolved.
 
 ### Status
 
@@ -546,106 +363,34 @@ Establish controlled datasets and evaluation definitions for measuring QA-AI out
 
 ### Scope
 
-Phase 8 introduces:
-
-    datasets/
-    ├── requirements/
-    ├── golden-output/
-    ├── evaluation/
-    ├── benchmark/
-    └── fixtures/
-
-The phase establishes the distinction between:
-
-    Requirement Dataset
-    Golden Reference
-    Evaluation Model
-    Benchmark Definition
-    Fixture Model
-
-### Deliverables
-
-#### Requirement Datasets
-
-Controlled requirement samples at multiple complexity levels:
-
-    simple/
-    medium/
-    complex/
-
-#### Golden Outputs
-
-Canonical reference outputs used to evaluate expected QA reasoning and artifact quality.
-
-Golden outputs represent expected characteristics and coverage rather than requiring naive exact-text matching.
-
-#### Evaluation
-
-Evaluation components define:
-
-- evaluation criteria;
-- rubrics;
-- scoring models.
-
-#### Benchmark
-
-Benchmark definitions support:
-
-- baseline comparison;
-- cross-platform comparison;
-- regression comparison.
-
-Benchmark definitions do not represent actual benchmark executions.
-
-#### Fixtures
-
-Canonical fixture models cover:
-
-- API;
-- database;
-- UI;
-- domain contexts.
-
-Fixture models define reusable controlled context structures.
-
-They are not automatically runtime fixture instances.
+```text
+datasets/
+├── requirements/
+├── golden-output/
+├── evaluation/
+├── benchmark/
+└── fixtures/
+```
 
 ### Architectural Boundaries
 
-Phase 8 explicitly distinguishes:
-
-    Fixture Model
-        ↓
-    Fixture Instance
-
-and:
-
-    Benchmark Definition
-            ↓
-    Benchmark Execution
-            ↓
-    Benchmark Record
-
-Actual instances and benchmark records are created only when real consumers or executions require them.
+```text
+Fixture Model → Fixture Instance
+Benchmark Definition → Benchmark Execution → Benchmark Record
+```
 
 ### Exit Criteria
 
-Phase 8 is complete when:
-
-- requirement datasets exist at representative complexity levels;
-- golden references exist for supported evaluation targets;
+- representative requirement datasets exist;
+- golden references exist;
 - evaluation criteria, rubrics, and scoring are defined;
 - benchmark definitions are available;
 - fixture models are documented;
-- source integrity and assumption boundaries are explicit;
-- cross-artifact consistency has been reviewed;
-- no blocking evaluation-architecture issues remain.
+- source integrity and assumption boundaries are explicit.
 
 ### Status
 
 `Frozen`
-
-Phase 8 is considered a stable dependency for future automation and platform evaluation.
 
 ---
 
@@ -653,101 +398,26 @@ Phase 8 is considered a stable dependency for future automation and platform eva
 
 ### Objective
 
-Align repository-level documentation and governance with the framework that has actually been implemented.
+Align repository-level documentation and governance with the implemented framework.
 
 ### Scope
 
-Phase 9 focuses on repository consistency.
-
-It does not expand the core QA capability set.
-
-Planned work includes:
-
-    9.1 Roadmap synchronization
-    9.2 Root README synchronization
-    9.3 Root governance files
-    9.4 Remaining foundation cleanup
-    9.5 Cross-repository consistency review
-
-### 9.1 Roadmap Synchronization
-
-Update:
-
-    docs/11-Roadmap.md
-
-so that it becomes the canonical implementation roadmap and accurately represents current framework status.
-
-### 9.2 Root README Synchronization
-
-Update:
-
-    README.md
-
-to accurately describe:
-
-- framework purpose;
-- current architecture;
-- repository structure;
-- implemented capabilities;
-- current phase;
-- navigation to canonical documentation.
-
-The root README should summarize the framework rather than duplicate detailed architecture documentation.
-
-### 9.3 Root Governance Files
-
-Complete or align repository governance artifacts such as:
-
-    VERSION
-    CHANGELOG.md
-    LICENSE
-
-where required by the repository governance model.
-
-### 9.4 Remaining Foundation Cleanup
-
-Resolve remaining small foundation gaps that belong to already-established framework layers.
-
-This includes completing outstanding foundation documentation such as:
-
-    shared/knowledge/testing-techniques/
-    └── Experience-Based/
-        └── Session-Based-Testing.md
-
-This activity must not expand into full knowledge-library population.
-
-That belongs to Phase 10.
-
-### 9.5 Cross-Repository Consistency Review
-
-Perform a final repository-level review covering:
-
-- documentation status;
-- repository navigation;
-- naming;
-- empty or placeholder artifacts;
-- intended future placeholders;
-- cross-folder references;
-- framework status representation.
-
-Future-phase placeholders must not be reported as defects merely because implementation has not started.
+- roadmap synchronization;
+- root README synchronization;
+- governance alignment;
+- foundation cleanup;
+- cross-repository consistency review.
 
 ### Exit Criteria
 
-Phase 9 is complete when:
-
-- roadmap reflects actual implementation;
-- root README reflects actual framework status;
-- required root governance artifacts are aligned;
-- remaining foundation cleanup is complete;
-- future placeholders are clearly distinguishable from accidental incomplete files;
-- repository-level consistency review has no blocking findings.
+- roadmap and root navigation reflect actual implementation;
+- governance artifacts are aligned;
+- intended placeholders are distinguishable from accidental incompleteness;
+- repository-level review has no blocking findings.
 
 ### Status
 
 `Completed`
-
-Phase 9 completed after repository governance, documentation navigation, foundation cleanup, and cross-repository consistency review were aligned with the implemented framework state.
 
 ---
 
@@ -755,62 +425,32 @@ Phase 9 completed after repository governance, documentation navigation, foundat
 
 ### Objective
 
-Populate the established knowledge architecture with reusable QA knowledge required by skills and workflows.
+Complete and quality-gate the established knowledge architecture so it can serve as a stable dependency for skills, workflows, scripts, and platform integration.
 
-### Scope
+### Frozen Baseline
 
-Primary scope:
+| Knowledge Domain | Articles | Status |
+|---|---:|---|
+| Testing Techniques | 30 | Frozen |
+| QA | 28 | Frozen |
+| API | 40 | Frozen |
+| Database | 42 | Frozen |
+| Domain | 41 | Frozen |
+| **Total** | **181** | **Frozen** |
 
-    shared/knowledge/
-    ├── qa/
-    ├── api/
-    ├── database/
-    └── domain/
-
-Testing-technique content may also be extended when justified by framework requirements.
-
-### Deliverables
-
-Knowledge articles should follow:
-
-    shared/standards/Knowledge-Article.md
-
-and corresponding catalogs.
-
-Content may include, where defined by the knowledge architecture:
-
-- QA concepts and practices;
-- API testing knowledge;
-- database validation knowledge;
-- reusable domain knowledge.
-
-### Boundaries
-
-Phase 10 does not:
-
-- implement runtime scripts;
-- create platform adapters;
-- duplicate skill workflows;
-- convert knowledge articles into platform-specific prompts.
+All articles follow the approved knowledge-article standard and passed folder-level plus cross-domain review.
 
 ### Exit Criteria
 
-Phase 10 is complete when:
-
-- planned catalogs are backed by required knowledge content;
-- articles follow the knowledge standard;
-- knowledge is discoverable;
-- knowledge boundaries are clear;
-- skills can reference knowledge consistently;
-- cross-article duplication and contradictions have been reviewed.
+- planned catalogs are backed by physical content;
+- articles follow `shared/standards/Knowledge-Article.md`;
+- knowledge is discoverable and ownership boundaries are clear;
+- cross-article and cross-domain duplication/contradiction review passes;
+- downstream skills can consume knowledge consistently.
 
 ### Status
 
-`In Progress`
-
-Current activity:
-
-    Phase 10 — Knowledge Library Completion
+`Frozen — 181/181 knowledge articles`
 
 ---
 
@@ -818,62 +458,91 @@ Current activity:
 
 ### Objective
 
-Expand the reusable skill library after the knowledge foundation is sufficiently populated.
+Expand the reusable skill library with QA capabilities that are not already owned by the six Phase 4 foundation skills.
 
-### Scope
+### Inventory Decision
 
-Phase 11 extends:
+The Phase 4 baseline was reviewed before expansion. The following existing skills remain canonical and are not reimplemented in Phase 11:
 
-    skills/
+```text
+requirement-analyzer
+business-rule-extractor
+scenario-generator
+testcase-generator
+coverage-reviewer
+regression-impact
+```
 
-with additional QA capabilities required by the framework.
+`regression-analyzer` is not added as a separate skill because the proposed capability materially overlaps `regression-impact`, which already owns change-impact analysis, affected-area identification, regression-scope identification, and regression prioritization.
 
-Potential capability areas include:
+### Canonical Expansion Scope
 
-- risk analysis;
-- regression analysis;
-- bug-report review;
-- API test generation;
-- SQL validation;
-- test-data generation.
+Phase 11 tracks exactly five new skills:
 
-Exact skill names and boundaries must be reviewed against the existing skill architecture before implementation.
+| Skill | Primary Responsibility | Status |
+|---|---|---|
+| `risk-analyzer` | Analyze and structure QA/product risk for downstream prioritization and coverage decisions. | Planned |
+| `bug-report-reviewer` | Assess bug-report completeness, clarity, reproducibility, evidence, and actionable quality. | Planned |
+| `api-test-generator` | Generate API-specific test artifacts using API knowledge and confirmed interface contracts. | Planned |
+| `sql-validation` | Define SQL/database validation logic for confirmed data requirements without inventing schema assumptions. | Planned |
+| `test-data-generator` | Generate structured test-data requirements and datasets within confirmed constraints and privacy boundaries. | Planned |
 
-### Deliverables
+Progress:
 
-Each new skill must define:
+```text
+0 / 5 expansion skills Completed
+```
 
-- capability;
-- scope;
-- input contract;
-- output contract;
-- dependencies;
-- workflow;
-- quality controls;
-- exclusions.
+### Skill Completion Gate
+
+A Phase 11 skill counts as completed only when:
+
+1. the canonical skill artifact exists;
+2. purpose and capability boundary are explicit;
+3. input and output contracts are defined;
+4. processing/workflow behavior is defined;
+5. dependencies on standards, templates, knowledge, and upstream artifacts are explicit;
+6. exclusions prevent overlap with other skills;
+7. validation and quality controls are defined;
+8. self-review is complete and blocking issues are fixed.
+
+File creation alone does not increment Phase 11 progress.
+
+### Phase Freeze Gate
+
+Phase 11 may move from `Completed` to `Frozen` only after:
+
+- all 5 expansion skills pass their completion gates;
+- cross-skill ownership review passes;
+- workflow compatibility is reviewed;
+- shared-knowledge dependencies are consistent;
+- `skills/README.md`, physical folders, and roadmap registry agree;
+- no blocking cross-skill issue remains.
 
 ### Boundaries
 
-Phase 11 should not introduce duplicate capabilities simply to match an earlier planned folder list.
+Phase 11 does not:
 
-Existing skills must be reviewed before adding new skills.
-
-Where two planned skills overlap, capability boundaries should be resolved before implementation.
-
-### Exit Criteria
-
-Phase 11 is complete when:
-
-- required remaining QA capabilities are represented;
-- skill boundaries do not materially overlap;
-- skill contracts align with workflows;
-- skills consume shared knowledge appropriately;
-- skill outputs follow framework standards;
-- skill-library consistency review passes.
+- duplicate Phase 4 skills;
+- implement deterministic scripts planned for Phase 12;
+- create platform-specific adapters planned for Phase 13;
+- invent project-specific requirements, API contracts, schemas, policies, or data rules.
 
 ### Status
 
-`Planned`
+`In Progress — 0/5 expansion skills`
+
+### Implementation Order
+
+```text
+1. risk-analyzer
+2. bug-report-reviewer
+3. api-test-generator
+4. sql-validation
+5. test-data-generator
+```
+
+The order may be changed only when a reviewed dependency requires it.
 
 ---
 
@@ -883,77 +552,27 @@ Phase 11 is complete when:
 
 Introduce deterministic tooling that validates, manages, evaluates, and exports QA-AI framework artifacts.
 
-### Scope
+### Planned Scope
 
-Phase 12 implements planned tooling under:
+```text
+scripts/
+├── validation/
+├── knowledge/
+├── prompts/
+├── workflows/
+├── evaluation/
+├── export/
+└── utils/
+```
 
-    scripts/
-    ├── validation/
-    ├── knowledge/
-    ├── prompts/
-    ├── workflows/
-    ├── evaluation/
-    ├── export/
-    └── utils/
-
-Existing placeholder files represent planned structure and are not considered incomplete implementation before this phase begins.
-
-### Capability Areas
-
-#### Validation
-
-Validation of:
-
-- metadata;
-- naming;
-- structure;
-- references.
-
-#### Knowledge
-
-Knowledge indexing, catalog validation, and related maintenance operations.
-
-#### Prompts
-
-Prompt assembly or prompt-related deterministic utilities.
-
-#### Workflows
-
-Workflow validation and deterministic orchestration support.
-
-#### Evaluation
-
-Evaluation and benchmark execution support based on Phase 8 definitions.
-
-#### Export
-
-Export of framework artifacts into supported formats or platform-consumable packages.
-
-#### Utilities
-
-Shared deterministic utilities used by scripts.
-
-### Boundaries
-
-Scripts should automate established framework behavior.
-
-They should not silently redefine:
-
-- QA standards;
-- skill behavior;
-- workflow contracts;
-- evaluation criteria;
-- benchmark definitions.
+Roadmap automation implementation also belongs to this phase. Until then, `roadmap-status.json` is the canonical machine-readable registry and roadmap synchronization is performed as part of the component completion workflow.
 
 ### Exit Criteria
 
-Phase 12 is complete when:
-
-- required placeholder scripts have purposeful implementations;
-- scripts follow repository conventions;
+- required scripts have purposeful implementations;
 - validation scripts detect intended structural issues;
 - evaluation tooling consumes Phase 8 definitions correctly;
-- scripts have clear failure behavior;
+- scripts have explicit failure behavior;
 - automation does not redefine canonical framework semantics.
 
 ### Status
@@ -968,66 +587,24 @@ Phase 12 is complete when:
 
 Make the platform-independent QA-AI framework consumable by supported AI platforms.
 
-### Scope
+### Initial Targets
 
-Phase 13 introduces platform integration only after core framework behavior and supporting automation are stable.
-
-Initial platform targets may include:
-
-    ChatGPT
-    Claude
-
-Additional platforms may be introduced later when justified.
+```text
+ChatGPT
+Claude
+```
 
 ### Adapter Principle
 
-Platform integration should follow:
+```text
+QA-AI Core → Platform Adapter → Platform Runtime
+```
 
-    QA-AI Core
-        ↓
-    Platform Adapter
-        ↓
-    Platform Runtime
-
-The adapter translates framework assets into platform-compatible structures.
-
-It must not redefine the QA capability itself.
-
-### Deliverables
-
-Depending on platform requirements, integration may include:
-
-- platform instructions;
-- skill packaging;
-- prompt assembly;
-- workflow mappings;
-- knowledge packaging;
-- capability manifests;
-- platform-specific metadata;
-- installation or import guidance.
-
-### Boundaries
-
-Platform integration must preserve:
-
-- skill semantics;
-- workflow contracts;
-- knowledge meaning;
-- output expectations;
-- evaluation criteria.
-
-Platform differences may affect packaging or execution mechanics but should not create incompatible QA behavior.
+Adapters may translate packaging and execution mechanics but must preserve skill semantics, workflow contracts, knowledge meaning, output expectations, and evaluation criteria.
 
 ### Exit Criteria
 
-Phase 13 is complete for a platform when:
-
-- required framework assets can be consumed by that platform;
-- platform-specific configuration is documented;
-- core behavior remains traceable to QA-AI definitions;
-- representative workflows execute successfully;
-- evaluation can compare platform output against Phase 8 definitions;
-- platform-specific behavior does not leak back into core framework architecture unnecessarily.
+A platform integration is complete when required framework assets can be consumed by that platform, configuration is documented, representative workflows execute successfully, and platform-specific behavior does not redefine core QA-AI architecture.
 
 ### Status
 
@@ -1037,145 +614,103 @@ Phase 13 is complete for a platform when:
 
 ## 18. Phase Dependencies
 
-The high-level dependency chain is:
+```text
+Phase 1  Framework Foundation
+   ↓
+Phase 2  Shared Standards and Foundations
+   ↓
+Phase 3  Workflow Library
+   ↓
+Phase 4  Skill Library Foundation
+   ↓
+Phase 5  Knowledge Foundation
+   ↓
+Phase 6  Examples and End-to-End Validation
+   ↓
+Phase 7  Framework Integration and Validation
+   ↓
+Phase 8  Datasets and Evaluation
+   ↓
+Phase 9  Repository Completion and Alignment
+   ↓
+Phase 10 Knowledge Library Completion
+   ↓
+Phase 11 Skill Library Expansion
+   ↓
+Phase 12 Scripts Implementation
+   ↓
+Phase 13 Platform Integration
+```
 
-    Phase 1
-    Framework Foundation
-        ↓
-    Phase 2
-    Shared Standards and Foundations
-        ↓
-    Phase 3
-    Workflow Library
-        ↓
-    Phase 4
-    Skill Library Foundation
-        ↓
-    Phase 5
-    Knowledge Foundation
-        ↓
-    Phase 6
-    Examples and End-to-End Validation
-        ↓
-    Phase 7
-    Framework Integration and Validation
-        ↓
-    Phase 8
-    Datasets and Evaluation
-        ↓
-    Phase 9
-    Repository Completion and Alignment
-        ↓
-    Phase 10
-    Knowledge Library Completion
-        ↓
-    Phase 11
-    Skill Library Expansion
-        ↓
-    Phase 12
-    Scripts Implementation
-        ↓
-    Phase 13
-    Platform Integration
-
-Dependencies indicate implementation order, not strict runtime dependency in every case.
-
-For example, a skill may use only a subset of the knowledge library.
-
-However, later phases should not bypass architectural contracts established by earlier phases.
+Later phases may depend on multiple earlier layers even though the roadmap is presented sequentially.
 
 ---
 
-## 19. Current Framework Status
+## 19. Roadmap Progress Tracking
 
-Current implementation status:
+### 19.1 Source of Truth
 
-    Framework Foundation                  COMPLETE
-    Shared Standards and Foundations      COMPLETE
-    Workflow Library                      COMPLETE
-    Skill Library Foundation              COMPLETE
-    Knowledge Foundation                  COMPLETE
-    Examples and E2E Validation           COMPLETE
-    Framework Integration                 COMPLETE
-    Datasets and Evaluation               FROZEN
-    Repository Completion and Alignment   COMPLETE
+`roadmap-status.json` is the machine-readable source of truth for implementation status and tracked component progress.
 
-    Knowledge Library Completion          IN PROGRESS
+`docs/11-Roadmap.md` is the human-readable canonical roadmap and must remain synchronized with the registry.
 
-    Skill Library Expansion               PLANNED
-    Scripts Implementation                PLANNED
-    Platform Integration                  PLANNED
+### 19.2 Tracking Unit
 
-Current implementation position:
+Progress is measured at the roadmap deliverable/component level, not by arbitrary file count.
 
-    Phase 10
-    └── Knowledge Library Completion
+Examples:
 
-Phase 8 is frozen and should be treated as a stable evaluation foundation unless a validated downstream requirement requires revision.
+```text
+Knowledge article → valid Phase 10 tracking unit
+Expansion skill   → valid Phase 11 tracking unit
+README edit       → not automatically a progress increment
+```
 
-Phase 9 is complete and provides the aligned repository baseline for Phase 10.
+### 19.3 Synchronization Trigger
 
-The presence of planned placeholders in later-phase directories does not change the current implementation status.
+Roadmap status must be recalculated when a tracked component passes or loses its defined quality gate.
 
----
+Until Phase 12 implements deterministic automation, the completion workflow must update both:
 
-## 20. Roadmap Maintenance
+```text
+roadmap-status.json
+        ↕
+docs/11-Roadmap.md
+```
 
-This roadmap must remain synchronized with actual framework implementation.
+### 19.4 Validation Rule
 
-The roadmap should be updated when:
+A phase cannot be marked `Completed` merely because all expected physical files exist.
 
-- a phase starts;
-- a phase changes scope;
-- a phase completes;
-- a phase is frozen;
-- implementation order changes;
-- a new major framework phase is approved;
-- a planned component is intentionally removed or deferred.
+A phase cannot be marked `Frozen` until its phase-level cross-component review passes.
 
-Roadmap updates should not be made merely because an implementation idea exists.
+### 19.5 Future Automation
 
-A roadmap change should represent an agreed framework direction.
-
-When repository state and roadmap state conflict:
-
-1. inspect the actual repository;
-2. determine whether the repository or roadmap represents the approved architecture;
-3. resolve the inconsistency explicitly;
-4. update the canonical documentation.
-
-The roadmap should never silently reinterpret unfinished future work as defects in completed phases.
+Phase 12 should implement deterministic collection, validation, and roadmap synchronization based on this contract rather than introducing a new status model.
 
 ---
 
-## Summary
+## 20. Current Implementation Focus
 
-QA-AI is implemented progressively from stable framework foundations toward reusable QA intelligence, deterministic automation, and platform integration.
+```text
+Current Phase: Phase 11 — Skill Library Expansion
+Foundation Skills: 6/6 Completed (Phase 4 baseline)
+Expansion Skills: 0/5 Completed
+Next Component: risk-analyzer
+```
 
-The current implementation path is:
+The next implementation activity is to define and build `skills/risk-analyzer/` using the established skill architecture and the Phase 11 completion gate.
 
-    Foundation
-        ↓
-    Reusable Standards
-        ↓
-    Workflows and Skills
-        ↓
-    Knowledge
-        ↓
-    Examples
-        ↓
-    Integration Validation
-        ↓
-    Datasets and Evaluation
-        ↓
-    Repository Alignment
-        ↓
-    Knowledge Completion         ← CURRENT
-        ↓
-    Skill Expansion
-        ↓
-    Automation
-        ↓
-    Platform Integration
+---
 
-This roadmap serves as the canonical implementation sequence for the QA-AI framework.
+## 21. Change Governance
+
+Roadmap changes must preserve:
+
+- phase boundaries;
+- component ownership;
+- status lifecycle semantics;
+- machine-readable/human-readable synchronization;
+- traceability between implemented artifacts and reported progress.
+
+Changes to canonical phase scope or tracked component inventory require explicit review before the registry is updated.
