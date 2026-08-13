@@ -118,6 +118,24 @@ No article may invent project-specific schemas, database products, credentials, 
 
 ---
 
+## Quality Gate
+
+A database article is not considered complete merely because all 12 mandatory sections exist. Approval additionally requires sufficient semantic depth for standalone QA and QA-AI reasoning.
+
+The final review checks:
+
+- `Core Concepts` explains the topic's reasoning model rather than listing terminology only;
+- `How It Works` describes behavior, lifecycle, or interactions sufficiently to support analysis;
+- `Examples` include realistic QA-relevant scenarios;
+- `Limitations` state architectural, product, configuration, or consistency boundaries;
+- `Best Practices` are actionable without inventing project policy;
+- transaction, concurrency, migration, performance, and distributed-data assumptions are explicitly bounded;
+- relational concepts are not incorrectly applied to NoSQL systems;
+- cross-references and ownership boundaries are consistent;
+- no article remains a structurally complete but semantically shallow skeleton.
+
+---
+
 ## Quality and Freeze Baseline
 
 ```text
@@ -127,9 +145,10 @@ Cataloged Knowledge Articles: 42
 Catalog Status: Approved
 Baseline State: Frozen
 Freeze Date: 2026-08-13
+Review Cycle: Structural + Content Depth + Cross-Article Review
 ```
 
-All 42 articles were reviewed for mandatory section structure, terminology, scope boundaries, relational/NoSQL distinction, SQL safety, transaction semantics, concurrency assumptions, cross-references, and QA-AI usability before this baseline was marked frozen.
+All 42 articles passed the final rewrite and review cycle for mandatory structure, content depth, terminology, scope boundaries, relational/NoSQL distinction, SQL safety, transaction semantics, concurrency assumptions, examples, failure modes, cross-references, and QA-AI usability before the baseline was frozen.
 
 ---
 
