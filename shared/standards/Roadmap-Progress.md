@@ -1,7 +1,7 @@
 # Roadmap Progress Tracking Standard
 
-> Version: 1.0.0  
-> Status: Draft  
+> Version: 1.1.0  
+> Status: Approved  
 > Last Updated: 2026-08-13
 
 ---
@@ -84,19 +84,27 @@ Progress validation
 docs/11-Roadmap.md
 ```
 
-Until Phase 12 automation is implemented, the registry and roadmap are updated together in the same change set. Phase 12 should automate collection, validation, and roadmap rendering.
+Phase 12 provides deterministic automation under `scripts/roadmap/` for evidence collection, registry validation, and generated roadmap-status rendering.
 
 ## Automation Contract
 
-The future automation must:
+The automation must:
 
 1. read `roadmap-status.json`;
 2. validate allowed statuses and required component fields;
 3. verify configured completion evidence where available;
-4. calculate component and phase progress;
+4. calculate or verify component and phase progress without silently inferring quality-gate completion;
 5. update only generated roadmap progress regions;
 6. fail rather than silently infer completion when evidence is incomplete or inconsistent;
 7. preserve manually maintained roadmap narrative outside generated regions.
+
+Canonical implementation ownership:
+
+```text
+scripts/roadmap/collect_status.py
+scripts/roadmap/validate_progress.py
+scripts/roadmap/update_roadmap.py
+```
 
 ## Quality Gates
 
@@ -108,7 +116,7 @@ A roadmap update passes only when:
 - component counts do not exceed expected totals;
 - phase status is consistent with component status;
 - `Frozen` is not assigned while mandatory components remain incomplete;
-- the human-readable roadmap and machine-readable registry agree.
+- the human-readable roadmap generated status region and machine-readable registry agree.
 
 ## Phase Closure
 
