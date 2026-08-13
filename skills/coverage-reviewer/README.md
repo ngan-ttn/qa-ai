@@ -2,30 +2,26 @@
 
 ## Purpose
 
-The `coverage-reviewer` skill transforms structured test case models into structured coverage assessments that support downstream QA capabilities.
+The `coverage-reviewer` skill evaluates whether structured QA test artifacts adequately cover their authoritative requirements, business rules, risks, and relevant technical validation needs.
 
-The skill focuses on evaluating the completeness, consistency, and traceability of structured test cases. It does not generate testing artifacts or perform regression impact analysis.
+It owns coverage assessment and traceability review. It does not generate missing tests itself or perform change-impact analysis.
 
 ---
 
 ## Capability
 
-This skill provides the capability to review and assess structured test cases.
-
-Its primary objective is to transform structured test case information into a structured coverage assessment that supports subsequent QA capabilities.
-
-Capability flow:
-
 ```text
-Structured Test Case Model
+Test Artifacts + Coverage Sources
         ↓
-Review Test Cases
+Establish Coverage Baseline
         ↓
-Assess Completeness
+Map Traceability
         ↓
-Assess Consistency
+Assess Requirement / Rule / Risk Coverage
         ↓
-Assess Traceability
+Assess Technical and Data Coverage
+        ↓
+Detect Gaps / Duplication / Inconsistency
         ↓
 Structured Coverage Assessment
 ```
@@ -34,15 +30,7 @@ Structured Coverage Assessment
 
 ## When To Use
 
-Use this skill when:
-
-- Structured test case models are available
-- Test case quality needs to be reviewed
-- Test coverage needs to be assessed
-- Traceability needs to be verified
-- Downstream QA skills require a structured coverage assessment
-
-This skill should be executed before performing regression impact analysis.
+Use this skill when test scenarios/cases or specialized technical test models need completeness, consistency, traceability, or risk-coverage review.
 
 ---
 
@@ -50,99 +38,105 @@ This skill should be executed before performing regression impact analysis.
 
 ### Required Input
 
-Examples:
+At least one test artifact set plus sufficient upstream source material to judge coverage, for example:
 
-- Structured test case model
-- Test case relationships
-- Preconditions
-- Test steps
-- Expected results
+- Structured Test Case Model and its scenario/requirement sources; or
+- Structured Test Scenario Model and requirement/rule sources; or
+- specialized API/SQL test artifacts with authoritative technical sources.
+
+Coverage cannot be assessed reliably from tests alone when the expected coverage source is unknown.
 
 ### Optional Input
 
-Examples:
-
-- Structured test scenario model
-- Structured business rule model
-- Structured requirement analysis
-
-The skill should identify missing, inconsistent, or insufficient coverage during assessment.
+- Structured Requirement Analysis;
+- Structured Business Rule Model;
+- Structured Risk Analysis;
+- Structured API Test Model;
+- Structured SQL Validation Model;
+- Structured Test Data Model;
+- existing traceability matrix;
+- project coverage criteria.
 
 ---
 
 ## Processing
 
-The skill performs the following logical processing activities.
+### Step 1 — Establish Coverage Baseline
 
-### Step 1 — Review Test Cases
+Identify which requirements, rules, risks, flows, interfaces, states, data conditions, and project criteria are in scope for review.
 
-Review the available structured test cases.
+### Step 2 — Map Traceability
 
----
+Map each test artifact to supported upstream sources. Flag orphan tests and uncovered sources without inventing links.
 
-### Step 2 — Assess Completeness
+### Step 3 — Assess Behavioral Coverage
 
-Assess the completeness of the structured test case model.
+Review positive, negative, boundary, state, role/permission, exception, dependency, and recovery coverage where applicable.
 
----
+### Step 4 — Assess Risk Coverage
 
-### Step 3 — Assess Consistency
+When risk analysis exists, verify material risks have appropriate coverage and identify high-risk gaps. Do not redefine risk scores.
 
-Identify inconsistencies, duplicates, or logical conflicts across the structured test case model.
+### Step 5 — Assess Technical and Data Coverage
 
----
+Where applicable, review whether API assertions, persistence checks, and test-data partitions required by the source behavior are represented. Specialized outputs are assessed for coverage, not regenerated.
 
-### Step 4 — Assess Traceability
+### Step 6 — Assess Consistency and Duplication
 
-Verify that the structured test case model can be traced back to upstream QA artifacts, including test scenarios, business rules, and requirement analysis.
+Identify contradictory expectations, duplicate tests with no distinct value, broken traceability, inconsistent priority, or incompatible preconditions/data.
 
----
+### Step 7 — Classify Findings
 
-### Step 5 — Produce Structured Coverage Assessment
+Separate blocking gaps, material gaps, duplication/maintenance issues, and optional improvements. Preserve uncertainty when the source itself is incomplete.
 
-Organize the assessment results into a structured representation suitable for downstream QA activities.
+### Step 8 — Produce Structured Coverage Assessment
+
+Provide traceable findings and recommended coverage actions without creating the missing tests.
 
 ---
 
 ## Output
 
-The skill produces a structured coverage assessment that can be consumed by downstream QA skills.
+Typical fields include:
 
-Typical outputs may include:
-
-- Coverage findings
-- Coverage gaps
-- Consistency findings
-- Traceability findings
-- Open questions
-
-The exact output structure should follow the applicable templates defined in the shared resources.
+- Coverage Finding ID;
+- source requirement/rule/risk;
+- covered-by artifact references;
+- coverage status;
+- gap/duplication/inconsistency description;
+- impact/priority;
+- recommended action;
+- assumptions/open questions.
 
 ---
 
 ## Dependencies
 
-This skill may use resources from the shared module.
-
 | Resource | Purpose |
-|----------|---------|
-| `shared/standards/` | Apply coverage review standards |
-| `shared/templates/` | Structure coverage assessment output |
-| `shared/prompt-patterns/` | Apply reusable review prompts |
-
-The skill consumes these resources but does not redefine them.
+|---|---|
+| `shared/standards/` | Output/documentation conventions |
+| `shared/templates/` | Coverage assessment structure |
+| `shared/checklists/` | Scenario/testcase review criteria |
+| `shared/prompt-patterns/` | Reusable review reasoning |
+| `shared/knowledge/qa/` | Coverage, traceability, quality context |
+| `shared/knowledge/testing-techniques/` | Expected test-design dimensions |
+| `shared/knowledge/api/` | API coverage interpretation when relevant |
+| `shared/knowledge/database/` | Persistence coverage interpretation when relevant |
+| `shared/knowledge/domain/` | Business coverage semantics when relevant |
 
 ---
 
 ## Consumers
 
-The output of this skill may be consumed by:
+The output may be consumed by:
 
-- `skills/regression-impact`
+- `regression-impact` as coverage evidence;
+- `scenario-generator` when scenario gaps require generation;
+- `testcase-generator` when testcase gaps require generation;
+- `api-test-generator`, `sql-validation`, or `test-data-generator` when specialized gaps are identified;
+- testcase-quality-review and regression workflows.
 
-It may also be invoked by workflows such as:
-
-- `workflows/regression-analysis`
+These feedback paths are conditional remediation paths, not mandatory circular dependencies.
 
 ---
 
@@ -150,26 +144,25 @@ It may also be invoked by workflows such as:
 
 This skill does not:
 
-- Analyze raw requirements
-- Extract business rules
-- Generate test scenarios
-- Generate test cases
-- Modify existing test cases
-- Perform regression impact analysis
-
-These responsibilities belong to other specialized skills.
+- create or modify test artifacts;
+- invent requirements or expected behavior;
+- recalculate risk models;
+- perform regression change-impact analysis;
+- execute tests;
+- claim completeness when authoritative coverage sources are missing.
 
 ---
 
 ## Validation
 
-The output of this skill should be validated to ensure:
+Validate that:
 
-- Coverage findings accurately reflect the structured test case model
-- Coverage gaps are explicitly identified
-- Consistency issues are clearly represented
-- Traceability is accurately represented
-- The output is structured and reusable by downstream QA skills
-- The output can be consumed without additional interpretation by downstream QA skills
-
-Detailed validation criteria should be maintained in the relevant shared checklists.
+- the coverage baseline is explicit;
+- findings trace to authoritative sources and test artifacts;
+- requirement, rule, and risk coverage are distinguished where useful;
+- technical/data gaps are identified only when relevant;
+- duplicate coverage is not confused with deliberate multi-layer validation;
+- missing source information is reported as uncertainty rather than a false gap;
+- recommendations identify which owning skill should remediate the gap;
+- the assessment does not silently generate replacement artifacts;
+- downstream consumers can act on findings without reconstructing traceability.

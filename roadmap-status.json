@@ -1,0 +1,64 @@
+{
+  "schema_version": "1.0",
+  "last_updated": "2026-08-13",
+  "roadmap": "docs/11-Roadmap.md",
+  "tracking_standard": "shared/standards/Roadmap-Progress.md",
+  "status_lifecycle": ["Planned", "In Progress", "Review", "Completed", "Frozen"],
+  "phases": {
+    "1": {"name": "Framework Foundation", "status": "Completed"},
+    "2": {"name": "Shared Standards and Foundations", "status": "Completed"},
+    "3": {"name": "Workflow Library", "status": "Completed"},
+    "4": {
+      "name": "Skill Library Foundation",
+      "status": "Completed",
+      "progress": {"completed": 6, "total": 6, "unit": "foundation_skills"},
+      "components": {
+        "requirement-analyzer": {"status": "Completed"},
+        "business-rule-extractor": {"status": "Completed"},
+        "scenario-generator": {"status": "Completed"},
+        "testcase-generator": {"status": "Completed"},
+        "coverage-reviewer": {"status": "Completed"},
+        "regression-impact": {"status": "Completed"}
+      }
+    },
+    "5": {"name": "Knowledge Foundation", "status": "Completed"},
+    "6": {"name": "Examples and End-to-End Validation", "status": "Completed"},
+    "7": {"name": "Framework Integration and Validation", "status": "Completed"},
+    "8": {"name": "Datasets and Evaluation", "status": "Frozen"},
+    "9": {"name": "Repository Completion and Alignment", "status": "Completed"},
+    "10": {
+      "name": "Knowledge Library Completion",
+      "status": "Frozen",
+      "progress": {"completed": 181, "total": 181, "unit": "knowledge_articles"},
+      "components": {
+        "testing-techniques": {"expected": 30, "completed": 30, "status": "Frozen"},
+        "qa": {"expected": 28, "completed": 28, "status": "Frozen"},
+        "api": {"expected": 40, "completed": 40, "status": "Frozen"},
+        "database": {"expected": 42, "completed": 42, "status": "Frozen"},
+        "domain": {"expected": 41, "completed": 41, "status": "Frozen"}
+      }
+    },
+    "11": {
+      "name": "Skill Library Expansion",
+      "status": "Frozen",
+      "tracking_unit": "skill",
+      "progress": {"completed": 5, "total": 5, "unit": "expansion_skills"},
+      "library_baseline": {"foundation": 6, "expansion": 5, "total": 11},
+      "components": {
+        "risk-analyzer": {"status": "Frozen"},
+        "bug-report-reviewer": {"status": "Frozen"},
+        "api-test-generator": {"status": "Frozen"},
+        "sql-validation": {"status": "Frozen"},
+        "test-data-generator": {"status": "Frozen"}
+      },
+      "excluded_candidates": {
+        "regression-analyzer": {
+          "reason": "Not added because regression-impact owns change-impact and regression-scope analysis; a second broad regression analyzer would materially overlap the canonical capability."
+        }
+      },
+      "freeze_gate": "Passed final 11-skill cross-review covering ownership, input/output contracts, dependency direction, feedback-cycle safety, knowledge dependencies, and downstream usability. Blocking issues were fixed before freeze."
+    },
+    "12": {"name": "Scripts Implementation", "status": "Planned"},
+    "13": {"name": "Platform Integration", "status": "Planned"}
+  }
+}

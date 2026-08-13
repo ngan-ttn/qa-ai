@@ -2,28 +2,26 @@
 
 ## Purpose
 
-The `testcase-generator` skill transforms structured test scenario models into structured test case models that support downstream QA capabilities.
+The `testcase-generator` skill transforms structured test scenarios into executable, generic QA test cases.
 
-The skill focuses on generating and organizing executable test cases from structured test scenarios. It does not analyze requirements, extract business rules, generate test scenarios, or perform downstream QA activities.
+It owns testcase-level execution detail while remaining technology-neutral. API-specific request/response expansion belongs to `api-test-generator`; database-specific verification logic belongs to `sql-validation`; reusable data derivation belongs to `test-data-generator`.
 
 ---
 
 ## Capability
 
-This skill provides the capability to generate and organize test cases from structured test scenarios.
-
-Its primary objective is to transform structured test scenario information into a structured test case model that supports subsequent QA capabilities.
-
-Capability flow:
-
 ```text
 Structured Test Scenario Model
         ↓
-Identify Test Cases
+Resolve Preconditions and Objective
         ↓
-Structure Test Cases
+Define Executable Steps
         ↓
-Organize Test Cases
+Define Observable Expected Results
+        ↓
+Attach Data / Risk / Traceability Context
+        ↓
+Check Atomicity and Duplication
         ↓
 Structured Test Case Model
 ```
@@ -32,14 +30,7 @@ Structured Test Case Model
 
 ## When To Use
 
-Use this skill when:
-
-- Structured test scenario models are available
-- Test cases need to be generated
-- Test logic needs to be defined
-- Downstream QA skills require structured test cases
-
-This skill should be executed before reviewing testcase quality or performing regression impact analysis.
+Use this skill when scenario-level coverage has been established and executable test cases are required for manual execution, downstream specialization, coverage review, or export.
 
 ---
 
@@ -47,108 +38,108 @@ This skill should be executed before reviewing testcase quality or performing re
 
 ### Required Input
 
-Examples:
-
-- Structured test scenario model
-- Scenario relationships
-- User journeys
-- Dependencies
-- Assumptions
+- Structured Test Scenario Model with sufficient objective and traceability.
 
 ### Optional Input
 
-Examples:
+- Structured Requirement Analysis;
+- Structured Business Rule Model;
+- Structured Risk Analysis;
+- Structured Test Data Model;
+- authoritative acceptance criteria;
+- API/database/UI context needed to make generic steps executable;
+- existing test cases for reuse/duplication checks.
 
-- Structured business rule model
-- Structured requirement analysis
-- Original requirement document
-
-The skill should identify missing or ambiguous test cases during generation.
+Test data may be supplied before generation or attached later. `test-data-generator` is therefore an optional enrichment relationship, not a mandatory cyclic dependency.
 
 ---
 
 ## Processing
 
-The skill performs the following logical processing activities.
+### Step 1 — Resolve Test Objective
 
-### Step 1 — Identify Test Cases
+Confirm the single primary behavior being verified and its upstream scenario/rule/requirement traceability.
 
-Identify the required test cases from structured test scenarios.
+### Step 2 — Define Preconditions
 
----
+Specify actor/role, state, setup, dependencies, and required data conditions without inventing environment facts.
 
-### Step 2 — Structure Test Cases
+### Step 3 — Define Executable Steps
 
-Define the logical structure of each test case, including execution conditions, expected behavior, and supporting information.
+Create ordered, actionable steps at the level needed by a qualified tester. Avoid implementation-specific detail that is unsupported by the input.
 
----
+### Step 4 — Define Expected Results
 
-### Step 3 — Organize Test Cases
+Attach observable, measurable expected results to the relevant action or final state. Expected behavior must trace to authoritative requirements/rules or be explicitly marked as needing confirmation.
 
-Organize test cases into logical groups based on features, user flows, or functional areas.
+### Step 5 — Attach Test Data
 
----
+Reference supplied Structured Test Data or describe logical data needs. Do not fabricate business-valid values when constraints are unknown.
 
-### Step 4 — Detect Gaps
+### Step 6 — Incorporate Risk and Priority
 
-Identify:
+Preserve scenario/risk priority and ensure critical validation is explicit. This skill does not recalculate the risk model.
 
-- Missing test cases
-- Duplicate test cases
-- Ambiguous test cases
+### Step 7 — Identify Technical Specialization Needs
 
----
+Mark cases requiring API-specific, SQL/database-specific, or other specialized validation. Generic cases may reference outputs from specialized skills, but this skill does not duplicate those capabilities.
 
-### Step 5 — Produce Structured Test Case Model
+### Step 8 — Check Atomicity, Reuse, and Gaps
 
-Organize the identified test cases into a structured representation suitable for downstream QA activities.
+Keep one primary objective per case, avoid unnecessary duplicate cases, and surface missing preconditions, expected behavior, or data.
+
+### Step 9 — Produce Structured Test Case Model
+
+Organize stable IDs, title, preconditions, steps, data references, expected results, traceability, priority, and assumptions.
 
 ---
 
 ## Output
 
-The skill produces a structured test case model that can be consumed by downstream QA skills.
+Typical fields include:
 
-Typical outputs may include:
-
-- Test cases
-- Preconditions
-- Test steps
-- Expected results
-- Test data references
-- Dependencies
-- Assumptions
-- Open questions
-
-The exact output structure should follow the applicable templates defined in the shared resources.
+- Test Case ID;
+- scenario/requirement/rule/risk traceability;
+- title/objective;
+- preconditions;
+- ordered steps;
+- test-data references/requirements;
+- expected results;
+- priority;
+- technical-validation references;
+- assumptions/open questions.
 
 ---
 
 ## Dependencies
 
-This skill may use resources from the shared module.
-
 | Resource | Purpose |
-|----------|---------|
-| `shared/standards/` | Apply testcase generation standards |
-| `shared/templates/` | Structure testcase output |
-| `shared/prompt-patterns/` | Apply reusable testcase generation prompts |
+|---|---|
+| `shared/standards/` | Output/documentation conventions |
+| `shared/templates/` | Testcase structure |
+| `shared/checklists/` | Testcase quality controls |
+| `shared/prompt-patterns/` | Reusable generation reasoning |
+| `shared/knowledge/qa/` | Generic testcase principles |
+| `shared/knowledge/testing-techniques/` | Preserve scenario design intent |
+| `shared/knowledge/domain/` | Business semantics when relevant |
 
-The skill consumes these resources but does not redefine them.
+API/database knowledge should normally be consumed through the specialized skills when detailed technical validation is required.
 
 ---
 
 ## Consumers
 
-The output of this skill may be consumed by:
+The output may be consumed by:
 
-- `skills/coverage-reviewer`
-- `skills/regression-impact`
+- `coverage-reviewer`;
+- `test-data-generator` when concrete data still needs derivation;
+- `api-test-generator` for API-specific expansion;
+- `sql-validation` for database assertions;
+- `regression-impact` as existing coverage evidence;
+- testcase-generation/regression workflows;
+- QA execution and future exporters.
 
-It may also be invoked by workflows such as:
-
-- `workflows/testcase-generation`
-- `workflows/regression-analysis`
+Feedback from specialized skills may enrich a testcase, but no specialized skill is a mandatory prerequisite for generic testcase generation.
 
 ---
 
@@ -156,24 +147,27 @@ It may also be invoked by workflows such as:
 
 This skill does not:
 
-- Analyze raw requirements
-- Extract or classify business rules
-- Generate test scenarios
-- Review testcase quality
-- Perform regression impact analysis
-
-These responsibilities belong to other specialized skills.
+- analyze raw requirements or extract rules;
+- generate scenario-level coverage;
+- perform API-specialized test design;
+- design SQL/database validation logic;
+- own reusable test-data generation;
+- perform coverage review;
+- perform regression impact analysis;
+- execute tests.
 
 ---
 
 ## Validation
 
-The output of this skill should be validated to ensure:
+Validate that:
 
-- Test cases are accurately generated from structured test scenarios
-- Test case structure is logically organized
-- Missing, duplicate, or ambiguous test cases are explicitly identified
-- The output is structured and reusable by downstream QA skills
-- The output can be consumed without additional interpretation by downstream QA skills
-
-Detailed validation criteria should be maintained in the relevant shared checklists.
+- each case has one primary objective and upstream traceability;
+- preconditions and data needs are sufficient and non-invented;
+- steps are ordered and executable;
+- expected results are observable and authoritative or explicitly uncertain;
+- risk/priority context is preserved where available;
+- technical specialization is referenced rather than duplicated;
+- duplicate coverage is minimized;
+- assumptions/open questions are visible;
+- cases can be executed without downstream consumers having to infer missing core logic.

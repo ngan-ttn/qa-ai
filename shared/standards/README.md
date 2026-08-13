@@ -2,9 +2,9 @@
 
 ## Overview
 
-The `shared/standards/` directory contains the core standards that define how documentation, prompts, workflows, and AI-generated outputs are created across this repository.
+The `shared/standards/` directory contains the core standards that define how documentation, prompts, knowledge, roadmap progress, and AI-generated outputs are created and maintained across this repository.
 
-These standards establish a consistent foundation for all contributors and AI assistants, ensuring that every artifact follows the same conventions regardless of its domain or purpose.
+These standards establish a consistent foundation for contributors and AI assistants so repository artifacts follow shared conventions regardless of domain or purpose.
 
 This directory serves as the **single source of truth** for repository-wide standards.
 
@@ -14,58 +14,71 @@ This directory serves as the **single source of truth** for repository-wide stan
 
 The standards aim to:
 
-* Establish consistent conventions across the repository.
-* Improve readability and maintainability.
-* Encourage reusable documentation and prompts.
-* Standardize AI-generated outputs.
-* Support future expansion without introducing inconsistencies.
+- establish consistent conventions across the repository;
+- improve readability and maintainability;
+- encourage reusable documentation and prompts;
+- standardize AI-generated outputs;
+- define quality gates for reusable knowledge;
+- keep roadmap progress tied to validated repository state;
+- support future expansion without introducing inconsistencies.
 
 ---
 
 ## Standards
 
-| Document           | Description                                                                                           |
-| ------------------ | ----------------------------------------------------------------------------------------------------- |
-| `Metadata.md`      | Defines the standard metadata format for documents, including versioning and maintenance information. |
-| `Naming.md`        | Defines naming conventions for directories, files, documents, prompts, workflows, and related assets. |
-| `Documentation.md` | Defines writing and formatting standards for Markdown documentation.                                  |
-| `Output.md`        | Defines quality and formatting standards for AI-generated outputs.                                    |
-| `Prompt.md`        | Defines principles and best practices for designing reusable and maintainable prompts.                |
+| Document | Description |
+|---|---|
+| `Metadata.md` | Defines standard metadata, versioning, status, and maintenance information. |
+| `Naming.md` | Defines naming conventions for directories, files, documents, prompts, workflows, and related assets. |
+| `Documentation.md` | Defines writing and Markdown formatting standards. |
+| `Output.md` | Defines quality and formatting standards for AI-generated outputs. |
+| `Prompt.md` | Defines principles for reusable and maintainable prompts. |
+| `Knowledge-Article.md` | Defines structure, depth, quality gates, ownership, and freeze criteria for knowledge articles. |
+| `Roadmap-Progress.md` | Defines component status tracking, phase aggregation, roadmap synchronization, and the future automation contract. |
 
 ---
 
 ## Usage
 
-Before creating or modifying documentation, prompts, workflows, or other repository assets:
+Before creating or modifying repository artifacts:
 
-1. Identify the applicable standard(s).
-2. Review the corresponding document.
-3. Follow the defined conventions.
-4. Apply the standards consistently throughout the artifact.
+1. identify the applicable standard or standards;
+2. review the corresponding document;
+3. follow the defined conventions and quality gates;
+4. update the relevant source-of-truth metadata when tracked component status changes;
+5. apply the standards consistently throughout the artifact.
+
+For roadmap-tracked work, file creation alone must not be interpreted as completion. The component must satisfy its defined quality gate before its progress status is promoted.
 
 ---
 
 ## Design Principles
 
-All standards in this directory are based on the following principles:
+All standards in this directory are based on:
 
-* **Consistency** — Apply the same conventions across the repository.
-* **Clarity** — Keep standards easy to understand and unambiguous.
-* **Reusability** — Design standards that can be applied across multiple domains and workflows.
-* **Maintainability** — Keep standards easy to update and evolve.
-* **Scalability** — Support repository growth without requiring major restructuring.
+- **Consistency** — apply the same conventions across the repository.
+- **Clarity** — keep standards understandable and unambiguous.
+- **Reusability** — design rules that apply across domains and workflows.
+- **Maintainability** — keep standards easy to evolve intentionally.
+- **Scalability** — support repository growth without major restructuring.
+- **Traceability** — connect implementation state to the standards and progress records that govern it.
+- **Quality before status** — do not promote an artifact or component merely because a physical file exists.
 
 ---
 
-## Related Directories
+## Related Directories and Files
 
-These standards are referenced by other shared resources within the repository:
+These standards are referenced by:
 
-* `shared/templates/`
-* `shared/checklists/`
-* `shared/prompt-patterns/`
-* `shared/knowledge/`
-* `shared/glossary/`
+- `shared/templates/`
+- `shared/checklists/`
+- `shared/prompt-patterns/`
+- `shared/knowledge/`
+- `shared/glossary/`
+- `skills/`
+- `workflows/`
+- `docs/11-Roadmap.md`
+- `roadmap-status.json`
 
 ---
 
@@ -73,4 +86,4 @@ These standards are referenced by other shared resources within the repository:
 
 Standards should be updated only when a repository-wide convention needs to be introduced, refined, or replaced.
 
-Changes should maintain consistency across existing documentation whenever possible.
+Changes must preserve consistency across existing artifacts wherever possible. Changes to roadmap tracking semantics require corresponding review of `roadmap-status.json`, `docs/11-Roadmap.md`, and any automation that consumes them.
