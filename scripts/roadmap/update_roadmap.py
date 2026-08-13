@@ -1,4 +1,4 @@
-"""Render registry-backed roadmap status into the generated roadmap status region."""
+"""Render registry-backed roadmap status into a generated roadmap status region."""
 from __future__ import annotations
 
 import argparse
@@ -16,6 +16,12 @@ from scripts.utils.file_utils import read_json, read_text, write_text
 START = "<!-- ROADMAP_STATUS:START -->"
 END = "<!-- ROADMAP_STATUS:END -->"
 REGION_RE = re.compile(re.escape(START) + r".*?" + re.escape(END), re.S)
+OVERVIEW_TABLE_RE = re.compile(
+    r"\| Phase \| Name \| Status \|\n"
+    r"\|---\|---\|---\|\n"
+    r"(?:\|[^\n]+\|\n?)+",
+    re.M,
+)
 
 
 def render(registry: dict[str, object]) -> str:
@@ -32,6 +38,14 @@ def render(registry: dict[str, object]) -> str:
     return "\n".join(lines)
 
 
+def _bootstrap_region(current: str) -> str:
+    match = OVERVIEW_TABLE_RE.search(current)
+    if not match:
+        raise ValueError("Cannot bootstrap roadmap status region: implementation overview table not found")
+    wrapped = f"{START}\n\n{match.group(0).rstrip()}\n\n{END}"
+    return current[:match.start()] + wrapped + current[match.end():]
+
+
 def update(registry_path: str, roadmap_path: str, *, check: bool = False) -> bool:
     registry = read_json(registry_path)
     errors = validate(registry)
@@ -39,9 +53,11 @@ def update(registry_path: str, roadmap_path: str, *, check: bool = False) -> boo
         raise ValueError("Invalid roadmap registry: " + "; ".join(errors))
     current = read_text(roadmap_path)
     if START not in current or END not in current:
-        raise ValueError("Roadmap generated status markers are missing")
+        if check:
+            return True
+        current = _bootstrap_region(current)
     desired = REGION_RE.sub(render(registry), current, count=1)
-    changed = desired != current
+    changed = desired != read_text(roadmap_path)
     if changed and not check:
         write_text(roadmap_path, desired)
     return changed
@@ -51,11 +67,11 @@ def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--registry", default="roadmap-status.json")
     parser.add_argument("--roadmap", default="docs/11-Roadmap.md")
-    parser.add_argument("--check", action="store_true", help="Fail if roadmap generated region is stale")
+    parser.add_argument("--check", action="store_true", help="Fail if roadmap generated region is missing or stale")
     args = parser.parse_args()
     changed = update(args.registry, args.roadmap, check=args.check)
     if args.check:
-        print("FAIL: roadmap generated status is stale" if changed else "PASS: roadmap generated status is synchronized")
+        print("FAIL: roadmap generated status is missing/stale" if changed else "PASS: roadmap generated status is synchronized")
         return 1 if changed else 0
     print("Updated roadmap generated status" if changed else "Roadmap generated status already synchronized")
     return 0
