@@ -96,6 +96,24 @@ Database articles must:
 
 ---
 
+## Content Depth Gate
+
+Passing the 12-section structure is necessary but not sufficient. An approved article must also contain enough substance for standalone QA and QA-AI reasoning.
+
+At minimum, review must confirm that:
+
+- `Core Concepts` explains the concepts needed to reason about the topic, not only names them;
+- `How It Works` explains the relevant behavior, lifecycle, or interaction model;
+- `Examples` include realistic QA-relevant situations rather than one-line placeholders;
+- `Limitations` make technology, configuration, and architectural boundaries explicit;
+- `Best Practices` are actionable without inventing project-specific policy;
+- QA implications, failure modes, and cross-article boundaries are clear where relevant;
+- the article is not a structurally complete but semantically shallow skeleton.
+
+The current 42-article baseline passed this depth gate after the final cross-review and rewrite cycle.
+
+---
+
 ## QA-AI Usage
 
 This domain supports database-aware requirement analysis, SQL validation, CRUD verification, integrity and relationship checks, transaction/concurrency reasoning, migration reconciliation, performance investigation, and database-focused regression analysis.
@@ -117,9 +135,9 @@ QA-AI must not infer production access, destructive-test permission, schema deta
 
 ## Maintenance and Freeze Policy
 
-`Catalog.md` is the source of truth for the approved Database knowledge baseline. The current baseline is frozen after full cross-article review. `Frozen` is a repository baseline state; article lifecycle metadata uses `Approved`.
+`Catalog.md` is the source of truth for the approved Database knowledge baseline. The current baseline is frozen after full structural, depth, and cross-article review. `Frozen` is a repository baseline state; article lifecycle metadata uses `Approved`.
 
-A frozen article may be changed when a technical error, material standard change, cross-domain correction, or approved architecture expansion requires it. Any change must preserve physical-file ↔ Catalog consistency and trigger appropriate cross-review.
+A frozen article may be changed when a technical error, material standard change, cross-domain correction, content-depth regression, or approved architecture expansion requires it. Any change must preserve physical-file ↔ Catalog consistency and trigger appropriate cross-review.
 
 ---
 
