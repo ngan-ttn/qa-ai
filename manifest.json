@@ -4,6 +4,8 @@
   "version": "1.0.0",
   "description": "Vendor-neutral QA Skill Framework for generating structured QA deliverables from software requirements.",
   "entry_point": "FRAMEWORK.md",
+  "roadmap": "docs/11-Roadmap.md",
+  "roadmap_status": "roadmap-status.json",
   "components": {
     "shared": "shared/",
     "skills": "skills/",
