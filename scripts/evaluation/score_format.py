@@ -23,17 +23,23 @@ def half_up(value: float) -> int:
 
 
 def quality_band(score: int) -> str:
-    if score >= 95: return "Excellent"
-    if score >= 85: return "Good"
-    if score >= 70: return "Acceptable"
-    if score >= 50: return "Weak"
+    if score >= 95:
+        return "Excellent"
+    if score >= 85:
+        return "Good"
+    if score >= 70:
+        return "Acceptable"
+    if score >= 50:
+        return "Weak"
     return "Failed"
 
 
-def score(levels: dict[str, str], critical_failures: list[str] | None = None) -> dict[str, object]:
+def score(levels: dict[str, str], critical_failures: list[str] | None = None,
+          n_a_justifications: dict[str, str] | None = None) -> dict[str, object]:
     unknown = sorted(set(levels) - set(WEIGHTS))
     if unknown:
         raise ValueError(f"Unknown criteria: {', '.join(unknown)}")
+    justifications = n_a_justifications or {}
     details: dict[str, object] = {}
     active_weight = 0
     raw = 0.0
@@ -42,7 +48,10 @@ def score(levels: dict[str, str], critical_failures: list[str] | None = None) ->
         if level is None:
             raise ValueError(f"Missing criterion: {criterion}; use N/A only when canonically justified")
         if level == "N/A":
-            details[criterion] = {"weight": weight, "level": level, "weighted_score": None}
+            reason = str(justifications.get(criterion, "")).strip()
+            if not reason:
+                raise ValueError(f"N/A criterion {criterion} requires a justification")
+            details[criterion] = {"weight": weight, "level": level, "weighted_score": None, "justification": reason}
             continue
         if level not in FACTORS:
             raise ValueError(f"Invalid level for {criterion}: {level}")
@@ -76,11 +85,11 @@ def score(levels: dict[str, str], critical_failures: list[str] | None = None) ->
 
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("input", help="JSON: {levels:{C01:L4,...}, critical_failures:[CF-..]}")
+    parser.add_argument("input", help="JSON with levels, optional critical_failures and n_a_justifications")
     parser.add_argument("--output", default="output/evaluation-score.json")
     args = parser.parse_args()
     data = read_json(args.input)
-    result = score(data.get("levels", {}), data.get("critical_failures", []))
+    result = score(data.get("levels", {}), data.get("critical_failures", []), data.get("n_a_justifications", {}))
     write_json(args.output, result)
     print(f"{result['result']} score={result['final_score']} band={result['quality_band']} -> {args.output}")
     return 0 if result["result"] == "PASS" else 2
