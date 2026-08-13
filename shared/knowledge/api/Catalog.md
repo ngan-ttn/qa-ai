@@ -2,87 +2,61 @@
 
 ## Purpose
 
-The **API** catalog defines the knowledge architecture and implementation roadmap for Application Programming Interface (API) concepts, communication protocols, integration mechanisms, security models, and API testing practices within the QA-AI framework.
+The **API Catalog** defines the approved knowledge architecture for API concepts, communication, design, security, failure handling, testing, and modern integration patterns within the QA-AI framework.
 
-Its primary objectives are to:
+Its objectives are to:
 
-- Establish a structured knowledge base for API fundamentals and engineering concepts.
-- Organize API knowledge into logical categories based on industry best practices.
-- Provide a consistent learning path for QA engineers and AI capabilities.
-- Serve as the implementation backlog for API knowledge articles.
-- Enable reusable API knowledge across QA skills and workflows.
-- Support long-term scalability and maintainability of the knowledge repository.
+- define the authoritative set of API knowledge articles in `shared/knowledge/api/`;
+- organize API knowledge into clear, reusable categories;
+- expose conceptual prerequisites and learning order;
+- support API reasoning across QA skills and workflows;
+- prevent duplication with QA, testing-techniques, database, and domain knowledge;
+- keep the physical folder and knowledge roadmap synchronized.
 
-Rather than acting as a simple document index, this catalog serves as the authoritative roadmap for developing and maintaining the API knowledge domain.
+This catalog is the source of truth for the current API knowledge baseline.
 
 ---
 
 ## Scope
 
-This catalog covers knowledge related to Application Programming Interfaces, including:
+This catalog covers:
 
-- API fundamentals
-- HTTP communication
-- REST architecture
-- API design principles
-- API security
-- Error handling
-- API testing
-- Modern API technologies
+- API fundamentals and client-server interaction;
+- HTTP communication;
+- REST and resource-oriented design;
+- API security and access control;
+- error, retry, timeout, and rate behavior;
+- API testing practices;
+- webhooks, GraphQL, gRPC, WebSocket, and event-driven APIs.
 
-The catalog focuses on **technology-independent API concepts, design principles, and testing practices**.
-
-The following topics are intentionally excluded because they belong to other knowledge domains.
+The following topics are intentionally owned by other domains.
 
 | Topic | Knowledge Domain |
-|---------|------------------|
-| Test Planning | QA |
-| Boundary Value Analysis | Testing Techniques |
-| SQL | Database |
-| Database Transactions | Database |
-| Banking APIs | Domain |
-| Healthcare APIs | Domain |
-| Warehouse APIs | Domain |
-
----
-
-## Objectives
-
-The API knowledge base aims to:
-
-- Build a comprehensive understanding of API concepts and architectures.
-- Explain how systems communicate through APIs.
-- Promote consistent API design and integration principles.
-- Improve API testing effectiveness.
-- Strengthen API security awareness.
-- Support AI reasoning during API analysis and test generation.
-- Establish reusable API knowledge across projects and industries.
+|---|---|
+| Test Planning and generic Test Strategy | `../qa/` |
+| Risk-Based Testing | `../qa/` |
+| Equivalence Partitioning | `../testing-techniques/` |
+| Boundary Value Analysis | `../testing-techniques/` |
+| Decision Table / State Transition Testing | `../testing-techniques/` |
+| SQL and Database Validation | `../database/` |
+| Industry-Specific Rules | `../domain/` |
 
 ---
 
 ## Knowledge Architecture
 
-API knowledge is organized according to major disciplines commonly used in API engineering and integration.
-
 ```text
 API
-
 ├── Foundations
-│
 ├── Communication
-│
 ├── API Design
-│
 ├── Security
-│
 ├── Error Handling
-│
 ├── API Testing
-│
 └── Advanced Topics
 ```
 
-Each category represents a major area of API engineering and supports a different aspect of API understanding and quality assurance.
+Each category owns a distinct responsibility while remaining connected to the wider QA-AI knowledge graph.
 
 ---
 
@@ -90,11 +64,8 @@ Each category represents a major area of API engineering and supports a differen
 
 ### Foundations
 
-Foundation articles introduce the fundamental concepts required to understand how APIs work.
-
 ```text
 Foundations
-
 ├── API Fundamentals
 ├── Client-Server Architecture
 ├── HTTP Fundamentals
@@ -102,17 +73,10 @@ Foundations
 └── API Lifecycle
 ```
 
-These articles establish the conceptual foundation for all subsequent API knowledge.
-
----
-
 ### Communication
-
-Communication focuses on how clients and servers exchange information.
 
 ```text
 Communication
-
 ├── HTTP Methods
 ├── Request Structure
 ├── Response Structure
@@ -121,17 +85,10 @@ Communication
 └── Content Negotiation
 ```
 
-These articles explain how API requests and responses are constructed and interpreted.
-
----
-
 ### API Design
-
-API Design covers best practices for creating maintainable and scalable APIs.
 
 ```text
 API Design
-
 ├── Resource Design
 ├── URI Design
 ├── API Versioning
@@ -140,17 +97,10 @@ API Design
 └── Filtering, Sorting and Searching
 ```
 
-These articles introduce design principles that improve API usability, consistency, and maintainability.
-
----
-
 ### Security
-
-Security focuses on protecting APIs and controlling access.
 
 ```text
 Security
-
 ├── Authentication
 ├── Authorization
 ├── OAuth 2.0
@@ -160,34 +110,20 @@ Security
 └── API Security Best Practices
 ```
 
-These articles explain authentication mechanisms, authorization models, and security practices commonly used in modern APIs.
-
----
-
 ### Error Handling
-
-Error Handling describes how APIs communicate failures and unexpected conditions.
 
 ```text
 Error Handling
-
 ├── HTTP Status Codes
 ├── Error Response Design
 ├── Retry Strategy
 └── Timeout Handling
 ```
 
-These articles help QA engineers understand expected API behaviors under error conditions.
-
----
-
 ### API Testing
-
-API Testing focuses on validating API functionality, integration, performance, and security.
 
 ```text
 API Testing
-
 ├── API Test Strategy
 ├── Functional API Testing
 ├── Contract Testing
@@ -197,17 +133,10 @@ API Testing
 └── API Mocking
 ```
 
-These articles provide guidance for planning and executing effective API testing activities.
-
----
-
 ### Advanced Topics
-
-Advanced Topics introduce modern API technologies and communication patterns.
 
 ```text
 Advanced Topics
-
 ├── Webhooks
 ├── GraphQL
 ├── gRPC
@@ -215,407 +144,202 @@ Advanced Topics
 └── Event-Driven APIs
 ```
 
-These articles expand the knowledge base beyond traditional REST APIs to support modern distributed systems.
+---
 
 ## Article Catalog
 
-The following catalog defines all planned knowledge articles for the **API** knowledge base.
+The table below defines the current approved API knowledge baseline.
 
-Each article is classified by category, learning level, prerequisite knowledge, implementation priority, and current implementation status.
-
-| Article | Category | Level | Prerequisites | Priority | Status |
-|----------|----------|-------|---------------|----------|--------|
-| API Fundamentals | Foundations | Foundation | None | High | Planned |
-| Client-Server Architecture | Foundations | Foundation | None | High | Planned |
-| HTTP Fundamentals | Foundations | Foundation | None | High | Planned |
-| REST Architecture | Foundations | Foundation | HTTP Fundamentals | High | Planned |
-| API Lifecycle | Foundations | Intermediate | API Fundamentals | Medium | Planned |
-| HTTP Methods | Communication | Foundation | HTTP Fundamentals | High | Planned |
-| Request Structure | Communication | Foundation | HTTP Fundamentals | High | Planned |
-| Response Structure | Communication | Foundation | HTTP Fundamentals | High | Planned |
-| Headers | Communication | Foundation | HTTP Fundamentals | Medium | Planned |
-| Cookies | Communication | Intermediate | HTTP Fundamentals | Medium | Planned |
-| Content Negotiation | Communication | Intermediate | HTTP Fundamentals | Medium | Planned |
-| Resource Design | API Design | Intermediate | REST Architecture | Medium | Planned |
-| URI Design | API Design | Intermediate | REST Architecture | Medium | Planned |
-| API Versioning | API Design | Intermediate | REST Architecture | High | Planned |
-| Idempotency | API Design | Advanced | HTTP Methods | High | Planned |
-| Pagination | API Design | Intermediate | REST Architecture | Medium | Planned |
-| Filtering, Sorting and Searching | API Design | Intermediate | REST Architecture | Medium | Planned |
-| Authentication | Security | Foundation | HTTP Fundamentals | High | Planned |
-| Authorization | Security | Foundation | Authentication | High | Planned |
-| OAuth 2.0 | Security | Intermediate | Authentication, Authorization | High | Planned |
-| JWT | Security | Intermediate | Authentication | High | Planned |
-| API Keys | Security | Foundation | Authentication | Medium | Planned |
-| Rate Limiting | Security | Intermediate | HTTP Fundamentals | Medium | Planned |
-| API Security Best Practices | Security | Advanced | Authentication, Authorization | Medium | Planned |
-| HTTP Status Codes | Error Handling | Foundation | HTTP Fundamentals | High | Planned |
-| Error Response Design | Error Handling | Intermediate | HTTP Status Codes | High | Planned |
-| Retry Strategy | Error Handling | Intermediate | HTTP Status Codes | Medium | Planned |
-| Timeout Handling | Error Handling | Intermediate | HTTP Fundamentals | Medium | Planned |
-| API Test Strategy | API Testing | Foundation | REST Architecture | High | Planned |
-| Functional API Testing | API Testing | Foundation | API Test Strategy | High | Planned |
-| Contract Testing | API Testing | Intermediate | Functional API Testing | High | Planned |
-| Integration Testing | API Testing | Intermediate | Functional API Testing | High | Planned |
-| Performance Testing | API Testing | Advanced | Functional API Testing | Medium | Planned |
-| Security Testing | API Testing | Advanced | Functional API Testing, Authentication | Medium | Planned |
-| API Mocking | API Testing | Intermediate | Functional API Testing | Medium | Planned |
-| Webhooks | Advanced Topics | Intermediate | REST Architecture | Medium | Planned |
-| GraphQL | Advanced Topics | Advanced | REST Architecture | Low | Planned |
-| gRPC | Advanced Topics | Advanced | HTTP Fundamentals | Low | Planned |
-| WebSocket | Advanced Topics | Advanced | HTTP Fundamentals | Low | Planned |
-| Event-Driven APIs | Advanced Topics | Advanced | Webhooks | Low | Planned |
+| Article | File | Category | Level | Prerequisites | Priority | Status |
+|---|---|---|---|---|---|---|
+| API Fundamentals | `API-Fundamentals.md` | Foundations | Foundation | None | High | Approved |
+| Client-Server Architecture | `Client-Server-Architecture.md` | Foundations | Foundation | API Fundamentals | High | Approved |
+| HTTP Fundamentals | `HTTP-Fundamentals.md` | Foundations | Foundation | Client-Server Architecture | High | Approved |
+| REST Architecture | `REST-Architecture.md` | Foundations | Intermediate | HTTP Fundamentals | High | Approved |
+| API Lifecycle | `API-Lifecycle.md` | Foundations | Intermediate | API Fundamentals | Medium | Approved |
+| HTTP Methods | `HTTP-Methods.md` | Communication | Foundation | HTTP Fundamentals | High | Approved |
+| Request Structure | `Request-Structure.md` | Communication | Foundation | HTTP Fundamentals | High | Approved |
+| Response Structure | `Response-Structure.md` | Communication | Foundation | HTTP Fundamentals | High | Approved |
+| Headers | `Headers.md` | Communication | Foundation | HTTP Fundamentals | Medium | Approved |
+| Cookies | `Cookies.md` | Communication | Intermediate | Headers | Medium | Approved |
+| Content Negotiation | `Content-Negotiation.md` | Communication | Intermediate | Headers | Medium | Approved |
+| Resource Design | `Resource-Design.md` | API Design | Intermediate | REST Architecture | Medium | Approved |
+| URI Design | `URI-Design.md` | API Design | Intermediate | REST Architecture | Medium | Approved |
+| API Versioning | `API-Versioning.md` | API Design | Intermediate | API Fundamentals | High | Approved |
+| Idempotency | `Idempotency.md` | API Design | Advanced | HTTP Methods | High | Approved |
+| Pagination | `Pagination.md` | API Design | Intermediate | Request Structure | Medium | Approved |
+| Filtering, Sorting and Searching | `Filtering-Sorting-and-Searching.md` | API Design | Intermediate | Request Structure | Medium | Approved |
+| Authentication | `Authentication.md` | Security | Foundation | HTTP Fundamentals | High | Approved |
+| Authorization | `Authorization.md` | Security | Foundation | Authentication | High | Approved |
+| OAuth 2.0 | `OAuth-2.0.md` | Security | Intermediate | Authentication, Authorization | High | Approved |
+| JWT | `JWT.md` | Security | Intermediate | Authentication | High | Approved |
+| API Keys | `API-Keys.md` | Security | Foundation | Authentication | Medium | Approved |
+| Rate Limiting | `Rate-Limiting.md` | Security | Intermediate | HTTP Fundamentals | Medium | Approved |
+| API Security Best Practices | `API-Security-Best-Practices.md` | Security | Advanced | Authentication, Authorization | High | Approved |
+| HTTP Status Codes | `HTTP-Status-Codes.md` | Error Handling | Foundation | HTTP Fundamentals | High | Approved |
+| Error Response Design | `Error-Response-Design.md` | Error Handling | Intermediate | HTTP Status Codes | High | Approved |
+| Retry Strategy | `Retry-Strategy.md` | Error Handling | Intermediate | HTTP Status Codes, Idempotency | Medium | Approved |
+| Timeout Handling | `Timeout-Handling.md` | Error Handling | Intermediate | HTTP Fundamentals | Medium | Approved |
+| API Test Strategy | `API-Test-Strategy.md` | API Testing | Intermediate | API Fundamentals, HTTP Fundamentals | High | Approved |
+| Functional API Testing | `Functional-API-Testing.md` | API Testing | Foundation | API Test Strategy | High | Approved |
+| Contract Testing | `Contract-Testing.md` | API Testing | Intermediate | API Test Strategy | High | Approved |
+| Integration Testing | `Integration-Testing.md` | API Testing | Intermediate | Functional API Testing | High | Approved |
+| Performance Testing | `Performance-Testing.md` | API Testing | Advanced | API Test Strategy | Medium | Approved |
+| Security Testing | `Security-Testing.md` | API Testing | Advanced | API Security Best Practices | High | Approved |
+| API Mocking | `API-Mocking.md` | API Testing | Intermediate | Contract Testing | Medium | Approved |
+| Webhooks | `Webhooks.md` | Advanced Topics | Intermediate | HTTP Fundamentals, Retry Strategy | Medium | Approved |
+| GraphQL | `GraphQL.md` | Advanced Topics | Advanced | API Fundamentals | Medium | Approved |
+| gRPC | `gRPC.md` | Advanced Topics | Advanced | API Fundamentals | Medium | Approved |
+| WebSocket | `WebSocket.md` | Advanced Topics | Advanced | Client-Server Architecture | Medium | Approved |
+| Event-Driven APIs | `Event-Driven-APIs.md` | Advanced Topics | Advanced | API Fundamentals | Medium | Approved |
 
 ---
 
 ## Category Summary
 
-| Category | Articles | Purpose |
-|----------|---------:|---------|
-| Foundations | 5 | Introduce core API concepts and communication architecture. |
-| Communication | 6 | Understand how API requests and responses are exchanged. |
-| API Design | 6 | Learn principles for designing scalable and maintainable APIs. |
-| Security | 7 | Protect APIs through authentication, authorization, and security controls. |
-| Error Handling | 4 | Handle failures consistently and communicate errors effectively. |
-| API Testing | 7 | Verify API functionality, integration, performance, and security. |
-| Advanced Topics | 5 | Explore modern API technologies and communication patterns. |
-| **Total** | **40** | |
+| Category | Articles | Status | Purpose |
+|---|---:|---|---|
+| Foundations | 5 | Approved | Establish core API and protocol concepts. |
+| Communication | 6 | Approved | Explain HTTP request/response composition and metadata. |
+| API Design | 6 | Approved | Model stable, compatible, usable API interfaces. |
+| Security | 7 | Approved | Establish identity, access, abuse, and protection concepts. |
+| Error Handling | 4 | Approved | Explain failures, errors, retries, and timeouts. |
+| API Testing | 7 | Approved | Provide reusable API validation approaches. |
+| Advanced Topics | 5 | Approved | Cover modern non-traditional API interaction styles. |
+| **Total** | **40** | **Approved** | Current API knowledge baseline. |
+
+The catalog count must match the physical `.md` knowledge articles in `shared/knowledge/api/`, excluding `README.md` and `Catalog.md`.
 
 ---
 
 ## Knowledge Levels
 
-Knowledge articles are organized into progressive learning levels.
-
 ### Foundation
 
-Foundation articles introduce the essential API concepts every QA engineer should understand.
-
-Characteristics:
-
-- Minimal prerequisites
-- Frequently encountered in API testing
-- Establish the basis for all subsequent API knowledge
-
----
+Introduces concepts needed for routine API reasoning and requires minimal prerequisite knowledge.
 
 ### Intermediate
 
-Intermediate articles expand foundational knowledge through API design principles, security models, and practical testing methodologies.
-
-Characteristics:
-
-- Require prior understanding of API fundamentals
-- Commonly applied in real-world API development and testing
-- Improve API quality and maintainability
-
----
+Combines foundational concepts into design, integration, security, or testing practices.
 
 ### Advanced
 
-Advanced articles focus on specialized API architectures, modern communication technologies, and advanced testing practices.
+Requires multiple prerequisite concepts or deeper reasoning about distributed behavior, compatibility, security, or asynchronous systems.
 
-Characteristics:
-
-- Require multiple prerequisite concepts
-- Applicable to distributed systems and enterprise architectures
-- Support advanced API engineering and AI-assisted testing
+Knowledge level describes conceptual dependency, not job seniority.
 
 ---
 
 ## Priority Definitions
 
-Priority indicates the recommended implementation order of individual knowledge articles.
+### High
 
-| Priority | Description |
-|----------|-------------|
-| High | Core API knowledge required by multiple skills and workflows. |
-| Medium | Important supporting knowledge that expands API understanding. |
-| Low | Specialized or emerging knowledge intended for advanced scenarios. |
+Required for core API analysis, generation, and quality reasoning in common QA workflows.
 
----
+### Medium
 
-## Status Definitions
+Important for broader coverage, specialized integrations, or advanced API contexts but not required for every API task.
 
-Status indicates the implementation state of each knowledge article.
-
-| Status | Description |
-|--------|-------------|
-| Planned | The article has been identified but has not yet been implemented. |
-| In Progress | The article is currently being developed. |
-| Review | The article has completed drafting and is under review. |
-| Approved | The article has passed review and is ready for production use. |
-| Deprecated | The article is retained for historical purposes and is no longer recommended. |
-## Learning Path
-
-The following learning path is recommended for QA engineers who are developing professional API knowledge.
-
-```text
-Foundations
-        │
-        ▼
-Communication
-        │
-        ▼
-API Design
-        │
-        ▼
-Security
-        │
-        ▼
-Error Handling
-        │
-        ▼
-API Testing
-        │
-        ▼
-Advanced Topics
-```
-
-The learning path introduces API concepts progressively, beginning with communication fundamentals before moving to design principles, security, testing methodologies, and modern API technologies.
+Priority is a knowledge-development and retrieval signal, not a project defect priority.
 
 ---
 
-## Implementation Phases
-
-Knowledge articles should be implemented incrementally to establish a strong understanding of API fundamentals before introducing advanced engineering concepts.
-
-### Phase 1 — Foundations
-
-**Objective**
-
-Establish a common understanding of APIs, communication architecture, and REST principles.
-
-**Articles**
-
-- API Fundamentals
-- Client-Server Architecture
-- HTTP Fundamentals
-- REST Architecture
-- API Lifecycle
-
----
-
-### Phase 2 — Communication
-
-**Objective**
-
-Build a solid understanding of how HTTP requests and responses are exchanged.
-
-**Articles**
-
-- HTTP Methods
-- Request Structure
-- Response Structure
-- Headers
-- Cookies
-- Content Negotiation
-
----
-
-### Phase 3 — API Design
-
-**Objective**
-
-Introduce design principles that improve API consistency, scalability, and maintainability.
-
-**Articles**
-
-- Resource Design
-- URI Design
-- API Versioning
-- Idempotency
-- Pagination
-- Filtering, Sorting and Searching
-
----
-
-### Phase 4 — Security
-
-**Objective**
-
-Develop knowledge of authentication, authorization, and API protection mechanisms.
-
-**Articles**
-
-- Authentication
-- Authorization
-- OAuth 2.0
-- JWT
-- API Keys
-- Rate Limiting
-- API Security Best Practices
-
----
-
-### Phase 5 — Error Handling
-
-**Objective**
-
-Understand how APIs communicate failures and how clients should respond appropriately.
-
-**Articles**
-
-- HTTP Status Codes
-- Error Response Design
-- Retry Strategy
-- Timeout Handling
-
----
-
-### Phase 6 — API Testing
-
-**Objective**
-
-Introduce testing strategies and validation techniques for API quality assurance.
-
-**Articles**
-
-- API Test Strategy
-- Functional API Testing
-- Contract Testing
-- Integration Testing
-- Performance Testing
-- Security Testing
-- API Mocking
-
----
-
-### Phase 7 — Advanced Topics
-
-**Objective**
-
-Expand knowledge into modern API technologies and distributed communication patterns.
-
-**Articles**
-
-- Webhooks
-- GraphQL
-- gRPC
-- WebSocket
-- Event-Driven APIs
-
----
-
-## Dependency Map
-
-The following dependency map illustrates conceptual relationships between knowledge articles.
+## Dependency Flow
 
 ```text
 API Fundamentals
-        │
-        ├── Client-Server Architecture
-        │
-        ├── HTTP Fundamentals
-        │       │
-        │       ├── REST Architecture
-        │       │       │
-        │       │       ├── Resource Design
-        │       │       ├── URI Design
-        │       │       ├── API Versioning
-        │       │       ├── Pagination
-        │       │       └── Filtering, Sorting and Searching
-        │       │
-        │       ├── HTTP Methods
-        │       │       │
-        │       │       └── Idempotency
-        │       │
-        │       ├── Request Structure
-        │       ├── Response Structure
-        │       ├── Headers
-        │       ├── Cookies
-        │       └── Content Negotiation
-        │
-        ├── Authentication
-        │       │
-        │       ├── Authorization
-        │       │       └── OAuth 2.0
-        │       │
-        │       ├── JWT
-        │       └── API Keys
-        │
-        ├── HTTP Status Codes
-        │       ├── Error Response Design
-        │       ├── Retry Strategy
-        │       └── Timeout Handling
-        │
-        ├── API Test Strategy
-        │       │
-        │       ├── Functional API Testing
-        │       │       ├── Contract Testing
-        │       │       ├── Integration Testing
-        │       │       ├── Performance Testing
-        │       │       ├── Security Testing
-        │       │       └── API Mocking
-        │
-        └── REST Architecture
-                │
-                ├── Webhooks
-                │       └── Event-Driven APIs
-                │
-                ├── GraphQL
-                ├── gRPC
-                └── WebSocket
+      ↓
+Client-Server Architecture
+      ↓
+HTTP Fundamentals
+      ├── Communication
+      ├── REST Architecture → API Design
+      ├── Authentication → Authorization → Security
+      ├── Status Codes → Error Handling
+      └── API Test Strategy → API Testing
+
+API Fundamentals
+      └── Advanced Topics
 ```
 
----
-
-## Implementation Guidelines
-
-When implementing knowledge articles, follow these principles:
-
-- Implement articles according to the defined implementation phases.
-- Complete prerequisite articles before dependent articles.
-- Follow the standard Knowledge Article template.
-- Keep articles technology-independent whenever possible.
-- Avoid overlapping with QA, Testing Techniques, Database, and Domain knowledge.
-- Maintain consistency with repository documentation standards.
-- Update article status after every review cycle.
-- Periodically review dependencies as API technologies evolve.
+This is a recommended conceptual path, not a mandatory reading sequence. Advanced API styles may rely on non-HTTP transports or interaction semantics, so REST architecture is not a universal prerequisite for API testing.
 
 ---
 
-## Expansion Roadmap
+## Cross-Domain Relationships
 
-Future knowledge articles may include:
+API knowledge should reference, rather than duplicate:
 
-### API Design & Architecture
+- `../qa/Risk-Based-Testing.md` for risk prioritization;
+- `../qa/Regression-Testing.md` for generic regression concepts;
+- `../testing-techniques/` for detailed test-design techniques;
+- `../database/` for SQL, transactions, persistence, and database validation;
+- `../domain/` for business entities, workflows, and industry rules.
 
-- OpenAPI Specification
-- AsyncAPI
-- HATEOAS
-- API Gateway
-- Backend for Frontend (BFF)
+---
 
-### Distributed Systems
+## Quality and Freeze Criteria
 
-- Service Discovery
-- Service Mesh
-- Circuit Breaker
-- Distributed Tracing
-- API Observability
+The API baseline is considered complete when:
 
-### AI-Driven API Engineering
+- all 40 cataloged articles physically exist;
+- no cataloged article is empty;
+- every article follows the 12 mandatory sections in `../../standards/Knowledge-Article.md`;
+- article metadata uses an allowed lifecycle status;
+- terminology is consistent across HTTP, REST, authentication, authorization, error, and testing concepts;
+- cross-references point to real repository knowledge;
+- no article duplicates another article's primary responsibility;
+- project-specific rules are not presented as universal API rules;
+- all categories pass cross-article review;
+- Catalog count matches the physical baseline.
 
-- AI-Assisted API Testing
-- AI-Assisted API Documentation
-- AI-Based Contract Validation
-- LLM-Powered API Analysis
+---
 
-Future additions should remain within the scope of **API concepts, communication, architecture, security, and testing**, while avoiding overlap with QA methodologies, database technologies, or business domains.
+## Cross-Review Result
+
+The 2026-08-12 cross-review covered all seven knowledge categories and the complete 40-article physical baseline.
+
+Review checks included:
+
+- mandatory section compliance;
+- metadata consistency;
+- technical and terminology consistency;
+- HTTP vs REST boundary correctness;
+- authentication vs authorization separation;
+- synchronous vs asynchronous semantics;
+- retry, timeout, and idempotency relationships;
+- API-testing scope boundaries;
+- advanced API style independence;
+- cross-domain references;
+- duplicate-responsibility detection;
+- physical files vs Catalog reconciliation.
+
+All blocking findings were resolved before freeze. Final cross-review result: **PASS**.
+
+---
+
+## Baseline Status
+
+```text
+Folder: shared/knowledge/api/
+Physical Knowledge Articles: 40
+Cataloged Knowledge Articles: 40
+Catalog Status: Approved
+Cross-Review Result: PASS
+Baseline State: Frozen
+Freeze Date: 2026-08-12
+```
+
+`Frozen` describes the repository baseline. It is not a document metadata lifecycle value.
+
+Future changes should trigger targeted review of affected articles and a new cross-domain consistency check when relationships change.
 
 ---
 
 ## References
 
-Related repository resources include:
-
-- `shared/knowledge/README.md`
-- `shared/knowledge/testing-techniques/`
-- `shared/knowledge/qa/`
-- `shared/glossary/API-Terms.md`
-- `shared/standards/`
-- `shared/templates/`
-- `shared/checklists/`
-- `skills/`
-- `workflows/`
+- `README.md`
+- `../../standards/Knowledge-Article.md`
+- `../../standards/Metadata.md`
+- `../../standards/Naming.md`
+- `../../glossary/API-Terms.md`
