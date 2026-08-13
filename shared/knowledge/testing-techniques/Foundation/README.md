@@ -1,149 +1,42 @@
-# Foundation Testing Techniques
+# Foundation Testing Approaches
 
 ## Purpose
 
-The **Foundation Testing Techniques** knowledge base introduces the primary testing approaches that establish the conceptual basis for the rest of the QA-AI testing-techniques library.
-
-These articles explain how testing can be performed from external behavior, internal implementation, or a combination of both perspectives.
-
----
+This category establishes the three core testing perspectives used throughout the Testing Techniques knowledge domain.
 
 ## Scope
 
-This knowledge base contains:
-
-- Black Box Testing
-- White Box Testing
-- Gray Box Testing
-
-| Technique | Primary Focus |
-|---|---|
-| Black Box Testing | Validate observable system behavior without relying on internal implementation details. |
-| White Box Testing | Validate internal logic, implementation structure, and code-level execution behavior. |
-| Gray Box Testing | Combine external behavior validation with partial implementation knowledge. |
-
----
-
-## Learning Objectives
-
-After completing this category, readers should be able to:
-
-- Distinguish Black Box, White Box, and Gray Box Testing.
-- Understand what information each approach uses.
-- Recognize the strengths and limitations of each approach.
-- Select an appropriate testing perspective for a given context.
-- Understand how these approaches support more specialized testing techniques.
-
----
-
-## Knowledge Structure
-
 ```text
 Foundation/
-│
-├── README.md
 ├── Black-Box-Testing.md
 ├── White-Box-Testing.md
 └── Gray-Box-Testing.md
 ```
 
----
+- **Black Box** focuses on externally observable behavior.
+- **White Box** uses internal implementation structure and coverage evidence.
+- **Gray Box** combines behavior validation with partial internal knowledge.
 
-## Learning Roadmap
-
-A recommended learning sequence is:
-
-```text
-Black Box Testing
-        │
-        ▼
-White Box Testing
-        │
-        ▼
-Gray Box Testing
-```
-
-Black Box Testing establishes the external-behavior perspective.
-
-White Box Testing introduces implementation-aware validation.
-
-Gray Box Testing combines both perspectives when partial internal knowledge is available.
-
----
-
-## Relationship with Other Testing Techniques
-
-Foundation techniques provide prerequisite concepts for later testing-technique categories.
+## Learning Path
 
 ```text
-Foundation
-    │
-    ├── Specification-Based Techniques
-    ├── Structure-Based Techniques
-    ├── Experience-Based Techniques
-    ├── Combinatorial Techniques
-    ├── Model-Based Techniques
-    └── Advanced Techniques
+Black Box ─┐
+           ├── Gray Box
+White Box ─┘
 ```
 
-They define the testing perspective rather than a complete test-design process by themselves.
+These are perspectives, not mutually exclusive project phases. A QA strategy may combine them according to risk and available observability.
 
----
+## Relationships
 
-## Practical Applications
+Foundation concepts support every downstream category. Detailed specification-based techniques primarily build on Black-Box Testing; structure-based coverage primarily builds on White-Box Testing.
 
-Foundation approaches are commonly used when:
+## Quality Boundary
 
-- validating functional behavior from requirements;
-- reviewing implementation logic and code coverage;
-- combining API, database, UI, or architectural knowledge with functional testing;
-- selecting downstream test-design techniques;
-- determining the level of internal system knowledge available to the tester.
-
----
-
-## Best Practices
-
-- Select the testing approach according to the objective and available information.
-- Do not assume Black Box Testing means testing without technical knowledge.
-- Do not use White Box Testing only as a synonym for unit testing.
-- Use Gray Box Testing deliberately when partial implementation knowledge improves coverage.
-- Combine approaches when system risk requires multiple perspectives.
-
----
-
-## Related Knowledge
-
-Related categories:
-
-- Specification-Based Testing
-- Structure-Based Testing
-- Experience-Based Testing
-- Model-Based Testing
-
-Articles in this category:
-
-- `Black-Box-Testing.md`
-- `White-Box-Testing.md`
-- `Gray-Box-Testing.md`
-
----
+The articles explain reusable testing knowledge. Project-specific coverage targets, access permissions, tooling, and execution gates remain authoritative project decisions.
 
 ## References
 
-Related repository resources include:
-
-- `shared/knowledge/testing-techniques/Catalog.md`
-- `shared/knowledge/testing-techniques/README.md`
-- `shared/standards/Knowledge-Article.md`
-- `shared/glossary/QA-Terms.md`
-
----
-
-## Summary
-
-Foundation Testing Techniques establish the primary perspectives used to evaluate software.
-
-Black Box Testing focuses on observable behavior, White Box Testing focuses on internal implementation, and Gray Box Testing combines both perspectives.
-
-These concepts provide the foundation for selecting and understanding more specialized testing techniques throughout QA-AI.
+- `../Catalog.md`
+- `../README.md`
+- `../../../standards/Knowledge-Article.md`

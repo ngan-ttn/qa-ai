@@ -1,281 +1,262 @@
 # Knowledge Article Standard
 
-> Version: 1.0.0
-> Status: Draft
-> Last Updated: YYYY-MM-DD
+> Version: 1.0.0  
+> Status: Approved  
+> Last Updated: 2026-08-13
 
----
+## Purpose
 
-# Purpose
+The **Knowledge Article Standard** defines the mandatory structure, writing rules, quality gates, metadata expectations, and review requirements for reusable knowledge articles in QA-AI.
 
-The Knowledge Article Standard defines the official specification for creating, maintaining, and reviewing Knowledge Articles within the QA-AI framework.
+The standard exists to keep knowledge independently readable by humans, retrievable by AI, maintainable across domains, and safe from accidental project-specific assumptions.
 
-Its purpose is to establish a consistent documentation standard that enables:
+## Scope
 
-- High-quality technical documentation
-- Efficient knowledge sharing
-- AI-friendly knowledge retrieval
-- Long-term maintainability
-- Scalable repository growth
-
-This document specifies **how Knowledge Articles must be written**. It does not define the content of individual articles.
-
----
-
-# Scope
-
-This standard applies to every Knowledge Article contained within the repository.
+This standard applies to knowledge articles under:
 
 ```text
-shared/
-└── knowledge/
-    ├── testing-techniques/
-    ├── qa/
-    ├── api/
-    ├── database/
-    └── domain/
+shared/knowledge/
+├── testing-techniques/
+├── qa/
+├── api/
+├── database/
+└── domain/
 ```
 
-Every Knowledge Article is expected to comply with this standard unless an approved exception has been documented.
+`README.md`, `Catalog.md`, category indexes, standards, templates, checklists, datasets, skills, and workflows are not themselves Knowledge Articles and may use structures appropriate to their document type.
 
----
+## Objectives
 
-# Objectives
+Knowledge articles must:
 
-This standard aims to:
+- explain one primary reusable concept;
+- be understandable without hidden conversation context;
+- support AI retrieval and reasoning;
+- preserve authoritative-source and assumption boundaries;
+- minimize duplication across knowledge domains;
+- include enough depth to be useful beyond terminology lookup;
+- remain maintainable as the repository evolves.
 
-- Standardize all Knowledge Articles.
-- Improve readability and learning experience.
-- Support AI retrieval and reasoning.
-- Encourage modular and reusable documentation.
-- Minimize duplicated knowledge.
-- Simplify article maintenance.
-- Enable consistent repository evolution.
+## Metadata Requirements
 
----
+Every Knowledge Article must begin with:
 
-# Audience
+```md
+# Article Title
 
-This standard is intended for:
+> Version: 1.0.0
+> Status: Approved
+> Last Updated: YYYY-MM-DD
+```
 
-- Documentation Authors
-- QA Engineers
-- Technical Writers
-- Repository Maintainers
-- AI Skills
-- AI Documentation Reviewers
+Allowed lifecycle values are governed by `Metadata.md`. `Frozen` is a repository baseline state and must not be used as article lifecycle metadata.
 
----
+Metadata must contain real values when an article is approved. Placeholder dates such as `YYYY-MM-DD` are not permitted in an Approved article.
 
-# Relationship with Repository Standards
+## Heading Hierarchy
 
-Knowledge Articles inherit all repository-wide standards.
+Knowledge Articles use:
 
-This document complements, but does not replace:
+```text
+#  Article title — exactly one top-level heading
+## Mandatory or optional major section
+### Concept/subsection
+#### Deeper subdivision only when genuinely needed
+```
 
-- Metadata Standard
-- Naming Standard
-- Documentation Standard
-- Output Standard
-
-General documentation rules remain governed by those standards.
-
-This document defines additional requirements specific to Knowledge Articles.
-
----
-
-# Knowledge Article Principles
-
-Every Knowledge Article should follow the principles below.
-
-## Single Responsibility
-
-Each article should explain one primary concept.
-
-Avoid combining multiple independent subjects within the same article.
-
----
-
-## Knowledge-Centric
-
-Knowledge Articles describe concepts, principles, techniques, or methodologies.
-
-They should not become implementation guides, project documentation, or workflow instructions.
-
----
-
-## Technology Independence
-
-Articles should remain technology-independent whenever practical.
-
-Examples may reference specific technologies to improve understanding, but technology-specific implementation should not become the primary focus.
-
----
-
-## Progressive Learning
-
-Concepts should be introduced from fundamental to advanced.
-
-Readers should be able to follow the article without unnecessary assumptions.
-
----
-
-## Practical Relevance
-
-Whenever appropriate, concepts should be connected to practical QA activities through examples, comparisons, or common applications.
-
----
-
-## Reusability
-
-Knowledge should be reusable by:
-
-- Humans
-- AI Skills
-- AI Workflows
-- Documentation
-- Future projects
-
----
-
-# Standard Article Structure
-
-Knowledge Articles should follow a consistent structure.
+Mandatory sections must be `##` headings. Articles must not promote every major section to a second `#` heading.
 
 ## Mandatory Sections
 
-Every Knowledge Article must contain:
+Every Knowledge Article must contain all 12 sections below, in this order unless an approved exception improves clarity without harming retrieval:
 
-1. Overview
-2. Purpose
-3. Core Concepts
-4. How It Works
-5. When to Use
-6. When Not to Use
-7. Advantages
-8. Limitations
-9. Examples
-10. Best Practices
-11. Related Knowledge
-12. References
+1. `## Overview`
+2. `## Purpose`
+3. `## Core Concepts`
+4. `## How It Works`
+5. `## When to Use`
+6. `## When Not to Use`
+7. `## Advantages`
+8. `## Limitations`
+9. `## Examples`
+10. `## Best Practices`
+11. `## Related Knowledge`
+12. `## References`
 
----
+Optional sections may be inserted only when they add material value. Examples include Comparison, Common Mistakes, FAQ, Industry Applications, AI Considerations, or Implementation Notes.
 
-## Optional Sections
+Optional content must not replace or hollow out mandatory sections.
 
-Depending on the subject, articles may additionally include:
+## Section Quality Requirements
 
-- History
-- Comparison
-- Common Mistakes
-- Frequently Asked Questions
-- Industry Applications
-- AI Considerations
-- Implementation Notes
+### Overview
 
-Optional sections should only be included when they add meaningful value.
+Define the concept, its scope, and the distinction that makes it worth its own article.
 
----
+### Purpose
 
-# Writing Guidelines
+Explain why the concept matters to QA or QA-AI reasoning.
 
-Knowledge Articles should:
+### Core Concepts
 
-- Explain concepts before details.
-- Use concise and precise language.
-- Maintain consistent terminology.
-- Focus on one idea per section.
-- Prefer active voice.
-- Define terminology before using it.
-- Use practical examples when appropriate.
-- Avoid unnecessary repetition.
+Present the reasoning model and important dimensions needed to understand the topic. A glossary-style list without relationships is insufficient for non-trivial topics.
 
-Knowledge Articles should not:
+### How It Works
 
-- Duplicate another Knowledge Article.
-- Mix unrelated topics.
-- Depend on project-specific implementation.
-- Assume undocumented prerequisite knowledge.
-- Replace repository standards or templates.
+Explain behavior, lifecycle, interaction, derivation, or decision flow. This section must add explanatory value rather than restating the definition.
 
----
+### When to Use / When Not to Use
 
-# AI Optimization Guidelines
+State applicability and boundaries. These sections prevent techniques or concepts from being applied universally without justification.
 
-Knowledge Articles should support efficient AI retrieval and reasoning.
+### Advantages / Limitations
 
-Recommendations include:
+Describe realistic strengths and failure boundaries. Limitations should include architectural, contextual, evidence, tool, or assumption constraints when relevant.
 
-- Use descriptive headings.
-- Organize content into logical sections.
-- Keep each section semantically independent.
-- Define concepts before referencing them.
-- Maintain consistent terminology.
-- Avoid ambiguous language.
-- Prefer semantic organization over narrative writing.
+### Examples
 
-Knowledge should remain modular to maximize retrieval accuracy.
+Include practical QA-relevant examples sufficient to demonstrate reasoning. Examples may be illustrative but must not invent project-specific expected behavior.
 
----
+### Best Practices
 
-# Cross-Reference Guidelines
+Provide actionable guidance that remains generic enough for reuse. Do not encode organization-specific governance as universal practice.
 
-Knowledge Articles should establish meaningful relationships with other Knowledge Articles.
+### Related Knowledge
+
+Use repository-relative links or paths to conceptually related articles. Cross-domain references are encouraged when they preserve ownership instead of duplicating content.
+
+### References
+
+List stable standards, literature, vendor documentation, or authoritative project sources appropriate to the topic. Do not fabricate citations.
+
+## Content-Depth Gate
+
+An article does **not** pass merely because all 12 headings exist.
+
+Approval additionally requires:
+
+- enough semantic depth for standalone reading and AI retrieval;
+- a clear reasoning model for the concept;
+- realistic examples and meaningful limitations;
+- explicit boundary with neighboring concepts;
+- actionable QA applicability where relevant;
+- assumption safety for project-specific, vendor-specific, legal, clinical, financial, security, or regulatory details;
+- no unresolved contradiction with another approved article.
+
+A structurally complete but semantically shallow skeleton must remain in Review or be rewritten before approval.
+
+## Single-Responsibility Rule
+
+Each article owns one primary concept.
+
+Related concepts should be cross-referenced rather than merged when they have distinct reasoning responsibilities. Conversely, artificial fragmentation should be avoided when two tiny pages cannot stand independently.
+
+## Knowledge Ownership and Cross-Domain Rules
+
+The top-level knowledge domains own different responsibilities:
+
+| Knowledge Domain | Primary Ownership |
+|---|---|
+| `testing-techniques/` | test derivation and test-design techniques |
+| `qa/` | QA lifecycle, management, defect, quality and generic testing practices |
+| `api/` | API architecture, protocols, security and API-specific testing |
+| `database/` | database concepts, SQL, persistence and database-specific testing |
+| `domain/` | business concepts, processes, entities, rules and industry orientation |
+
+When a concept crosses domains, the article should explain only the part owned by its domain and reference the authoritative neighboring article for the rest.
+
+## Authoritative-Source Rule
+
+Generic knowledge is guidance, not a substitute for project truth.
+
+Knowledge Articles must not invent:
+
+- business thresholds or formulas;
+- permissions or role ownership;
+- project statuses or workflows;
+- endpoint contracts or database schemas;
+- service-level objectives;
+- legal or regulatory applicability;
+- clinical or financial policy;
+- vendor-specific guarantees unless clearly attributed.
+
+When project documentation conflicts with generic knowledge, reviewers should determine whether the project behavior is a legitimate context-specific rule, a technical incompatibility, or a requirement defect. The knowledge article itself must not silently override authoritative project inputs.
+
+## AI Optimization Guidelines
+
+Articles should:
+
+- use descriptive headings and direct definitions;
+- keep sections semantically coherent;
+- define concepts before referring to them;
+- avoid hidden pronouns or context-dependent wording;
+- preserve consistent terminology;
+- distinguish facts, examples, assumptions, and constraints;
+- use lists/tables/diagrams where they improve retrieval and reasoning;
+- avoid unnecessary narrative repetition.
+
+## Cross-Reference Requirements
 
 Cross-references should:
 
-- Identify prerequisite knowledge.
-- Reference complementary concepts.
-- Guide readers toward advanced topics.
-- Avoid excessive linking.
-- Never duplicate another article.
+- point to real repository paths;
+- use relative paths appropriate to the current file;
+- identify prerequisite, complementary, specialization, or boundary relationships;
+- avoid circular duplication;
+- be re-reviewed when files are renamed, moved, deprecated, or materially re-scoped.
 
-The Related Knowledge section should emphasize conceptual relationships rather than folder hierarchy.
+## Review Requirements
 
----
+Before an article becomes Approved, review must cover:
 
-# Quality Requirements
+- metadata validity;
+- one `#` title and correct `##` mandatory hierarchy;
+- presence of all 12 mandatory sections;
+- semantic/content depth;
+- technical or conceptual accuracy;
+- terminology consistency;
+- practical QA usefulness;
+- assumption and safety boundaries;
+- cross-reference accuracy;
+- duplicate-responsibility risk;
+- independent human readability;
+- AI retrieval/reasoning usefulness.
 
-A Knowledge Article is considered complete when it:
+## Self-Review Requirement
 
-- Is technically accurate.
-- Follows the approved article structure.
-- Uses consistent terminology.
-- Is understandable by its intended audience.
-- Includes practical examples where appropriate.
-- Supports both human learning and AI reasoning.
-- Avoids duplicated knowledge.
-- Remains maintainable over time.
+Authors or AI generation workflows should perform self-review before presenting an article as complete.
 
----
+Self-review must identify and fix issues rather than merely score the draft. A score is evidence of review, not a replacement for issue correction.
 
-# Review Requirements
+## Catalog and Freeze Requirements
 
-Every Knowledge Article should be reviewed for:
+A knowledge-domain baseline may be marked Frozen only when:
 
-- Structural compliance
-- Technical accuracy
-- Writing quality
-- Terminology consistency
-- Human readability
-- AI readability
-- Cross-reference accuracy
-- Knowledge duplication
+- physical article count matches the Catalog;
+- all baseline articles are Approved;
+- required cross-article review has passed;
+- cross-domain ownership conflicts are resolved;
+- README and Catalog reflect the physical architecture;
+- no known blocking quality issue remains.
 
-Only reviewed articles should be approved for publication.
+`Frozen` means the baseline is stable, not immutable. Corrective or intentional changes require targeted review and re-freeze.
 
----
+## Maintenance Rules
 
-# Compliance
+When an article is materially changed:
 
-Compliance with this standard is mandatory for all Knowledge Articles within the QA-AI repository.
+1. review the changed article against this standard;
+2. review affected cross-references and prerequisites;
+3. update Catalog/README if architecture or status changes;
+4. run cross-domain review when ownership or shared terminology changes;
+5. update `Last Updated` when required by metadata policy.
 
-Any intentional deviation should be documented, justified, and approved during the review process.
+## Compliance
 
----
+Compliance with this standard is mandatory for approved Knowledge Articles unless a documented and reviewed exception exists.
 
-# Revision History
+## Revision History
 
 | Version | Date | Description |
-|----------|------|-------------|
-| 1.0.0 | YYYY-MM-DD | Initial version |
+|---|---|---|
+| 1.0.0 | 2026-08-13 | Finalized article structure, content-depth gate, cross-domain ownership, review, and freeze requirements. |

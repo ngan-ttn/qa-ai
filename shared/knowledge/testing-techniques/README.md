@@ -2,274 +2,147 @@
 
 ## Purpose
 
-The `testing-techniques` knowledge module provides reusable knowledge about software testing approaches and test-design techniques used throughout the QA-AI framework.
+The `testing-techniques` knowledge module provides reusable knowledge about software testing perspectives and test-design techniques used by human QA engineers and QA-AI capabilities.
 
-Its purpose is to explain how testing techniques work, when they should be applied, how they relate to one another, and how they support effective test analysis, test design, coverage improvement, and defect detection.
-
-This module acts as the entry point for the Testing Techniques knowledge domain.
-
----
+It explains **how tests are selected or derived**. It does not own generic QA lifecycle/process management, API/database technology knowledge, or project-specific business rules.
 
 ## Scope
 
-The module covers testing techniques organized by testing methodology rather than by testing phase, testing level, or software domain.
+The approved architecture contains seven categories and 30 knowledge articles:
 
-It includes:
-
-- Foundation approaches.
-- Specification-Based techniques.
-- Structure-Based techniques.
-- Experience-Based techniques.
-- Combinatorial techniques.
-- Model-Based techniques.
-- Advanced techniques.
-
-It does not define QA processes such as test planning, test management, regression strategy, or release management. Those belong to other QA knowledge areas.
-
----
+```text
+Testing Techniques
+├── Foundation                 3
+├── Specification-Based       6
+├── Structure-Based           6
+├── Experience-Based          4
+├── Combinatorial             3
+├── Model-Based               2
+└── Advanced                  6
+                              ──
+Total                         30
+```
 
 ## Module Structure
 
 ```text
-shared/
-└── knowledge/
-    └── testing-techniques/
-        ├── README.md
-        ├── Catalog.md
-        │
-        ├── Foundation/
-        │   ├── README.md
-        │   ├── Black-Box-Testing.md
-        │   ├── White-Box-Testing.md
-        │   └── Gray-Box-Testing.md
-        │
-        ├── Specification-Based/
-        │   ├── README.md
-        │   ├── Equivalence-Partitioning.md
-        │   ├── Boundary-Value-Analysis.md
-        │   ├── Decision-Table-Testing.md
-        │   ├── State-Transition-Testing.md
-        │   ├── Cause-Effect-Graphing.md
-        │   └── Use-Case-Testing.md
-        │
-        ├── Structure-Based/
-        │   ├── README.md
-        │   ├── Statement-Coverage.md
-        │   ├── Branch-Coverage.md
-        │   ├── Decision-Coverage.md
-        │   ├── Condition-Coverage.md
-        │   ├── Path-Coverage.md
-        │   └── Modified-Condition-Decision-Coverage-(MC-DC).md
-        │
-        ├── Experience-Based/
-        │   ├── README.md
-        │   ├── Error-Guessing.md
-        │   ├── Checklist-Based-Testing.md
-        │   ├── Exploratory-Testing.md
-        │   └── Session-Based-Testing.md
-        │
-        ├── Combinatorial/
-        │   ├── README.md
-        │   ├── Combinatorial-Testing.md
-        │   ├── Pairwise-Testing.md
-        │   └── Orthogonal-Array-Testing.md
-        │
-        ├── Model-Based/
-        │   ├── README.md
-        │   ├── Model-Based-Testing.md
-        │   └── Finite-State-Machine-Testing.md
-        │
-        └── Advanced/
-            ├── README.md
-            ├── Mutation-Testing.md
-            ├── Fuzz-Testing.md
-            ├── Property-Based-Testing.md
-            ├── AI-Assisted-Test-Design.md
-            ├── Prompt-Based-Test-Generation.md
-            └── Chaos-Testing.md
+shared/knowledge/testing-techniques/
+├── README.md
+├── Catalog.md
+├── Foundation/
+├── Specification-Based/
+├── Structure-Based/
+├── Experience-Based/
+├── Combinatorial/
+├── Model-Based/
+└── Advanced/
 ```
 
----
+Each category contains its own `README.md` plus knowledge articles. `Catalog.md` is the authoritative article inventory, classification, prerequisite, priority, and lifecycle-status source.
 
-## Knowledge Architecture
+## Knowledge Article Standard
+
+Every knowledge article follows `../../standards/Knowledge-Article.md` and uses:
 
 ```text
-Testing Techniques
-        │
-        ├── Foundation
-        ├── Specification-Based
-        ├── Structure-Based
-        ├── Experience-Based
-        ├── Combinatorial
-        ├── Model-Based
-        └── Advanced
+# Article Title
+
+> Version: 1.0.0
+> Status: Approved
+> Last Updated: YYYY-MM-DD
+
+## Overview
+## Purpose
+## Core Concepts
+## How It Works
+## When to Use
+## When Not to Use
+## Advantages
+## Limitations
+## Examples
+## Best Practices
+## Related Knowledge
+## References
 ```
 
-Each category has its own README that introduces the category scope, learning path, relationships, and article navigation.
+Optional sections are allowed only when they add meaningful value and must not replace mandatory sections.
 
-`Catalog.md` is the authoritative catalog for article classification, prerequisites, priority, status, implementation phases, and dependency relationships.
+## Ownership Boundary
 
----
+| Topic | Owner |
+|---|---|
+| Test derivation and test-design techniques | `testing-techniques/` |
+| QA lifecycle, planning, defect and generic quality practices | `../qa/` |
+| API protocols and API-specific testing | `../api/` |
+| SQL, persistence and database-specific testing | `../database/` |
+| Business concepts, entities, workflows and industry knowledge | `../domain/` |
 
-## Knowledge Areas
-
-### Foundation
-
-Introduces the primary testing perspectives:
-
-- Black Box Testing
-- White Box Testing
-- Gray Box Testing
-
-### Specification-Based
-
-Derives tests from requirements, business rules, specifications, and observable behavior.
-
-### Structure-Based
-
-Evaluates internal implementation structure and execution coverage.
-
-### Experience-Based
-
-Uses tester experience, historical defects, intuition, observation, and adaptive investigation.
-
-### Combinatorial
-
-Reduces large input-combination spaces while preserving meaningful interaction coverage.
-
-### Model-Based
-
-Derives tests from abstract behavioral, workflow, or state models.
-
-### Advanced
-
-Covers specialized and emerging techniques used in modern software quality engineering.
-
----
+Testing-technique articles should reference neighboring domains instead of duplicating their primary responsibility.
 
 ## Recommended Learning Path
 
-A recommended progression is:
-
 ```text
 Foundation
-        │
-        ▼
+   ↓
 Specification-Based
-        │
-        ▼
+   ↓
 Experience-Based
-        │
-        ▼
+   ↓
 Structure-Based
-        │
-        ▼
+   ↓
 Combinatorial
-        │
-        ▼
+   ↓
 Model-Based
-        │
-        ▼
+   ↓
 Advanced
 ```
 
-This sequence is intended as a learning guide rather than a mandatory execution order.
+This is guidance, not a mandatory execution order. Technique selection depends on the test objective and risk.
 
-Testing techniques should be selected according to the characteristics and risks of the system under test.
+## QA-AI Usage
 
----
+Testing-technique knowledge supports requirement analysis, scenario generation, testcase generation, coverage review, test-data design, regression analysis, and exploratory/risk reasoning.
 
-## Article Structure
+QA-AI must use authoritative project requirements as the test oracle. Generic knowledge may suggest techniques or missing dimensions, but it must not invent expected behavior.
 
-Individual knowledge articles follow the standard defined in:
+## Quality Gate
 
-`shared/standards/Knowledge-Article.md`
+An article is Approved only when it:
 
-Articles typically cover:
+- contains all 12 mandatory sections with correct `#`/`##` hierarchy;
+- has sufficient semantic depth for standalone retrieval;
+- uses a clear reasoning model rather than terminology lists only;
+- includes practical QA examples and limitations;
+- states assumptions and technique boundaries;
+- preserves cross-domain ownership;
+- avoids project-specific thresholds and rules;
+- has accurate repository-relative cross-references;
+- is useful for both human readers and AI reasoning.
 
-- Overview
-- Purpose
-- Core Concepts
-- How It Works
-- When to Use
-- When Not to Use
-- Advantages
-- Limitations
-- Examples
-- Best Practices
-- Related Knowledge
-- References
+A structurally complete but shallow article does not pass.
 
-Category README files provide navigation and context, while individual articles provide detailed technique guidance.
+## Freeze Baseline
 
----
+```text
+Folder: shared/knowledge/testing-techniques/
+Physical Knowledge Articles: 30
+Cataloged Knowledge Articles: 30
+Catalog Status: Approved
+Baseline State: Frozen
+Freeze Date: 2026-08-13
+Review Level: Structural + Content Depth + Cross-Article + Cross-Domain
+```
 
-## Design Principles
-
-Testing-technique knowledge should:
-
-- Explain concepts before implementation details.
-- Remain vendor-independent and tool-independent.
-- Be reusable across software domains.
-- Preserve clear boundaries between techniques.
-- Avoid redefining QA processes that belong to other knowledge domains.
-- Support QA reasoning without inventing project-specific business rules.
-- Make prerequisites and relationships explicit.
-- Remain traceable through the catalog and category indexes.
-
----
-
-## Relationships with QA-AI
-
-Testing-technique knowledge may support capabilities such as:
-
-- Requirement Analysis
-- Business Rule Analysis
-- Risk Analysis
-- Test Scenario Generation
-- Test Case Generation
-- Coverage Review
-- Regression Analysis
-- Test Data Design
-
-Skills and workflows may reference this knowledge when a technique is relevant to their objective.
-
-Knowledge articles provide reasoning guidance; they do not replace authoritative project requirements or workflow contracts.
-
----
-
-## Navigation
-
-Use the following entry points:
-
-- `Catalog.md` — article catalog, prerequisites, priorities, status, implementation phases, and dependency map.
-- `Foundation/README.md` — foundational testing approaches.
-- `Specification-Based/README.md` — specification-driven test design.
-- `Structure-Based/README.md` — implementation and coverage techniques.
-- `Experience-Based/README.md` — experience-driven testing.
-- `Combinatorial/README.md` — combination-reduction techniques.
-- `Model-Based/README.md` — model-driven testing.
-- `Advanced/README.md` — advanced and emerging techniques.
-
----
+Future material changes require targeted review of affected articles and cross-reference impact before the baseline is frozen again.
 
 ## References
 
-Related repository resources include:
-
-- `shared/knowledge/README.md`
-- `shared/knowledge/qa/`
-- `shared/glossary/QA-Terms.md`
-- `shared/standards/Knowledge-Article.md`
-- `shared/templates/`
-- `shared/checklists/`
-- `skills/`
-- `workflows/`
-
----
-
-## Summary
-
-The Testing Techniques module provides a structured knowledge base for selecting and applying software testing techniques within QA-AI.
-
-Its category architecture separates foundational approaches, specification-driven techniques, implementation coverage, experience-driven investigation, combination optimization, model-driven testing, and advanced techniques while keeping each article reusable and independently maintainable.
+- `Catalog.md`
+- `../../standards/Knowledge-Article.md`
+- `../../glossary/QA-Terms.md`
+- `../qa/`
+- `../api/`
+- `../database/`
+- `../domain/`
+- `../../../skills/`
+- `../../../workflows/`

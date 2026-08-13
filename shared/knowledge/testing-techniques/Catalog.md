@@ -2,594 +2,122 @@
 
 ## Purpose
 
-The **Testing Techniques** catalog defines the knowledge architecture and implementation roadmap for software testing techniques within the QA-AI framework.
-
-Its primary objectives are to:
-
-- Establish a structured knowledge base for software testing techniques.
-- Organize testing techniques into logical categories based on industry-recognized classifications.
-- Provide a consistent learning path for QA engineers and AI capabilities.
-- Serve as the implementation backlog for testing technique knowledge articles.
-- Enable reusable knowledge across multiple QA skills and workflows.
-- Support long-term scalability and maintainability of the knowledge repository.
-
-Rather than acting as a simple index of documents, this catalog serves as the authoritative roadmap for developing and maintaining the Testing Techniques knowledge domain.
-
----
-
-## Scope
-
-This catalog covers testing techniques that support:
-
-- Test analysis
-- Test design
-- Test optimization
-- Test coverage improvement
-- Defect detection
-- Quality risk reduction
-
-The catalog focuses on **how test cases are designed and derived**.
-
-The following topics are intentionally excluded because they belong to other knowledge domains.
-
-| Topic | Knowledge Domain |
-|---------|------------------|
-| SDLC | QA |
-| STLC | QA |
-| Test Planning | QA |
-| Test Strategy | QA |
-| Test Estimation | QA |
-| Test Management | QA |
-| Risk-Based Testing Strategy | QA |
-| Regression Testing | QA |
-| Smoke Testing | QA |
-| Sanity Testing | QA |
-| API Testing | API |
-| Database Testing | Database |
-| Performance Testing | QA |
-| Security Testing | QA |
-| Accessibility Testing | QA |
-
----
-
-## Objectives
-
-The Testing Techniques knowledge base aims to:
-
-- Build a comprehensive understanding of software testing techniques.
-- Explain the principles behind each testing technique.
-- Describe when each technique should be applied.
-- Improve test design quality and efficiency.
-- Reduce redundant and ineffective test cases.
-- Increase functional and logical coverage.
-- Support AI reasoning during test generation.
-- Promote reusable testing knowledge across multiple domains.
-
----
+This catalog is the authoritative inventory and architecture for `shared/knowledge/testing-techniques/`. It defines the approved baseline of reusable test-design knowledge while keeping QA process, technology-specific behavior, and project-specific rules in their owning knowledge domains.
 
 ## Knowledge Architecture
 
-Testing techniques are organized according to internationally recognized software testing classifications and practical industry usage.
-
-Each category represents a family of techniques sharing similar principles and objectives.
-
 ```text
 Testing Techniques
-
 ├── Foundation
-│
-├── Specification-Based Techniques
-│
-├── Structure-Based Techniques
-│
-├── Experience-Based Techniques
-│
-├── Combinatorial Techniques
-│
-├── Model-Based Techniques
-│
-└── Advanced Techniques
+├── Specification-Based
+├── Structure-Based
+├── Experience-Based
+├── Combinatorial
+├── Model-Based
+└── Advanced
 ```
-
-This architecture separates techniques by **testing methodology**, not by testing phase, testing level, or software domain.
-
----
-
-## Knowledge Map
-
-### Foundation
-
-Foundation articles introduce the core testing approaches that every QA engineer should understand before learning specific test design techniques.
-
-```text
-Foundation
-
-├── Black Box Testing
-├── White Box Testing
-└── Gray Box Testing
-```
-
-These articles establish the conceptual foundation for all subsequent testing techniques.
-
----
-
-### Specification-Based Techniques
-
-Specification-Based Techniques derive test cases directly from requirements, business rules, functional specifications, or observable system behavior.
-
-```text
-Specification-Based Techniques
-
-├── Equivalence Partitioning
-├── Boundary Value Analysis
-├── Decision Table Testing
-├── State Transition Testing
-├── Cause-Effect Graphing
-└── Use Case Testing
-```
-
-These techniques are the primary methods used for functional test design and are widely adopted in manual testing.
-
----
-
-### Structure-Based Techniques
-
-Structure-Based Techniques analyze the internal implementation of software to evaluate code coverage and execution paths.
-
-```text
-Structure-Based Techniques
-
-├── Statement Coverage
-├── Branch Coverage
-├── Decision Coverage
-├── Condition Coverage
-├── Path Coverage
-└── Modified Condition Decision Coverage (MC/DC)
-```
-
-These techniques are commonly applied during white-box testing and are particularly valuable in high-reliability and safety-critical systems.
-
----
-
-### Experience-Based Techniques
-
-Experience-Based Techniques leverage tester expertise, domain knowledge, historical defects, and intuition.
-
-```text
-Experience-Based Techniques
-
-├── Error Guessing
-├── Exploratory Testing
-├── Session-Based Testing
-└── Checklist-Based Testing
-```
-
-These techniques complement structured test design methods by helping uncover unexpected defects and usability issues.
-
----
-
-### Combinatorial Techniques
-
-Combinatorial Techniques optimize test suites by selecting representative combinations of input parameters while maintaining effective coverage.
-
-```text
-Combinatorial Techniques
-
-├── Pairwise Testing
-├── Orthogonal Array Testing
-└── Combinatorial Testing
-```
-
-These techniques are especially valuable for systems with numerous configurable inputs or complex parameter interactions.
-
----
-
-### Model-Based Techniques
-
-Model-Based Techniques generate test cases from abstract representations of system behavior, workflows, or state models.
-
-```text
-Model-Based Techniques
-
-├── Model-Based Testing
-└── Finite State Machine Testing
-```
-
-These techniques improve consistency, traceability, and coverage for systems with complex business logic.
-
----
-
-### Advanced Techniques
-
-Advanced Techniques address specialized testing scenarios and modern software engineering practices.
-
-```text
-Advanced Techniques
-
-├── Mutation Testing
-├── Fuzz Testing
-├── Property-Based Testing
-├── AI-Assisted Test Design
-├── Prompt-Based Test Generation
-└── Chaos Testing
-```
-
-These techniques extend traditional testing practices to support modern architectures, AI-assisted quality assurance, and advanced software validation.
-
----
 
 ## Article Catalog
 
-The following catalog defines all knowledge articles currently represented in the **Testing Techniques** knowledge base.
-
-Each article is classified by category, learning level, implementation priority, prerequisite knowledge, and current implementation status.
-
-| Article | Category | Level | Prerequisites | Priority | Status |
-|----------|----------|-------|---------------|----------|--------|
-| Black Box Testing | Foundation | Foundation | None | High | Draft |
-| White Box Testing | Foundation | Foundation | None | High | Draft |
-| Gray Box Testing | Foundation | Foundation | Black Box Testing, White Box Testing | Medium | Draft |
-| Equivalence Partitioning | Specification-Based | Foundation | Black Box Testing | High | Draft |
-| Boundary Value Analysis | Specification-Based | Foundation | Black Box Testing, Equivalence Partitioning | High | Draft |
-| Decision Table Testing | Specification-Based | Intermediate | Black Box Testing | High | Draft |
-| State Transition Testing | Specification-Based | Intermediate | Black Box Testing | High | Draft |
-| Cause-Effect Graphing | Specification-Based | Intermediate | Decision Table Testing | Medium | Draft |
-| Use Case Testing | Specification-Based | Intermediate | Black Box Testing | Medium | Draft |
-| Statement Coverage | Structure-Based | Intermediate | White Box Testing | Medium | Draft |
-| Branch Coverage | Structure-Based | Intermediate | Statement Coverage | Medium | Draft |
-| Decision Coverage | Structure-Based | Advanced | Branch Coverage | Low | Draft |
-| Condition Coverage | Structure-Based | Advanced | Decision Coverage | Low | Draft |
-| Path Coverage | Structure-Based | Advanced | Branch Coverage | Low | Draft |
-| Modified Condition Decision Coverage (MC/DC) | Structure-Based | Advanced | Condition Coverage | Low | Draft |
-| Error Guessing | Experience-Based | Foundation | Black Box Testing | Medium | Draft |
-| Exploratory Testing | Experience-Based | Intermediate | Black Box Testing | Medium | Draft |
-| Session-Based Testing | Experience-Based | Intermediate | Exploratory Testing | Medium | Draft |
-| Checklist-Based Testing | Experience-Based | Intermediate | Black Box Testing | Medium | Draft |
-| Pairwise Testing | Combinatorial | Advanced | Equivalence Partitioning | Medium | Draft |
-| Orthogonal Array Testing | Combinatorial | Advanced | Pairwise Testing | Low | Draft |
-| Combinatorial Testing | Combinatorial | Advanced | Pairwise Testing | Low | Draft |
-| Model-Based Testing | Model-Based | Advanced | State Transition Testing | Medium | Draft |
-| Finite State Machine Testing | Model-Based | Advanced | State Transition Testing | Medium | Draft |
-| Mutation Testing | Advanced | Advanced | White Box Testing | Low | Draft |
-| Fuzz Testing | Advanced | Advanced | Black Box Testing | Medium | Draft |
-| Property-Based Testing | Advanced | Advanced | Black Box Testing | Low | Draft |
-| AI-Assisted Test Design | Advanced | Advanced | Black Box Testing | High | Draft |
-| Prompt-Based Test Generation | Advanced | Advanced | AI-Assisted Test Design | High | Draft |
-| Chaos Testing | Advanced | Advanced | System Architecture Fundamentals | Medium | Draft |
-
----
+| Article | File | Category | Level | Prerequisites | Priority | Status |
+|---|---|---|---|---|---|---|
+| Black Box Testing | `Foundation/Black-Box-Testing.md` | Foundation | Foundation | None | High | Approved |
+| White Box Testing | `Foundation/White-Box-Testing.md` | Foundation | Foundation | None | High | Approved |
+| Gray Box Testing | `Foundation/Gray-Box-Testing.md` | Foundation | Foundation | Black Box Testing, White Box Testing | Medium | Approved |
+| Equivalence Partitioning | `Specification-Based/Equivalence-Partitioning.md` | Specification-Based | Foundation | Black Box Testing | High | Approved |
+| Boundary Value Analysis | `Specification-Based/Boundary-Value-Analysis.md` | Specification-Based | Foundation | Equivalence Partitioning | High | Approved |
+| Decision Table Testing | `Specification-Based/Decision-Table-Testing.md` | Specification-Based | Intermediate | Black Box Testing | High | Approved |
+| State Transition Testing | `Specification-Based/State-Transition-Testing.md` | Specification-Based | Intermediate | Black Box Testing | High | Approved |
+| Cause-Effect Graphing | `Specification-Based/Cause-Effect-Graphing.md` | Specification-Based | Intermediate | Decision Table Testing | Medium | Approved |
+| Use Case Testing | `Specification-Based/Use-Case-Testing.md` | Specification-Based | Intermediate | Black Box Testing | Medium | Approved |
+| Statement Coverage | `Structure-Based/Statement-Coverage.md` | Structure-Based | Intermediate | White Box Testing | Medium | Approved |
+| Branch Coverage | `Structure-Based/Branch-Coverage.md` | Structure-Based | Intermediate | Statement Coverage | Medium | Approved |
+| Decision Coverage | `Structure-Based/Decision-Coverage.md` | Structure-Based | Advanced | Branch Coverage | Low | Approved |
+| Condition Coverage | `Structure-Based/Condition-Coverage.md` | Structure-Based | Advanced | Decision Coverage | Low | Approved |
+| Path Coverage | `Structure-Based/Path-Coverage.md` | Structure-Based | Advanced | Branch Coverage | Low | Approved |
+| Modified Condition Decision Coverage (MC/DC) | `Structure-Based/Modified-Condition-Decision-Coverage-(MC-DC).md` | Structure-Based | Advanced | Condition Coverage | Low | Approved |
+| Error Guessing | `Experience-Based/Error-Guessing.md` | Experience-Based | Foundation | Black Box Testing | Medium | Approved |
+| Exploratory Testing | `Experience-Based/Exploratory-Testing.md` | Experience-Based | Intermediate | Black Box Testing | Medium | Approved |
+| Session-Based Testing | `Experience-Based/Session-Based-Testing.md` | Experience-Based | Intermediate | Exploratory Testing | Medium | Approved |
+| Checklist-Based Testing | `Experience-Based/Checklist-Based-Testing.md` | Experience-Based | Intermediate | Black Box Testing | Medium | Approved |
+| Pairwise Testing | `Combinatorial/Pairwise-Testing.md` | Combinatorial | Advanced | Equivalence Partitioning | Medium | Approved |
+| Orthogonal Array Testing | `Combinatorial/Orthogonal-Array-Testing.md` | Combinatorial | Advanced | Pairwise Testing | Low | Approved |
+| Combinatorial Testing | `Combinatorial/Combinatorial-Testing.md` | Combinatorial | Advanced | Pairwise Testing | Low | Approved |
+| Model-Based Testing | `Model-Based/Model-Based-Testing.md` | Model-Based | Advanced | State Transition Testing | Medium | Approved |
+| Finite State Machine Testing | `Model-Based/Finite-State-Machine-Testing.md` | Model-Based | Advanced | State Transition Testing | Medium | Approved |
+| Mutation Testing | `Advanced/Mutation-Testing.md` | Advanced | Advanced | White Box Testing | Low | Approved |
+| Fuzz Testing | `Advanced/Fuzz-Testing.md` | Advanced | Advanced | Black Box Testing | Medium | Approved |
+| Property-Based Testing | `Advanced/Property-Based-Testing.md` | Advanced | Advanced | Black Box Testing | Low | Approved |
+| AI-Assisted Test Design | `Advanced/AI-Assisted-Test-Design.md` | Advanced | Advanced | Black Box Testing | High | Approved |
+| Prompt-Based Test Generation | `Advanced/Prompt-Based-Test-Generation.md` | Advanced | Advanced | AI-Assisted Test Design | High | Approved |
+| Chaos Testing | `Advanced/Chaos-Testing.md` | Advanced | Advanced | Risk-Based Testing, Architecture Context | Medium | Approved |
 
 ## Category Summary
 
-| Category | Articles | Purpose |
-|----------|---------:|---------|
-| Foundation | 3 | Introduce the primary software testing approaches. |
-| Specification-Based Techniques | 6 | Design test cases from requirements and specifications. |
-| Structure-Based Techniques | 6 | Evaluate implementation coverage and execution paths. |
-| Experience-Based Techniques | 4 | Apply tester knowledge and practical experience. |
-| Combinatorial Techniques | 3 | Optimize test suites with representative combinations. |
-| Model-Based Techniques | 2 | Generate tests from behavioral or state models. |
-| Advanced Techniques | 6 | Cover specialized and emerging testing approaches. |
-| **Total** | **30** | |
-
----
-
-## Knowledge Levels
-
-Knowledge articles are grouped into progressive learning levels.
-
-### Foundation
-
-Foundation articles introduce the essential concepts every QA engineer should understand before learning more advanced testing techniques.
-
-Characteristics:
-
-- No or minimal prerequisites
-- Frequently applied in software testing
-- Essential for understanding subsequent techniques
-
----
-
-### Intermediate
-
-Intermediate articles expand upon foundational knowledge and introduce more specialized test design approaches.
-
-Characteristics:
-
-- Require one or more prerequisite concepts
-- Improve testing effectiveness and coverage
-- Commonly used by experienced QA engineers
-
----
-
-### Advanced
-
-Advanced articles focus on specialized, high-complexity, or emerging testing techniques.
-
-Characteristics:
-
-- Require multiple prerequisite concepts
-- Often applied in complex or large-scale systems
-- Support advanced QA practices and AI-assisted workflows
-
----
-
-## Priority Definitions
-
-Priority indicates the recommended implementation order of individual knowledge articles.
-
-| Priority | Description |
-|----------|-------------|
-| High | Essential knowledge required by multiple skills and workflows. |
-| Medium | Important supporting knowledge that extends core testing capabilities. |
-| Low | Specialized or advanced knowledge intended for specific scenarios. |
-
----
-
-## Status Definitions
-
-Status indicates the current implementation state of each knowledge article.
-
-| Status | Description |
-|--------|-------------|
-| Planned | The article has been identified but has not yet been implemented. |
-| Draft | The article exists as a substantive draft but has not yet completed formal review and approval. |
-| In Progress | The article is currently being written or updated. |
-| Review | The article has been completed and is under quality review. |
-| Approved | The article has been reviewed and approved for production use. |
-| Deprecated | The article is retained for historical purposes and is no longer recommended. |
-
----
-
-## Learning Path
-
-The following learning path is recommended for QA engineers who are learning software testing techniques.
-
-```text
-Foundation
-        │
-        ▼
-Specification-Based Techniques
-        │
-        ▼
-Experience-Based Techniques
-        │
-        ▼
-Structure-Based Techniques
-        │
-        ▼
-Combinatorial Techniques
-        │
-        ▼
-Model-Based Techniques
-        │
-        ▼
-Advanced Techniques
-```
-
-This learning path gradually introduces testing techniques from fundamental concepts to advanced methodologies. Each category builds upon the knowledge established in the previous stage, helping learners develop strong analytical and test design skills.
-
----
-
-## Implementation Phases
-
-Knowledge articles should be implemented incrementally to establish a solid foundation before introducing more advanced concepts.
-
-### Phase 1 — Foundation
-
-**Objective**
-
-Establish a common understanding of the fundamental software testing approaches.
-
-**Articles**
-
-- Black Box Testing
-- White Box Testing
-- Gray Box Testing
-
----
-
-### Phase 2 — Core Test Design
-
-**Objective**
-
-Implement the most widely used specification-based testing techniques.
-
-**Articles**
-
-- Equivalence Partitioning
-- Boundary Value Analysis
-- Decision Table Testing
-- State Transition Testing
-
----
-
-### Phase 3 — Practical Techniques
-
-**Objective**
-
-Expand practical testing capability through experience-based and complementary specification-based techniques.
-
-**Articles**
-
-- Cause-Effect Graphing
-- Use Case Testing
-- Error Guessing
-- Exploratory Testing
-- Session-Based Testing
-- Checklist-Based Testing
-
----
-
-### Phase 4 — Structure-Based Techniques
-
-**Objective**
-
-Introduce implementation-aware testing techniques and code coverage concepts.
-
-**Articles**
-
-- Statement Coverage
-- Branch Coverage
-- Decision Coverage
-- Condition Coverage
-- Path Coverage
-- Modified Condition Decision Coverage (MC/DC)
-
----
-
-### Phase 5 — Optimization Techniques
-
-**Objective**
-
-Improve testing efficiency by reducing redundant test combinations while maintaining effective coverage.
-
-**Articles**
-
-- Pairwise Testing
-- Orthogonal Array Testing
-- Combinatorial Testing
-
----
-
-### Phase 6 — Model-Based Techniques
-
-**Objective**
-
-Introduce techniques that derive test cases from behavioral and state models.
-
-**Articles**
-
-- Model-Based Testing
-- Finite State Machine Testing
-
----
-
-### Phase 7 — Advanced Techniques
-
-**Objective**
-
-Introduce specialized and emerging testing techniques used in modern software quality assurance.
-
-**Articles**
-
-- Mutation Testing
-- Fuzz Testing
-- Property-Based Testing
-- AI-Assisted Test Design
-- Prompt-Based Test Generation
-- Chaos Testing
-
----
-
-## Dependency Map
-
-The following dependency map illustrates conceptual relationships between knowledge articles.
+| Category | Articles | Status |
+|---|---:|---|
+| Foundation | 3 | Approved |
+| Specification-Based | 6 | Approved |
+| Structure-Based | 6 | Approved |
+| Experience-Based | 4 | Approved |
+| Combinatorial | 3 | Approved |
+| Model-Based | 2 | Approved |
+| Advanced | 6 | Approved |
+| **Total** | **30** | **Approved** |
+
+## Dependency Guidance
 
 ```text
 Black Box Testing
-        │
-        ├── Equivalence Partitioning
-        │       │
-        │       └── Boundary Value Analysis
-        │
-        ├── Decision Table Testing
-        │       │
-        │       └── Cause-Effect Graphing
-        │
-        ├── State Transition Testing
-        │       │
-        │       ├── Finite State Machine Testing
-        │       │       │
-        │       │       └── Model-Based Testing
-        │       │
-        │       └── Use Case Testing
-        │
-        ├── Error Guessing
-        ├── Exploratory Testing
-        │       │
-        │       └── Session-Based Testing
-        │
-        └── Checklist-Based Testing
+├── Specification-Based techniques
+├── Experience-Based techniques
+├── Pairwise / Combinatorial
+├── Fuzz / Property-Based
+└── AI-Assisted Test Design → Prompt-Based Test Generation
 
 White Box Testing
-        │
-        └── Statement Coverage
-                │
-                └── Branch Coverage
-                        │
-                        ├── Decision Coverage
-                        ├── Condition Coverage
-                        ├── Path Coverage
-                        └── Modified Condition Decision Coverage (MC/DC)
+└── Statement → Branch/Decision → Condition → selected Path / MC/DC
 
-Equivalence Partitioning
-        │
-        └── Pairwise Testing
-                │
-                ├── Orthogonal Array Testing
-                └── Combinatorial Testing
-
-AI-Assisted Test Design
-        │
-        └── Prompt-Based Test Generation
+State Transition Testing
+└── Finite State Machine Testing → Model-Based Testing
 ```
 
----
+Dependencies are learning guidance, not runtime dependencies.
 
-## Implementation Guidelines
+## Cross-Domain Boundaries
 
-When implementing knowledge articles, follow these principles:
+- QA lifecycle, strategy, risk and defect processes → `../qa/`
+- API-specific behavior/testing → `../api/`
+- database-specific behavior/testing → `../database/`
+- business entities, workflows and industry rules → `../domain/`
 
-- Complete articles according to the implementation phases.
-- Satisfy prerequisite knowledge before implementing dependent articles.
-- Follow the standard Knowledge Article template.
-- Keep articles vendor-independent and reusable.
-- Avoid overlapping with other knowledge domains.
-- Update the article status after each review cycle.
-- Maintain consistency with repository naming and documentation standards.
+A technique may be applied inside another domain without transferring ownership of the underlying technology or business concept.
 
----
+## Quality and Freeze Baseline
 
-## Expansion Roadmap
+```text
+Folder: shared/knowledge/testing-techniques/
+Physical Knowledge Articles: 30
+Cataloged Knowledge Articles: 30
+Catalog Status: Approved
+Baseline State: Frozen
+Freeze Date: 2026-08-13
+Review Level: Structural + Content Depth + Cross-Article + Cross-Domain
+```
 
-Future knowledge articles may include:
+The 30-article baseline was normalized from the legacy draft generation to the current Knowledge Article standard. Review covered heading hierarchy, metadata, semantic depth, technique boundaries, practical examples, cross-references, assumption safety, and QA-AI retrieval usefulness.
 
-### Emerging Techniques
+## Status Definitions
 
-- Differential Testing
-- Metamorphic Testing
-- Search-Based Software Testing
-- Autonomous Testing
+- `Approved` — passed structural and content review and belongs to the active baseline.
+- `Deprecated` — retained only for historical compatibility.
 
-### AI-Driven Testing
-
-- AI Test Oracles
-- LLM-Based Test Generation
-- AI-Based Test Prioritization
-- Self-Healing Test Design
-
-### Specialized Test Design
-
-- Accessibility Test Design
-- Security Test Design
-- Performance Test Design
-- Mobile Test Design
-- Cloud-Native Test Design
-
-Future additions should remain within the scope of **testing techniques** and avoid overlapping with QA processes, testing types, or technology-specific knowledge.
-
----
+`Frozen` is a repository baseline state, not article lifecycle metadata.
 
 ## References
 
-Related repository resources include:
-
-- `shared/knowledge/README.md`
-- `shared/knowledge/qa/`
-- `shared/glossary/QA-Terms.md`
-- `shared/standards/`
-- `shared/templates/`
-- `shared/checklists/`
-- `skills/`
-- `workflows/`
+- `README.md`
+- `../../standards/Knowledge-Article.md`
+- `../../standards/Metadata.md`
+- `../../standards/Naming.md`
+- `../../glossary/QA-Terms.md`
