@@ -2,162 +2,169 @@
 
 ## Purpose
 
-The `knowledge` module provides reusable domain knowledge that supports AI reasoning across the QA-AI framework.
-
-Its purpose is to centralize concepts, methodologies, technical references, and domain-specific knowledge that can be shared by multiple skills and workflows.
-
-This module serves as the knowledge base for the repository, reducing duplication and promoting consistent understanding across AI capabilities.
-
----
+The `shared/knowledge/` module is the reusable conceptual knowledge layer for QA-AI. It provides the methods, quality concepts, technology knowledge, and business-domain context consumed by skills and workflows without duplicating project-specific requirements or repository execution rules.
 
 ## Scope
 
-This module contains reference materials that explain concepts, practices, technologies, and business domains relevant to software quality assurance.
-
-It does not define repository standards, output templates, reasoning patterns, or workflow execution.
-
-Instead, it provides the knowledge required to support those activities.
-
----
-
-## Module Structure
+The approved knowledge architecture contains five domains:
 
 ```text
-shared/
-└── knowledge/
-    ├── README.md
-    ├── testing-techniques/
-    ├── qa/
-    ├── api/
-    ├── database/
-    └── domain/
+shared/knowledge/
+├── testing-techniques/   30 articles
+├── qa/                   28 articles
+├── api/                  40 articles
+├── database/             42 articles
+└── domain/               41 articles
+                         ───────────
+Total                    181 articles
 ```
 
----
+`README.md` and `Catalog.md` files are navigation/governance artifacts and are excluded from article counts.
 
-## Knowledge Categories
+## Cross-Domain Ownership
 
-### Testing Techniques
+| Domain | Owns | Does Not Own |
+|---|---|---|
+| `testing-techniques/` | test derivation and test-design techniques | generic QA management, API/DB/domain behavior |
+| `qa/` | QA lifecycle, requirement engineering, test management, defects, generic quality practices | detailed design techniques or technology/domain-specific behavior |
+| `api/` | API architecture, communication, security, error handling and API-specific testing | generic QA management, SQL, business policy |
+| `database/` | relational/SQL/data-integrity/performance/database-testing concepts | API contracts, generic QA process, industry policy |
+| `domain/` | business concepts, entities, processes, rules, industry and compliance orientation | technical implementation and generic QA process |
 
-Provides knowledge about testing methodologies and test design techniques.
+When a subject crosses boundaries, the owning domain explains the primary concept and neighboring domains reference it rather than copy it.
 
-Typical topics include:
+## Source of Truth
 
-- Black Box Testing
-- White Box Testing
-- Boundary Value Analysis
-- Equivalence Partitioning
-- Decision Table Testing
-- State Transition Testing
-- Pairwise Testing
-- Error Guessing
+Each domain contains a `Catalog.md` that is authoritative for:
 
----
+- article inventory and physical mapping;
+- category classification;
+- conceptual prerequisites;
+- priority;
+- lifecycle status;
+- current freeze baseline.
 
-### QA
+The physical repository, Catalog, and README must remain consistent.
 
-Provides knowledge about software quality assurance processes and practices.
+## Knowledge Article Standard
 
-Typical topics include:
+Every approved Knowledge Article follows `../standards/Knowledge-Article.md`.
 
-- SDLC
-- STLC
-- Test Planning
-- Defect Management
-- Risk-Based Testing
-- Regression Testing
-- Test Strategy
+Mandatory hierarchy:
 
----
+```text
+# Article Title
+## Overview
+## Purpose
+## Core Concepts
+## How It Works
+## When to Use
+## When Not to Use
+## Advantages
+## Limitations
+## Examples
+## Best Practices
+## Related Knowledge
+## References
+```
 
-### API
+The 12-section structure is only the structural gate. Approval also requires semantic depth, accurate boundaries, practical examples, assumption safety, and cross-reference quality.
 
-Provides knowledge about API architecture, communication, and testing.
+## Domain Baselines
 
-Typical topics include:
+| Domain | Articles | Catalog Status | Baseline |
+|---|---:|---|---|
+| Testing Techniques | 30 | Approved | Frozen |
+| QA | 28 | Approved | Frozen |
+| API | 40 | Approved | Frozen |
+| Database | 42 | Approved | Frozen |
+| Domain | 41 | Approved | Frozen |
+| **Total** | **181** | **Approved** | **Frozen** |
 
-- HTTP
-- REST
-- Authentication
-- Authorization
-- Status Codes
-- API Versioning
-- API Security
+## Knowledge Relationships
 
----
+```text
+Requirements / Project Context
+            ↓
+        Domain Knowledge
+            ↓
+QA concepts ─┼─ Testing Techniques
+            │
+            ├─ API Knowledge
+            └─ Database Knowledge
+            ↓
+      Skills and Workflows
+            ↓
+       QA Artifacts
+```
 
-### Database
+This diagram is conceptual, not a fixed runtime loading order. Skills should retrieve only the knowledge relevant to their objective.
 
-Provides knowledge about database concepts and data validation.
+## Authoritative Input Rule
 
-Typical topics include:
+Generic repository knowledge provides reusable reasoning. It does not override authoritative project inputs.
 
-- SQL
-- Transactions
-- Indexes
-- Relationships
-- Constraints
-- Normalization
-- Data Integrity
+Project-specific requirements, approved business rules, contracts, policies, schemas, roles, thresholds, formulas, and jurisdiction-specific obligations remain authoritative for the actual feature being tested.
 
----
+When information is missing, QA-AI should surface a clarification or explicit assumption rather than silently manufacture expected behavior.
 
-### Domain
+## Relationships with Other Shared Modules
 
-Provides business-domain knowledge that supports domain-specific testing activities.
+- `../standards/` defines repository and article rules.
+- `../templates/` defines artifact structures.
+- `../checklists/` defines review controls.
+- `../prompt-patterns/` defines reusable reasoning/prompt patterns.
+- `../glossary/` provides concise canonical terminology.
+- `../../skills/` consume knowledge for single capabilities.
+- `../../workflows/` orchestrate capabilities and knowledge across steps.
 
-Typical topics include:
+Knowledge explains concepts; it should not duplicate the responsibilities of those modules.
 
-- Healthcare
-- Banking
-- E-Commerce
-- Loyalty
-- Warehouse Management
-- Inventory Management
+## Cross-Domain Quality Gate
 
----
+The root knowledge baseline is Frozen only when:
 
-## Design Principles
+- all five domain Catalog counts match physical articles;
+- all baseline articles are Approved;
+- every domain follows the current Knowledge Article Standard;
+- root/domain README and Catalog information is consistent;
+- no unresolved ownership conflict or duplicate primary responsibility remains;
+- cross-domain references use real paths;
+- project-specific and high-stakes assumptions are bounded;
+- testing/technology/domain specialization is separated from generic QA concepts.
 
-Knowledge articles should:
+## Maintenance Policy
 
-- Explain concepts rather than define terminology.
-- Remain reusable across multiple skills and workflows.
-- Be organized by subject area.
-- Avoid duplicating standards, templates, or glossary entries.
-- Support AI reasoning through accurate and structured knowledge.
+A frozen baseline can change when corrections or intentional extensions are needed.
 
----
+Material changes require:
 
-## Relationships
+1. targeted self-review of changed articles;
+2. cross-reference impact review;
+3. Catalog/README reconciliation when architecture changes;
+4. cross-domain review when ownership, shared terminology, or prerequisites change;
+5. re-freeze only after blockers are resolved.
 
-The knowledge module is a shared resource used throughout the QA-AI framework.
+## Root Freeze Baseline
 
-Typical consumers include:
-
-- Skills
-- Workflows
-- Prompt Patterns
-
-Knowledge complements other shared modules:
-
-- Standards define rules.
-- Templates define output structures.
-- Checklists define quality criteria.
-- Prompt Patterns define reasoning approaches.
-- Glossary defines terminology.
-- Knowledge explains concepts.
-
----
+```text
+Folder: shared/knowledge/
+Knowledge Domains: 5
+Approved Knowledge Articles: 181
+Domain Catalogs: 5
+Cross-Domain Review: PASS
+Baseline State: Frozen
+Freeze Date: 2026-08-13
+```
 
 ## References
 
-Related modules include:
-
-- `shared/standards/`
-- `shared/templates/`
-- `shared/checklists/`
-- `shared/prompt-patterns/`
-- `shared/glossary/`
-- `skills/`
-- `workflows/`
+- `../standards/Knowledge-Article.md`
+- `testing-techniques/Catalog.md`
+- `qa/Catalog.md`
+- `api/Catalog.md`
+- `database/Catalog.md`
+- `domain/Catalog.md`
+- `../glossary/`
+- `../../skills/`
+- `../../workflows/`
