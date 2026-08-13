@@ -15,7 +15,7 @@ CORE_PATHS = [
     "README.md", "FRAMEWORK.md", "manifest.json", "docs", "shared", "skills",
     "workflows", "datasets", "scripts",
 ]
-SCRIPT_GROUPS = ["validation", "knowledge", "prompts", "workflows", "evaluation", "export", "utils"]
+SCRIPT_GROUPS = ["validation", "knowledge", "prompts", "workflows", "evaluation", "export", "utils", "roadmap"]
 
 
 def validate(root: Path) -> list[str]:
@@ -42,8 +42,11 @@ def validate(root: Path) -> list[str]:
 
     scripts = root / "scripts"
     for group in SCRIPT_GROUPS:
-        if not (scripts / group).is_dir():
+        group_path = scripts / group
+        if not group_path.is_dir():
             errors.append(f"missing script group: scripts/{group}")
+        elif not any(p.is_file() and p.stat().st_size > 0 for p in group_path.glob("*.py")):
+            errors.append(f"script group has no implemented Python file: scripts/{group}")
     return errors
 
 
