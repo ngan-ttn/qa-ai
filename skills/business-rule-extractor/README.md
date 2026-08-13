@@ -2,45 +2,33 @@
 
 ## Purpose
 
-The `business-rule-extractor` skill transforms structured requirement analysis into structured business rules that support downstream QA capabilities.
+The `business-rule-extractor` skill transforms structured requirement analysis and authoritative business context into a structured business rule model.
 
-The skill focuses on identifying, classifying, and organizing business rules. It does not analyze requirements, generate testing artifacts, or perform downstream QA activities.
+It owns rule identification, normalization, classification, relationships, exceptions, and uncertainty. It does not invent business policy or generate testing artifacts.
 
 ---
 
 ## Capability
 
-This skill provides the capability to identify and organize business rules from structured requirement information.
-
-Its primary objective is to transform analyzed requirement information into structured business rules that support subsequent QA capabilities.
-
-Capability flow:
-
 ```text
-Structured Requirement Analysis
+Structured Requirement Analysis + Authoritative Context
         ↓
-Identify Business Rules
+Identify Rule Statements / Candidates
+        ↓
+Normalize Conditions and Outcomes
         ↓
 Classify Rules
         ↓
-Resolve Relationships
+Resolve Relationships / Conflicts / Exceptions
         ↓
-Structured Business Rules
+Structured Business Rule Model
 ```
 
 ---
 
 ## When To Use
 
-Use this skill when:
-
-- Structured requirement analysis is available
-- Business rules need to be identified
-- Business logic requires classification
-- Rule relationships require clarification
-- Downstream QA skills require structured business rules
-
-This skill should be executed before generating test scenarios or test cases.
+Use this skill when requirement analysis contains business logic, decisions, constraints, permissions, calculations, eligibility, state rules, or exceptions that need explicit structured representation.
 
 ---
 
@@ -48,114 +36,90 @@ This skill should be executed before generating test scenarios or test cases.
 
 ### Required Input
 
-Examples:
-
-- Structured requirement analysis
-- Functional scope
-- Feature summary
-- Dependencies
-- Constraints
+- Structured Requirement Analysis or equivalent structured authoritative requirement context containing business-rule candidates.
 
 ### Optional Input
 
-Examples:
-
-- Original requirement document
-- User story
-- Acceptance criteria
-- Business documentation
-
-The skill should identify missing, conflicting, or ambiguous business rules during extraction.
+- original requirement/user story/acceptance criteria;
+- business policy/process documentation;
+- domain context;
+- state/workflow models;
+- existing business-rule catalog;
+- project-defined rule precedence or effective-date information.
 
 ---
 
 ## Processing
 
-The skill performs the following logical processing activities.
+### Step 1 — Identify Supported Rules
 
-### Step 1 — Identify Business Rules
+Extract explicit rules and supported rule implications that are necessary to represent stated behavior. An implication must be traceable to source facts; plausible domain behavior is not enough to create a rule.
 
-Identify explicit and implicit business rules from the analyzed requirement information.
+### Step 2 — Normalize Rule Structure
 
----
+Represent conditions, triggers, subjects, actions/outcomes, constraints, exceptions, and effective scope without changing source meaning.
 
-### Step 2 — Classify Rules
+### Step 3 — Classify Rules
 
-Organize identified rules into logical categories based on their purpose and behavior.
+Classify rules using applicable project/framework categories such as validation, decision, calculation, permission, state, eligibility, constraint, or derivation.
 
----
+### Step 4 — Resolve Relationships
 
-### Step 3 — Resolve Relationships
+Identify dependencies, precedence when explicitly known, mutual exclusions, compound conditions, exceptions, and interactions between rules.
 
-Identify relationships between:
+### Step 5 — Detect Gaps and Conflicts
 
-- Business rules
-- Requirements
-- Dependencies
-- Constraints
+Flag missing outcomes, conflicting rules, ambiguous conditions, undefined defaults, unclear precedence, or unsupported thresholds. Do not silently choose a rule when authority is unclear.
 
----
+### Step 6 — Produce Structured Business Rule Model
 
-### Step 4 — Detect Gaps
-
-Identify:
-
-- Missing business rules
-- Conflicting rules
-- Ambiguous rules
-
----
-
-### Step 5 — Produce Structured Business Rules
-
-Organize the identified business rules into a structured representation suitable for downstream QA activities.
+Provide stable IDs and traceability to authoritative sources.
 
 ---
 
 ## Output
 
-The skill produces a structured business rule model that can be consumed by downstream QA skills.
+Typical fields include:
 
-Typical outputs may include:
-
-- Business rules
-- Rule categories
-- Rule relationships
-- Dependencies
-- Constraints
-- Exceptions
-- Open questions
-
-The exact output structure should follow the applicable templates defined in the shared resources.
+- Rule ID;
+- source traceability;
+- rule category;
+- condition/trigger;
+- action/outcome;
+- scope/actor/state;
+- dependencies/related rules;
+- exception/default behavior when defined;
+- precedence/effective period when defined;
+- assumptions/conflicts/open questions.
 
 ---
 
 ## Dependencies
 
-This skill may use resources from the shared module.
-
 | Resource | Purpose |
-|----------|---------|
-| `shared/standards/` | Apply business rule extraction standards |
-| `shared/templates/` | Structure business rule output |
-| `shared/prompt-patterns/` | Apply reusable extraction prompts |
+|---|---|
+| `shared/standards/` | Output/documentation conventions |
+| `shared/templates/` | Business-rule structure |
+| `shared/checklists/` | Requirement/rule quality review where applicable |
+| `shared/prompt-patterns/` | Reusable extraction reasoning |
+| `shared/knowledge/domain/` | Business-rule/domain semantics |
+| `shared/knowledge/qa/` | Requirement and QA context |
 
-The skill consumes these resources but does not redefine them.
+Generic domain knowledge may help interpret terminology but cannot create project-specific rules.
 
 ---
 
 ## Consumers
 
-The output of this skill may be consumed by:
+The output may be consumed by:
 
-- `skills/scenario-generator`
-- `skills/testcase-generator`
-- `skills/regression-impact`
-
-It may also be invoked by workflows such as:
-
-- `workflows/testcase-generation`
-- `workflows/regression-analysis`
+- `risk-analyzer`;
+- `scenario-generator`;
+- `testcase-generator` as supporting detail;
+- `test-data-generator` for rule-constrained data;
+- `api-test-generator` when API behavior implements the rule;
+- `regression-impact` when rules change;
+- testcase-generation and regression workflows.
 
 ---
 
@@ -163,25 +127,23 @@ It may also be invoked by workflows such as:
 
 This skill does not:
 
-- Analyze raw requirements
-- Generate test scenarios
-- Generate test cases
-- Review testcase quality
-- Perform regression impact analysis
-
-These responsibilities belong to other specialized skills.
+- analyze raw requirements as its primary responsibility;
+- invent unstated policy, thresholds, formulas, precedence, or default behavior;
+- score risks;
+- generate scenarios/testcases/test data;
+- perform regression impact analysis;
+- resolve business conflicts without authoritative evidence.
 
 ---
 
 ## Validation
 
-The output of this skill should be validated to ensure:
+Validate that:
 
-- Business rules are accurately identified
-- Rule classifications are logically organized
-- Rule relationships are clearly represented
-- Missing, conflicting, or ambiguous rules are explicitly identified
-- The output is structured and reusable by downstream QA skills
-- The output can be consumed without additional interpretation by downstream QA skills
-
-Detailed validation criteria should be maintained in the relevant shared checklists.
+- every rule is traceable to authoritative content or a clearly labeled supported implication;
+- conditions and outcomes preserve source meaning;
+- rule classification does not alter semantics;
+- dependencies, exceptions, conflicts, and unknown precedence are visible;
+- project-specific values are never supplied from generic knowledge;
+- duplicate rules are consolidated without losing scope differences;
+- downstream consumers can distinguish confirmed rules from unresolved questions.
