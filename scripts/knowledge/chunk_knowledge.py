@@ -22,10 +22,13 @@ def split_sections(text: str) -> list[tuple[str, str]]:
         return [("Document", text.strip())]
     result: list[tuple[str, str]] = []
     for index, match in enumerate(matches):
-        start = match.start()
         end = matches[index + 1].start() if index + 1 < len(matches) else len(text)
-        result.append((match.group(2).strip(), text[start:end].strip()))
+        result.append((match.group(2).strip(), text[match.start():end].strip()))
     return result
+
+
+def _split_oversized(value: str, max_chars: int) -> list[str]:
+    return [value[i:i + max_chars] for i in range(0, len(value), max_chars)] or [""]
 
 
 def chunk_text(text: str, max_chars: int) -> list[tuple[str, str]]:
@@ -35,18 +38,26 @@ def chunk_text(text: str, max_chars: int) -> list[tuple[str, str]]:
             chunks.append((heading, section))
             continue
         paragraphs = [p.strip() for p in section.split("\n\n") if p.strip()]
+        logical_parts: list[str] = []
         current = ""
-        part = 1
         for paragraph in paragraphs:
+            if len(paragraph) > max_chars:
+                if current:
+                    logical_parts.append(current)
+                    current = ""
+                logical_parts.extend(_split_oversized(paragraph, max_chars))
+                continue
             candidate = f"{current}\n\n{paragraph}".strip()
             if current and len(candidate) > max_chars:
-                chunks.append((f"{heading} (part {part})", current))
-                part += 1
+                logical_parts.append(current)
                 current = paragraph
             else:
                 current = candidate
         if current:
-            chunks.append((f"{heading} (part {part})" if part > 1 else heading, current))
+            logical_parts.append(current)
+        for part_no, content in enumerate(logical_parts, 1):
+            label = f"{heading} (part {part_no})" if len(logical_parts) > 1 else heading
+            chunks.append((label, content))
     return chunks
 
 
