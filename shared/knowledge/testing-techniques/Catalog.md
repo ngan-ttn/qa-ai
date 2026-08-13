@@ -50,7 +50,7 @@ Testing Techniques
 | Property-Based Testing | `Advanced/Property-Based-Testing.md` | Advanced | Advanced | Black Box Testing | Low | Approved |
 | AI-Assisted Test Design | `Advanced/AI-Assisted-Test-Design.md` | Advanced | Advanced | Black Box Testing | High | Approved |
 | Prompt-Based Test Generation | `Advanced/Prompt-Based-Test-Generation.md` | Advanced | Advanced | AI-Assisted Test Design | High | Approved |
-| Chaos Testing | `Advanced/Chaos-Testing.md` | Advanced | Advanced | Risk-Based Testing, Architecture Context | Medium | Approved |
+| Chaos Testing | `Advanced/Chaos-Testing.md` | Advanced | Advanced | QA Risk-Based Testing, confirmed system architecture context | Medium | Approved |
 
 ## Category Summary
 
@@ -82,7 +82,7 @@ State Transition Testing
 └── Finite State Machine Testing → Model-Based Testing
 ```
 
-Dependencies are learning guidance, not runtime dependencies.
+Dependencies are learning guidance, not runtime dependencies. Cross-domain prerequisites name their owning domain explicitly; contextual prerequisites such as current system architecture must come from authoritative project sources.
 
 ## Cross-Domain Boundaries
 
