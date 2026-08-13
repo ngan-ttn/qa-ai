@@ -13,22 +13,28 @@ from scripts.utils.file_utils import read_text, relative_to_repo, resolve_repo_p
 
 
 def assemble(paths: list[str], *, max_chars: int = 30000) -> dict[str, object]:
-    sources: list[dict[str, str]] = []
+    sources: list[dict[str, object]] = []
     used = 0
+    truncated = False
     for raw in paths:
         path = resolve_repo_path(raw)
         text = read_text(path).strip()
         remaining = max_chars - used
         if remaining <= 0:
+            truncated = True
             break
         clipped = text[:remaining]
-        sources.append({"path": relative_to_repo(path), "content": clipped})
+        was_truncated = len(clipped) < len(text)
+        sources.append({
+            "path": relative_to_repo(path),
+            "content": clipped,
+            "truncated": was_truncated,
+        })
         used += len(clipped)
-    return {
-        "sources": sources,
-        "characters": used,
-        "truncated": any(len(read_text(item)) > len(next(s["content"] for s in sources if s["path"] == relative_to_repo(item))) for item in [resolve_repo_path(p) for p in paths[:len(sources)]]) if sources else False,
-    }
+        truncated = truncated or was_truncated
+        if was_truncated:
+            break
+    return {"sources": sources, "characters": used, "truncated": truncated}
 
 
 def main() -> int:
