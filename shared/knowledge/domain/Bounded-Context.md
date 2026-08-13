@@ -6,60 +6,94 @@
 
 ## Overview
 
-A **bounded context** is an explicit boundary within which a domain model and its language have a consistent meaning.
+A **bounded context** is an explicit boundary within which a domain model and its language have a consistent meaning. The same term or real-world object can have different attributes, rules, identity, and lifecycle in another context.
 
 ## Purpose
 
-Help QA avoid assuming that identical terms, identifiers, states, or rules mean the same thing across systems or business areas.
+Help QA and QA-AI identify semantic boundaries, ownership, translation, and integration risk without assuming all systems share one universal model.
 
 ## Core Concepts
 
-### Model Boundary
-Defines where a set of concepts and rules applies.
-### Context-Specific Language
-A term has precise meaning inside the boundary.
-### Context Mapping
-Relationships describe how concepts translate between boundaries.
-### Integration Contract
-Cross-context exchange requires explicit mapping.
+### Context Boundary
+Defines where a model's rules and terminology are valid.
+
+### Local Model
+Each context can represent concepts according to its own business responsibility.
+
+### Ubiquitous Language
+Terms are consistent within the context but can differ outside it.
+
+### Context Ownership
+A team or business area may own decisions and source-of-truth data within its boundary.
+
+### Translation
+Cross-context communication may require mapping between identifiers, statuses, codes, and meaning.
+
+### Upstream / Downstream
+One context may supply data or decisions another consumes.
+
+### Anti-Corruption / Adaptation Layer
+Some architectures isolate one model from another through mapping or translation; QA should verify it only when documented.
+
+### Consistency Expectation
+Cross-context state can be immediate, delayed, or eventually consistent depending on architecture and business requirement.
 
 ## How It Works
 
-Each context owns its model; integrations translate concepts rather than assuming shared internal representation.
+```text
+Context A model
+   │
+   │ contract / mapping
+   ▼
+Translation boundary
+   │
+   ▼
+Context B model
+```
+
+QA asks which context owns each fact, how concepts map, what timing is expected, and what happens when one context changes independently.
 
 ## When to Use
 
-Use for multi-service systems, organizational boundaries, overloaded terminology, and integration testing.
+Use for microservices, enterprise integrations, partner systems, multiple business units, duplicated terminology, and complex domain models.
 
 ## When Not to Use
 
-Do not invent bounded contexts from repository folders or services without domain evidence.
+Do not introduce bounded-context terminology simply because applications are separate. A deployment boundary is not automatically a business semantic boundary.
 
 ## Advantages
 
-Clarifies ownership and reduces semantic coupling.
+Context thinking prevents false equivalence, clarifies ownership, and improves integration and regression analysis.
 
 ## Limitations
 
-Real boundaries may be organizational, conceptual, and technical at different levels.
+Boundaries can be difficult to discover, may not align with organization charts, and can change during architecture evolution.
 
 ## Examples
 
-`Product` in Catalog can describe sellable attributes while `Product` in Inventory focuses on stock identity and availability; mappings must preserve intended meaning.
+`Product` in Catalog may own descriptive and merchandising data, while `Product` in Inventory owns stock-tracking attributes. QA verifies mappings without expecting identical schemas.
+
+`Customer` in Loyalty may be a member with tier and points, while CRM owns broader contact and marketing data. Deactivating one relationship does not necessarily delete the other.
 
 ## Best Practices
 
-- Identify model ownership.
-- Define context-specific terms.
-- Test mappings at boundaries.
-- Verify missing/unknown values and version changes.
+- Define business responsibility of each context.
+- Identify source-of-truth ownership per fact.
+- Document identifier, status, and code mappings.
+- Test translation at semantic boundaries.
+- Cover stale, missing, duplicated, and out-of-order updates where applicable.
+- Do not assume immediate consistency across contexts.
+- Use context-specific terminology in QA artifacts.
 
 ## Related Knowledge
 
 - `Domain-Driven-Thinking.md`
-- `Ubiquitous-Language.md`
 - `Domain-Model.md`
+- `Ubiquitous-Language.md`
+- `Business-Events.md`
+- `Entity-Relationships.md`
 
 ## References
 
-- Eric Evans, *Domain-Driven Design*.
+- Domain-driven design context-mapping literature.
+- Approved integration and ownership documentation.

@@ -6,61 +6,81 @@
 
 ## Overview
 
-**Transaction data** records business activities or events such as purchases, transfers, shipments, adjustments, or claims.
+**Transaction data** records business activities or events such as orders, payments, redemptions, inventory movements, approvals, returns, claims, or adjustments. It usually changes more frequently than master data and often preserves historical facts.
 
 ## Purpose
 
-Help QA distinguish operational event records from master/reference data and validate history, status, amounts, relationships, and corrections.
+Help QA validate transactional identity, lifecycle, amounts, relationships, auditability, duplication, reversal, and reconciliation.
 
 ## Core Concepts
 
-### Business Occurrence
-Represents an activity at a time.
-### Link to Master Data
-Transactions commonly reference customers, products, accounts, or locations.
-### Status and Lifecycle
-Transactions can be pending, posted, reversed, canceled, or otherwise stateful.
+### Transaction Identity
+Each business transaction requires a way to distinguish one occurrence from another.
+
+### Business Time
+Occurrence, posting, settlement, processing, or effective timestamps can differ.
+
+### Status / Lifecycle
+Transactions may be initiated, pending, completed, failed, reversed, canceled, or otherwise stateful.
+
+### Amount / Quantity
+Numeric values need defined unit, currency, precision, sign, and rounding semantics.
+
+### Relationship to Master Data
+Transactions reference customers, products, accounts, locations, or other master entities.
+
 ### Immutability and Correction
-Some domains preserve original transactions and use compensating/reversal records.
+Historical transactions are often not freely edited; correction may use reversal, adjustment, or compensating records.
+
+### Reconciliation
+Totals and state should agree across authoritative ledgers, systems, or reports according to approved rules.
 
 ## How It Works
 
-A business event creates a transaction record; subsequent events may update state or create related correction records according to domain rules.
+A business action creates or changes transaction state, records evidence, and may trigger downstream processing. QA traces the transaction through lifecycle and cross-system representations.
 
 ## When to Use
 
-Use for financial, order, inventory, loyalty, logistics, and audit-heavy features.
+Use for financial transactions, orders, loyalty activity, inventory movements, requests, imports, and any auditable business event.
 
 ## When Not to Use
 
-Do not assume transaction data is mutable or deletable like master data.
+Do not assume database transaction semantics are the same as business transaction semantics. Do not infer correction rules from CRUD capabilities.
 
 ## Advantages
 
-Transaction modeling supports reconciliation and historical traceability.
+Transaction-focused reasoning exposes duplicate, missing, partial, incorrect-amount, wrong-state, and reconciliation defects.
 
 ## Limitations
 
-High volume, asynchronous posting, and derived records complicate validation.
+Distributed transaction data can be eventually consistent and represented differently across operational and reporting systems.
 
 ## Examples
 
-A points redemption may create a transaction linked to member and reward, then later a reversal rather than deleting the original transaction.
+A loyalty redemption can create a pending debit, then complete or reverse. QA verifies point balance, transaction history, duplicate submission, and refund/reversal paths.
+
+An inventory outbound movement reduces stock and records movement history. A later return should be a new business transaction rather than deleting the outbound history.
 
 ## Best Practices
 
-- Validate identity, timestamp, amount/quantity, status, and relationships.
-- Test duplicate and reversal behavior.
-- Preserve distinction between event time and processing time.
-- Reconcile derived balances independently.
+- Use stable transaction identifiers and correlation IDs.
+- Verify lifecycle transitions and timestamps.
+- Test duplicate and retry behavior.
+- Validate amount/quantity precision and sign.
+- Reconcile critical totals independently.
+- Preserve history and audit evidence.
+- Cover reversal, refund, cancellation, and adjustment separately.
+- Distinguish source-of-truth state from reporting replicas.
 
 ## Related Knowledge
 
+- `Business-Entity.md`
 - `Master-Data.md`
-- `Reference-Data.md`
 - `Audit-Trail.md`
+- `Banking.md`
 - `../database/Transactions.md`
 
 ## References
 
-- Transaction-processing and domain-modeling literature.
+- Transaction-processing and business data-management literature.
+- Approved transaction lifecycle documentation.

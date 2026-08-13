@@ -6,66 +6,93 @@
 
 ## Overview
 
-**Domain knowledge** is structured understanding of a business area: its terminology, actors, entities, processes, rules, events, exceptions, risks, and constraints.
+**Domain knowledge** is the accumulated understanding of a business area: its purpose, terminology, actors, capabilities, entities, processes, rules, events, risks, constraints, and operating context. It is broader than one requirement and narrower than universal business knowledge.
 
 ## Purpose
 
-Explain how reusable domain knowledge supports QA reasoning without replacing current project evidence or subject-matter expertise.
+Provide a model for acquiring, validating, applying, and maintaining domain knowledge so QA and QA-AI can reason accurately without inventing missing project facts.
 
 ## Core Concepts
 
 ### Explicit Knowledge
-Documented rules, policies, models, specifications, and definitions.
+Documented information such as specifications, policies, process maps, contracts, and glossaries.
 
 ### Tacit Knowledge
-Operational understanding held by experienced stakeholders but not fully documented.
+Operational understanding held by SMEs or experienced users that may not yet be documented.
 
-### Authoritative Knowledge
-Information accepted as the source of truth for a decision or rule.
+### Evidence Strength
+Not all sources have equal authority. Approved policy may outweigh outdated wiki content; observed production behavior may reveal a defect rather than define the requirement.
 
-### Contextual Knowledge
-Meaning that depends on product, market, jurisdiction, role, or lifecycle state.
+### Assumption
+An unverified belief used temporarily for analysis. Assumptions must be labeled and validated.
+
+### Knowledge Gap
+Missing information that prevents confident interpretation or testing.
+
+### Knowledge Freshness
+Domain knowledge can expire when products, regulations, processes, or business ownership change.
+
+### Reusability Boundary
+Generic patterns can guide questions, but organization-specific rules must remain project evidence.
 
 ## How It Works
 
-QA gathers evidence, identifies concepts and relationships, validates understanding with authoritative sources, and applies that knowledge to requirement analysis, risk assessment, scenarios, and defect impact.
+```text
+Collect sources
+   ↓
+Extract concepts / rules / processes
+   ↓
+Assess authority + freshness
+   ↓
+Resolve conflicts / gaps
+   ↓
+Apply to QA reasoning
+   ↓
+Capture learned corrections
+```
+
+Knowledge should be traceable enough that a reviewer can distinguish a confirmed fact from an inference or generic pattern.
 
 ## When to Use
 
-Use throughout analysis, test design, regression planning, defect triage, and onboarding.
+Use for onboarding, complex requirement analysis, regression planning, test-data design, defect investigation, cross-system integration, and repeated features within the same domain.
 
 ## When Not to Use
 
-Do not treat historical knowledge or generic industry patterns as proof of current product behavior.
+Do not use historical knowledge as a substitute for current requirements. Do not treat stakeholder memory or common industry practice as automatically authoritative.
 
 ## Advantages
 
-Domain knowledge increases relevance of testing and helps reveal omissions that syntax-focused review misses.
+Strong domain knowledge improves risk detection, clarification quality, coverage, defect severity assessment, and communication with business stakeholders.
 
 ## Limitations
 
-Knowledge can become stale, incomplete, contradictory, or jurisdiction-specific.
+Knowledge can be incomplete, inconsistent, biased, outdated, or local to one team. Overconfidence in prior domain experience can cause false assumptions.
 
 ## Examples
 
-Knowing that refunds may have eligibility, settlement, reversal, and notification stages helps QA ask better questions than testing only a `Refund` button.
+A QA engineer familiar with loyalty systems knows that earn, redeem, refund, expiry, and adjustment often interact. That knowledge helps ask relevant questions, but the actual point-expiry rule must still come from the current product.
+
+For import permits, prior knowledge may suggest allocation and remaining quantity are related, but the exact formula and edit restrictions must be verified from current requirements.
 
 ## Best Practices
 
-- Track source and context.
-- Prefer current authoritative evidence.
-- Separate fact, assumption, and inference.
-- Refresh knowledge when business policy changes.
-- Capture unresolved questions rather than invent answers.
+- Tag source, owner, date, and confidence for important domain facts.
+- Separate confirmed facts, assumptions, and open questions.
+- Prefer current authoritative evidence over memory.
+- Reuse patterns to improve questioning, not to fill gaps silently.
+- Capture material learning from defects and UAT decisions.
+- Review knowledge after major policy or product changes.
+- Keep generic repository knowledge free of confidential project data.
 
 ## Related Knowledge
 
 - `Business-Domain.md`
-- `Business-Context.md`
 - `Domain-Terminology.md`
-- `Domain-Model.md`
+- `Business-Context.md`
+- `Ubiquitous-Language.md`
 
 ## References
 
-- Business-analysis and knowledge-management literature.
-- Approved project/domain sources.
+- Business-analysis knowledge-management literature.
+- Approved project and organization documentation.

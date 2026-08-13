@@ -6,64 +6,98 @@
 
 ## Overview
 
-**Process exceptions** are expected or unexpected conditions that prevent a business process from following its normal path.
+A **process exception** is a condition that prevents, diverts, delays, reverses, or otherwise changes the normal business process path. Exceptions are business behavior, not merely technical errors.
 
 ## Purpose
 
-Provide a model for testing alternate handling, recovery, escalation, compensation, and safe failure.
+Help QA systematically identify and test alternate handling, recovery, escalation, compensation, and incomplete outcomes.
 
 ## Core Concepts
 
-### Business Exception
-A valid condition such as ineligibility or insufficient stock.
-### Technical Exception
-Infrastructure or integration failure affecting execution.
-### Recovery
-Retry, correction, resumption, or alternate processing.
+### Business Rejection
+Input or context fails a business rule and is intentionally rejected.
+
+### Operational Failure
+A required resource, role, document, inventory item, or external party is unavailable.
+
+### Technical Failure
+A service, network, database, or integration fails; business handling still needs definition.
+
+### Timeout
+Expected action or response does not occur within an approved period.
+
+### Retry
+The same or equivalent work is attempted again. Safe retry depends on business and technical idempotency.
+
 ### Compensation
-Business action that counteracts a completed effect when rollback is impossible.
+A later action offsets an earlier successful action when full rollback is impossible.
+
 ### Escalation
-Transfer to another role or process.
+An exception is transferred to another role or control path.
+
+### Manual Intervention
+Human correction may resolve a condition that automated workflow cannot.
 
 ## How It Works
 
-The system detects a condition, classifies it, preserves required state, applies an approved exception path, and communicates an actionable outcome.
+```text
+Normal step
+   ↓
+Exception detected
+   ↓
+classify + record
+   ↓
+reject / retry / wait / compensate / escalate
+   ↓
+recover, terminate, or continue
+```
+
+QA must validate the resulting business state, not only the error message. Partial side effects and duplicate recovery actions are major risks.
 
 ## When to Use
 
-Use for failures, rejections, timeouts, duplicate requests, unavailable dependencies, and manual review paths.
+Use for external integrations, payment, inventory, approval, batch jobs, migrations, asynchronous processing, and any high-risk workflow.
 
 ## When Not to Use
 
-Do not expect technical rollback to undo business effects in external systems automatically.
+Do not invent recovery policy from technical capabilities. A retry may be unsafe when the original outcome is uncertain.
 
 ## Advantages
 
-Exception testing exposes data inconsistency and stranded-process risks.
+Exception analysis improves resilience coverage and exposes stranded, duplicated, or inconsistent business state.
 
 ## Limitations
 
-Some recovery behavior is operational rather than application-controlled.
+Some exceptions are operationally rare or hard to reproduce. Observability may be insufficient to know whether an external action succeeded.
 
 ## Examples
 
-Payment succeeds externally but order creation fails. Recovery may require reconciliation or compensation rather than simply retrying the whole request.
+A payment request times out after the provider accepted it. Blind retry can create a duplicate charge unless the integration has a safe duplicate-control strategy.
+
+Inventory reservation succeeds but order confirmation fails. Recovery may release inventory or retain reservation depending on policy.
+
+An approval task is assigned to an unavailable approver. The process may escalate or reassign rather than remain stuck indefinitely.
 
 ## Best Practices
 
-- Separate business and technical exceptions.
-- Verify preserved state and user visibility.
-- Test retry/idempotency where applicable.
-- Validate escalation and compensation paths.
-- Check audit evidence and final consistency.
+- Classify business, operational, and technical exceptions separately.
+- Define expected state after each failure point.
+- Test partial success and unknown outcome.
+- Verify retry safety and duplicate controls.
+- Cover timeout, cancellation, compensation, and escalation.
+- Validate user-visible status and operational observability.
+- Preserve audit evidence for manual intervention.
 
 ## Related Knowledge
 
 - `Business-Workflow.md`
-- `Rule-Exceptions.md`
+- `Process-States.md`
 - `Business-Events.md`
+- `Rule-Exceptions.md`
 - `../api/Retry-Strategy.md`
+- `../api/Idempotency.md`
 
 ## References
 
-- BPM and distributed-workflow literature.
+- Workflow resilience and business process literature.
+- Approved exception-handling procedures.

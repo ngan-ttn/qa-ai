@@ -6,61 +6,80 @@
 
 ## Overview
 
-**Master data** represents relatively stable, shared business entities used across processes, such as customers, products, suppliers, locations, or organizational units.
+**Master data** is relatively stable, shared business data describing core entities used across processes, such as products, customers, suppliers, locations, organizational units, or devices.
 
 ## Purpose
 
-Help QA reason about authoritative ownership, identity, synchronization, lifecycle, and downstream impact of shared business data.
+Help QA reason about authority, synchronization, identity, lifecycle, quality, and downstream impact of shared business data.
 
 ## Core Concepts
 
-### Source of Truth
-The authoritative owner for a master concept.
-### Identity and Deduplication
-Records must represent intended real-world/business identities.
-### Distribution
-Master data may be replicated to consuming systems.
-### Governance
-Creation and changes often require controlled rules and ownership.
+### Shared Business Object
+Master data is reused by multiple transactions or systems.
+
+### System of Record
+One source may be authoritative for a data set or attribute, but ownership can be distributed.
+
+### Golden Record
+Some architectures reconcile multiple sources into a preferred representation; this is a design choice, not a universal property.
+
+### Reference Synchronization
+Copies can be propagated to downstream systems with delay or transformation.
+
+### Data Quality
+Completeness, uniqueness, validity, consistency, and timeliness matter because defects propagate widely.
+
+### Stewardship
+Business or operational owners may approve or correct master data.
+
+### Effective Dating
+Attributes or relationships can change over time without rewriting history.
 
 ## How It Works
 
-Master data is created or maintained in an authoritative process and distributed or referenced by operational transactions.
+Master data is created or maintained in an authoritative process and then consumed by transactional or analytical systems. QA validates source ownership, propagation, and impact on dependent features.
 
 ## When to Use
 
-Use for product catalogs, customer masters, reference ownership, supplier/location data, and cross-system synchronization.
+Use for product masters, customer profiles, device catalogs, supplier/location data, code mappings, and shared configuration with business identity.
 
 ## When Not to Use
 
-Do not classify all long-lived data as master data; business role and reuse matter.
+Do not classify every configuration value as master data. Do not assume one system is authoritative for all attributes without evidence.
 
 ## Advantages
 
-Clear master-data ownership reduces inconsistency across systems.
+Master-data awareness helps detect high-impact defects whose effects spread across many features and integrations.
 
 ## Limitations
 
-Synchronization delay, duplicate identities, and conflicting sources can create complex defects.
+Copies may be eventually consistent, historical values may be required, and duplicate/merge rules can be complex.
 
 ## Examples
 
-A product master supplies code, name, status, and category to ordering and inventory processes; a stale consumer may reject a newly activated product.
+A Product Master changes a device name. New screens may show the updated value while historical records retain prior snapshots depending on approved design.
+
+A customer address update in CRM may propagate to another system asynchronously. QA distinguishes propagation delay from permanent synchronization failure.
 
 ## Best Practices
 
-- Identify authoritative source.
-- Test duplicate and merge behavior.
-- Verify propagation and effective dates.
-- Cover inactive/retired master records.
-- Avoid inventing synchronization SLAs.
+- Identify ownership per entity and critical attribute.
+- Test duplicate, merge, and deactivation behavior.
+- Verify downstream propagation and freshness expectations.
+- Preserve historical semantics where required.
+- Validate effective dates and reference integrity.
+- Assess regression impact broadly for master-data changes.
+- Protect sensitive master data in test environments.
 
 ## Related Knowledge
 
+- `Business-Entity.md`
 - `Reference-Data.md`
 - `Transaction-Data.md`
-- `Business-Entity.md`
+- `Entity-Lifecycle.md`
+- `../database/Data-Validation.md`
 
 ## References
 
-- Master data management literature.
+- Master data management and data-governance literature.
+- Approved system-of-record documentation.

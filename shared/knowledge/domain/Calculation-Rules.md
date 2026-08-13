@@ -6,63 +6,104 @@
 
 ## Overview
 
-**Calculation rules** define how business values are derived from inputs, formulas, rates, rounding, sequence, dates, and conditional logic.
+A **calculation rule** defines how one or more business values are derived from inputs, formulas, rates, units, rounding, thresholds, and timing semantics.
 
 ## Purpose
 
-Provide QA a model for validating derived amounts and quantities independently and reproducibly.
+Help QA validate calculations precisely without inventing formulas, rounding rules, or effective rates that are not documented.
 
 ## Core Concepts
 
-### Inputs
-Authoritative values used by the formula.
+### Input Population
+Which records or values participate in the calculation.
+
 ### Formula
-Defined mathematical or logical transformation.
-### Precision and Rounding
-Scale, rounding mode, and rounding stage affect results.
-### Ordering
-Applying discount, tax, fee, or conversion in different sequence can change output.
+The mathematical or logical derivation that produces the result.
+
+### Unit / Currency
+Inputs and outputs must use defined units and conversions.
+
+### Precision
+Stored and computed decimal precision can differ from display precision.
+
+### Rounding
+Rounding method, scale, and point in the calculation sequence affect results.
+
+### Threshold / Cap / Floor
+Rules may impose minimum, maximum, or band boundaries.
+
 ### Effective Rate
-Rates can vary by date, product, tier, or context.
+Rates can vary by date, segment, product, tier, or promotion.
+
+### Aggregation Order
+`round(each item) then sum` can differ from `sum then round`.
+
+### Null / Missing Input
+Rules must define how absent or invalid inputs are treated.
 
 ## How It Works
 
-QA reconstructs the expected result from authoritative inputs and rules, then compares system output including intermediate values where observable.
+```text
+Qualified inputs
+   ↓
+Normalize unit / precision
+   ↓
+Apply formula + rate + thresholds
+   ↓
+Rounding / cap / floor
+   ↓
+Final value + explanation/evidence
+```
+
+QA should independently reproduce expected results using the approved formula and test the exact boundaries where rates or outcomes change.
 
 ## When to Use
 
-Use for prices, tax, points, balances, fees, quantities, commissions, and thresholds.
+Use for prices, discounts, tax, loyalty points, balances, fees, commissions, quantities, scores, and derived reporting metrics.
 
 ## When Not to Use
 
-Do not invent rounding modes, currency precision, or rate precedence.
+Do not infer financial or regulatory calculation rules from generic industry practice. Do not compare display-rounded values to raw stored precision without understanding the contract.
 
 ## Advantages
 
-Independent calculation detects subtle business defects.
+Structured calculation testing catches precision, boundary, rate, order-of-operation, and stale-configuration defects.
 
 ## Limitations
 
-Hidden intermediate precision and external rate sources can complicate reproduction.
+Calculations can depend on external rates, effective dates, historical snapshots, and large data sets. Small rounding differences can accumulate materially.
 
 ## Examples
 
-A 10% discount followed by tax may differ from tax followed by discount depending on policy; QA must use the specified sequence.
+### Tier Boundary
+A benefit rate changes at exactly 1,000 units. QA tests 999, 1,000, and 1,001 using the approved inclusive/exclusive rule.
+
+### Rounding Sequence
+Three line-item amounts are rounded individually before order total. QA confirms whether this differs from rounding only the final sum.
+
+### Effective Rate
+A promotion rate changes at midnight in a defined timezone. QA verifies which timestamp controls eligibility.
 
 ## Best Practices
 
-- Identify authoritative inputs.
-- Test zero, negative, min/max, fractional, and boundary values where valid.
-- Confirm rounding stage and mode.
-- Test effective-date changes.
-- Reconcile totals to component values.
+- Obtain formula, units, precision, rounding method, and effective period explicitly.
+- Recalculate independently from source inputs.
+- Test zero, negative, min/max, and just-around thresholds.
+- Verify order of operations.
+- Include currency/unit conversion when applicable.
+- Check configuration/version used by historical calculations.
+- Reconcile aggregate calculations to detail.
+- Record expected values with enough precision to explain differences.
 
 ## Related Knowledge
 
 - `Business-Rule-Fundamentals.md`
 - `Decision-Rules.md`
 - `Eligibility-Rules.md`
+- `Transaction-Data.md`
+- `../database/Aggregation.md`
 
 ## References
 
-- Approved calculation specifications and business-rule literature.
+- Approved calculation specifications and financial/business policy.
+- Numerical-computing and accounting guidance applicable to the project.

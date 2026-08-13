@@ -6,65 +6,94 @@
 
 ## Overview
 
-**Domain-driven thinking** prioritizes business meaning, language, boundaries, rules, and behavior when reasoning about software. It borrows useful ideas from domain-driven design without requiring QA to design the software architecture.
+**Domain-driven thinking** is an approach to understanding software through business meaning, behavior, boundaries, and language rather than starting from screens, endpoints, or database structures. It borrows useful reasoning principles from domain-driven design without requiring a project to implement DDD.
 
 ## Purpose
 
-Help QA organize complex requirements around domain concepts rather than screens, endpoints, or tables alone.
+Help QA and QA-AI structure complex business understanding, recognize context boundaries, and avoid coupling test reasoning too tightly to implementation details.
 
 ## Core Concepts
 
 ### Business Meaning First
-Implementation is interpreted through the business behavior it supports.
+Start from why a capability exists and what business outcome must remain correct.
 
-### Explicit Boundaries
-A concept can mean different things in different contexts.
+### Model as a Reasoning Tool
+A domain model organizes important concepts, rules, states, and interactions; it is not automatically an implementation blueprint.
 
-### Shared Language
-Stakeholders and delivery teams benefit from consistent domain terms.
+### Bounded Context
+The meaning and rules of a concept can differ across contexts. Boundaries make those differences explicit.
 
-### Behavior and Invariants
-Important rules are attached to the business concepts they govern.
+### Ubiquitous Language
+Shared terminology reduces translation errors between stakeholders and technical teams.
+
+### Invariants
+Important business conditions must remain true despite implementation changes.
+
+### Events and State Change
+Business events explain what happened and why state moved.
+
+### Context Mapping
+Cross-context integrations require explicit translation, ownership, and consistency expectations.
 
 ## How It Works
 
-QA identifies domain concepts, boundaries, language, events, invariants, and cross-context interactions, then uses them to challenge requirements and derive coverage.
+```text
+Business problem
+    ↓
+Language + concepts
+    ↓
+Context boundaries
+    ↓
+Rules + invariants
+    ↓
+Events + state changes
+    ↓
+Interfaces / implementations
+```
+
+For QA, this enables scenarios to be derived from business behavior first, then mapped to UI, API, database, or integration evidence.
 
 ## When to Use
 
-Use for complex enterprise domains, multi-team systems, overloaded terminology, stateful workflows, and integration-heavy features.
+Use for complex domains, cross-system flows, ambiguous terminology, multiple ownership boundaries, event-driven processes, and regression analysis that spans technical layers.
 
 ## When Not to Use
 
-Do not introduce DDD terminology merely to make simple requirements more complex.
+Do not impose DDD terminology on simple projects where it adds no value. Do not assume architecture patterns such as aggregates, event sourcing, or microservices unless the design confirms them.
 
 ## Advantages
 
-Improves conceptual consistency and helps locate risks at business boundaries.
+Improves business-focused coverage, boundary awareness, terminology consistency, and resilience of QA artifacts to implementation change.
 
 ## Limitations
 
-DDD concepts can be misapplied if architecture and business boundaries are assumed rather than discovered.
+Models and boundaries can be subjective. Poorly understood domains may produce misleading abstractions, and multiple teams may disagree on language or ownership.
 
 ## Examples
 
-`Customer` in sales and `Account Holder` in payments may be related but governed by different rules. Treating them as one universal entity can create incorrect tests.
+A `Customer` in CRM may represent a marketing relationship while a `Customer` in billing represents a legal payer. Domain-driven thinking prevents QA from assuming fields, permissions, or lifecycle are identical.
+
+An `Order` may have a business invariant that total payable equals approved line totals minus valid discounts plus charges. QA can test that invariant through different interfaces without treating one table as the domain model.
 
 ## Best Practices
 
-- Use domain language stakeholders recognize.
-- Discover boundaries from evidence.
-- Focus on rules and behavior, not jargon.
-- Validate cross-context mappings explicitly.
+- Start from business outcomes and invariants.
+- Define context when terms change meaning.
+- Use stakeholder language consistently.
+- Map cross-context ownership and translation explicitly.
+- Separate conceptual model from storage/API representation.
+- Treat models as hypotheses to validate with stakeholders.
+- Avoid importing DDD implementation patterns without evidence.
 
 ## Related Knowledge
 
+- `Business-Domain.md`
+- `Domain-Model.md`
 - `Bounded-Context.md`
 - `Ubiquitous-Language.md`
-- `Domain-Model.md`
-- `Business-Events.md`
+- `Event-Storming.md`
 
 ## References
 
-- Eric Evans, *Domain-Driven Design*.
-- Domain modeling literature.
+- Domain-driven design literature.
+- Business-analysis and systems-modeling literature.

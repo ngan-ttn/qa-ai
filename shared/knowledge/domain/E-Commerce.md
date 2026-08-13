@@ -6,68 +6,102 @@
 
 ## Overview
 
-**E-commerce** systems support digital discovery, cart, pricing, checkout, payment, order management, fulfillment, cancellation, return, and refund.
+**E-commerce** covers digital discovery, selection, checkout, payment, order management, fulfillment, customer communication, cancellation, return, and refund. It often integrates catalog, pricing, inventory, payment providers, logistics, fraud/risk, and customer systems.
 
 ## Purpose
 
-Give QA a reusable end-to-end model for commerce risks across multiple services and business states.
+Provide QA and QA-AI with an end-to-end commerce reasoning model emphasizing cross-system state and business outcomes.
 
 ## Core Concepts
 
-### Catalog and Offer
-Product information, availability, price, and promotion.
+### Catalog
+Product information, availability, variants, media, and classification presented to customers.
+
 ### Cart
-A mutable pre-order selection whose values can become stale.
+A temporary set of intended purchases whose price, inventory, and eligibility may need revalidation.
+
 ### Checkout
-Validates identity, address, inventory, price, payment, and policy.
+Collection and validation of customer, address, delivery, promotion, payment, and order data.
+
 ### Order
-Business record representing accepted purchase intent.
-### Fulfillment and After-Sales
-Shipment, delivery, cancellation, return, and refund lifecycles.
+The business transaction representing accepted purchase intent and its lifecycle.
+
+### Payment
+Authorization, capture, failure, refund, or other payment states can progress separately from order state.
+
+### Inventory Reservation
+Stock can be checked, reserved, committed, or released at different points depending on design.
+
+### Fulfillment
+Picking, packing, shipment, pickup, delivery, and exceptions form a downstream lifecycle.
+
+### Cancellation / Return / Refund
+These can occur at different stages and have separate inventory and financial effects.
 
 ## How It Works
 
 ```text
-Browse → cart → checkout → payment/order → fulfillment → delivery → return/refund
+Browse → Cart → Checkout
+           ↓
+      Revalidate rules
+           ↓
+      Order creation
+        ↙       ↘
+   Payment     Inventory
+        ↘       ↙
+       Fulfillment
+           ↓
+ Return / cancel / refund
 ```
 
-Steps can be asynchronous and partially fail.
+Because components may be distributed, partial success and eventual consistency are common test concerns.
 
 ## When to Use
 
-Use for web/mobile commerce, marketplace, checkout, order, payment, and fulfillment features.
+Use for storefronts, marketplaces, checkout, order management, payment integration, fulfillment, returns, promotions, and customer commerce journeys.
 
 ## When Not to Use
 
-Do not assume payment success equals order success or displayed stock equals guaranteed allocation.
+Do not assume order creation, payment capture, or stock deduction occur in a universal sequence. Do not infer tax, refund, or promotion policy from generic commerce patterns.
 
 ## Advantages
 
-E-commerce framing supports strong cross-service E2E and concurrency coverage.
+E-commerce context supports strong end-to-end and integration coverage around money, stock, customer state, and asynchronous fulfillment.
 
 ## Limitations
 
-Marketplace, tax, payment, and fulfillment models vary widely.
+Architectures vary widely, external providers can create unknown outcomes, and commercial rules change frequently.
 
 ## Examples
 
-Two buyers attempt the last unit concurrently. QA verifies allocation policy, payment handling, final inventory, and loser-path recovery.
+### Payment Timeout
+Payment provider times out after accepting authorization. QA validates order state, retry behavior, duplicate payment protection, and recovery/reconciliation.
+
+### Last-Unit Race
+Two carts contain the same final unit. Final checkout must follow the approved reservation/commit policy.
+
+### Partial Fulfillment
+One order contains items from multiple warehouses. Shipment, cancellation, and refund may occur per line rather than whole order.
 
 ## Best Practices
 
-- Revalidate price and inventory at defined checkpoints.
-- Test duplicate checkout and retry behavior.
-- Cover partial failures between payment and order.
-- Validate cancellation/return/refund state rules.
-- Reconcile totals and quantities.
+- Model order, payment, inventory, and fulfillment states separately.
+- Test partial success and cross-system recovery.
+- Cover duplicate submit, retry, timeout, and stale cart.
+- Validate price/promotion/inventory again at documented checkpoints.
+- Test full and partial cancellation/return/refund.
+- Verify customer communication against actual business state.
+- Reconcile critical financial and inventory effects.
 
 ## Related Knowledge
 
 - `Retail.md`
 - `Logistics.md`
-- `Calculation-Rules.md`
-- `Process-Exceptions.md`
+- `Business-Workflow.md`
+- `Transaction-Data.md`
+- `../api/Idempotency.md`
 
 ## References
 
-- Commerce platform and approved business-policy documentation.
+- Commerce architecture and operations literature.
+- Approved product, payment, inventory, and fulfillment specifications.

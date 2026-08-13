@@ -6,62 +6,82 @@
 
 ## Overview
 
-**Eligibility rules** determine whether an actor, entity, transaction, or request qualifies for a business action, benefit, product, or process.
+An **eligibility rule** determines whether a person, entity, transaction, product, or request qualifies for an action, benefit, process, or outcome under defined conditions.
 
 ## Purpose
 
-Help QA test qualification decisions, boundary conditions, precedence, and changes in eligibility over time.
+Help QA model qualification logic, temporal scope, evidence, precedence, and re-evaluation behavior.
 
 ## Core Concepts
 
-### Eligibility Criteria
-Conditions that must be satisfied.
+### Subject
+The object being evaluated, such as customer, account, order, claim, or request.
+
+### Criteria
+Facts that must be satisfied or avoided.
+
+### Required vs Optional Criteria
+Some conditions are mandatory while others contribute to scoring or alternate pathways.
+
 ### Disqualifier
-A condition that blocks qualification.
-### Effective Period
-Eligibility may depend on time.
-### Segment or Tier
-Different groups can have different criteria.
+A condition that makes the subject ineligible even when other criteria pass.
+
+### Effective Time
+Eligibility can depend on status or facts at application time, decision time, transaction time, or another defined anchor.
+
+### Evidence
+Source data or documents used to prove eligibility.
+
 ### Re-evaluation
-Eligibility may change when facts change.
+Eligibility may need to be checked again when data changes or before a later business step.
+
+### Override / Exception
+Authorized exceptions must be explicit and auditable.
 
 ## How It Works
 
-Current facts are evaluated against applicable criteria and exclusions to produce eligible, ineligible, or sometimes review-required outcomes.
+Facts about the subject are evaluated against applicable criteria, disqualifiers, effective dates, and precedence. The output can be eligible, ineligible, pending evidence, or another project-defined state.
 
 ## When to Use
 
-Use for promotions, refunds, credit products, benefits, permissions, loyalty rewards, and regulated services.
+Use for promotions, benefits, account actions, permits, product access, approvals, membership, claims, and regulated processes.
 
 ## When Not to Use
 
-Do not infer eligibility from UI availability alone.
+Do not assume eligibility is permanent after one successful evaluation. Do not invent criteria from industry expectations.
 
 ## Advantages
 
-Explicit eligibility logic supports strong boundary and combination testing.
+Eligibility modeling supports clear positive, negative, boundary, stale-data, and exception tests.
 
 ## Limitations
 
-Criteria can depend on external or delayed data.
+Eligibility may depend on external sources, delayed data, manual evidence, or changing policies.
 
 ## Examples
 
-A reward may require active membership, sufficient points, eligible market, and non-expired campaign status.
+A promotion requires active membership on transaction date, eligible product category, minimum amount, and no excluded payment method. QA tests each criterion, combinations, and exact effective-time boundary.
+
+A permit action may be allowed only while the permit remains approved and within approved period; later state change may require re-evaluation.
 
 ## Best Practices
 
-- Test each criterion independently.
-- Cover just-inside/just-outside boundaries.
-- Test conflicting qualifiers/disqualifiers.
-- Verify re-evaluation after relevant state changes.
+- Define subject, criteria, disqualifiers, and outcome explicitly.
+- Identify authoritative data source for each criterion.
+- Clarify the time at which eligibility is evaluated.
+- Test stale and changed facts between evaluation and execution.
+- Cover missing evidence and pending states.
+- Verify override authorization and audit trail.
+- Use decision tables for multi-condition eligibility.
 
 ## Related Knowledge
 
 - `Decision-Rules.md`
-- `Rule-Exceptions.md`
 - `Validation-Rules.md`
+- `Rule-Exceptions.md`
+- `Business-Context.md`
 
 ## References
 
-- Business decision and policy literature.
+- Business-rules and eligibility-policy literature.
+- Approved eligibility requirements.

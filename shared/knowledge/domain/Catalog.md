@@ -2,7 +2,9 @@
 
 ## Purpose
 
-This catalog is the authoritative inventory and knowledge architecture for `shared/knowledge/domain/`. It organizes reusable business-domain knowledge for QA and QA-AI while keeping project-specific policy, legal interpretation, organization data, thresholds, calculations, and implementation details outside the generic knowledge layer.
+This catalog is the authoritative inventory and knowledge architecture for `shared/knowledge/domain/`. It organizes reusable business-domain knowledge for QA and QA-AI while keeping project-specific policy, legal interpretation, clinical decisions, organization data, thresholds, calculations, permissions, and implementation details outside the generic knowledge layer.
+
+---
 
 ## Knowledge Architecture
 
@@ -16,6 +18,8 @@ Domain Knowledge
 ├── Regulatory & Compliance
 └── Domain Modeling
 ```
+
+---
 
 ## Article Catalog
 
@@ -43,7 +47,7 @@ Domain Knowledge
 | Decision Rules | Business Rules | Intermediate | Business Rule Fundamentals | High | Approved |
 | Calculation Rules | Business Rules | Intermediate | Business Rule Fundamentals | Medium | Approved |
 | Eligibility Rules | Business Rules | Intermediate | Decision Rules | Medium | Approved |
-| Rule Exceptions | Business Rules | Intermediate | Validation Rules | Medium | Approved |
+| Rule Exceptions | Business Rules | Intermediate | Business Rule Fundamentals | Medium | Approved |
 | Banking | Industry Domains | Intermediate | Business Domain | Medium | Approved |
 | Healthcare | Industry Domains | Intermediate | Business Domain | Medium | Approved |
 | Retail | Industry Domains | Intermediate | Business Domain | Medium | Approved |
@@ -63,6 +67,8 @@ Domain Knowledge
 | Ubiquitous Language | Domain Modeling | Intermediate | Domain-Driven Thinking | Medium | Approved |
 | Event Storming | Domain Modeling | Advanced | Business Workflow, Domain Model | Low | Approved |
 
+---
+
 ## Category Summary
 
 | Category | Articles | Status |
@@ -76,30 +82,35 @@ Domain Knowledge
 | Domain Modeling | 5 | Approved |
 | **Total** | **41** | **Approved** |
 
+---
+
 ## Dependency Guidance
 
 ```text
 Business Domain
-├── Domain Fundamentals
+├── Domain Terminology / Domain Knowledge
 ├── Business Context
 │   ├── Business Processes
 │   └── Business Rules
 ├── Business Entity
-│   ├── Entity knowledge
+│   ├── Entity Relationships / Lifecycle / data types
 │   └── Domain Model
 ├── Industry Domains
 └── Regulatory Requirements → Compliance
 
 Domain-Driven Thinking
 ├── Ubiquitous Language
-└── Bounded Context
+├── Bounded Context
+└── Domain Model → Business Capabilities / Event Storming
 ```
 
 Dependencies are learning guidance, not mandatory runtime dependencies.
 
+---
+
 ## Scope Boundaries
 
-The catalog owns generic domain concepts and industry orientation. It does not own project-specific business rules, legal conclusions, clinical decisions, security assessment, accounting policy, or technology implementation.
+The catalog owns generic business-domain concepts and industry orientation. It does not own project-specific business rules, legal conclusions, clinical decisions, security certification, accounting policy, organization-specific operating policy, or technology implementation.
 
 Cross-domain boundaries:
 
@@ -108,6 +119,47 @@ Cross-domain boundaries:
 - API behavior → `../api/`
 - database behavior → `../database/`
 - canonical business terms → `../../glossary/Business-Terms.md`
+
+Industry articles provide **orientation and risk vocabulary**, not authoritative project requirements. Regulatory/compliance articles explain QA reasoning boundaries and require authorized interpretation for legal applicability.
+
+---
+
+## Content-Depth Quality Gate
+
+Every approved article must satisfy both the 12 mandatory structural sections and semantic quality criteria:
+
+1. concept definition and business scope are clear;
+2. `Core Concepts` covers the dimensions needed for QA reasoning;
+3. `How It Works` explains behavior, lifecycle, or decision flow rather than repeating the definition;
+4. examples demonstrate realistic reasoning and important edge/failure conditions;
+5. limitations expose ambiguity, stale data, external dependency, or model-boundary risks where relevant;
+6. best practices are actionable for QA but do not duplicate detailed test-case templates;
+7. project-specific thresholds, rules, legal interpretations, and specialized professional judgments are not invented;
+8. neighboring articles have distinct responsibilities and use cross-references instead of unnecessary duplication;
+9. industry/compliance knowledge is phrased safely enough for reuse across organizations and jurisdictions;
+10. the article is useful to human QA readers and AI retrieval/reasoning.
+
+An article with all required headings but shallow one-line content does **not** pass this gate.
+
+---
+
+## Review Coverage
+
+The final cross-review specifically checked:
+
+- business domain vs technical implementation boundary;
+- terminology and bounded-context consistency;
+- workflow state, lifecycle, retry, exception, and concurrency reasoning;
+- entity identity, ownership, source-of-truth, relationship, and lifecycle reasoning;
+- business-rule scope, precedence, effective dates, defaults, and exceptions;
+- calculation precision and no invented formulas;
+- industry articles for unsupported product/market assumptions;
+- regulatory/compliance articles for legal-advice boundary and evidence-based testing;
+- privacy for data-flow, masking, copies, deletion propagation, and test-data risks;
+- domain modeling for behavior/invariants rather than noun-only models;
+- repository-relative cross-references and QA-AI retrieval usefulness.
+
+---
 
 ## Quality and Freeze Baseline
 
@@ -118,9 +170,12 @@ Cataloged Knowledge Articles: 41
 Catalog Status: Approved
 Baseline State: Frozen
 Freeze Date: 2026-08-13
+Review Level: Structural + Content Depth + Cross-Article + Assumption Safety
 ```
 
-All 41 articles were reviewed for the mandatory 12-section structure, semantic depth, QA applicability, business/technical boundary, unsupported-assumption safety, terminology consistency, cross-references, and QA-AI retrieval usefulness.
+All 41 articles passed the final deep review after the baseline was reopened to fix shallow-content issues found during pre-merge validation.
+
+---
 
 ## Status Definitions
 
@@ -128,6 +183,8 @@ All 41 articles were reviewed for the mandatory 12-section structure, semantic d
 - `Deprecated` — retained only when historical compatibility requires it.
 
 `Frozen` is a repository baseline state, not an article metadata status.
+
+---
 
 ## References
 

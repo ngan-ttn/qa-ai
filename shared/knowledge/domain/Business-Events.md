@@ -6,63 +6,95 @@
 
 ## Overview
 
-A **business event** is a meaningful occurrence in the domain, such as an order being placed, a payment being authorized, or a permit expiring.
+A **business event** is a business-significant fact that something happened, such as an order being submitted, a permit being approved, a payment being posted, or inventory being received. Events explain state change and can trigger downstream processes.
 
 ## Purpose
 
-Help QA identify event-driven state changes, downstream obligations, timing, duplication, ordering, and observable business effects.
+Help QA reason about event meaning, timing, causality, downstream effects, duplication, ordering, and auditability independently of any specific messaging technology.
 
 ## Core Concepts
 
-### Event Fact
-An event describes something that occurred.
-### Producer and Consumer
-One actor/system records the occurrence; others may react.
-### Event Data
-Carries identifiers and facts needed to interpret the occurrence.
-### Timing and Ordering
-Business meaning can depend on when events occur and in what order.
-### Duplicate Handling
-The same event may be delivered or processed more than once in some architectures.
+### Fact
+An event describes something that has occurred; it should not be confused with a request or command to make something occur.
+
+### Event Identity
+A stable identifier can support traceability and duplicate detection.
+
+### Occurrence Time
+Business occurrence time can differ from processing, ingestion, or display time.
+
+### Producer / Source
+The authoritative actor or system that declares the event.
+
+### Consumers
+One or more downstream capabilities can react to the event.
+
+### Ordering
+Some business outcomes depend on event sequence; distributed delivery may not preserve global order.
+
+### Duplicate / Replay
+The same fact may be delivered or processed more than once in some architectures.
+
+### Eventual Effect
+Downstream state may update later, so temporary inconsistency can be expected if the design says so.
 
 ## How It Works
 
-A business action or condition creates an event; domain rules determine state changes and downstream reactions. Technical delivery mechanics belong to API/event-driven knowledge.
+```text
+Business action / condition
+        ↓
+Authoritative state change
+        ↓
+Business event recorded/emitted
+        ↓
+Downstream reactions
+        ↓
+Observable business effects
+```
+
+QA distinguishes the event as a domain fact from its technical transport. Testing should verify meaning, correlation, side effects, and failure handling.
 
 ## When to Use
 
-Use for notifications, integrations, asynchronous workflows, audit reasoning, and event-storming analysis.
+Use for event-driven integrations, asynchronous workflows, notifications, audit trails, lifecycle analysis, and cross-system regression.
 
 ## When Not to Use
 
-Do not assume every business event maps one-to-one to a message or technical event.
+Do not assume every state change produces an event or that delivery is exactly once. Do not infer event schema or ordering guarantees from generic domain knowledge.
 
 ## Advantages
 
-Event thinking clarifies causality and downstream impact.
+Event thinking improves causality tracing, asynchronous coverage, and understanding of cross-system effects.
 
 ## Limitations
 
-Event definitions can be too technical or too broad if business meaning is not explicit.
+Events can be delayed, duplicated, reordered, replayed, or transformed. Observability and ownership can be unclear across systems.
 
 ## Examples
 
-`Order Shipped` can trigger customer notification, inventory/accounting updates, and delivery tracking. QA validates business consequences according to scope.
+`Order Submitted` may trigger payment, inventory reservation, analytics, and notification. Failure in analytics should not necessarily invalidate the order, while failure in required inventory reservation may affect process outcome.
+
+A replayed `Points Earned` event must not accidentally credit points twice if consumers are required to handle duplicates.
 
 ## Best Practices
 
-- Name events as completed business facts.
-- Include stable identifiers and relevant context.
-- Distinguish event occurrence from delivery.
-- Test duplicates, late events, and ordering when architecture permits them.
-- Trace events to expected business outcomes.
+- Define event business meaning and source of authority.
+- Separate occurrence time from processing time.
+- Verify correlation to the originating entity/process.
+- Test duplicate, delay, reordering, and consumer failure where applicable.
+- Validate required vs optional downstream effects.
+- Preserve traceability without assuming transport guarantees.
+- Pair domain-event reasoning with technical event architecture documentation.
 
 ## Related Knowledge
 
 - `Business-Workflow.md`
+- `Process-States.md`
 - `Event-Storming.md`
+- `Audit-Trail.md`
 - `../api/Event-Driven-APIs.md`
 
 ## References
 
-- Domain-driven design and event-driven architecture literature.
+- Domain event and event-driven architecture literature.
+- Approved event contracts and process documentation.

@@ -6,64 +6,105 @@
 
 ## Overview
 
-A **business entity** is a business-significant concept whose identity, attributes, relationships, lifecycle, and rules matter to the domain.
+A **business entity** is a business-significant concept whose identity, attributes, relationships, lifecycle, ownership, and invariants matter to a domain. A business entity is defined by meaning and behavior, not by one database table, API resource, or UI form.
 
 ## Purpose
 
-Help QA distinguish business objects from implementation records and reason about identity, ownership, lifecycle, relationships, and invariants.
+Help QA and QA-AI reason about identity, source of truth, lifecycle, duplication, mutability, relationships, and cross-system representation without overfitting tests to implementation.
 
 ## Core Concepts
 
-### Identity
-Stable business identity distinguishes one entity from another.
+### Business Identity
+The criteria that make one entity distinct from another. Business identity may differ from a technical surrogate ID.
+
 ### Attributes
-Properties describing the entity.
+Properties describing the entity. Some are mutable, immutable, derived, historical, sensitive, or context-specific.
+
+### Ownership
+A role or system may be authoritative for creation or change of particular attributes.
+
+### Source of Truth
+The authoritative representation for a fact can differ by field or context rather than one system owning everything.
+
 ### Relationships
-Connections to other business concepts.
+Entities can reference, contain, depend on, or be associated with other entities.
+
 ### Lifecycle
-States and transitions over time.
+Creation, activation, modification, suspension, merge, closure, archival, and other state changes affect what actions are valid.
+
 ### Invariants
-Rules that must remain true for valid entity state.
+Conditions that must remain true for valid business state.
+
+### Duplicate / Merge
+Real-world entities can be represented more than once and later matched or merged according to business rules.
+
+### Cross-Context Identity
+The same real-world object can have different identifiers and meaning in different systems or bounded contexts.
 
 ## How It Works
 
-Requirements create, change, relate, query, or retire entities through business processes. One entity may span multiple technical representations.
+```text
+Business identity
+      ↓
+Authoritative attributes + relationships
+      ↓
+Lifecycle actions
+      ↓
+Rules / invariants
+      ↓
+Representations across UI / API / DB / integrations
+```
+
+QA validates business meaning across representations rather than assuming technical equality implies business equality.
 
 ## When to Use
 
-Use for data-centric requirements, CRUD behavior, lifecycle testing, integration mapping, and domain modeling.
+Use for data-centric requirements, CRUD behavior, lifecycle testing, integration mapping, migration, duplicate handling, master data, permissions, and domain modeling.
 
 ## When Not to Use
 
-Do not equate a business entity automatically with one database table or API resource.
+Do not equate a business entity automatically with one table, one JSON object, or one screen. Do not assume technical IDs are stable business identifiers without evidence.
 
 ## Advantages
 
-Entity thinking improves identity, relationship, and lifecycle coverage.
+Entity thinking improves identity, ownership, relationship, lifecycle, duplicate, and invariant coverage.
 
 ## Limitations
 
-Entity boundaries can differ across contexts and systems.
+Entity boundaries can differ across contexts. Legacy systems may contain multiple identifiers, stale duplicates, or denormalized copies with different freshness.
 
 ## Examples
 
-An `Order` can have business identity, customer relationship, items, totals, status, and fulfillment lifecycle even if stored across many tables.
+### Order
+An `Order` has identity, customer relationship, lines, totals, status, ownership, and lifecycle even when stored across many tables and exposed by several APIs.
+
+### Customer
+A customer can exist in CRM, loyalty, payment, and support systems with different IDs. QA must verify mapping rules rather than assume one universal customer key.
+
+### Product
+Product master data can contain an immutable code but mutable name or classification. Downstream systems may cache older descriptions while the authoritative identity remains unchanged.
 
 ## Best Practices
 
-- Identify business keys and ownership.
-- Define mutable vs immutable attributes.
-- Validate relationships and invariants.
-- Cover lifecycle and duplicate identity risks.
-- Separate business identity from storage identifiers.
+- Identify business key and technical identifiers separately.
+- Clarify attribute ownership and source of truth.
+- Define mutable, immutable, derived, and historical fields.
+- Test duplicate creation, merge, and identity collision risks where relevant.
+- Validate relationships and invariants across lifecycle changes.
+- Cover deactivation, archival, reopening, and stale references.
+- Map cross-system identifiers explicitly.
+- Avoid coupling high-level business tests to internal schema unnecessarily.
 
 ## Related Knowledge
 
 - `Entity-Relationships.md`
 - `Entity-Lifecycle.md`
 - `Master-Data.md`
+- `Transaction-Data.md`
+- `Reference-Data.md`
 - `Domain-Model.md`
 
 ## References
 
-- Domain modeling and data-management literature.
+- Domain modeling and master-data literature.
+- Approved business data definitions.

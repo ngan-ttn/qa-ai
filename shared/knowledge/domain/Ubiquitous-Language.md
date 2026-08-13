@@ -6,60 +6,77 @@
 
 ## Overview
 
-**Ubiquitous language** is a shared, context-specific vocabulary used consistently by domain experts and delivery teams to describe the domain model and behavior.
+**Ubiquitous language** is a shared vocabulary used consistently by business and technical participants within a defined domain context. It aims to reduce translation gaps between requirements, discussion, models, implementation, and tests.
 
 ## Purpose
 
-Help QA maintain semantic consistency across requirements, scenarios, defects, and discussions.
+Help QA preserve business meaning across artifacts and detect terminology drift or ambiguity early.
 
 ## Core Concepts
 
-### Shared Meaning
-Terms have agreed definitions within context.
-### Model Alignment
-Language reflects actual domain concepts and behavior.
-### Context Boundary
-The same word may differ outside the bounded context.
-### Evolution
-Language changes as understanding improves.
+### Shared Term
+A preferred term agreed by stakeholders for a concept or behavior.
+
+### Precise Meaning
+Definitions include scope and distinctions from similar terms.
+
+### Context
+A term can legitimately have different meanings in different bounded contexts.
+
+### Language in Artifacts
+Requirements, scenarios, tests, defects, APIs, and models should map clearly to business language where practical.
+
+### Synonym Management
+Legacy or partner terms may be mapped to preferred terms without pretending they are identical when meaning differs.
+
+### Language Evolution
+Vocabulary changes as domain understanding improves; changes should be propagated deliberately.
 
 ## How It Works
 
-Teams use the same domain terms in conversation, models, requirements, tests, and code where appropriate, resolving ambiguity as it appears.
+Stakeholders agree on terms, use them in discussion and models, detect inconsistent wording, and refine definitions. QA reinforces the language through clarification questions and traceable artifacts.
 
 ## When to Use
 
-Use in domain modeling, requirement review, glossary work, and cross-team communication.
+Use in domain onboarding, requirement review, model design, cross-team integration, defect communication, and long-lived products with complex terminology.
 
 ## When Not to Use
 
-Do not force one term across contexts when meanings legitimately differ.
+Do not force one global vocabulary across intentionally different contexts. Do not rename externally mandated terms without preserving mapping.
 
 ## Advantages
 
-Reduces translation errors and exposes conceptual disagreement early.
+Shared language reduces misunderstanding, duplicate concepts, ambiguous expected results, and translation errors between business and technology.
 
 ## Limitations
 
-Language can become jargon if definitions are not maintained.
+Consensus can be difficult; terminology can be politically or historically entrenched. Strict vocabulary without context can hide legitimate differences.
 
 ## Examples
 
-If `allocation` means reserving stock, tests should not use it interchangeably with physical shipment or financial allocation.
+If `Approved` means regulatory approval in one context and manager approval in another, the language should distinguish them or always state context.
+
+If business says `UPN` while one API calls it `productCode`, QA artifacts should preserve the business term and document the technical mapping.
 
 ## Best Practices
 
-- Prefer stakeholder-recognized business terms.
-- Define ambiguous words.
-- Keep context explicit.
-- Update artifacts when terminology changes.
+- Define important terms with business owners.
+- Include context for ambiguous terms.
+- Map external/technical aliases explicitly.
+- Use preferred terms consistently in QA artifacts.
+- Review state and role names especially carefully.
+- Update glossary and models when meanings change.
+- Treat unresolved terminology differences as requirement risks.
 
 ## Related Knowledge
 
 - `Domain-Terminology.md`
 - `Bounded-Context.md`
+- `Domain-Driven-Thinking.md`
 - `Domain-Model.md`
+- `../../glossary/Business-Terms.md`
 
 ## References
 
 - Domain-driven design literature.
+- Approved project/domain glossary.

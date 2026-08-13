@@ -6,56 +6,71 @@
 
 ## Overview
 
-**Security compliance** concerns satisfying applicable security requirements and control frameworks through implemented controls and evidence.
+**Security compliance** is the implementation and evidence of security controls required by applicable policy, regulation, contract, or standard. It is distinct from general security engineering: the focus is on approved control obligations and demonstrable operation.
 
 ## Purpose
 
-Help QA connect functional behavior to approved security controls without replacing security assessment or penetration testing.
+Help QA validate security-related compliance controls without turning generic knowledge into penetration-testing instructions or formal certification.
 
 ## Core Concepts
 
-### Control Objective
-Security outcome a requirement intends to achieve.
+### Control Requirement
+A documented requirement such as access restriction, logging, encryption, review, or change approval.
+
 ### Preventive Control
-Attempts to stop undesired action.
+Reduces likelihood of an unauthorized or unsafe action.
+
 ### Detective Control
-Identifies relevant events or failures.
+Identifies events or deviations after or while they occur.
+
 ### Corrective Control
-Supports recovery or remediation.
+Supports remediation or restoration after a problem.
+
+### Configuration
+Security compliance often depends on environment-specific settings, identity providers, secrets, and infrastructure.
+
 ### Evidence
-Demonstrates control operation.
+Reports, logs, configuration snapshots, approvals, and review records may demonstrate control operation.
+
+### Shared Responsibility
+Controls may span application, platform, cloud provider, operations, and organizational process.
 
 ## How It Works
 
-Approved security requirements map to controls across identity, access, data handling, logging, configuration, and operations; QA verifies in-scope observable behavior.
+Approved security obligations are mapped to controls, implemented across relevant layers, and supported by evidence. QA tests the application-visible portion and integration of controls within authorized scope.
 
 ## When to Use
 
-Use for authentication/authorization requirements, audit, secure configuration, sensitive data, and regulated products.
+Use for access control, authentication policy, audit logging, sensitive-data handling, secure configuration, administrative functions, and security-governance verification.
 
 ## When Not to Use
 
-Do not claim security certification or perform intrusive testing without authorization.
+Do not claim certification or full security assurance from functional testing. Do not perform intrusive testing outside authorization or assume a named standard applies without evidence.
 
 ## Advantages
 
-Improves traceability between security requirements and functional evidence.
+Security-compliance testing improves control traceability, bypass detection, evidence quality, and regression coverage after security-sensitive changes.
 
 ## Limitations
 
-Many controls are infrastructure/process-level and outside normal functional QA scope.
+Many controls exist outside application code and require specialized assessment. Configurations can differ across environments.
 
 ## Examples
 
-A privileged action may require role authorization and auditable evidence; QA validates permitted/denied behavior and logging according to approved requirements.
+A policy requires administrative actions to be restricted and audited. QA verifies unauthorized roles cannot perform the action through UI/API and that approved audit evidence is generated.
+
+A secret must not be exposed in client-visible responses or logs. QA checks expected interfaces and evidence surfaces without attempting unauthorized access.
 
 ## Best Practices
 
-- Test least-privilege behavior.
-- Verify denial paths and no unintended state change.
-- Check audit evidence.
-- Protect secrets and test data.
-- Escalate specialist security testing appropriately.
+- Test only approved security control scope.
+- Trace each scenario to a control requirement.
+- Verify alternate interfaces and privileged paths.
+- Check control failure visibility and audit evidence.
+- Avoid storing credentials or secrets in test artifacts.
+- Confirm environment-specific configuration before conclusions.
+- Coordinate specialized security testing with authorized teams.
+- Distinguish control test success from formal certification.
 
 ## Related Knowledge
 
@@ -63,7 +78,10 @@ A privileged action may require role authorization and auditable evidence; QA va
 - `Audit-Trail.md`
 - `Data-Privacy.md`
 - `../api/API-Security-Best-Practices.md`
+- `../api/Authentication.md`
+- `../api/Authorization.md`
 
 ## References
 
-- Applicable security frameworks and approved organizational controls.
+- Approved security policy and control framework.
+- Applicable regulatory/contractual security requirements.

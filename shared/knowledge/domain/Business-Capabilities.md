@@ -6,59 +6,89 @@
 
 ## Overview
 
-A **business capability** describes what an organization must be able to do to achieve outcomes, independent of a particular process or technology implementation.
+A **business capability** describes what an organization is able to do to achieve business outcomes, independent of a specific process, team, system, or implementation. Examples include order fulfillment, customer identity management, payment processing, eligibility assessment, or inventory control.
 
 ## Purpose
 
-Help QA understand feature scope and impact at a stable business-function level.
+Help QA reason at a stable business level above individual features, identify affected capabilities, and assess cross-system regression impact.
 
 ## Core Concepts
 
 ### Capability
-An ability such as `Manage Orders` or `Settle Payments`.
+A durable business ability expressed as `what`, not `how`.
+
 ### Outcome
-Business value the capability enables.
-### Supporting Process
-How the capability is operationalized.
+The business value or result supported by the capability.
+
+### People / Process / Information / Technology
+A capability can be delivered through several organizational and technical components.
+
+### Capability Boundary
+Defines responsibility and prevents one feature from being mistaken for the whole business ability.
+
 ### Dependency
-Other capabilities required to deliver the outcome.
+Capabilities can depend on other capabilities, such as fulfillment depending on inventory visibility and customer/order management.
+
+### Maturity
+Organizations may assess capability strength or maturity, but no generic scoring model should be assumed.
+
+### Ownership
+Business ownership can differ from system ownership.
 
 ## How It Works
 
-Capabilities provide a map from strategic/business needs to processes, systems, and changes; QA can use it to identify impacted areas beyond the immediate feature.
+```text
+Business objective
+      ↓
+Required capabilities
+      ↓
+Processes + data + rules + systems
+      ↓
+Features / integrations
+```
+
+QA can map a requirement to one or more capabilities, then inspect upstream/downstream dependencies and shared business invariants.
 
 ## When to Use
 
-Use for large change impact, portfolio context, integration scope, and regression analysis.
+Use for roadmap analysis, large programs, cross-system regression, domain onboarding, impact analysis, and organizing knowledge across many features.
 
 ## When Not to Use
 
-Do not treat a capability map as a detailed workflow or requirement specification.
+Do not replace detailed process or rule analysis with capability labels. Do not infer organization structure from capability ownership.
 
 ## Advantages
 
-Provides stable high-level scope across changing implementations.
+Capabilities provide stable business framing even when implementation or workflows change.
 
 ## Limitations
 
-Capability definitions can be too broad for executable testing.
+Capability boundaries can be subjective, and broad capability maps may be too abstract for executable testing without lower-level models.
 
 ## Examples
 
-`Manage Returns` may depend on order lookup, eligibility, inventory, refund, and customer notification capabilities.
+`Manage Inventory` can include receiving, stock visibility, reservation, adjustment, cycle count, and outbound consumption across multiple systems.
+
+`Manage Customer Loyalty` can include enrollment, earn, redeem, expiry, adjustment, tiering, and partner integration.
 
 ## Best Practices
 
-- Name capabilities as business abilities.
-- Map dependencies and outcomes.
-- Use capabilities to find impact, then descend into detailed rules/processes.
+- Name capabilities using business outcomes or abilities.
+- Keep capability distinct from process and system.
+- Map affected capabilities during regression analysis.
+- Identify shared data and rule dependencies.
+- Use capabilities to organize domain knowledge and coverage, then drill into process/rules.
+- Validate ownership with business stakeholders.
 
 ## Related Knowledge
 
-- `Domain-Model.md`
-- `Business-Process-Fundamentals.md`
+- `Business-Domain.md`
 - `Business-Context.md`
+- `Business-Process-Fundamentals.md`
+- `Domain-Model.md`
+- `Bounded-Context.md`
 
 ## References
 
-- Business architecture literature.
+- Business architecture and capability-mapping literature.
+- Approved enterprise/domain capability models.

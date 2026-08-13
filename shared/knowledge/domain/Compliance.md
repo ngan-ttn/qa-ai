@@ -6,63 +6,96 @@
 
 ## Overview
 
-**Compliance** is the state and practice of meeting applicable external obligations and internal policies through defined controls, evidence, governance, and remediation.
+**Compliance** is the state and practice of meeting applicable obligations from law, regulation, policy, contract, standard, or internal governance through defined controls and evidence.
 
 ## Purpose
 
-Provide QA a control-oriented model for verifying implemented requirements without substituting for legal, security, or audit judgment.
+Help QA validate control behavior and evidence while respecting the boundary between testing and legal/compliance judgment.
 
 ## Core Concepts
 
 ### Requirement
-The obligation to satisfy.
+The authoritative obligation or approved policy statement.
+
 ### Control
-A measure intended to satisfy or reduce risk related to the requirement.
+A preventive, detective, corrective, or compensating mechanism intended to satisfy a requirement.
+
+### Control Owner
+The role accountable for operation or governance of the control.
+
 ### Evidence
-Records showing the control operated.
+Records showing that a control operated as designed.
+
+### Frequency / Trigger
+Controls can run per transaction, periodically, at approval, or on change.
+
 ### Exception
-Known deviation requiring governance.
-### Remediation
-Action to correct control failure.
+A control failure or approved exception requires defined handling and evidence.
+
+### Monitoring
+Ongoing review can identify control drift, failure, or noncompliant state.
+
+### Traceability
+Tests should link to the approved control requirement rather than generic regulation summaries.
 
 ## How It Works
 
-Requirements map to controls; controls operate in processes/systems; evidence supports assessment; failures lead to remediation or approved exceptions.
+```text
+Obligation / policy
+      ↓
+Approved control design
+      ↓
+Software + operational implementation
+      ↓
+Control execution
+      ↓
+Evidence / monitoring / exception handling
+```
+
+QA verifies implementation against the approved control design. Compliance certification or legal conclusion remains outside generic QA authority.
 
 ## When to Use
 
-Use for auditability, privacy, security controls, retention, access, reporting, and regulated workflows.
+Use for access controls, approvals, audit trails, retention, privacy, security governance, regulated calculations, recordkeeping, and other controlled business behavior.
 
 ## When Not to Use
 
-Do not claim certification or legal compliance solely from functional test results.
+Do not declare a product legally compliant based solely on functional tests. Do not assume all controls are implemented in software; some are operational or organizational.
 
 ## Advantages
 
-Control mapping improves traceability and risk-based testing.
+Compliance-oriented testing strengthens traceability, bypass resistance, evidence verification, and change-impact analysis.
 
 ## Limitations
 
-Compliance scope includes people/process controls beyond software.
+Controls can depend on manual procedures, external systems, policy interpretation, and environment-specific configuration.
 
 ## Examples
 
-An access-control requirement may map to authentication, authorization, review, logging, and revocation controls; testing one login path is insufficient evidence for the whole control environment.
+A four-eyes approval control requires that the initiator cannot approve the same transaction. QA tests role combinations, reassignment, stale sessions, API bypass, and audit evidence according to the approved control design.
+
+A retention control may run as a scheduled purge process; functional UI behavior alone cannot prove it executes correctly over time.
 
 ## Best Practices
 
-- Trace requirement → control → evidence.
-- Verify negative and bypass paths.
-- Test configuration/effective scope where authorized.
-- Preserve audit-quality evidence.
-- Escalate interpretation gaps.
+- Map each test to an approved control requirement.
+- Identify control owner and evidence source.
+- Test bypass paths and alternate channels.
+- Verify failures are observable and handled.
+- Include role, timing, configuration, and lifecycle conditions.
+- Avoid over-collecting sensitive evidence.
+- Revalidate controls after material system or policy changes.
+- Distinguish test PASS from formal compliance attestation.
 
 ## Related Knowledge
 
 - `Regulatory-Requirements.md`
-- `Security-Compliance.md`
 - `Audit-Trail.md`
+- `Data-Privacy.md`
+- `Security-Compliance.md`
+- `Data-Retention.md`
 
 ## References
 
-- Applicable compliance frameworks and approved organizational controls.
+- Approved compliance framework, policy, and control documentation.
+- Applicable authoritative standards and regulations.

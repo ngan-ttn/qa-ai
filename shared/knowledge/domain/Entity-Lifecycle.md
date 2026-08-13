@@ -6,63 +6,93 @@
 
 ## Overview
 
-An **entity lifecycle** describes how a business entity is created, activated, modified, suspended, closed, expired, archived, or otherwise evolves.
+An **entity lifecycle** describes how a business entity is created, activated, modified, suspended, expired, closed, merged, archived, or otherwise changes over time.
 
 ## Purpose
 
-Help QA validate state-dependent entity behavior, historical integrity, and post-termination rules.
+Help QA derive lifecycle-aware coverage for state, mutability, identity, permissions, historical behavior, and downstream references.
 
 ## Core Concepts
 
 ### Creation
-Identity and initial valid state are established.
-### Active Life
-Permitted updates and relationships evolve.
-### State Change
-Business events alter availability or meaning.
-### Termination
-Closure, deletion, expiry, or deactivation.
-### History
-Prior states may need preservation for audit or business use.
+Defines when the entity becomes business-valid and what mandatory data or approvals are required.
+
+### Active State
+The entity can participate in normal business operations.
+
+### Modification
+Allowed fields and relationships can change while immutable identity or historical facts remain protected.
+
+### Suspension / Inactivation
+The entity exists but normal use is restricted.
+
+### Expiry
+Validity ends based on time or condition.
+
+### Closure / Termination
+The business relationship ends, potentially with outstanding obligations or history preserved.
+
+### Merge
+Duplicate or related entities can be consolidated while preserving traceability.
+
+### Archival / Retention
+Inactive entities may remain available for history, audit, reporting, or legal requirements.
 
 ## How It Works
 
-Lifecycle transitions are governed by rules, actor permissions, time, and related process events.
+```text
+Create → Validate/Approve → Active
+   ↘                    ↙
+   Reject            Suspend
+                         ↓
+                    Reactivate
+                         ↓
+              Close / Expire / Archive
+```
+
+Actual lifecycle can branch and include correction, merge, or reopen paths. Each transition can change permissions, visibility, relationships, and downstream behavior.
 
 ## When to Use
 
-Use for accounts, subscriptions, products, permits, orders, customers, and master records.
+Use for customer, product, account, permit, subscription, employee, order, and other long-lived business objects.
 
 ## When Not to Use
 
-Do not assume deletion means physical removal or that closed entities can be recreated with the same identity.
+Do not assume lifecycle is equivalent to one `status` field. Do not infer deletion or retention behavior from UI visibility.
 
 ## Advantages
 
-Reveals stale-state, history, and reactivation defects.
+Lifecycle thinking reveals stale-reference, invalid-action, reactivation, expiry, and historical consistency defects.
 
 ## Limitations
 
-Different systems may represent the same business lifecycle differently.
+Different contexts can maintain independent lifecycle states for the same real-world object. External systems can lag behind authoritative state.
 
 ## Examples
 
-A customer account may move from pending to active to suspended to closed; transaction permissions differ by state while history remains available.
+A product is inactive for new orders but must remain visible on historical orders. QA verifies new-use restriction without breaking history.
+
+A customer record is merged into another identity. Historical transactions must remain traceable and future actions must use the surviving identity according to approved rules.
 
 ## Best Practices
 
-- Define state meanings and transition triggers.
-- Test temporal boundaries.
-- Verify historical and related data.
-- Check reactivation/recreation rules explicitly.
+- Define lifecycle states, entry/exit conditions, and actors.
+- Identify field mutability by lifecycle stage.
+- Test inactive/expired entities in new and historical flows.
+- Verify relationship behavior after closure or merge.
+- Include time boundaries and stale sessions.
+- Preserve audit/history expectations.
+- Distinguish soft deletion, archival, and business closure.
 
 ## Related Knowledge
 
 - `Business-Entity.md`
 - `Process-Lifecycle.md`
-- `Audit-Trail.md`
+- `Entity-Relationships.md`
 - `Data-Retention.md`
+- `Audit-Trail.md`
 
 ## References
 
-- Domain lifecycle modeling literature.
+- Domain lifecycle and data-governance literature.
+- Approved entity lifecycle specifications.

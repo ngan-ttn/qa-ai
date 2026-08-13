@@ -6,73 +6,94 @@
 
 ## Overview
 
-**Business context** is the environment in which a requirement or behavior has meaning: objectives, actors, products, channels, policies, lifecycle states, dependencies, jurisdiction, and operational constraints.
+**Business context** is the surrounding set of objectives, stakeholders, constraints, policies, channels, dependencies, timing, and operating conditions that gives a requirement its meaning. The same feature can require different behavior under different contexts.
 
 ## Purpose
 
-Prevent isolated requirement interpretation by giving QA a model for understanding why behavior exists and what surrounding conditions can change its expected result.
+Help QA identify contextual factors that change expected behavior and prevent isolated interpretation of requirements.
 
 ## Core Concepts
 
-### Objective
-The business outcome being pursued.
+### Business Objective
+Why the capability exists and what outcome it supports.
 
 ### Stakeholder Context
-Different roles can have different permissions, incentives, and views of the same process.
+Who owns, performs, approves, receives, or is affected by the behavior.
 
 ### Operational Context
-Timing, channel, geography, dependencies, and process state influence behavior.
+Channels, timing, manual steps, external partners, batch windows, and environment conditions surrounding the feature.
 
 ### Policy Context
-Rules can depend on product, customer segment, jurisdiction, or effective date.
+Rules, approvals, commercial terms, or governance that constrain behavior.
+
+### Data Context
+Source-of-truth systems, data freshness, ownership, and lifecycle affect interpretation.
+
+### Temporal Context
+Effective dates, cutoffs, periods, sequence, and historical state can alter outcomes.
+
+### Jurisdiction / Market Context
+Legal, currency, localization, or market rules can differ; they must be sourced explicitly.
 
 ## How It Works
 
 ```text
 Requirement
- + actor
- + objective
- + process state
- + governing rules
- + dependencies
- = interpretable business behavior
+   + objective
+   + actor
+   + process position
+   + data ownership
+   + timing
+   + policy / market
+   = contextual expected behavior
 ```
+
+QA should make context explicit before deriving scenarios, especially when a rule appears universal but may only apply to one product, role, state, or market.
 
 ## When to Use
 
-Use when requirements are terse, cross-functional, role-dependent, stateful, regulated, or integrated with external systems.
+Use for ambiguous requirements, cross-role flows, integrations, market-specific behavior, effective-dated rules, migrations, and regression analysis.
 
 ## When Not to Use
 
-Do not add contextual assumptions that are not supported by evidence.
+Do not expand scope indefinitely. Context should be limited to factors that materially affect the feature or its risks.
 
 ## Advantages
 
-Context exposes hidden dependencies, role differences, lifecycle conditions, and missing acceptance criteria.
+Context exposes hidden dependencies, missing preconditions, conflicting assumptions, and cross-feature impacts.
 
 ## Limitations
 
-Context can be broad and change over time; not every surrounding fact is relevant to a specific decision.
+Business context can be distributed across many sources and may change independently of the software implementation.
 
 ## Examples
 
-A cancellation rule can differ before fulfillment, after shipment, or after settlement. The word `cancel` alone does not define expected behavior.
+### Role Context
+An Edit action may be valid for RA users but forbidden for Requestors even on the same record state.
+
+### Timing Context
+A refund rule may depend on transaction date, settlement date, or request date. The relevant date must be defined.
+
+### Integration Context
+A WebView can behave differently depending on whether authentication, account status, or entitlement is owned by the host app or partner system.
 
 ## Best Practices
 
-- Identify actor, objective, state, channel, and governing rule.
-- Ask which context dimensions change the outcome.
-- Keep assumptions explicit.
-- Trace context-sensitive rules into scenarios.
+- State objective, actor, state, timing, and source-of-truth explicitly.
+- Identify upstream and downstream dependencies.
+- Capture market or policy scope when applicable.
+- Distinguish business prerequisite from technical prerequisite.
+- Trace contextual assumptions into test preconditions.
+- Recheck context during regression-impact analysis.
 
 ## Related Knowledge
 
 - `Business-Domain.md`
 - `Business-Process-Fundamentals.md`
 - `Business-Rule-Fundamentals.md`
-- `Bounded-Context.md`
+- `Business-Capabilities.md`
 
 ## References
 
-- Business-analysis literature.
-- Current product and policy documentation.
+- Business-analysis and requirements-engineering literature.
+- Approved project business documentation.
