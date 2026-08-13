@@ -8,7 +8,19 @@
     "1": {"name": "Framework Foundation", "status": "Completed"},
     "2": {"name": "Shared Standards and Foundations", "status": "Completed"},
     "3": {"name": "Workflow Library", "status": "Completed"},
-    "4": {"name": "Skill Library Foundation", "status": "Completed"},
+    "4": {
+      "name": "Skill Library Foundation",
+      "status": "Completed",
+      "progress": {"completed": 6, "total": 6, "unit": "foundation_skills"},
+      "components": {
+        "requirement-analyzer": {"status": "Completed"},
+        "business-rule-extractor": {"status": "Completed"},
+        "scenario-generator": {"status": "Completed"},
+        "testcase-generator": {"status": "Completed"},
+        "coverage-reviewer": {"status": "Completed"},
+        "regression-impact": {"status": "Completed"}
+      }
+    },
     "5": {"name": "Knowledge Foundation", "status": "Completed"},
     "6": {"name": "Examples and End-to-End Validation", "status": "Completed"},
     "7": {"name": "Framework Integration and Validation", "status": "Completed"},
@@ -30,8 +42,24 @@
       "name": "Skill Library Expansion",
       "status": "In Progress",
       "tracking_unit": "skill",
-      "components": {},
-      "note": "Populate after the canonical Phase 11 skill inventory and completion criteria are finalized."
+      "progress": {"completed": 0, "total": 5, "unit": "expansion_skills"},
+      "foundation_baseline": {
+        "count": 6,
+        "phase": 4,
+        "note": "Foundation skills are not counted toward Phase 11 progress."
+      },
+      "components": {
+        "risk-analyzer": {"status": "Planned"},
+        "bug-report-reviewer": {"status": "Planned"},
+        "api-test-generator": {"status": "Planned"},
+        "sql-validation": {"status": "Planned"},
+        "test-data-generator": {"status": "Planned"}
+      },
+      "excluded_candidates": {
+        "regression-analyzer": {
+          "reason": "Not added because regression-impact already owns change-impact and regression-scope analysis; a second broad regression analyzer would materially overlap the existing foundation capability."
+        }
+      }
     },
     "12": {"name": "Scripts Implementation", "status": "Planned"},
     "13": {"name": "Platform Integration", "status": "Planned"}
