@@ -2,109 +2,98 @@
 
 ## Purpose
 
-The `domain` module provides reusable knowledge about business domains commonly encountered in software development and quality assurance.
-
-Its purpose is to establish a knowledge base that helps AI understand domain concepts, business processes, terminology, and industry-specific practices when analyzing requirements and generating QA artifacts.
-
-This module serves as a reference for domain knowledge rather than defining project-specific business rules or implementations.
-
----
+`shared/knowledge/domain/` provides reusable business-domain knowledge for QA and QA-AI. It helps interpret requirements, business rules, processes, entities, industry context, compliance concerns, and domain models without inventing project-specific behavior.
 
 ## Scope
 
-This module contains conceptual and practical knowledge related to different business domains.
+The module owns generic business/domain knowledge. QA process belongs in `../qa/`, test-design techniques in `../testing-techniques/`, API behavior in `../api/`, and database behavior in `../database/`.
 
-It does not define repository standards, templates, checklists, workflows, glossary definitions, or project-specific business logic.
+Industry articles provide orientation and QA reasoning patterns only. They do not replace current project requirements, SME decisions, legal advice, regulatory interpretation, clinical guidance, accounting policy, or organization-specific rules.
 
-Instead, it explains industry concepts, common business processes, domain terminology, regulatory considerations, and testing considerations.
-
----
-
-## Module Structure
+## Knowledge Architecture
 
 ```text
-shared/
-└── knowledge/
-    └── domain/
-        ├── README.md
-        ├── Banking.md
-        ├── Healthcare.md
-        ├── E-Commerce.md
-        ├── Loyalty.md
-        ├── Warehouse-Management.md
-        ├── Inventory-Management.md
-        └── ...
+Domain Knowledge
+├── Domain Fundamentals        5
+├── Business Processes         6
+├── Business Entities          6
+├── Business Rules             6
+├── Industry Domains           7
+├── Regulatory & Compliance    6
+└── Domain Modeling            5
+                              ──
+                              41
 ```
 
----
+## Article Standard
 
-## Knowledge Areas
+Every knowledge article follows `../../standards/Knowledge-Article.md` and contains:
 
-Typical topics include:
+```text
+## Overview
+## Purpose
+## Core Concepts
+## How It Works
+## When to Use
+## When Not to Use
+## Advantages
+## Limitations
+## Examples
+## Best Practices
+## Related Knowledge
+## References
+```
 
-- Banking
-- Healthcare
-- E-Commerce
-- Loyalty Programs
-- Warehouse Management
-- Inventory Management
-- Manufacturing
-- Retail
-- Logistics
-- Insurance
+Metadata uses:
 
----
+```text
+Version: 1.0.0
+Status: Approved
+Last Updated: 2026-08-13
+```
 
-## Article Structure
+## Content-Depth Gate
 
-Each knowledge article should explain:
+Presence of headings alone is not sufficient. An approved article must also:
 
-- Domain overview
-- Business objectives
-- Core business concepts
-- Typical business processes
-- Common business rules
-- Regulatory or compliance considerations
-- QA considerations
-- Common risks
-- Related domains
+- explain the concept deeply enough for independent QA reasoning;
+- distinguish generic knowledge from project-specific assumptions;
+- include realistic QA-relevant examples;
+- identify limitations, exceptions, or failure risks;
+- avoid unsupported legal, regulatory, clinical, financial, or industry-specific claims;
+- define boundaries with adjacent articles;
+- provide useful cross-references;
+- remain suitable for retrieval by QA-AI skills and workflows.
 
----
+## Domain Safety and Evidence Rules
 
-## Design Principles
+- Never infer project rules from generic industry patterns.
+- Never invent thresholds, eligibility criteria, retention periods, calculations, permissions, SLAs, or regulatory obligations.
+- Treat jurisdiction and effective date as material when regulation is involved.
+- Prefer authoritative project/business sources when generic knowledge conflicts with current requirements.
+- Record ambiguity as a clarification need rather than silently filling the gap.
+- Keep business concepts separate from implementation representations unless an explicit mapping exists.
 
-Knowledge articles should:
+## Usage in QA-AI
 
-- Focus on domain knowledge rather than project implementation.
-- Remain reusable across multiple organizations and projects.
-- Explain industry-standard concepts and practices.
-- Avoid organization-specific business rules.
-- Support reusable AI reasoning for requirement analysis and testing.
+Domain knowledge supports requirement analysis, business-rule extraction, risk analysis, scenario generation, test-case generation, regression analysis, and test-data reasoning. Skills should retrieve only relevant articles and combine them with the actual requirement context.
 
----
+## Baseline
 
-## Relationships
-
-This module supports:
-
-- Requirement Analysis
-- Business Rule Extraction
-- Risk Analysis
-- Scenario Generation
-- Test Case Generation
-- Regression Analysis
-
-Knowledge in this module may be referenced by multiple skills and workflows throughout the QA-AI framework.
-
----
+```text
+Physical Knowledge Articles: 41
+Cataloged Knowledge Articles: 41
+Article Status: Approved
+Baseline State: Frozen
+Freeze Date: 2026-08-13
+```
 
 ## References
 
-Related modules include:
-
-- `shared/glossary/`
-- `shared/prompt-patterns/`
-- `shared/templates/`
-- `shared/knowledge/qa/`
-- `skills/`
-- `workflows/`
+- `Catalog.md`
+- `../../standards/Knowledge-Article.md`
+- `../../glossary/Business-Terms.md`
+- `../qa/`
+- `../api/`
+- `../database/`
+- `../testing-techniques/`
