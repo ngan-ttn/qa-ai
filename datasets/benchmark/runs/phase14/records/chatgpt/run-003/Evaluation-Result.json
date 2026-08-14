@@ -1,0 +1,35 @@
+{
+  "run_id": "P14-RUN-CHATGPT-003",
+  "criteria": "EVAL-CRITERIA-001",
+  "rubric": "EVAL-RUBRIC-001",
+  "scoring": "EVAL-SCORING-001",
+  "evaluation_profile": "canonical-default",
+  "criterion_levels": {
+    "C01": {"level": "L4", "evidence": "Preserves the authoritative threshold of 5 consecutive failed attempts, 15-minute duration, reset behavior, locked-state rejection, automatic unlock, and per-account isolation."},
+    "C02": {"level": "L4", "evidence": "Derived rules, scenarios, and expected results are logically consistent with REQ-AUTH-001; no incorrect critical expected result identified."},
+    "C03": {"level": "L4", "evidence": "Covers lower/upper threshold bounds, lock trigger, locked-state behavior for incorrect and correct passwords, duration persistence/expiry, both reset paths, and account isolation."},
+    "C04": {"level": "L4", "evidence": "Stays technology-neutral and explicitly excludes undefined UI/API/database/timing implementation details."},
+    "C05": {"level": "L4", "evidence": "Undefined implementation and behavior are labeled Unknown/non-asserted; no material unsupported assumption is promoted to fact."},
+    "C06": {"level": "L4", "evidence": "Stable traceability is visible from REQ-AUTH-001 through BR-AUTH and TS-AUTH identifiers into every TC-AUTH case."},
+    "C07": {"level": "L4", "evidence": "Artifact is structured, concise, terminology is consistent, and review intent is clear without material verbosity or ambiguity."},
+    "C08": {"level": "L4", "evidence": "Each case has concrete preconditions/actions and observable expected outcomes at the source abstraction level without requiring invented implementation details."},
+    "C09": {"level": "L4", "evidence": "Ten cases have distinct primary objectives; counts 2 and 3 are intentionally covered through the same below-threshold partition rather than duplicated."},
+    "C10": {"level": "L4", "evidence": "Covers 1/4/5 attempt boundaries, locked/unlocked states, duration before/at expiry, reset transitions, new sequences, and per-account state isolation."},
+    "C11": {"level": "N/A", "evidence": "Risk Awareness is supporting-only for this evaluated Structured Test Case Model; testcase-generation does not execute risk-analyzer and this run requires no risk decision."},
+    "C12": {"level": "L4", "evidence": "Thresholds, duration, states, rule IDs, scenario IDs, and expected results remain internally consistent throughout the artifact."}
+  },
+  "critical_failures": [],
+  "unrounded_score": 100.0,
+  "final_score": 100,
+  "quality_band": "Excellent",
+  "result": "PASS",
+  "baseline_eligible": true,
+  "reviewer": "QA-AI Phase 14 evaluator",
+  "review_timestamp": "2026-08-14T16:00:00+07:00",
+  "notes": [
+    "Post-fix rerun after ChatGPT Knowledge packaging was expanded with a dedicated Phase 14 pilot requirement bundle.",
+    "P14-RUN-CHATGPT-001 remains retained as pre-fix FAIL evidence.",
+    "P14-RUN-CHATGPT-002 remains retained as safe BLOCKED evidence showing source-unavailable guardrail behavior.",
+    "P14-RUN-CHATGPT-003 is eligible as a baseline candidate; approval still depends on completion of the full three-platform controlled run set and Phase 14 quality gate."
+  ]
+}
