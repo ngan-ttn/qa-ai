@@ -1,0 +1,27 @@
+{
+  "run_id": "P14-RUN-CHATGPT-003",
+  "run_set_id": "P14-RUNSET-001",
+  "dataset_id": "REQ-AUTH-001",
+  "dataset_reference": "datasets/requirements/simple/REQ-AUTH-001.md",
+  "artifact_type": "Structured Test Case Model",
+  "workflow": "workflows/testcase-generation",
+  "framework_version": "1.0.0",
+  "repository_branch": "phase14-runtime-evaluation",
+  "repository_commit": "02e922205fb591f562eb45fa203f53435f5722ca",
+  "platform": "ChatGPT",
+  "runtime_or_model": "Custom GPT QA_AI; model identifier not captured",
+  "adapter_reference": "adapters/chatgpt/ at phase14-runtime-evaluation; targeted pilot-requirement bundle enabled",
+  "execution_timestamp": "2026-08-14T15:26:00+07:00",
+  "operator": "ngan-ttn",
+  "prompt_reference": "datasets/benchmark/runs/phase14/Runtime-Execution-Prompt.md",
+  "criteria": "EVAL-CRITERIA-001",
+  "rubric": "EVAL-RUBRIC-001",
+  "scoring": "EVAL-SCORING-001",
+  "evaluation_profile": "canonical-default",
+  "raw_output_reference": "conversation evidence captured unchanged from CHATGPT P14 RERUN; repository raw-output copy pending normalization",
+  "notes": [
+    "Post-fix rerun after adding 14-phase14-pilot-requirement.md to the ChatGPT Knowledge package.",
+    "Fresh-chat retrieval succeeded for REQ-AUTH-001 before this controlled rerun.",
+    "Exact ChatGPT model identifier was not visible/captured during execution."
+  ]
+}
