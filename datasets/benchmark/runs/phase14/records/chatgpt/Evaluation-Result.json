@@ -1,0 +1,44 @@
+{
+  "run_id": "P14-RUN-CHATGPT-001",
+  "platform": "chatgpt",
+  "dataset_id": "REQ-AUTH-001",
+  "artifact_type": "Structured Test Case Model",
+  "criteria": "EVAL-CRITERIA-001",
+  "rubric": "EVAL-RUBRIC-001",
+  "scoring": "EVAL-SCORING-001",
+  "evaluation_profile": "canonical-default",
+  "criterion_levels": {
+    "C01": {"level": "L0", "evidence": "The artifact uses a 30-minute lock duration, while REQ-AUTH-001 explicitly defines 15 minutes. This changes a critical source threshold/duration."},
+    "C02": {"level": "L0", "evidence": "Duration-dependent expected results and business rules are built around 30 minutes instead of the authoritative 15-minute behavior."},
+    "C03": {"level": "L3", "evidence": "Threshold, reset, locked-state behavior and per-account isolation are covered, but the duration portion is materially wrong even though the general area is present."},
+    "C04": {"level": "L4", "evidence": "The artifact stays technology-neutral and explicitly avoids inventing endpoints, database fields, UI messages, or implementation mechanisms."},
+    "C05": {"level": "L1", "evidence": "The artifact states the literal dataset was not retrievable, then treats a 30-minute duration as confirmed despite that value not being in the controlled execution prompt and contradicting the dataset."},
+    "C06": {"level": "L2", "evidence": "The BR-to-scenario-to-test-case chain is visible, but the duration chain traces to an unsupported 30-minute rule rather than the authoritative dataset."},
+    "C07": {"level": "L4", "evidence": "The output is structured, terminology is understandable, and test objectives are easy to review."},
+    "C08": {"level": "L1", "evidence": "Most cases are executable at source abstraction, but duration-boundary cases would verify the wrong 30-minute behavior and therefore require major correction."},
+    "C09": {"level": "L3", "evidence": "Coverage is generally well decomposed with only minor overlap between threshold, duration, and isolation cases."},
+    "C10": {"level": "L0", "evidence": "The critical duration boundary is fundamentally incorrect: 30 minutes is used instead of the source-defined 15 minutes."},
+    "C11": {"level": "N/A", "evidence": "Risk awareness is supporting-only for this Structured Test Case Model evaluation; risk-analyzer is not a stage of testcase-generation and no risk decision is required here."},
+    "C12": {"level": "L4", "evidence": "The artifact is internally consistent with its own threshold/duration model; the defect is source fidelity, not an internal contradiction."}
+  },
+  "critical_failures": [
+    {"id": "CF-01", "evidence": "Source contradiction: 30-minute lock duration vs authoritative 15-minute duration."},
+    {"id": "CF-04", "evidence": "Incorrect critical expected result: duration-boundary test cases assert behavior at 30 minutes rather than 15 minutes."}
+  ],
+  "raw_weighted_score": 40.35,
+  "active_weight": 95,
+  "unrounded_score_before_cap": 42.47,
+  "applied_cap": 49,
+  "unrounded_score": 42.47,
+  "final_score": 42,
+  "quality_band": "Failed",
+  "result": "FAIL",
+  "baseline_eligible": false,
+  "reviewer": "QA-AI Phase 14 evaluator",
+  "review_timestamp": "2026-08-14T15:53:22+07:00",
+  "notes": [
+    "Raw runtime response was captured unchanged outside this repository before evaluation.",
+    "The runtime response explicitly reported that the literal dataset was not retrievable and substituted a 30-minute duration, creating a critical source-fidelity failure.",
+    "This result evaluates the captured runtime output; it does not classify the ChatGPT adapter itself as globally failed."
+  ]
+}
