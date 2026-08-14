@@ -52,11 +52,11 @@ Every adapter must document:
 
 | Platform | Native Integration Mechanism | Phase 13 State |
 |---|---|---|
-| ChatGPT | Custom GPT Instructions + bounded Knowledge bundles | Completed |
-| Claude | Claude Code repository-root `CLAUDE.md` + repository references | Completed |
-| Cursor | Repository-root `.cursor/rules/*.mdc` + `.cursor/commands/*.md` | Completed |
+| ChatGPT | Custom GPT Instructions + bounded Knowledge bundles | Frozen |
+| Claude | Claude Code repository-root `CLAUDE.md` + repository references | Frozen |
+| Cursor | Repository-root `.cursor/rules/*.mdc` + `.cursor/commands/*.md` | Frozen |
 
-Each adapter has passed its Phase 13 platform-specific runtime smoke gate. Phase-level `Frozen` status additionally requires final cross-platform review and synchronized roadmap state.
+All three adapters passed their platform-specific runtime smoke gates and the final cross-platform review. Phase 13 is frozen as a 3-adapter baseline.
 
 ## Baseline Installation Model
 
