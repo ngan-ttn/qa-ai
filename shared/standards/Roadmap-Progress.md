@@ -2,7 +2,7 @@
 
 > Version: 1.1.0  
 > Status: Approved  
-> Last Updated: 2026-08-13
+> Last Updated: 2026-08-14
 
 ---
 
@@ -64,7 +64,7 @@ For countable components:
 progress = completed tracked components / total tracked components
 ```
 
-Counts must use the canonical inventory for that phase.
+Counts must use the canonical inventory for that phase. Where components carry nested `expected` / `completed` counts, aggregate progress is the sum of those component counts; otherwise countable components are aggregated by `Completed` / `Frozen` status.
 
 ## Roadmap Synchronization
 
@@ -114,8 +114,9 @@ A roadmap update passes only when:
 - its status transition is valid;
 - required review gates are satisfied;
 - component counts do not exceed expected totals;
+- countable aggregate progress matches component evidence/status where deterministically derivable;
 - phase status is consistent with component status;
-- `Frozen` is not assigned while mandatory components remain incomplete;
+- `Completed` / `Frozen` are not assigned while tracked progress remains incomplete;
 - the human-readable roadmap generated status region and machine-readable registry agree.
 
 ## Phase Closure
