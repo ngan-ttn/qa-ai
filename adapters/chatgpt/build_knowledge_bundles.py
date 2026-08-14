@@ -21,6 +21,7 @@ BUNDLES: dict[str, tuple[str, ...]] = {
     "10-domain-knowledge.md": ("shared/knowledge/domain",),
     "11-glossary.md": ("shared/glossary",),
     "12-evaluation.md": ("datasets/evaluation", "datasets/benchmark"),
+    "13-controlled-requirements.md": ("datasets/requirements",),
 }
 
 
