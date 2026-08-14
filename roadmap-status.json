@@ -8,91 +8,26 @@
     "1": {"name": "Framework Foundation", "status": "Completed"},
     "2": {"name": "Shared Standards and Foundations", "status": "Completed"},
     "3": {"name": "Workflow Library", "status": "Completed"},
-    "4": {
-      "name": "Skill Library Foundation",
-      "status": "Completed",
-      "progress": {"completed": 6, "total": 6, "unit": "foundation_skills"},
-      "components": {
-        "requirement-analyzer": {"status": "Completed"},
-        "business-rule-extractor": {"status": "Completed"},
-        "scenario-generator": {"status": "Completed"},
-        "testcase-generator": {"status": "Completed"},
-        "coverage-reviewer": {"status": "Completed"},
-        "regression-impact": {"status": "Completed"}
-      }
-    },
+    "4": {"name": "Skill Library Foundation", "status": "Completed", "progress": {"completed": 6, "total": 6, "unit": "foundation_skills"}, "components": {"requirement-analyzer": {"status": "Completed"}, "business-rule-extractor": {"status": "Completed"}, "scenario-generator": {"status": "Completed"}, "testcase-generator": {"status": "Completed"}, "coverage-reviewer": {"status": "Completed"}, "regression-impact": {"status": "Completed"}}},
     "5": {"name": "Knowledge Foundation", "status": "Completed"},
     "6": {"name": "Examples and End-to-End Validation", "status": "Completed"},
     "7": {"name": "Framework Integration and Validation", "status": "Completed"},
     "8": {"name": "Datasets and Evaluation", "status": "Frozen"},
     "9": {"name": "Repository Completion and Alignment", "status": "Completed"},
-    "10": {
-      "name": "Knowledge Library Completion",
-      "status": "Frozen",
-      "progress": {"completed": 181, "total": 181, "unit": "knowledge_articles"},
-      "components": {
-        "testing-techniques": {"expected": 30, "completed": 30, "status": "Frozen"},
-        "qa": {"expected": 28, "completed": 28, "status": "Frozen"},
-        "api": {"expected": 40, "completed": 40, "status": "Frozen"},
-        "database": {"expected": 42, "completed": 42, "status": "Frozen"},
-        "domain": {"expected": 41, "completed": 41, "status": "Frozen"}
-      }
-    },
-    "11": {
-      "name": "Skill Library Expansion",
-      "status": "Frozen",
-      "tracking_unit": "skill",
-      "progress": {"completed": 5, "total": 5, "unit": "expansion_skills"},
-      "library_baseline": {"foundation": 6, "expansion": 5, "total": 11},
-      "components": {
-        "risk-analyzer": {"status": "Frozen"},
-        "bug-report-reviewer": {"status": "Frozen"},
-        "api-test-generator": {"status": "Frozen"},
-        "sql-validation": {"status": "Frozen"},
-        "test-data-generator": {"status": "Frozen"}
-      },
-      "excluded_candidates": {
-        "regression-analyzer": {
-          "reason": "Not added because regression-impact owns change-impact and regression-scope analysis; a second broad regression analyzer would materially overlap the canonical capability."
-        }
-      },
-      "freeze_gate": "Passed final 11-skill cross-review covering ownership, input/output contracts, dependency direction, feedback-cycle safety, knowledge dependencies, and downstream usability. Blocking issues were fixed before freeze."
-    },
-    "12": {
-      "name": "Scripts Implementation",
-      "status": "Frozen",
-      "tracking_unit": "script_group",
-      "progress": {"completed": 8, "total": 8, "unit": "script_groups"},
-      "script_baseline": {"groups": 8, "scripts": 25},
-      "components": {
-        "validation": {"status": "Frozen", "script_count": 4},
-        "knowledge": {"status": "Frozen", "script_count": 3},
-        "prompts": {"status": "Frozen", "script_count": 2},
-        "workflows": {"status": "Frozen", "script_count": 3},
-        "evaluation": {"status": "Frozen", "script_count": 4},
-        "export": {"status": "Frozen", "script_count": 3},
-        "utils": {"status": "Frozen", "script_count": 3},
-        "roadmap": {"status": "Frozen", "script_count": 3}
-      },
-      "freeze_gate": "Passed full implementation, cross-script review, post-fix local compile/smoke validation, metadata/output validator alignment, workflow contract alignment, deterministic behavior checks, evaluation semantics review, export/prompt safety review, and roadmap automation validation. No blocking Phase 12 issue remains."
-    },
+    "10": {"name": "Knowledge Library Completion", "status": "Frozen", "progress": {"completed": 181, "total": 181, "unit": "knowledge_articles"}, "components": {"testing-techniques": {"expected": 30, "completed": 30, "status": "Frozen"}, "qa": {"expected": 28, "completed": 28, "status": "Frozen"}, "api": {"expected": 40, "completed": 40, "status": "Frozen"}, "database": {"expected": 42, "completed": 42, "status": "Frozen"}, "domain": {"expected": 41, "completed": 41, "status": "Frozen"}}},
+    "11": {"name": "Skill Library Expansion", "status": "Frozen", "tracking_unit": "skill", "progress": {"completed": 5, "total": 5, "unit": "expansion_skills"}, "library_baseline": {"foundation": 6, "expansion": 5, "total": 11}, "components": {"risk-analyzer": {"status": "Frozen"}, "bug-report-reviewer": {"status": "Frozen"}, "api-test-generator": {"status": "Frozen"}, "sql-validation": {"status": "Frozen"}, "test-data-generator": {"status": "Frozen"}}, "excluded_candidates": {"regression-analyzer": {"reason": "Not added because regression-impact owns change-impact and regression-scope analysis; a second broad regression analyzer would materially overlap the canonical capability."}}, "freeze_gate": "Passed final 11-skill cross-review covering ownership, input/output contracts, dependency direction, feedback-cycle safety, knowledge dependencies, and downstream usability. Blocking issues were fixed before freeze."},
+    "12": {"name": "Scripts Implementation", "status": "Frozen", "tracking_unit": "script_group", "progress": {"completed": 8, "total": 8, "unit": "script_groups"}, "script_baseline": {"groups": 8, "scripts": 25}, "components": {"validation": {"status": "Frozen", "script_count": 4}, "knowledge": {"status": "Frozen", "script_count": 3}, "prompts": {"status": "Frozen", "script_count": 2}, "workflows": {"status": "Frozen", "script_count": 3}, "evaluation": {"status": "Frozen", "script_count": 4}, "export": {"status": "Frozen", "script_count": 3}, "utils": {"status": "Frozen", "script_count": 3}, "roadmap": {"status": "Frozen", "script_count": 3}}, "freeze_gate": "Passed full implementation, cross-script review, post-fix local compile/smoke validation, metadata/output validator alignment, workflow contract alignment, deterministic behavior checks, evaluation semantics review, export/prompt safety review, and roadmap automation validation. No blocking Phase 12 issue remains."},
     "13": {
       "name": "Platform Integration",
       "status": "Review",
       "tracking_unit": "platform_adapter",
-      "progress": {"completed": 2, "total": 3, "unit": "platform_adapters"},
+      "progress": {"completed": 3, "total": 3, "unit": "platform_adapters"},
       "components": {
-        "chatgpt": {
-          "status": "Completed",
-          "smoke_gate": "Passed Custom GPT Preview smoke validation for requirement routing, testcase-generation workflow orchestration, API specialized routing without invented interface details, and canonical Knowledge retrieval."
-        },
-        "claude": {
-          "status": "Completed",
-          "smoke_gate": "Passed Claude Code runtime validation for instruction loading, requirement routing/source grounding, testcase-generation workflow orchestration with clarification-dependent behavior isolated from executable assertions, API specialized routing with missing-contract blocking, and canonical regression capability retrieval. Runtime findings were fixed in adapters/claude/CLAUDE.md and rerun successfully."
-        },
-        "cursor": {"status": "Review"}
+        "chatgpt": {"status": "Completed", "smoke_gate": "Passed Custom GPT Preview smoke validation for requirement routing, testcase-generation workflow orchestration, API specialized routing without invented interface details, and canonical Knowledge retrieval."},
+        "claude": {"status": "Completed", "smoke_gate": "Passed Claude Code runtime validation for instruction loading, requirement routing/source grounding, testcase-generation workflow orchestration with clarification-dependent behavior isolated from executable assertions, API specialized routing with missing-contract blocking, and canonical regression capability retrieval. Runtime findings were fixed in adapters/claude/CLAUDE.md and rerun successfully."},
+        "cursor": {"status": "Completed", "smoke_gate": "Passed Cursor workspace runtime validation for rule loading, requirement routing/source grounding, testcase-generation workflow orchestration with unresolved behavior isolated as clarification-dependent coverage, API specialized routing with missing-contract blocking, and canonical regression capability retrieval."}
       },
-      "review_gate": "Cross-platform contract review completed and installability blockers fixed. Deterministic adapter validation passed. ChatGPT and Claude runtime smoke gates passed; Cursor platform-specific smoke validation remains before Phase 13 can be Frozen."
+      "review_gate": "Cross-platform contract review and platform-specific runtime smoke validation completed for ChatGPT, Claude, and Cursor. All 3 platform adapters passed their runtime gates. Final Phase 13 cross-platform review remains before freeze."
     }
   }
 }
