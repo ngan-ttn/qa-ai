@@ -22,13 +22,22 @@ chatgpt/
 ├── Knowledge-Manifest.md
 ├── Skill-Mapping.md
 ├── Workflow-Mapping.md
-└── Usage.md
+├── Usage.md
+└── build_knowledge_bundles.py
 ```
 
-## Constraint
+## Knowledge Packaging
 
-Custom GPT Knowledge has a finite file limit. The adapter therefore selects or bundles canonical reference material rather than attempting to upload the repository one physical file at a time.
+A Custom GPT accepts up to 20 Knowledge files. QA-AI therefore generates a bounded text-forward package instead of uploading the repository one physical file at a time.
+
+Run from the QA-AI repository root:
+
+```text
+python adapters/chatgpt/build_knowledge_bundles.py
+```
+
+The default package is written to `output/chatgpt-knowledge/` and contains 12 Knowledge bundles plus a local manifest. Upload the 12 Markdown bundles to the Custom GPT; `bundle-manifest.json` is for package verification and does not need to be uploaded.
 
 ## Boundary
 
-The adapter does not own QA reasoning. When adapter wording conflicts with canonical repository content, canonical repository content wins.
+The adapter does not own QA reasoning. When adapter wording conflicts with canonical repository content, canonical repository content wins. Project requirements supplied by the user remain higher authority than reusable QA-AI Knowledge.
