@@ -1,0 +1,40 @@
+{
+  "baseline_id": "BASE-REQ-AUTH-001-TC-<PLATFORM>-001",
+  "baseline_version": "1.0.0",
+  "status": "Candidate",
+  "dataset": {
+    "id": "REQ-AUTH-001",
+    "reference": "datasets/requirements/simple/REQ-AUTH-001.md",
+    "artifact_type": "Structured Test Case Model"
+  },
+  "framework": {
+    "version": "1.0.0",
+    "workflow": "workflows/testcase-generation",
+    "repository_commit": "<commit-sha>"
+  },
+  "execution": {
+    "run_id": "P14-RUN-<PLATFORM>-001",
+    "platform": "<ChatGPT|Claude|Cursor>",
+    "runtime_or_model": "<record-if-visible>",
+    "adapter_reference": "<adapter-reference>"
+  },
+  "evaluation": {
+    "criteria": "EVAL-CRITERIA-001",
+    "rubric": "EVAL-RUBRIC-001",
+    "scoring": "EVAL-SCORING-001",
+    "profile": "canonical-default",
+    "criterion_levels": {},
+    "unrounded_score": null,
+    "final_score": null,
+    "quality_band": null,
+    "critical_failures": [],
+    "result": "<PASS|FAIL>"
+  },
+  "evidence": {
+    "raw_output_reference": "<reference>",
+    "evaluation_result_reference": "<reference>"
+  },
+  "approved_by": null,
+  "approval_date": null,
+  "notes": []
+}
