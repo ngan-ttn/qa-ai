@@ -1,0 +1,23 @@
+{
+  "run_id": "P14-RUN-<PLATFORM>-001",
+  "run_set_id": "P14-RUNSET-001",
+  "dataset_id": "REQ-AUTH-001",
+  "dataset_reference": "datasets/requirements/simple/REQ-AUTH-001.md",
+  "artifact_type": "Structured Test Case Model",
+  "workflow": "workflows/testcase-generation",
+  "framework_version": "1.0.0",
+  "repository_branch": "phase14-runtime-evaluation",
+  "repository_commit": "<commit-sha>",
+  "platform": "<ChatGPT|Claude|Cursor>",
+  "runtime_or_model": "<record-if-visible>",
+  "adapter_reference": "<adapter path/version/commit>",
+  "execution_timestamp": "<ISO-8601>",
+  "operator": "<operator>",
+  "prompt_reference": "datasets/benchmark/runs/phase14/Runtime-Execution-Prompt.md",
+  "criteria": "EVAL-CRITERIA-001",
+  "rubric": "EVAL-RUBRIC-001",
+  "scoring": "EVAL-SCORING-001",
+  "evaluation_profile": "canonical-default",
+  "raw_output_reference": "<path-or-evidence-reference>",
+  "notes": []
+}
