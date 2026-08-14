@@ -2,7 +2,7 @@
 
 ## Purpose
 
-This directory contains the controlled execution definition, capture templates, and reviewed runtime evidence for Phase 14 — Controlled Runtime Evaluation & Benchmark Baseline.
+This directory contains the controlled execution definition, capture templates, measured runtime evidence, candidate benchmark records, and quality-gate preparation for Phase 14 — Controlled Runtime Evaluation & Benchmark Baseline.
 
 It operationalizes the frozen Phase 8 evaluation/benchmark definitions using the frozen Phase 13 platform adapters without redefining QA-AI semantics.
 
@@ -15,9 +15,9 @@ This directory may contain:
 - execution metadata templates;
 - captured platform outputs from actual controlled runs;
 - criterion-level evaluation results derived from actual outputs;
-- reviewed benchmark records created only after real execution;
+- candidate benchmark records backed by measured execution;
 - cross-platform comparison records;
-- regression-ready approved baseline records.
+- regression-ready approved baseline records after the final gate passes.
 
 It must not contain fabricated runtime outputs, invented scores, or placeholder files presented as measured evidence.
 
@@ -35,7 +35,19 @@ Phase 14 begins with one controlled pilot set:
 
 The dataset is intentionally simple and fully specified so the first benchmark measures framework/runtime behavior rather than requirement ambiguity.
 
-## Files
+## Current Measured Status
+
+| Platform | Accepted Run | Score | Result | Evidence | Baseline State |
+|---|---|---:|---|---|---|
+| ChatGPT | `P14-RUN-CHATGPT-003` | 100 | PASS | Complete | Candidate |
+| Claude | `P14-RUN-CLAUDE-001` | — | Pending | Runtime unavailable | Not evaluated |
+| Cursor | `P14-RUN-CURSOR-001` | 99 | PASS | Complete | Candidate |
+
+ChatGPT pre-fix runs remain retained as regression evidence and are not substituted for the accepted post-fix run.
+
+The Claude condition is documented in `Claude-Runtime-Blocker.md`. It is an execution-availability blocker, not a measured platform quality failure.
+
+## Current Files
 
 ```text
 runs/phase14/
@@ -44,6 +56,23 @@ runs/phase14/
 ├── Runtime-Execution-Prompt.md
 ├── Run-Capture-Checklist.md
 ├── Execution-Guide.md
+├── Claude-Runtime-Blocker.md
+├── Cross-Platform-Comparison-Candidate.md
+├── Final-Gate-Readiness.md
+├── records/
+│   ├── chatgpt/
+│   │   └── run-003/
+│   │       ├── Raw-Output.md
+│   │       ├── Execution-Metadata.json
+│   │       ├── Scoring-Input.json
+│   │       ├── Evaluation-Result.json
+│   │       └── Baseline-Candidate.json
+│   └── cursor/
+│       ├── Raw-Output.md
+│       ├── Execution-Metadata.json
+│       ├── Scoring-Input.json
+│       ├── Evaluation-Result.json
+│       └── Baseline-Candidate.json
 └── templates/
     ├── Execution-Metadata.json
     ├── Scoring-Input.json
@@ -52,7 +81,7 @@ runs/phase14/
     └── Cross-Platform-Comparison.md
 ```
 
-Actual reviewed records must be introduced only after controlled runtime execution evidence exists. The repository must not contain synthetic benchmark records merely for structural completeness.
+Actual approved records must be introduced only after their required controlled runtime execution evidence exists. Candidate records must remain clearly distinguishable from Approved/Frozen benchmark state.
 
 ## Canonical Sources
 
@@ -67,3 +96,7 @@ Actual reviewed records must be introduced only after controlled runtime executi
 - `adapters/`
 
 Actual execution evidence must remain traceable to immutable or reviewable repository references and runtime metadata.
+
+## Completion Rule
+
+ChatGPT and Cursor candidate preparation may continue while Claude is unavailable. Phase 14 must not be frozen, the cross-platform comparison must not be approved, and no three-platform regression-ready baseline may be declared until the actual Claude run is captured and evaluated under the same controlled run set.
