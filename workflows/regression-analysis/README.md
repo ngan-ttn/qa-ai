@@ -2,31 +2,22 @@
 
 ## Purpose
 
-The `regression-analysis` workflow defines the coordinated process for analyzing the regression impact of a change and determining an appropriate regression scope from validated QA artifacts.
+The `regression-analysis` workflow coordinates regression impact analysis from an authoritative change description plus sufficient baseline context.
 
-This workflow orchestrates the `regression-impact` capability using a structured coverage assessment as its required upstream artifact and relevant change information as supporting context.
-
-The workflow defines orchestration, artifact dependencies, and workflow-level validation. It does not duplicate regression analysis logic owned by the skill, generate new test artifacts, or define regression execution plans.
+It orchestrates `skills/regression-impact`. Existing coverage is supporting evidence when available; it is not a substitute for the source change itself. The workflow does not generate tests, execute regression, or invent undocumented dependencies.
 
 ---
 
 ## When To Use
 
-This workflow should be used when:
+Use this workflow when:
 
-- Requirement changes need regression impact assessment
-- Bugs or fixes may affect existing covered behavior
-- Feature enhancements require regression scope analysis
-- Existing QA artifacts need to be assessed for change impact
-- A release requires regression prioritization based on validated coverage information
+- a requirement, rule, interface, workflow, schema, or implementation behavior changes;
+- a bug fix or enhancement may affect existing behavior;
+- release scope requires traceable regression-impact reasoning;
+- existing QA assets need assessment against a confirmed change delta.
 
-This workflow should not be used for:
-
-- Creating new test cases
-- Reviewing testcase quality
-- Executing regression tests
-- Scheduling regression execution
-- Managing release activities
+Do not use it to create tests, review testcase quality as the primary objective, execute regression, schedule execution, or approve releases.
 
 ---
 
@@ -34,53 +25,47 @@ This workflow should not be used for:
 
 ### Required Input
 
-The workflow requires a structured coverage assessment suitable for `skills/regression-impact`.
+The workflow requires both:
 
-Typical required information includes:
+1. an authoritative change description or structured before/after context; and
+2. sufficient baseline context to identify existing behavior that may be affected.
 
-- Coverage findings
-- Coverage gaps
-- Traceability findings
-- Consistency findings where applicable
+Baseline context may include requirement analysis, business rules, known architecture/dependencies, existing test artifacts, or other authoritative QA/project evidence.
+
+If the change delta cannot be established, the workflow must stop short of a confirmed regression conclusion and surface the missing information.
 
 ### Optional Input
 
 Supporting context may include:
 
-- Requirement change information
-- Structured test case model
-- Structured test scenario model
-- Structured business rule model
-- Structured requirement analysis
-- Previous regression analysis
-- Release scope
-- Related QA artifacts
+- Structured Coverage Assessment;
+- Structured Risk Analysis;
+- Structured Test Case Model;
+- Structured Test Scenario Model;
+- Structured Business Rule Model;
+- Structured Requirement Analysis;
+- API/interface dependencies;
+- database/data dependencies;
+- historical defect or regression evidence;
+- release scope.
 
-The workflow should preserve the distinction between confirmed impact evidence and unknown system dependencies.
-
-Missing context that prevents reliable impact assessment should remain visible as clarification or investigation items rather than being silently inferred.
+Coverage information strengthens regression decisions when available but is not mandatory for every valid standalone impact analysis.
 
 ---
 
 ## Workflow Flow
 
 ```text
-Structured Coverage Assessment
-        │
-        ├── Optional: Requirement Change Information
-        ├── Optional: Structured Test Case Model
-        ├── Optional: Structured Test Scenario Model
-        ├── Optional: Structured Business Rule Model
-        └── Optional: Structured Requirement Analysis
-        │
-        ▼
+Authoritative Change Description + Baseline Context
+        ↓
+Establish Change Delta
+        ↓
 Regression Impact
-        │
-        ▼
+        ↓
+Map Existing Coverage / Known Dependencies
+        ↓
 Structured Regression Impact Analysis
 ```
-
-The structured coverage assessment is the required upstream artifact. Additional context strengthens impact analysis but does not replace the required coverage assessment.
 
 ---
 
@@ -88,118 +73,76 @@ The structured coverage assessment is the required upstream artifact. Additional
 
 ### Step 1: Validate Regression Input
 
-Confirm that a structured coverage assessment is available and suitable for regression impact analysis.
+Confirm the authoritative source of change and verify that enough baseline context exists to reason about affected behavior. Record missing or conflicting evidence explicitly.
 
-Identify:
+### Step 2: Establish Change Delta
 
-- Change objective
-- Available coverage findings
-- Available traceability information
-- Available upstream QA artifacts
-- Missing context that may affect analysis confidence
+Execute the change-delta activity owned by `skills/regression-impact`. Identify what changed, what did not change, and which actors, rules, flows, interfaces, states, or data are directly involved.
 
----
+### Step 3: Analyze Direct and Indirect Impact
 
-### Step 2: Identify Changes
+Trace directly affected behavior, then follow only known dependencies to identify supported indirect impact. Unsupported implementation coupling must remain unknown rather than being promoted to confirmed impact.
 
-Execute the change-identification activity defined by `skills/regression-impact` using the structured coverage assessment and available change information.
+### Step 4: Map Existing Coverage
 
-The workflow should distinguish confirmed change information from assumptions and unknown dependencies.
+When coverage/test artifacts are available, identify existing coverage that remains valid, requires update, or leaves gaps. Absence of a coverage assessment must not erase otherwise supported change-impact evidence.
 
----
+### Step 5: Incorporate Risk Context
 
-### Step 3: Analyze Impact
+When Structured Risk Analysis or other supported risk evidence exists, use it to inform regression priority without redefining the risk model.
 
-Evaluate how the identified change affects existing validated QA artifacts and covered behavior.
+### Step 6: Define and Prioritize Regression Scope
 
-Impact analysis should remain traceable to available coverage findings, change information, and upstream artifacts.
+Classify affected areas as required, recommended, retained/unaffected, or uncertain according to evidence. Preserve the rationale and change/dependency trace for each scope decision.
 
----
+### Step 7: Produce and Validate Regression Analysis
 
-### Step 4: Determine Regression Scope
-
-Identify the areas requiring regression testing based on the confirmed impact evidence.
-
-The regression scope may include:
-
-- Affected covered behavior
-- Existing test assets that remain applicable
-- Coverage gaps requiring attention
-- Areas requiring additional investigation
-
-Unsupported system components or dependencies must not be promoted to confirmed impact.
-
----
-
-### Step 5: Prioritize Regression Areas
-
-Prioritize regression areas according to the impact evidence available to the `regression-impact` skill.
-
-Prioritization should be justified by confirmed change and coverage information rather than unsupported implementation assumptions.
-
----
-
-### Step 6: Produce and Validate Regression Analysis
-
-Produce the structured regression impact analysis defined by `skills/regression-impact`.
-
-Validation should confirm:
-
-- Impact findings are traceable to identified changes and available QA artifacts
-- Regression scope is clearly represented
-- Priorities are logically supported
-- Unknown dependencies remain explicitly identified
-- Assumptions and open questions remain visible
-- Applicable standards and output structures are followed
+Produce the Structured Regression Impact Analysis and verify that change traces, impact findings, scope decisions, priorities, assumptions, and open questions are internally consistent and evidence-based.
 
 ---
 
 ## Required Skills
 
-This workflow coordinates the following skill:
-
 | Skill | Purpose |
 |---|---|
-| `skills/regression-impact` | Transform a structured coverage assessment into structured regression impact analysis |
+| `skills/regression-impact` | Transform an authoritative change delta and baseline context into structured regression impact analysis |
 
-Requirement analysis, business rule extraction, scenario generation, testcase generation, and coverage review are not implicitly re-executed by this workflow. Their valid artifacts may be consumed as supporting context when already available.
+Other skills are not implicitly re-executed. Their existing outputs may be supplied as supporting context when valid.
 
 ---
 
 ## Required Resources
 
-The participating skill may resolve applicable resources from the shared module, including:
+The participating skill may resolve applicable resources from:
 
 | Resource | Purpose |
 |---|---|
-| `shared/standards/` | Apply applicable regression and artifact standards |
-| `shared/templates/` | Structure regression impact analysis output |
-| `shared/checklists/` | Support applicable validation activities |
-| `shared/prompt-patterns/` | Provide reusable regression analysis instructions where required |
+| `shared/standards/` | Artifact and output conventions |
+| `shared/templates/` | Regression analysis structure |
+| `shared/checklists/` | Review/coverage quality controls where applicable |
+| `shared/prompt-patterns/` | Reusable impact-analysis instructions |
+| `shared/knowledge/qa/` | Regression/risk context |
+| `shared/knowledge/api/` | API dependency context when relevant |
+| `shared/knowledge/database/` | Persistence/data dependency context when relevant |
+| `shared/knowledge/domain/` | Business dependency context when relevant |
 
-The workflow references these resources without duplicating their detailed content.
+Authoritative project change/dependency evidence overrides generic framework knowledge.
 
 ---
 
 ## Output
 
-The workflow produces:
+The workflow produces a Structured Regression Impact Analysis that may include:
 
-- Structured regression impact analysis
+- authoritative change trace;
+- direct and indirect affected areas;
+- existing coverage mapping;
+- regression scope decisions;
+- relative priority and rationale;
+- known dependencies;
+- assumptions, uncertainties, and open questions.
 
-Typical output content may include:
-
-- Impact findings
-- Affected areas
-- Regression scope
-- Priority assessment
-- Dependencies
-- Assumptions
-- Open questions
-
-The exact output structure should follow the applicable templates and output standards defined in shared resources.
-
-This workflow identifies regression impact and scope. It does not execute regression tests, create a test execution schedule, or modify existing test artifacts.
+The workflow does not execute regression tests, create an execution schedule, generate missing tests automatically, or approve release readiness.
 
 ---
 
@@ -207,12 +150,10 @@ This workflow identifies regression impact and scope. It does not execute regres
 
 The workflow is complete when:
 
-- A valid structured coverage assessment has been consumed
-- Available change information and relevant upstream artifacts have been applied where appropriate
-- Impact findings are traceable to available evidence
-- Regression scope and priorities are clearly represented
-- Unknown dependencies and unresolved information are explicitly surfaced
-- The structured regression impact analysis satisfies the regression-impact output contract
-- Applicable standards and templates are followed
-
-This workflow does not generate test cases, review testcase quality, execute regression tests, or manage release activities.
+- the authoritative change delta is explicit;
+- sufficient baseline context was used;
+- impact findings are traceable to change/dependency evidence;
+- coverage evidence is applied when available without being treated as the source change;
+- unsupported dependencies remain uncertain;
+- regression scope and priorities are justified;
+- output satisfies `regression-impact` and applicable shared standards/templates.
