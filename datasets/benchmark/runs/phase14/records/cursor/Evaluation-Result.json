@@ -1,0 +1,41 @@
+{
+  "run_id": "P14-RUN-CURSOR-001",
+  "platform": "cursor",
+  "dataset_id": "REQ-AUTH-001",
+  "artifact_type": "Structured Test Case Model",
+  "criteria": "EVAL-CRITERIA-001",
+  "rubric": "EVAL-RUBRIC-001",
+  "scoring": "EVAL-SCORING-001",
+  "evaluation_profile": "canonical-default",
+  "criterion_levels": {
+    "C01": {"level": "L4", "evidence": "The artifact preserves the authoritative five-attempt threshold, 15-minute duration, reset behavior, locked-state rejection, automatic unlock, and per-account isolation."},
+    "C02": {"level": "L4", "evidence": "Derived requirement, rule, scenario, and testcase logic remains consistent with the dataset and does not introduce a material logical defect."},
+    "C03": {"level": "L4", "evidence": "All acceptance criteria AC1-AC9 and the per-account isolation constraint are represented in the scenario/testcase coverage summary."},
+    "C04": {"level": "L4", "evidence": "The artifact explicitly keeps APIs, database fields, UI messages, timer mechanisms, and other undefined implementation details out of confirmed behavior."},
+    "C05": {"level": "L4", "evidence": "Unknown observability, timing mechanism, locked-attempt counter behavior, and out-of-scope authentication behavior remain explicitly labeled Unknown or execution dependencies."},
+    "C06": {"level": "L4", "evidence": "Stable traceability is visible from REQ-AUTH-001 and acceptance criteria through FRs, BRs, scenarios, and every testcase."},
+    "C07": {"level": "L3", "evidence": "The model is precise and reviewable, but it is substantially more verbose than required for the final Structured Test Case Model and repeats supporting analysis in full."},
+    "C08": {"level": "L4", "evidence": "Testcases contain concrete conditions, actions, and deterministic source-grounded expected results at the dataset abstraction level."},
+    "C09": {"level": "L4", "evidence": "Cases use distinct primary objectives; interior values 2 and 3 are intentionally represented through the same valid unlocked partition rather than duplicated."},
+    "C10": {"level": "L4", "evidence": "The suite covers below-threshold, on-threshold, locked state, before-expiry, at-expiry, resets/new sequences, and account isolation."},
+    "C11": {"level": "N/A", "evidence": "Risk awareness is supporting-only for this Structured Test Case Model evaluation; risk-analyzer is not a stage of testcase-generation and no risk decision is required here."},
+    "C12": {"level": "L4", "evidence": "Thresholds, duration, IDs, states, rules, and expected outcomes are internally consistent throughout the artifact chain."}
+  },
+  "critical_failures": [],
+  "raw_weighted_score": 94.0,
+  "active_weight": 95,
+  "unrounded_score_before_cap": 98.95,
+  "applied_cap": null,
+  "unrounded_score": 98.95,
+  "final_score": 99,
+  "quality_band": "Excellent",
+  "result": "PASS",
+  "baseline_eligible": true,
+  "reviewer": "QA-AI Phase 14 evaluator",
+  "review_timestamp": "2026-08-14T15:53:22+07:00",
+  "notes": [
+    "Raw runtime response was captured unchanged outside this repository before evaluation.",
+    "No unresolved critical failure was identified.",
+    "Baseline eligibility remains candidate status until the Phase 14 baseline review/approval step is completed."
+  ]
+}
