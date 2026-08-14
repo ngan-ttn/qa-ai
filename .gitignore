@@ -39,3 +39,6 @@ htmlcov/
 build/
 dist/
 *.egg-info/
+
+# QA-AI generated runtime artifacts
+output/
