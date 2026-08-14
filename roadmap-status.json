@@ -33,7 +33,15 @@
       },
       "scope": "Execute a controlled QA-AI evaluation set across the frozen ChatGPT, Claude, and Cursor adapters; produce measured evaluation evidence and benchmark records using the existing Phase 8 definitions and Phase 12 tooling without redefining canonical QA semantics.",
       "minimum_baseline": "At least one controlled dataset executed across all three supported platforms under a defined evaluation configuration.",
-      "out_of_scope": ["new canonical skills", "new canonical workflows", "adapter redesign", "canonical QA semantic changes", "invented benchmark scores", "benchmark records without actual controlled execution", "textual similarity as the primary quality gate"]
+      "out_of_scope": ["new canonical skills", "new canonical workflows", "adapter redesign", "canonical QA semantic changes", "invented benchmark scores", "benchmark records without actual controlled execution", "textual similarity as the primary quality gate"],
+      "exit_criteria": [
+        "At least one controlled dataset is executed on ChatGPT, Claude, and Cursor under a defined evaluation configuration.",
+        "Each accepted run preserves generated artifacts, evaluation results, and sufficient runtime metadata for traceability.",
+        "At least one baseline benchmark record is produced from actual controlled execution and reviewed.",
+        "Cross-platform comparison uses equivalent controlled inputs and evaluation semantics.",
+        "A regression-ready baseline exists for future framework changes.",
+        "No unresolved blocking issue remains for reproducibility, traceability, or scoring semantics."
+      ]
     }
   }
 }
