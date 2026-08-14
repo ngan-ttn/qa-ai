@@ -75,7 +75,8 @@ def _render_bundle(name: str, sources: tuple[str, ...]) -> str:
 
 def build(output_dir: Path, *, check: bool = False) -> tuple[int, list[str]]:
     output_dir = output_dir.resolve()
-    output_dir.mkdir(parents=True, exist_ok=True)
+    if not check:
+        output_dir.mkdir(parents=True, exist_ok=True)
     changed: list[str] = []
     manifest: dict[str, object] = {"bundle_count": len(BUNDLES), "bundles": []}
 
