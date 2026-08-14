@@ -14,52 +14,39 @@
     "7": {"name": "Framework Integration and Validation", "status": "Completed"},
     "8": {"name": "Datasets and Evaluation", "status": "Frozen"},
     "9": {"name": "Repository Completion and Alignment", "status": "Completed"},
-    "10": {"name": "Knowledge Library Completion", "status": "Frozen", "progress": {"completed": 181, "total": 181, "unit": "knowledge_articles"}, "components": {"testing-techniques": {"expected": 30, "completed": 30, "status": "Frozen"}, "qa": {"expected": 28, "completed": 28, "status": "Frozen"}, "api": {"expected": 40, "completed": 40, "status": "Frozen"}, "database": {"expected": 42, "completed": 42, "status": "Frozen"}, "domain": {"expected": 41, "completed": 41, "status": "Frozen"}}},
-    "11": {"name": "Skill Library Expansion", "status": "Frozen", "tracking_unit": "skill", "progress": {"completed": 5, "total": 5, "unit": "expansion_skills"}, "library_baseline": {"foundation": 6, "expansion": 5, "total": 11}, "components": {"risk-analyzer": {"status": "Frozen"}, "bug-report-reviewer": {"status": "Frozen"}, "api-test-generator": {"status": "Frozen"}, "sql-validation": {"status": "Frozen"}, "test-data-generator": {"status": "Frozen"}}, "excluded_candidates": {"regression-analyzer": {"reason": "Not added because regression-impact owns change-impact and regression-scope analysis; a second broad regression analyzer would materially overlap the canonical capability."}}, "freeze_gate": "Passed final 11-skill cross-review covering ownership, input/output contracts, dependency direction, feedback-cycle safety, knowledge dependencies, and downstream usability. Blocking issues were fixed before freeze."},
-    "12": {"name": "Scripts Implementation", "status": "Frozen", "tracking_unit": "script_group", "progress": {"completed": 8, "total": 8, "unit": "script_groups"}, "script_baseline": {"groups": 8, "scripts": 25}, "components": {"validation": {"status": "Frozen", "script_count": 4}, "knowledge": {"status": "Frozen", "script_count": 3}, "prompts": {"status": "Frozen", "script_count": 2}, "workflows": {"status": "Frozen", "script_count": 3}, "evaluation": {"status": "Frozen", "script_count": 4}, "export": {"status": "Frozen", "script_count": 3}, "utils": {"status": "Frozen", "script_count": 3}, "roadmap": {"status": "Frozen", "script_count": 3}}, "freeze_gate": "Passed full implementation, cross-script review, post-fix local compile/smoke validation, metadata/output validator alignment, workflow contract alignment, deterministic behavior checks, evaluation semantics review, export/prompt safety review, metadata/output false-positive fixes and legacy metadata migration, workflow contract alignment for coverage and regression analysis, deterministic roadmap status collection, validation, and synchronization. No blocking Phase 12 issue remains."},
-    "13": {"name": "Platform Integration", "status": "Frozen", "tracking_unit": "platform_adapter", "progress": {"completed": 3, "total": 3, "unit": "platform_adapters"}, "components": {"chatgpt": {"status": "Frozen", "smoke_gate": "Passed Custom GPT Preview smoke validation for requirement routing, testcase-generation workflow orchestration, API specialized routing without invented interface details, and canonical Knowledge retrieval."}, "claude": {"status": "Frozen", "smoke_gate": "Passed Claude Code runtime validation for instruction loading, requirement routing/source grounding, testcase-generation workflow orchestration with clarification-dependent behavior isolated from executable assertions, API specialized routing with missing-contract blocking, and canonical regression capability retrieval. Runtime findings were fixed in adapters/claude/CLAUDE.md and rerun successfully."}, "cursor": {"status": "Frozen", "smoke_gate": "Passed Cursor workspace runtime validation for rule loading, requirement routing/source grounding, testcase-generation workflow orchestration with unresolved behavior isolated as clarification-dependent coverage, API specialized routing with missing-contract blocking, and canonical regression capability retrieval."}}, "freeze_gate": "Passed final cross-platform review across ChatGPT, Claude, and Cursor covering source priority, capability routing, workflow orchestration, assumption propagation, specialized API behavior, canonical ownership, installation/runtime topology, and platform-specific smoke evidence. All three adapters passed and no blocking Phase 13 issue remains."},
+    "10": {"name": "Knowledge Library Completion", "status": "Frozen", "progress": {"completed": 181, "total": 181, "unit": "knowledge_articles"}},
+    "11": {"name": "Skill Library Expansion", "status": "Frozen", "tracking_unit": "skill", "progress": {"completed": 5, "total": 5, "unit": "expansion_skills"}, "library_baseline": {"foundation": 6, "expansion": 5, "total": 11}},
+    "12": {"name": "Scripts Implementation", "status": "Frozen", "tracking_unit": "script_group", "progress": {"completed": 8, "total": 8, "unit": "script_groups"}, "script_baseline": {"groups": 8, "scripts": 25}},
+    "13": {"name": "Platform Integration", "status": "Frozen", "tracking_unit": "platform_adapter", "progress": {"completed": 3, "total": 3, "unit": "platform_adapters"}},
     "14": {
       "name": "Controlled Runtime Evaluation & Benchmark Baseline",
       "status": "In Progress",
       "tracking_unit": "evaluation_run_set",
       "progress": {"completed": 1, "total": 6, "unit": "phase14_stages"},
       "components": {
-        "evaluation-execution-definition": {"status": "Completed", "evidence": "P14-RUNSET-001 defines REQ-AUTH-001, testcase-generation, three platforms, canonical evaluation configuration, run identities, controlled variables, outputs, and quality gates."},
+        "evaluation-execution-definition": {"status": "Completed"},
         "controlled-runtime-execution": {"status": "In Progress"},
         "evaluation-results": {"status": "In Progress"},
         "benchmark-records": {"status": "In Progress"},
         "reproducibility-traceability": {"status": "In Progress"},
         "final-quality-gate": {"status": "Planned"}
-      },
-      "scope": "Execute a controlled QA-AI evaluation set across the frozen ChatGPT, Claude, and Cursor adapters; produce measured evaluation evidence and benchmark records using the existing Phase 8 definitions and Phase 12 tooling without redefining canonical QA semantics.",
-      "minimum_baseline": "At least one controlled dataset executed across all three supported platforms under a defined evaluation configuration.",
-      "pilot_run_set": "P14-RUNSET-001 — REQ-AUTH-001 + testcase-generation + Structured Test Case Model across ChatGPT, Claude, and Cursor using EVAL-CRITERIA-001, EVAL-RUBRIC-001, and EVAL-SCORING-001.",
-      "out_of_scope": ["new canonical skills", "new canonical workflows", "adapter redesign", "canonical QA semantic changes", "invented benchmark scores", "benchmark records without actual controlled execution", "textual similarity as the primary quality gate"],
-      "exit_criteria": [
-        "At least one controlled dataset is executed on ChatGPT, Claude, and Cursor under a defined evaluation configuration.",
-        "Each accepted run preserves generated artifacts, evaluation results, and sufficient runtime metadata for traceability.",
-        "At least one baseline benchmark record is produced from actual controlled execution and reviewed.",
-        "Cross-platform comparison uses equivalent controlled inputs and evaluation semantics.",
-        "A regression-ready baseline exists for future framework changes.",
-        "No unresolved blocking issue remains for reproducibility, traceability, or scoring semantics."
-      ]
+      }
     },
     "15": {
       "name": "Operational Usage & Project Adoption",
-      "status": "In Progress",
+      "status": "Completed",
       "tracking_unit": "operational_adoption_stage",
-      "progress": {"completed": 4, "total": 6, "unit": "phase15_stages"},
+      "progress": {"completed": 6, "total": 6, "unit": "phase15_stages"},
       "components": {
         "operational-use-case-definition": {"status": "Completed", "evidence": "P15-PILOT-001 operational contract using the My Rewards 3.0 FRS."},
-        "real-requirement-pilot": {"status": "Completed", "evidence": "Grounded Requirement Analysis, Business Rules, Risk Analysis, Scenarios, executable Test Cases, clarification-dependent coverage, and Test Data model."},
+        "real-requirement-pilot": {"status": "Completed", "evidence": "Grounded real-requirement artifact chain for Voucher, Flight, and Coupon scope."},
         "artifact-chain-validation": {"status": "Completed", "evidence": "Cross-artifact validation passed with uncertainty propagation and technical-boundary checks."},
         "change-regression-pilot": {"status": "Completed", "evidence": "Controlled Coupon default-sort change fixture produced scoped regression impact without invented implementation coupling."},
-        "manual-qc-usability-review": {"status": "In Progress", "evidence": "Human QC review checklist prepared; human decision pending."},
-        "adoption-readiness-gate": {"status": "Planned"}
+        "manual-qc-usability-review": {"status": "Completed", "evidence": "Human QC approval recorded 2026-08-14; overall decision PASS — Usable."},
+        "adoption-readiness-gate": {"status": "Completed", "evidence": "Final adoption gate passed with no unresolved blocking usability issue."}
       },
       "scope": "Validate that the frozen QA-AI framework can support a Manual QC Engineer on a real project requirement through grounded artifact generation, cross-artifact validation, controlled change/regression analysis, human usability review, and an explicit adoption-readiness gate.",
       "pilot": "P15-PILOT-001 — FRS - Webview - My rewards 3.0 v1.0.",
-      "out_of_scope": ["self-certifying human usability", "inventing missing project behavior", "promoting project-specific rules into shared knowledge", "silent canonical skill/workflow changes", "production execution", "invented API or database contracts"],
       "exit_criteria": [
         "A real project requirement is processed through the defined QA artifact chain with source grounding preserved.",
         "Cross-artifact validation finds no unresolved blocking contradiction or fabricated project behavior.",
