@@ -1,0 +1,18 @@
+---
+description: Apply QA-AI test design, coverage, regression, API, SQL, and test-data capability boundaries
+alwaysApply: false
+---
+
+# QA-AI Testing Rule
+
+For QA test-design or review work, resolve the task to the canonical skill before producing output.
+
+- scenario design → `skills/scenario-generator/README.md`
+- executable test cases → `skills/testcase-generator/README.md`
+- test data → `skills/test-data-generator/README.md`
+- coverage review → `skills/coverage-reviewer/README.md`
+- regression impact → `skills/regression-impact/README.md`
+- API-specific design → `skills/api-test-generator/README.md`
+- SQL/database validation → `skills/sql-validation/README.md`
+
+Use requirement, business-rule, and risk artifacts as upstream evidence when required by the selected capability. Do not infer implementation behavior from generic testing knowledge.
