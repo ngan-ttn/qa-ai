@@ -18,10 +18,11 @@
   "rubric": "EVAL-RUBRIC-001",
   "scoring": "EVAL-SCORING-001",
   "evaluation_profile": "canonical-default",
-  "raw_output_reference": "conversation evidence captured unchanged from CURSOR P14; repository raw-output copy pending normalization",
+  "raw_output_reference": "datasets/benchmark/runs/phase14/records/cursor/Raw-Output.md",
   "notes": [
     "Cursor executed the controlled prompt in the QA-AI repository workspace.",
     "Repository working tree was reported clean after execution; Cursor did not create or modify repository files during the run.",
-    "Exact runtime model, execution timestamp, and execution commit were not captured and are therefore not reconstructed."
+    "Exact runtime model, execution timestamp, and execution commit were not captured and are therefore not reconstructed.",
+    "Raw runtime output was copied unchanged from output/phase14/P14-RUN-CURSOR-001/raw-output.md into the benchmark record."
   ]
 }
