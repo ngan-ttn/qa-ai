@@ -21,23 +21,34 @@ def sha256(data: bytes) -> str:
     return hashlib.sha256(data).hexdigest()
 
 
+def _repo_file(raw: str) -> Path:
+    path = resolve_repo_path(raw).resolve()
+    try:
+        path.relative_to(ROOT.resolve())
+    except ValueError as exc:
+        raise ValueError(f"Package inputs must be inside the QA-AI repository: {raw}") from exc
+    if not path.is_file():
+        raise FileNotFoundError(path)
+    return path
+
+
 def package(paths: list[str], output: str) -> Path:
-    files: list[tuple[str, bytes]] = []
+    target = resolve_repo_path(output).resolve()
+    target.parent.mkdir(parents=True, exist_ok=True)
+    files_by_name: dict[str, bytes] = {}
     for raw in paths:
-        path = resolve_repo_path(raw)
-        if not path.is_file():
-            raise FileNotFoundError(path)
-        try:
-            arcname = path.relative_to(ROOT).as_posix()
-        except ValueError:
-            arcname = path.name
-        files.append((arcname, path.read_bytes()))
-    files.sort(key=lambda item: item[0])
+        path = _repo_file(raw)
+        if path == target:
+            raise ValueError("Output archive cannot also be an input file")
+        arcname = path.relative_to(ROOT.resolve()).as_posix()
+        if arcname in files_by_name:
+            raise ValueError(f"Duplicate package input: {arcname}")
+        files_by_name[arcname] = path.read_bytes()
+
+    files = sorted(files_by_name.items())
     manifest = {
         "files": [{"path": name, "sha256": sha256(data), "bytes": len(data)} for name, data in files]
     }
-    target = resolve_repo_path(output)
-    target.parent.mkdir(parents=True, exist_ok=True)
     with zipfile.ZipFile(target, "w", compression=zipfile.ZIP_DEFLATED) as archive:
         for name, data in files:
             info = zipfile.ZipInfo(name, FIXED_TIME)
