@@ -1,0 +1,21 @@
+{
+  "run_id": "P14-RUN-CURSOR-001",
+  "levels": {
+    "C01": "L4",
+    "C02": "L4",
+    "C03": "L4",
+    "C04": "L4",
+    "C05": "L4",
+    "C06": "L4",
+    "C07": "L3",
+    "C08": "L4",
+    "C09": "L4",
+    "C10": "L4",
+    "C11": "N/A",
+    "C12": "L4"
+  },
+  "critical_failures": [],
+  "n_a_justifications": {
+    "C11": "Risk analysis is supporting-only for the Structured Test Case Model in the canonical testcase-generation workflow and no risk decision is required by this controlled evaluation profile."
+  }
+}
