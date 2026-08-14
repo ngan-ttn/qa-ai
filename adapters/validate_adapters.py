@@ -25,6 +25,7 @@ SKILLS = (
     "sql-validation",
 )
 WORKFLOWS = ("testcase-generation", "testcase-quality-review", "regression-analysis")
+EXPECTED_CHATGPT_BUNDLE_COUNT = 14
 
 REQUIRED_FILES: dict[str, tuple[str, ...]] = {
     "chatgpt": (
@@ -129,8 +130,11 @@ def validate() -> list[str]:
     except Exception as exc:  # pragma: no cover - diagnostic path
         errors.append(f"cannot import ChatGPT bundle builder: {exc}")
     else:
-        if len(BUNDLES) != 12:
-            errors.append(f"ChatGPT canonical upload bundle count must be 12, got {len(BUNDLES)}")
+        if len(BUNDLES) != EXPECTED_CHATGPT_BUNDLE_COUNT:
+            errors.append(
+                "ChatGPT canonical upload bundle count must be "
+                f"{EXPECTED_CHATGPT_BUNDLE_COUNT}, got {len(BUNDLES)}"
+            )
         if len(BUNDLES) > 20:
             errors.append("ChatGPT Knowledge package exceeds platform 20-file limit")
 
@@ -144,7 +148,10 @@ def main() -> int:
             print(f"ERROR {error}")
         print(f"Phase 13 adapter validation failed; issues={len(errors)}")
         return 1
-    print("PASS Phase 13 adapters: platforms=3 skills=11 workflows=3 chatgpt_bundles=12")
+    print(
+        "PASS Phase 13 adapters: "
+        f"platforms=3 skills=11 workflows=3 chatgpt_bundles={EXPECTED_CHATGPT_BUNDLE_COUNT}"
+    )
     return 0
 
 
