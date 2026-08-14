@@ -80,13 +80,16 @@
       "name": "Platform Integration",
       "status": "Review",
       "tracking_unit": "platform_adapter",
-      "progress": {"completed": 0, "total": 3, "unit": "platform_adapters"},
+      "progress": {"completed": 1, "total": 3, "unit": "platform_adapters"},
       "components": {
-        "chatgpt": {"status": "Review"},
+        "chatgpt": {
+          "status": "Completed",
+          "smoke_gate": "Passed Custom GPT Preview smoke validation for requirement routing, testcase-generation workflow orchestration, API specialized routing without invented interface details, and canonical Knowledge retrieval."
+        },
         "claude": {"status": "Review"},
         "cursor": {"status": "Review"}
       },
-      "review_gate": "Cross-platform contract review completed and installability blockers fixed. Local deterministic adapter validation plus platform-specific smoke validation are required before adapters become Completed and before Phase 13 can be Frozen."
+      "review_gate": "Cross-platform contract review completed and installability blockers fixed. Deterministic adapter validation passed. ChatGPT runtime smoke passed; Claude and Cursor platform-specific smoke validation remain before Phase 13 can be Frozen."
     }
   }
 }
