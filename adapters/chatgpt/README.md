@@ -9,7 +9,7 @@ Package QA-AI for a Custom GPT while preserving the platform-independent contrac
 The adapter uses:
 
 - Custom GPT **Instructions** for behavior, routing, boundaries, and workflow discipline;
-- Custom GPT **Knowledge** for reference content;
+- Custom GPT **Knowledge** for reference content and controlled repository datasets needed by benchmark/evaluation prompts;
 - conversation starters for common QA entry points;
 - optional platform capabilities only when the task requires them.
 
@@ -36,7 +36,9 @@ Run from the QA-AI repository root:
 python adapters/chatgpt/build_knowledge_bundles.py
 ```
 
-The default package is written to `output/chatgpt-knowledge/` and contains 12 Knowledge bundles plus a local manifest. Upload the 12 Markdown bundles to the Custom GPT; `bundle-manifest.json` is for package verification and does not need to be uploaded.
+The default package is written to `output/chatgpt-knowledge/` and contains 13 Knowledge bundles plus a local manifest. Upload the 13 Markdown bundles to the Custom GPT; `bundle-manifest.json` is for package verification and does not need to be uploaded.
+
+The thirteenth bundle contains `datasets/requirements/` so controlled benchmark prompts that refer to an authoritative dataset by repository path can retrieve that source instead of inferring missing behavior.
 
 ## Boundary
 
