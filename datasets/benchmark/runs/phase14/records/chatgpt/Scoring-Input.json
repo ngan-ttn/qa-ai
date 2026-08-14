@@ -1,0 +1,21 @@
+{
+  "run_id": "P14-RUN-CHATGPT-001",
+  "levels": {
+    "C01": "L0",
+    "C02": "L0",
+    "C03": "L3",
+    "C04": "L4",
+    "C05": "L1",
+    "C06": "L2",
+    "C07": "L4",
+    "C08": "L1",
+    "C09": "L3",
+    "C10": "L0",
+    "C11": "N/A",
+    "C12": "L4"
+  },
+  "critical_failures": ["CF-01", "CF-04"],
+  "n_a_justifications": {
+    "C11": "Risk analysis is supporting-only for the Structured Test Case Model in the canonical testcase-generation workflow and no risk decision is required by this controlled evaluation profile."
+  }
+}
