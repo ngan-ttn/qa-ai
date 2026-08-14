@@ -4,6 +4,7 @@ from __future__ import annotations
 import argparse
 import re
 import sys
+from datetime import date
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[2]
@@ -15,8 +16,9 @@ from scripts.utils.file_utils import iter_files, relative_to_repo
 META_PATTERNS = {
     "Version": re.compile(r"^>\s*Version:\s*(\S+)\s*$", re.M),
     "Status": re.compile(r"^>\s*Status:\s*(.+?)\s*$", re.M),
-    "Last Updated": re.compile(r"^>\s*Last Updated:\s*(\d{4}-\d{2}-\d{2})\s*$", re.M),
+    "Last Updated": re.compile(r"^>\s*Last Updated:\s*(\S+)\s*$", re.M),
 }
+VERSION_RE = re.compile(r"^\d+\.\d+\.\d+$")
 ALLOWED_STATUS = {"Draft", "Review", "Approved", "Completed", "Frozen", "Planned", "In Progress"}
 
 
@@ -35,12 +37,26 @@ def validate_file(path: Path) -> list[str]:
     matches = {key: pattern.search(text) for key, pattern in META_PATTERNS.items()}
     for key, match in matches.items():
         if not match:
-            errors.append(f"missing or invalid metadata field: {key}")
+            errors.append(f"missing metadata field: {key}")
+
+    version = matches.get("Version")
+    if version and not VERSION_RE.fullmatch(version.group(1).strip()):
+        errors.append(f"invalid semantic Version: {version.group(1).strip()}")
+
     status = matches.get("Status")
     if status and status.group(1).strip() not in ALLOWED_STATUS:
         errors.append(f"unsupported Status: {status.group(1).strip()}")
-    if "YYYY-MM-DD" in text[:500]:
-        errors.append("placeholder Last Updated value remains")
+
+    updated = matches.get("Last Updated")
+    if updated:
+        value = updated.group(1).strip()
+        if value == "YYYY-MM-DD":
+            errors.append("placeholder Last Updated value remains")
+        else:
+            try:
+                date.fromisoformat(value)
+            except ValueError:
+                errors.append(f"invalid Last Updated date: {value}")
     return errors
 
 
