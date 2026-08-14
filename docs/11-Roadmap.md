@@ -1,6 +1,6 @@
 # QA-AI Implementation Roadmap
 
-> Version: 1.3.0  
+> Version: 1.4.0  
 > Status: Approved  
 > Last Updated: 2026-08-14
 
@@ -94,10 +94,11 @@ Planned → In Progress → Review → Completed → Frozen
 | Phase 11 | Skill Library Expansion | Frozen | 5/5 expansion_skills |
 | Phase 12 | Scripts Implementation | Frozen | 8/8 script_groups |
 | Phase 13 | Platform Integration | Frozen | 3/3 platform_adapters |
+| Phase 14 | Controlled Runtime Evaluation & Benchmark Baseline | Planned | 0/6 phase14_stages |
 
 <!-- ROADMAP_STATUS:END -->
 
-Current baseline after Phase 13 freeze:
+Current baseline and planned next phase:
 
 ```text
 Latest Frozen Phase: Phase 13 — Platform Integration
@@ -105,6 +106,7 @@ Canonical Skill Library: 11/11
 Knowledge Baseline: 181/181
 Canonical Scripts: 25 / 8 groups
 Platform Adapters: ChatGPT + Claude + Cursor (3/3 Frozen)
+Next Defined Phase: Phase 14 — Controlled Runtime Evaluation & Benchmark Baseline (Planned)
 ```
 
 ---
@@ -516,7 +518,161 @@ All 3 adapters passed. No blocking Phase 13 issue remains.
 
 ---
 
-## 18. Phase Dependencies
+## 18. Phase 14 — Controlled Runtime Evaluation & Benchmark Baseline
+
+### Objective
+
+Convert the frozen evaluation definitions, deterministic evaluation tooling, and supported platform adapters into measured runtime evidence and a reproducible benchmark baseline.
+
+Phase 14 validates the behavior of the existing QA-AI framework under controlled execution. It does not redefine canonical QA semantics.
+
+### Dependencies
+
+Phase 14 depends on the frozen baselines established by:
+
+- Phase 8 — controlled datasets, golden references, evaluation criteria, rubrics, scoring definitions, and benchmark definitions;
+- Phase 12 — deterministic evaluation and benchmark tooling;
+- Phase 13 — frozen ChatGPT, Claude, and Cursor platform adapters.
+
+### Tracking Unit
+
+`evaluation_run_set`
+
+A controlled evaluation run set uses equivalent authoritative inputs and a defined evaluation configuration across the supported runtime targets.
+
+The minimum Phase 14 baseline is:
+
+```text
+At least 1 controlled dataset
+        ×
+ChatGPT + Claude + Cursor
+        ×
+Defined evaluation configuration
+```
+
+### Scope
+
+#### 14.1 Evaluation Execution Definition
+
+Define the controlled execution contract before any measured run is treated as benchmark evidence.
+
+This includes:
+
+- controlled requirement dataset selection;
+- evaluated artifacts/capabilities;
+- applicable criteria, rubrics, and scoring configuration;
+- runtime and adapter configuration metadata;
+- evidence and traceability requirements.
+
+#### 14.2 Controlled Runtime Execution
+
+Execute the approved controlled input set through the frozen supported adapters:
+
+```text
+ChatGPT
+Claude
+Cursor
+```
+
+Equivalent source inputs and evaluation semantics must be preserved across platforms. Platform-native mechanics may differ, but they must not redefine the evaluated QA behavior.
+
+#### 14.3 Evaluation Results
+
+Produce measured evaluation evidence using the existing Phase 8 evaluation semantics and Phase 12 tooling.
+
+Evaluation should cover the applicable quality dimensions, including:
+
+- requirement fidelity;
+- assumption control;
+- traceability;
+- coverage;
+- output/contract compliance.
+
+Measured results must be derived from actual generated artifacts. Scores must not be invented to complete the benchmark structure.
+
+#### 14.4 Benchmark Records
+
+Create benchmark records only from actual controlled execution and evaluation results.
+
+The Phase 14 benchmark baseline should support:
+
+- baseline benchmark evidence;
+- cross-platform comparison;
+- regression-ready comparison for future framework changes.
+
+Benchmark definitions remain definitions until execution evidence exists; they must not be represented as measured benchmark records prematurely.
+
+#### 14.5 Reproducibility & Traceability
+
+Each accepted run set must preserve sufficient metadata to reconstruct what was evaluated.
+
+At minimum, traceability should identify:
+
+- dataset and dataset version/reference;
+- framework version or repository revision;
+- platform/runtime;
+- adapter/configuration;
+- generated artifact set;
+- evaluation configuration;
+- run identifier and timestamp.
+
+#### 14.6 Final Quality Gate
+
+Perform a cross-platform review of the measured evidence before freezing the baseline.
+
+The gate must confirm:
+
+- equivalent controlled inputs were used;
+- scoring semantics were applied consistently;
+- benchmark records are backed by actual execution evidence;
+- reproducibility and traceability are sufficient;
+- unresolved platform differences are documented rather than normalized away;
+- the resulting baseline is suitable for future regression comparison.
+
+### Deliverables
+
+Phase 14 is expected to produce:
+
+1. an approved controlled evaluation execution definition;
+2. controlled runtime outputs for ChatGPT, Claude, and Cursor;
+3. measured evaluation results for the selected run set;
+4. baseline and cross-platform benchmark records backed by execution evidence;
+5. reproducibility/traceability metadata for accepted runs;
+6. an approved regression-ready quality baseline.
+
+Runtime-generated artifacts remain runtime evidence and must not silently become canonical framework definitions.
+
+### Out of Scope
+
+Phase 14 does not include:
+
+- adding new canonical skills;
+- adding new canonical workflows;
+- redesigning platform adapters;
+- changing canonical QA semantics;
+- inventing benchmark scores or records without controlled execution;
+- using textual similarity as the primary quality gate.
+
+A new skill, workflow, adapter change, or semantic change requires separate evidence and roadmap review rather than being absorbed into benchmark execution.
+
+### Exit Criteria
+
+Phase 14 may move toward freeze only when:
+
+1. at least one controlled dataset has been executed on ChatGPT, Claude, and Cursor under a defined evaluation configuration;
+2. each accepted run preserves generated artifacts, evaluation results, and sufficient runtime metadata for traceability;
+3. at least one baseline benchmark record has been produced from actual controlled execution and reviewed;
+4. cross-platform comparison uses equivalent controlled inputs and evaluation semantics;
+5. a regression-ready baseline exists for future framework changes;
+6. no unresolved blocking issue remains for reproducibility, traceability, or scoring semantics.
+
+### Status
+
+`Planned — 0/6 Phase 14 stages`
+
+---
+
+## 19. Phase Dependencies
 
 ```text
 Phase 1  Framework Foundation
@@ -544,35 +700,43 @@ Phase 11 Skill Library Expansion
 Phase 12 Scripts Implementation
    ↓
 Phase 13 Platform Integration
+   ↓
+Phase 14 Controlled Runtime Evaluation & Benchmark Baseline
 ```
+
+Phase 14 specifically consumes the frozen Phase 8 evaluation definitions, Phase 12 deterministic tooling, and Phase 13 runtime adapters.
 
 ---
 
-## 19. Roadmap Progress Tracking
+## 20. Roadmap Progress Tracking
 
-### 19.1 Source of Truth
+### 20.1 Source of Truth
 
 `roadmap-status.json` is the machine-readable source of truth. This roadmap is its synchronized human-readable representation.
 
-### 19.2 Tracking Unit
+### 20.2 Tracking Unit
 
 Progress is measured at roadmap deliverable/component level, not arbitrary file count.
 
-### 19.3 Synchronization Trigger
+For Phase 14, the tracking unit is `evaluation_run_set`, while the phase progress summary tracks completion of the six approved Phase 14 stages.
+
+### 20.3 Synchronization Trigger
 
 When a tracked component passes or loses its quality gate, both registry and roadmap must be recalculated/synchronized.
 
-### 19.4 Freeze Rule
+### 20.4 Freeze Rule
 
 A phase cannot be marked `Frozen` merely because all physical files exist. Its phase-level cross-component review must pass.
 
-### 19.5 Deterministic Automation
+For Phase 14, generated files alone do not establish completion; benchmark evidence must come from controlled runtime execution and reviewed evaluation results.
+
+### 20.5 Deterministic Automation
 
 Phase 12 provides deterministic status collection, validation, and roadmap synchronization under `scripts/roadmap/`. Registry state remains authoritative; generated roadmap status must remain synchronized with it.
 
 ---
 
-## 20. Current Implementation Focus
+## 21. Current Implementation Focus
 
 ```text
 Latest Frozen Phase: Phase 13 — Platform Integration
@@ -580,13 +744,16 @@ Canonical Skill Library: 11/11
 Knowledge Baseline: 181/181
 Canonical Scripts: 25 / 8 groups
 Platform Adapters: 3/3 Frozen
-Current State: Phase 1–13 baseline implemented and quality-gated
+Current Defined Phase: Phase 14 — Controlled Runtime Evaluation & Benchmark Baseline
+Phase 14 Status: Planned — 0/6 stages
 ```
 
-Any subsequent roadmap expansion must be explicitly defined and reviewed before a new phase is added.
+Phase 14 implementation must begin with the controlled evaluation execution definition. Runtime benchmark evidence must not be generated or accepted before that execution contract is reviewed.
 
 ---
 
-## 21. Change Governance
+## 22. Change Governance
 
 Roadmap changes must preserve phase boundaries, component ownership, lifecycle semantics, registry synchronization, and traceability between implemented artifacts and reported progress. Changes to canonical phase scope or tracked inventory require explicit review before registry updates.
+
+For Phase 14, changes to controlled dataset selection, evaluation semantics, supported runtime baseline, benchmark evidence requirements, or exit criteria must be reviewed before they are treated as part of the approved evaluation baseline.
