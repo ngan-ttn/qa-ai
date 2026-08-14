@@ -12,7 +12,10 @@ if str(ROOT) not in sys.path:
 
 from scripts.utils.file_utils import iter_files, relative_to_repo
 
-PLACEHOLDERS = re.compile(r"\b(TODO|TBD|FIXME|PLACEHOLDER)\b|YYYY-MM-DD", re.I)
+# Generic words such as "placeholder" are valid in test-data guidance (for example,
+# credential placeholders) and must not be treated as unresolved work. Detect only
+# explicit authoring markers and unresolved template dates.
+UNRESOLVED_MARKERS = re.compile(r"\b(TODO|TBD|FIXME)\b|YYYY-MM-DD", re.I)
 HEADING = re.compile(r"^#{1,6}\s+\S", re.M)
 
 
@@ -24,9 +27,9 @@ def validate_file(path: Path) -> list[str]:
     if path.suffix.lower() == ".md":
         if not HEADING.search(text):
             errors.append("Markdown artifact has no heading")
-        hit = PLACEHOLDERS.search(text)
+        hit = UNRESOLVED_MARKERS.search(text)
         if hit:
-            errors.append(f"unresolved placeholder: {hit.group(0)}")
+            errors.append(f"unresolved authoring marker: {hit.group(0)}")
     return errors
 
 
