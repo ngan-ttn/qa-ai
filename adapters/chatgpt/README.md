@@ -36,9 +36,9 @@ Run from the QA-AI repository root:
 python adapters/chatgpt/build_knowledge_bundles.py
 ```
 
-The default package is written to `output/chatgpt-knowledge/` and contains 13 Knowledge bundles plus a local manifest. Upload the 13 Markdown bundles to the Custom GPT; `bundle-manifest.json` is for package verification and does not need to be uploaded.
+The default package is written to `output/chatgpt-knowledge/` and contains 14 Knowledge bundles plus a local manifest. Upload the 14 Markdown bundles to the Custom GPT; `bundle-manifest.json` is for package verification and does not need to be uploaded.
 
-The thirteenth bundle contains `datasets/requirements/` so controlled benchmark prompts that refer to an authoritative dataset by repository path can retrieve that source instead of inferring missing behavior.
+`13-controlled-requirements.md` contains the controlled requirement dataset library. `14-phase14-pilot-requirement.md` contains the exact canonical `REQ-AUTH-001` source as a dedicated retrieval target for the Phase 14 pilot. The dedicated bundle does not redefine the requirement; it improves retrieval granularity while preserving the same source-path heading and source content.
 
 ## Boundary
 
