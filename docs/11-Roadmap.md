@@ -98,7 +98,7 @@ Planned → In Progress → Review → Completed → Frozen
 
 <!-- ROADMAP_STATUS:END -->
 
-Current baseline and planned next phase:
+Current baseline and active phase:
 
 ```text
 Latest Frozen Phase: Phase 13 — Platform Integration
@@ -106,7 +106,7 @@ Canonical Skill Library: 11/11
 Knowledge Baseline: 181/181
 Canonical Scripts: 25 / 8 groups
 Platform Adapters: ChatGPT + Claude + Cursor (3/3 Frozen)
-Next Defined Phase: Phase 14 — Controlled Runtime Evaluation & Benchmark Baseline (Planned)
+Active Phase: Phase 14 — Controlled Runtime Evaluation & Benchmark Baseline (In Progress)
 ```
 
 ---
@@ -668,7 +668,7 @@ Phase 14 may move toward freeze only when:
 
 ### Status
 
-`Planned — 0/6 Phase 14 stages`
+`In Progress — 1/6 Phase 14 stages`
 
 ---
 
@@ -718,42 +718,66 @@ Phase 14 specifically consumes the frozen Phase 8 evaluation definitions, Phase 
 
 Progress is measured at roadmap deliverable/component level, not arbitrary file count.
 
-For Phase 14, the tracking unit is `evaluation_run_set`, while the phase progress summary tracks completion of the six approved Phase 14 stages.
+### 20.3 Update Rule
 
-### 20.3 Synchronization Trigger
+When roadmap status changes:
 
-When a tracked component passes or loses its quality gate, both registry and roadmap must be recalculated/synchronized.
+1. update `roadmap-status.json`;
+2. validate it;
+3. regenerate/synchronize the roadmap status block;
+4. review the resulting diff;
+5. commit the status update.
 
-### 20.4 Freeze Rule
+### 20.4 Validation Commands
 
-A phase cannot be marked `Frozen` merely because all physical files exist. Its phase-level cross-component review must pass.
-
-For Phase 14, generated files alone do not establish completion; benchmark evidence must come from controlled runtime execution and reviewed evaluation results.
-
-### 20.5 Deterministic Automation
-
-Phase 12 provides deterministic status collection, validation, and roadmap synchronization under `scripts/roadmap/`. Registry state remains authoritative; generated roadmap status must remain synchronized with it.
+```bash
+python scripts/roadmap/validate_progress.py
+python scripts/roadmap/update_roadmap.py --check
+```
 
 ---
 
-## 21. Current Implementation Focus
+## 21. Roadmap Quality Gate
+
+Before a phase is frozen, verify:
+
+- scope is complete;
+- deliverables exist and are internally consistent;
+- cross-component dependencies are valid;
+- validation scripts pass;
+- examples/runtime evidence are sufficient where applicable;
+- unresolved issues are non-blocking or explicitly deferred;
+- roadmap status matches verified repository state.
+
+---
+
+## 22. Current Framework Baseline
 
 ```text
 Latest Frozen Phase: Phase 13 — Platform Integration
-Canonical Skill Library: 11/11
-Knowledge Baseline: 181/181
-Canonical Scripts: 25 / 8 groups
-Platform Adapters: 3/3 Frozen
-Current Defined Phase: Phase 14 — Controlled Runtime Evaluation & Benchmark Baseline
-Phase 14 Status: Planned — 0/6 stages
-```
 
-Phase 14 implementation must begin with the controlled evaluation execution definition. Runtime benchmark evidence must not be generated or accepted before that execution contract is reviewed.
+Canonical Skills:      11
+Canonical Workflows:   3
+Knowledge Articles:    181
+Canonical Scripts:     25
+Platform Adapters:     3
+
+Active Phase:
+Phase 14 — Controlled Runtime Evaluation & Benchmark Baseline
+```
 
 ---
 
-## 22. Change Governance
+## 23. Next Implementation Order
 
-Roadmap changes must preserve phase boundaries, component ownership, lifecycle semantics, registry synchronization, and traceability between implemented artifacts and reported progress. Changes to canonical phase scope or tracked inventory require explicit review before registry updates.
+```text
+Phase 14
+  1. Evaluation Execution Definition
+  2. Controlled Runtime Execution
+  3. Evaluation Results
+  4. Benchmark Records
+  5. Reproducibility & Traceability
+  6. Final Quality Gate
+```
 
-For Phase 14, changes to controlled dataset selection, evaluation semantics, supported runtime baseline, benchmark evidence requirements, or exit criteria must be reviewed before they are treated as part of the approved evaluation baseline.
+Phase 14 should not be frozen until measured runtime evidence, benchmark records, reproducibility metadata, and cross-platform review all pass the defined quality gate.
