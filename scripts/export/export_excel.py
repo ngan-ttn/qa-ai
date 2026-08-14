@@ -2,6 +2,8 @@
 from __future__ import annotations
 
 import argparse
+import json
+import re
 import sys
 from pathlib import Path
 from typing import Any
@@ -11,6 +13,8 @@ if str(ROOT) not in sys.path:
     sys.path.insert(0, str(ROOT))
 
 from scripts.utils.file_utils import read_json, resolve_repo_path
+
+INVALID_SHEET_CHARS = re.compile(r"[\\/*?:\[\]]")
 
 
 def normalize_rows(data: Any) -> tuple[list[str], list[list[Any]]]:
@@ -24,6 +28,17 @@ def normalize_rows(data: Any) -> tuple[list[str], list[list[Any]]]:
     return ["Value"], [[data]]
 
 
+def _cell_value(value: Any) -> Any:
+    if isinstance(value, (dict, list)):
+        return json.dumps(value, ensure_ascii=False, sort_keys=True)
+    return value
+
+
+def _sheet_name(value: str) -> str:
+    cleaned = INVALID_SHEET_CHARS.sub("_", value).strip().strip("'")
+    return (cleaned or "Output")[:31]
+
+
 def export_xlsx(data: Any, output: str | Path, *, sheet_name: str = "Output") -> Path:
     try:
         from openpyxl import Workbook
@@ -33,10 +48,10 @@ def export_xlsx(data: Any, output: str | Path, *, sheet_name: str = "Output") ->
     headers, rows = normalize_rows(data)
     wb = Workbook()
     ws = wb.active
-    ws.title = sheet_name[:31] or "Output"
+    ws.title = _sheet_name(sheet_name)
     ws.append(headers)
     for row in rows:
-        ws.append([str(value) if isinstance(value, (dict, list)) else value for value in row])
+        ws.append([_cell_value(value) for value in row])
     for column in ws.columns:
         max_len = max((len(str(cell.value)) if cell.value is not None else 0 for cell in column), default=0)
         ws.column_dimensions[column[0].column_letter].width = min(max(max_len + 2, 10), 60)
