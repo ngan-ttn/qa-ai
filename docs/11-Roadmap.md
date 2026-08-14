@@ -77,22 +77,25 @@ Planned → In Progress → Review → Completed → Frozen
 
 ## 4. Implementation Overview
 
-| Phase | Name | Status |
-|---|---|---|
-| Phase 1 | Framework Foundation | Completed |
-| Phase 2 | Shared Standards and Foundations | Completed |
-| Phase 3 | Workflow Library | Completed |
-| Phase 4 | Skill Library Foundation | Completed |
-| Phase 5 | Knowledge Foundation | Completed |
-| Phase 6 | Examples and End-to-End Validation | Completed |
-| Phase 7 | Framework Integration and Validation | Completed |
-| Phase 8 | Datasets and Evaluation | Frozen |
-| Phase 9 | Repository Completion and Alignment | Completed |
-| Phase 10 | Knowledge Library Completion | Frozen |
-| Phase 11 | Skill Library Expansion | **Frozen** |
-| Phase 12 | Scripts Implementation | Planned |
-| Phase 13 | Platform Integration | Planned |
+<!-- ROADMAP_STATUS:START -->
 
+| Phase | Name | Status | Progress |
+|---|---|---|---|
+| Phase 1 | Framework Foundation | Completed | — |
+| Phase 2 | Shared Standards and Foundations | Completed | — |
+| Phase 3 | Workflow Library | Completed | — |
+| Phase 4 | Skill Library Foundation | Completed | 6/6 foundation_skills |
+| Phase 5 | Knowledge Foundation | Completed | — |
+| Phase 6 | Examples and End-to-End Validation | Completed | — |
+| Phase 7 | Framework Integration and Validation | Completed | — |
+| Phase 8 | Datasets and Evaluation | Frozen | — |
+| Phase 9 | Repository Completion and Alignment | Completed | — |
+| Phase 10 | Knowledge Library Completion | Frozen | 181/181 knowledge_articles |
+| Phase 11 | Skill Library Expansion | Frozen | 5/5 expansion_skills |
+| Phase 12 | Scripts Implementation | Frozen | 8/8 script_groups |
+| Phase 13 | Platform Integration | Planned | — |
+
+<!-- ROADMAP_STATUS:END -->
 Current focus after Phase 11 freeze:
 
 ```text
