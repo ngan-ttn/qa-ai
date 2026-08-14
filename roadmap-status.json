@@ -76,6 +76,16 @@
       },
       "freeze_gate": "Passed full implementation, cross-script review, post-fix local compile/smoke validation, metadata/output validator alignment, workflow contract alignment, deterministic behavior checks, evaluation semantics review, export/prompt safety review, and roadmap automation validation. No blocking Phase 12 issue remains."
     },
-    "13": {"name": "Platform Integration", "status": "Planned"}
+    "13": {
+      "name": "Platform Integration",
+      "status": "In Progress",
+      "tracking_unit": "platform_adapter",
+      "progress": {"completed": 0, "total": 3, "unit": "platform_adapters"},
+      "components": {
+        "chatgpt": {"status": "In Progress"},
+        "claude": {"status": "In Progress"},
+        "cursor": {"status": "In Progress"}
+      }
+    }
   }
 }
