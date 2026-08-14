@@ -18,10 +18,11 @@
   "rubric": "EVAL-RUBRIC-001",
   "scoring": "EVAL-SCORING-001",
   "evaluation_profile": "canonical-default",
-  "raw_output_reference": "conversation evidence captured unchanged from CHATGPT P14 RERUN; repository raw-output copy pending normalization",
+  "raw_output_reference": "datasets/benchmark/runs/phase14/records/chatgpt/run-003/Raw-Output.md",
   "notes": [
     "Post-fix rerun after adding 14-phase14-pilot-requirement.md to the ChatGPT Knowledge package.",
     "Fresh-chat retrieval succeeded for REQ-AUTH-001 before this controlled rerun.",
-    "Exact ChatGPT model identifier was not visible/captured during execution."
+    "Exact ChatGPT model identifier was not visible/captured during execution.",
+    "Raw runtime response is preserved in-repository without evaluator annotations."
   ]
 }
