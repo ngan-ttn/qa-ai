@@ -10,8 +10,6 @@
     "shared": "shared/",
     "skills": "skills/",
     "workflows": "workflows/",
-    "scripts": "scripts/",
-    "datasets": "datasets/",
     "adapters": "adapters/"
   }
 }
