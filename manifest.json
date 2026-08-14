@@ -9,6 +9,9 @@
   "components": {
     "shared": "shared/",
     "skills": "skills/",
-    "workflows": "workflows/"
+    "workflows": "workflows/",
+    "scripts": "scripts/",
+    "datasets": "datasets/",
+    "adapters": "adapters/"
   }
 }
