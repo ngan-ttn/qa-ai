@@ -37,7 +37,7 @@ Regression-Analysis.md
 Test-Data.md
 ```
 
-Each artifact has a specific responsibility and must remain within the boundary of the capability or supporting analysis activity that produces it.
+Each artifact has a specific responsibility and must remain within the boundary of the capability that produces it.
 
 The example does not demonstrate bug-report review because that activity requires an existing bug report as its primary input rather than being naturally generated from a requirement.
 
@@ -145,6 +145,8 @@ It may identify:
 
 It must not generate detailed test cases.
 
+Within the core skill pipeline, this artifact corresponds to `skills/requirement-analyzer`.
+
 ---
 
 ### Business Rules
@@ -161,11 +163,13 @@ Undefined Behavior
 
 Undefined behavior must not be converted into an assumed business rule.
 
+Within the core skill pipeline, this artifact corresponds to `skills/business-rule-extractor`.
+
 ---
 
 ### Risk Analysis
 
-`Risk-Analysis.md` identifies and prioritizes risks associated with the requirement.
+`Risk-Analysis.md` identifies and prioritizes QA-relevant risks associated with the requirement and available business context.
 
 It may analyze areas such as:
 
@@ -177,7 +181,7 @@ It may analyze areas such as:
 
 Risk analysis identifies testing focus but does not replace test scenarios.
 
-`Risk-Analysis.md` is part of this end-to-end reference artifact set, but the current core `skills/` module does not define a dedicated risk-analysis skill contract. The example must therefore not claim a non-existent skill mapping.
+Within the core skill pipeline, this artifact corresponds to `skills/risk-analyzer`.
 
 ---
 
@@ -237,7 +241,7 @@ The review should assess:
 - Duplicate or conflicting test cases
 - Open questions or review limitations
 
-Where upstream artifacts are available, coverage review should trace test cases back to test scenarios, business rules, and requirement analysis.
+Where upstream artifacts are available, coverage review should trace test cases back to test scenarios, business rules, risks, and requirement analysis.
 
 Clarification-dependent behavior must remain separate from confirmed coverage gaps.
 
@@ -284,26 +288,26 @@ Test data may include:
 
 The artifact should describe required logical states without inventing implementation-specific setup mechanisms.
 
-`Test-Data.md` is part of this end-to-end reference artifact set, but the current core `skills/` module does not define a dedicated test-data-generation skill contract. The example must therefore not claim a non-existent skill mapping.
+Within the core skill pipeline, this artifact corresponds to `skills/test-data-generator`.
 
 ---
 
 ## Core Skill Mapping
 
-The artifacts that map directly to the current core capability pipeline are:
+The end-to-end artifacts map to the current core capability inventory as follows:
 
 | Artifact | Core Skill |
 |---|---|
 | Requirement-Analysis.md | `skills/requirement-analyzer` |
 | Business-Rules.md | `skills/business-rule-extractor` |
+| Risk-Analysis.md | `skills/risk-analyzer` |
 | Test-Scenarios.md | `skills/scenario-generator` |
 | Test-Cases.md | `skills/testcase-generator` |
 | Coverage-Review.md | `skills/coverage-reviewer` |
 | Regression-Analysis.md | `skills/regression-impact` |
+| Test-Data.md | `skills/test-data-generator` |
 
-The current core `skills/` module does not define dedicated skill contracts for `Risk-Analysis.md` or `Test-Data.md`.
-
-Those artifacts remain part of this reference example because they are included in the repository's broader QA artifact model. Their presence must not be interpreted as evidence that a corresponding core skill currently exists.
+The example must preserve each skill's current input/output contract and must not redefine capability ownership merely to make the artifact chain appear complete.
 
 ---
 
@@ -316,7 +320,7 @@ The principal traceability chain is:
 ```text
 Requirement
     ↓
-Business Rule
+Business Rule / Risk
     ↓
 Scenario
     ↓
@@ -325,7 +329,7 @@ Test Case
 Coverage Assessment
 ```
 
-Risk analysis may influence testing focus, while regression analysis consumes validated coverage information for impact assessment.
+Risk analysis may influence testing focus, while regression analysis consumes validated coverage information for impact assessment. Test data supports the testing objectives and executable cases without redefining their behavior.
 
 A downstream artifact must not silently introduce behavior that contradicts or exceeds supported upstream information.
 
@@ -356,7 +360,7 @@ Requirement
     ↓
 Business Rule
 
-Requirement
+Requirement / Business Context
     ↓
 Risk
 
@@ -430,7 +434,8 @@ A compatible execution should conceptually:
 5. Generate and reuse valid upstream artifacts according to capability contracts.
 6. Generate test cases before executing coverage review.
 7. Use the structured coverage assessment as the required upstream artifact for regression impact analysis.
-8. Review the complete artifact set for cross-artifact consistency.
+8. Generate test data from supported testing objectives and constraints without inventing project-specific values or setup mechanisms.
+9. Review the complete artifact set for cross-artifact consistency.
 
 Conceptually:
 
@@ -572,7 +577,7 @@ The end-to-end example is complete when:
 - Coverage review evaluates the generated testcase model
 - Coverage findings are traceable and evidence-based
 - Regression analysis uses the structured coverage assessment and does not invent system dependencies
-- Test data supports the generated testing objectives
+- Test data supports the generated testing objectives without inventing unsupported constraints or setup behavior
 - Cross-artifact review passes
 
 Only after these conditions are satisfied should the end-to-end example be considered frozen.
