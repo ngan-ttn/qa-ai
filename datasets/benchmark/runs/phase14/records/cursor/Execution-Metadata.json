@@ -1,0 +1,27 @@
+{
+  "run_id": "P14-RUN-CURSOR-001",
+  "run_set_id": "P14-RUNSET-001",
+  "dataset_id": "REQ-AUTH-001",
+  "dataset_reference": "datasets/requirements/simple/REQ-AUTH-001.md",
+  "artifact_type": "Structured Test Case Model",
+  "workflow": "workflows/testcase-generation",
+  "framework_version": "1.0.0",
+  "repository_branch": "phase14-runtime-evaluation",
+  "repository_commit": "not-captured-at-execution",
+  "platform": "Cursor",
+  "runtime_or_model": "Cursor Agent/Chat; model identifier not captured",
+  "adapter_reference": "adapters/cursor/ and repository-root .cursor rules at phase14-runtime-evaluation",
+  "execution_timestamp": "not-captured",
+  "operator": "ngan-ttn",
+  "prompt_reference": "datasets/benchmark/runs/phase14/Runtime-Execution-Prompt.md",
+  "criteria": "EVAL-CRITERIA-001",
+  "rubric": "EVAL-RUBRIC-001",
+  "scoring": "EVAL-SCORING-001",
+  "evaluation_profile": "canonical-default",
+  "raw_output_reference": "conversation evidence captured unchanged from CURSOR P14; repository raw-output copy pending normalization",
+  "notes": [
+    "Cursor executed the controlled prompt in the QA-AI repository workspace.",
+    "Repository working tree was reported clean after execution; Cursor did not create or modify repository files during the run.",
+    "Exact runtime model, execution timestamp, and execution commit were not captured and are therefore not reconstructed."
+  ]
+}
