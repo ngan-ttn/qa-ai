@@ -13,17 +13,26 @@ from scripts.utils.file_utils import read_json, read_text, write_text
 
 
 def build_prompt(instruction: str, context: dict[str, object]) -> str:
-    sections = ["# Task", instruction.strip(), "# Source Context"]
+    task = instruction.strip()
+    if not task:
+        raise ValueError("instruction cannot be empty")
+    if not isinstance(context, dict):
+        raise ValueError("context must be an object")
     sources = context.get("sources", [])
-    if not isinstance(sources, list):
-        raise ValueError("context.sources must be a list")
+    if not isinstance(sources, list) or not sources:
+        raise ValueError("context.sources must be a non-empty list")
+
+    sections = ["# Task", task, "# Source Context"]
     for item in sources:
         if not isinstance(item, dict) or "path" not in item or "content" not in item:
             raise ValueError("each context source requires path and content")
-        sections.extend([
-            f"## Source: {item['path']}",
-            str(item["content"]).strip(),
-        ])
+        path = str(item["path"]).strip()
+        content = str(item["content"]).strip()
+        if not path:
+            raise ValueError("context source path cannot be empty")
+        if not content:
+            raise ValueError(f"context source is empty: {path}")
+        sections.extend([f"## Source: {path}", content])
     sections.extend([
         "# Grounding Rules",
         "- Use authoritative project sources before generic framework knowledge.",
