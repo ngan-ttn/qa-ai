@@ -11,6 +11,17 @@ if str(ROOT) not in sys.path:
 
 from scripts.utils.file_utils import read_json, write_json
 
+IGNORED_PARTS = {".git", ".venv", "venv", "__pycache__", ".pytest_cache", "node_modules"}
+
+
+def _evidence_files(path: Path) -> list[Path]:
+    return sorted(
+        p for p in path.rglob("*")
+        if p.is_file()
+        and not any(part in IGNORED_PARTS or part.startswith(".") for part in p.relative_to(path).parts)
+        and p.suffix.lower() != ".pyc"
+    )
+
 
 def evidence_for_component(name: str) -> dict[str, object]:
     candidates = [
@@ -22,7 +33,7 @@ def evidence_for_component(name: str) -> dict[str, object]:
     for path in candidates:
         if path.exists():
             if path.is_dir():
-                files = [p for p in path.rglob("*") if p.is_file()]
+                files = _evidence_files(path)
                 return {
                     "path": path.relative_to(ROOT).as_posix(),
                     "exists": True,
@@ -39,9 +50,14 @@ def evidence_for_component(name: str) -> dict[str, object]:
 
 def collect(registry_path: str = "roadmap-status.json") -> dict[str, object]:
     registry = read_json(registry_path)
+    phases = registry.get("phases", {})
+    if not isinstance(phases, dict):
+        raise ValueError("registry.phases must be an object")
     phases_out: dict[str, object] = {}
-    for phase_id, phase in registry.get("phases", {}).items():
+    for phase_id, phase in phases.items():
         components = phase.get("components", {}) if isinstance(phase, dict) else {}
+        if not isinstance(components, dict):
+            components = {}
         phases_out[str(phase_id)] = {
             "declared_status": phase.get("status") if isinstance(phase, dict) else None,
             "components": {
