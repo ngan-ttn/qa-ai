@@ -1,8 +1,8 @@
 # QA-AI Implementation Roadmap
 
-> Version: 1.2.0  
+> Version: 1.3.0  
 > Status: Approved  
-> Last Updated: 2026-08-13
+> Last Updated: 2026-08-14
 
 ---
 
@@ -93,13 +93,18 @@ Planned → In Progress → Review → Completed → Frozen
 | Phase 10 | Knowledge Library Completion | Frozen | 181/181 knowledge_articles |
 | Phase 11 | Skill Library Expansion | Frozen | 5/5 expansion_skills |
 | Phase 12 | Scripts Implementation | Frozen | 8/8 script_groups |
-| Phase 13 | Platform Integration | Planned | — |
+| Phase 13 | Platform Integration | Frozen | 3/3 platform_adapters |
 
 <!-- ROADMAP_STATUS:END -->
-Current focus after Phase 11 freeze:
+
+Current baseline after Phase 13 freeze:
 
 ```text
-Next Phase: Phase 12 — Scripts Implementation
+Latest Frozen Phase: Phase 13 — Platform Integration
+Canonical Skill Library: 11/11
+Knowledge Baseline: 181/181
+Canonical Scripts: 25 / 8 groups
+Platform Adapters: ChatGPT + Claude + Cursor (3/3 Frozen)
 ```
 
 ---
@@ -347,13 +352,13 @@ Total canonical skill library: 11 skills
 
 Final review covered all 11 skills and found/fixed the following architectural issues:
 
-1. **Regression input contract** — `regression-impact` previously treated coverage assessment as the required input while change information was optional. The contract now requires an authoritative change delta plus sufficient baseline context; coverage is supporting evidence.
-2. **Risk integration** — scenario, testcase, coverage, and regression contracts now explicitly consume Structured Risk Analysis where relevant without redefining risk ownership.
-3. **Coverage baseline** — `coverage-reviewer` now requires both test artifacts and sufficient authoritative source material; it no longer implies that completeness can be judged from testcases alone.
-4. **Generic vs technical design** — `testcase-generator` remains technology-neutral; API-specific and SQL-specific details are owned by their specialized skills.
-5. **Business-rule authority** — rule extraction may normalize explicit/supported implications but cannot invent project policy, thresholds, defaults, or precedence from generic knowledge.
-6. **Dependency-cycle safety** — test-data/testcase and API/SQL enrichment relationships are explicitly optional. No skill has a mandatory dependency on another skill that simultaneously requires its output.
-7. **Feedback paths** — coverage/regression remediation may re-invoke generators, but feedback is workflow orchestration rather than a hard circular skill dependency.
+1. **Regression input contract** — `regression-impact` requires an authoritative change delta plus sufficient baseline context; coverage is supporting evidence.
+2. **Risk integration** — scenario, testcase, coverage, and regression contracts consume Structured Risk Analysis where relevant without redefining risk ownership.
+3. **Coverage baseline** — `coverage-reviewer` requires both test artifacts and sufficient authoritative source material.
+4. **Generic vs technical design** — `testcase-generator` remains technology-neutral; API-specific and SQL-specific details are owned by specialized skills.
+5. **Business-rule authority** — rule extraction cannot invent project policy, thresholds, defaults, or precedence from generic knowledge.
+6. **Dependency-cycle safety** — test-data/testcase and API/SQL enrichment relationships remain optional rather than circular hard dependencies.
+7. **Feedback paths** — coverage/regression remediation may re-invoke generators through workflow orchestration, not hard skill dependencies.
 8. **Shared knowledge usage** — authoritative project inputs override generic knowledge across the library.
 
 ### Frozen Capability Groups
@@ -379,32 +384,9 @@ Technical Validation
 └── sql-validation
 ```
 
-### Skill Completion Gate
-
-Each expansion skill passed:
-
-- capability/scope definition;
-- input/output contract review;
-- processing definition;
-- dependency/consumer review;
-- overlap/exclusion review;
-- authoritative-input and assumption-safety review;
-- validation criteria review;
-- individual self-review and fix.
-
 ### Phase Freeze Gate
 
-The full 11-skill library passed:
-
-- ownership review;
-- cross-skill input/output compatibility review;
-- hard dependency-cycle review;
-- workflow-remediation boundary review;
-- shared-knowledge dependency review;
-- generic-vs-specialized capability review;
-- `skills/README.md` / physical inventory / registry consistency review.
-
-No blocking cross-skill issue remains.
+The full 11-skill library passed ownership, input/output compatibility, hard dependency-cycle, workflow-remediation boundary, shared-knowledge dependency, and generic-vs-specialized capability review. No blocking cross-skill issue remains.
 
 ### Status
 
@@ -416,34 +398,43 @@ No blocking cross-skill issue remains.
 
 ### Objective
 
-Introduce deterministic tooling that validates, manages, evaluates, and exports QA-AI framework artifacts.
+Introduce deterministic tooling that validates, manages, evaluates, exports, and synchronizes QA-AI framework artifacts.
 
-### Planned Scope
+### Frozen Scope
 
 ```text
 scripts/
-├── validation/
-├── knowledge/
-├── prompts/
-├── workflows/
-├── evaluation/
-├── export/
-└── utils/
+├── validation/   4
+├── knowledge/    3
+├── prompts/      2
+├── workflows/    3
+├── evaluation/   4
+├── export/       3
+├── utils/        3
+└── roadmap/      3
+                  ──
+                  25 scripts / 8 groups
 ```
 
-Roadmap automation implementation belongs here. Until implemented, `roadmap-status.json` remains the machine-readable registry and roadmap synchronization is performed as part of component completion.
+### Freeze Gate Result
 
-### Exit Criteria
+Phase 12 passed:
 
-- planned scripts have purposeful implementations;
-- validation scripts detect intended structural/contract issues;
-- evaluation tooling consumes Phase 8 definitions correctly;
-- scripts expose explicit failure behavior;
-- automation does not redefine canonical framework semantics.
+- full 25-script implementation across 8 canonical groups;
+- cross-script ownership/contract/dependency review;
+- deterministic compile and smoke validation;
+- validation, metadata, links, output, catalog, workflow, and roadmap checks;
+- evaluation semantics review against Phase 8 definitions;
+- export/prompt safety review;
+- metadata/output false-positive fixes and legacy metadata migration;
+- workflow contract alignment for coverage and regression analysis;
+- deterministic roadmap status collection, validation, and synchronization.
+
+No blocking Phase 12 issue remains.
 
 ### Status
 
-`Planned`
+`Frozen — 8/8 script groups; 25 canonical scripts`
 
 ---
 
@@ -451,24 +442,77 @@ Roadmap automation implementation belongs here. Until implemented, `roadmap-stat
 
 ### Objective
 
-Make the platform-independent framework consumable by supported AI platforms.
+Make the platform-independent QA-AI framework consumable through supported AI runtimes without duplicating or redefining canonical QA semantics.
 
-### Initial Targets
+### Frozen Platform Baseline
 
 ```text
 ChatGPT
 Claude
+Cursor
 ```
+
+| Platform | Native Integration Mechanism | Final Status |
+|---|---|---|
+| ChatGPT | Custom GPT Instructions + bounded generated Knowledge bundles | Frozen |
+| Claude | Claude Code repository-root `CLAUDE.md` + canonical repository references | Frozen |
+| Cursor | Repository-root `.cursor/rules/*.mdc` + `.cursor/commands/*.md` | Frozen |
 
 ### Adapter Principle
 
 ```text
-QA-AI Core → Platform Adapter → Platform Runtime
+Authoritative Project Input
+        ↓
+QA-AI Core
+        ↓
+Platform Adapter
+        ↓
+Platform Runtime
 ```
+
+Adapters own platform-native loading, packaging, routing, and installation mechanics. Canonical skill behavior, workflow orchestration, shared standards, knowledge, and evaluation semantics remain owned by the platform-independent core.
+
+### Frozen Integration Contract
+
+All three adapters preserve:
+
+1. authoritative project input as highest-priority source;
+2. canonical workflow ownership for coordinated multi-artifact work;
+3. canonical skill ownership for individual QA capabilities;
+4. shared standards/templates/checklists/knowledge as supporting references;
+5. explicit separation of confirmed, derived, assumed, potential, and unknown information;
+6. no invention of project-specific behavior, API contracts, schemas, dependencies, roles, status values, or expected results;
+7. clarification-dependent treatment when required behavior is unresolved;
+8. specialized routing for API and SQL/database design;
+9. canonical `regression-impact` ownership without a duplicate `regression-analyzer` capability.
+
+### Runtime Validation
+
+**ChatGPT** passed Custom GPT Preview smoke tests for requirement routing, testcase-generation workflow orchestration, API missing-contract handling, and canonical knowledge retrieval.
+
+**Claude** passed repository instruction loading, requirement source-grounding, testcase-generation workflow orchestration, assumption-propagation enforcement, API missing-contract blocking, and regression ownership retrieval. Runtime findings discovered during review were fixed in `adapters/claude/CLAUDE.md` and successfully rerun.
+
+**Cursor** passed workspace Project Rule loading, requirement source-grounding, testcase-generation workflow orchestration, clarification-dependent coverage behavior, API missing-contract blocking, and canonical regression ownership retrieval.
+
+### Phase Freeze Gate
+
+Final cross-platform review covered:
+
+- source-priority consistency;
+- capability routing and ownership;
+- workflow orchestration;
+- assumption propagation and executable expected-result safety;
+- specialized API behavior;
+- regression capability ownership;
+- installation/runtime topology;
+- platform-specific smoke evidence;
+- adapter/core boundary consistency.
+
+All 3 adapters passed. No blocking Phase 13 issue remains.
 
 ### Status
 
-`Planned`
+`Frozen — 3/3 platform adapters (ChatGPT + Claude + Cursor)`
 
 ---
 
@@ -522,20 +566,24 @@ When a tracked component passes or loses its quality gate, both registry and roa
 
 A phase cannot be marked `Frozen` merely because all physical files exist. Its phase-level cross-component review must pass.
 
-### 19.5 Future Automation
+### 19.5 Deterministic Automation
 
-Phase 12 should implement deterministic status collection, validation, and roadmap synchronization using the existing tracking contract rather than creating a new status model.
+Phase 12 provides deterministic status collection, validation, and roadmap synchronization under `scripts/roadmap/`. Registry state remains authoritative; generated roadmap status must remain synchronized with it.
 
 ---
 
 ## 20. Current Implementation Focus
 
 ```text
-Latest Frozen Phase: Phase 11 — Skill Library Expansion
+Latest Frozen Phase: Phase 13 — Platform Integration
 Canonical Skill Library: 11/11
 Knowledge Baseline: 181/181
-Next Planned Phase: Phase 12 — Scripts Implementation
+Canonical Scripts: 25 / 8 groups
+Platform Adapters: 3/3 Frozen
+Current State: Phase 1–13 baseline implemented and quality-gated
 ```
+
+Any subsequent roadmap expansion must be explicitly defined and reviewed before a new phase is added.
 
 ---
 
