@@ -2,38 +2,58 @@
 
 ## Purpose
 
-Define which QA-AI repository material should be exposed to a Custom GPT as Knowledge.
+Define the reproducible QA-AI Knowledge package uploaded to a Custom GPT.
 
 ## Packaging Principle
 
 Custom GPT Knowledge is reference context, not behavioral instruction. Behavioral rules remain in `Instructions.md`.
 
-Because the Custom GPT Knowledge file count is limited, the repository must not be uploaded one article per file. Prefer text-forward bundled files generated from canonical sources.
+A Custom GPT currently accepts up to 20 Knowledge files. QA-AI therefore bundles canonical text sources into a smaller deterministic package instead of uploading one article per file.
 
-## Recommended Bundles
+## Generated Upload Package
 
-| Bundle | Canonical Sources | Purpose |
+`build_knowledge_bundles.py` generates 12 Markdown files:
+
+| Upload File | Canonical Sources | Purpose |
 |---|---|---|
-| Framework | `README.md`, `FRAMEWORK.md`, `docs/` | Architecture, concepts, conventions, usage |
-| Standards | `shared/standards/`, `shared/templates/`, `shared/checklists/` | Output and review contracts |
-| Prompt Patterns | `shared/prompt-patterns/` | Reusable reasoning patterns |
-| Skills | `skills/` | Canonical capability contracts |
-| Workflows | `workflows/` | Multi-skill orchestration contracts |
-| QA Knowledge | `shared/knowledge/qa/` | Generic QA knowledge |
-| Testing Techniques | `shared/knowledge/testing-techniques/` | Test-design techniques |
-| API Knowledge | `shared/knowledge/api/` | API-specific knowledge |
-| Database Knowledge | `shared/knowledge/database/` | Database-specific knowledge |
-| Domain Knowledge | `shared/knowledge/domain/` | Reusable domain concepts |
-| Glossary | `shared/glossary/` | Canonical terminology |
-| Evaluation | `datasets/evaluation/`, `datasets/benchmark/` | Quality evaluation semantics |
+| `01-framework.md` | `README.md`, `FRAMEWORK.md`, `docs/` | Architecture, concepts, conventions, usage |
+| `02-standards.md` | `shared/standards/`, `shared/templates/`, `shared/checklists/` | Output and review contracts |
+| `03-prompt-patterns.md` | `shared/prompt-patterns/` | Reusable reasoning patterns |
+| `04-skills.md` | `skills/` | Canonical capability contracts |
+| `05-workflows.md` | `workflows/` | Multi-skill orchestration contracts |
+| `06-qa-knowledge.md` | `shared/knowledge/qa/` | Generic QA knowledge |
+| `07-testing-techniques.md` | `shared/knowledge/testing-techniques/` | Test-design techniques |
+| `08-api-knowledge.md` | `shared/knowledge/api/` | API-specific knowledge |
+| `09-database-knowledge.md` | `shared/knowledge/database/` | Database-specific knowledge |
+| `10-domain-knowledge.md` | `shared/knowledge/domain/` | Reusable domain concepts |
+| `11-glossary.md` | `shared/glossary/` | Canonical terminology |
+| `12-evaluation.md` | `datasets/evaluation/`, `datasets/benchmark/` | Quality evaluation semantics |
+
+The builder also writes `bundle-manifest.json` containing source groups, bundle hashes, and byte sizes. The JSON manifest is for local verification and is not part of the 12-file Knowledge upload set.
+
+## Build
+
+From repository root:
+
+```text
+python adapters/chatgpt/build_knowledge_bundles.py
+python adapters/chatgpt/build_knowledge_bundles.py --check
+```
+
+The default output directory is:
+
+```text
+output/chatgpt-knowledge/
+```
 
 ## Selection Rules
 
 - Prefer canonical approved/frozen material.
-- Preserve source-path headings inside a bundle so retrieved content remains traceable.
+- Preserve source-path headings inside each bundle so retrieved content remains traceable.
 - Do not merge project-specific user data into reusable QA-AI bundles.
 - Do not duplicate behavioral instructions from `Instructions.md` into Knowledge solely for enforcement.
-- Rebuild bundles after a canonical source changes.
+- Rebuild bundles after canonical source changes.
+- Keep the upload package within the platform Knowledge-file limit.
 
 ## Installation Check
 
