@@ -43,16 +43,16 @@ runs/phase14/
 ├── Evaluation-Run-Set.md
 ├── Runtime-Execution-Prompt.md
 ├── Run-Capture-Checklist.md
-├── templates/
-│   ├── Execution-Metadata.json
-│   ├── Evaluation-Result.json
-│   ├── Baseline-Record.json
-│   └── Cross-Platform-Comparison.md
-└── records/
-    └── (actual reviewed records only)
+├── Execution-Guide.md
+└── templates/
+    ├── Execution-Metadata.json
+    ├── Scoring-Input.json
+    ├── Evaluation-Result.json
+    ├── Baseline-Record.json
+    └── Cross-Platform-Comparison.md
 ```
 
-`records/` should be created/populated only when actual controlled execution evidence exists.
+Actual reviewed records must be introduced only after controlled runtime execution evidence exists. The repository must not contain synthetic benchmark records merely for structural completeness.
 
 ## Canonical Sources
 
