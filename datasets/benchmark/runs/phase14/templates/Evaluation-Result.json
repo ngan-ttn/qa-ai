@@ -1,0 +1,30 @@
+{
+  "run_id": "P14-RUN-<PLATFORM>-001",
+  "criteria": "EVAL-CRITERIA-001",
+  "rubric": "EVAL-RUBRIC-001",
+  "scoring": "EVAL-SCORING-001",
+  "evaluation_profile": "canonical-default",
+  "criterion_levels": {
+    "C01": {"level": "<L4-L0|N/A>", "evidence": "<evidence>"},
+    "C02": {"level": "<L4-L0|N/A>", "evidence": "<evidence>"},
+    "C03": {"level": "<L4-L0|N/A>", "evidence": "<evidence>"},
+    "C04": {"level": "<L4-L0|N/A>", "evidence": "<evidence>"},
+    "C05": {"level": "<L4-L0|N/A>", "evidence": "<evidence>"},
+    "C06": {"level": "<L4-L0|N/A>", "evidence": "<evidence>"},
+    "C07": {"level": "<L4-L0|N/A>", "evidence": "<evidence>"},
+    "C08": {"level": "<L4-L0|N/A>", "evidence": "<evidence>"},
+    "C09": {"level": "<L4-L0|N/A>", "evidence": "<evidence>"},
+    "C10": {"level": "<L4-L0|N/A>", "evidence": "<evidence>"},
+    "C11": {"level": "<L4-L0|N/A>", "evidence": "<evidence>"},
+    "C12": {"level": "<L4-L0|N/A>", "evidence": "<evidence>"}
+  },
+  "critical_failures": [],
+  "unrounded_score": null,
+  "final_score": null,
+  "quality_band": null,
+  "result": "<PASS|FAIL>",
+  "baseline_eligible": false,
+  "reviewer": "<reviewer>",
+  "review_timestamp": "<ISO-8601>",
+  "notes": []
+}
