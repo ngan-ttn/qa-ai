@@ -9,15 +9,33 @@ ROOT = Path(__file__).resolve().parents[2]
 if str(ROOT) not in sys.path:
     sys.path.insert(0, str(ROOT))
 
-from scripts.utils.file_utils import read_text, relative_to_repo, resolve_repo_path, write_json
+from scripts.utils.file_utils import read_text, resolve_repo_path, write_json
+
+
+def _repo_source(raw: str) -> Path:
+    path = resolve_repo_path(raw).resolve()
+    try:
+        path.relative_to(ROOT.resolve())
+    except ValueError as exc:
+        raise ValueError(f"Context source must be inside the QA-AI repository: {raw}") from exc
+    if not path.is_file():
+        raise FileNotFoundError(path)
+    return path
 
 
 def assemble(paths: list[str], *, max_chars: int = 30000) -> dict[str, object]:
+    if max_chars <= 0:
+        raise ValueError("max_chars must be positive")
     sources: list[dict[str, object]] = []
     used = 0
     truncated = False
+    seen: set[str] = set()
     for raw in paths:
-        path = resolve_repo_path(raw)
+        path = _repo_source(raw)
+        rel = path.relative_to(ROOT.resolve()).as_posix()
+        if rel in seen:
+            raise ValueError(f"Duplicate context source: {rel}")
+        seen.add(rel)
         text = read_text(path).strip()
         remaining = max_chars - used
         if remaining <= 0:
@@ -26,7 +44,7 @@ def assemble(paths: list[str], *, max_chars: int = 30000) -> dict[str, object]:
         clipped = text[:remaining]
         was_truncated = len(clipped) < len(text)
         sources.append({
-            "path": relative_to_repo(path),
+            "path": rel,
             "content": clipped,
             "truncated": was_truncated,
         })
