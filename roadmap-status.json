@@ -43,6 +43,31 @@
         "A regression-ready baseline exists for future framework changes.",
         "No unresolved blocking issue remains for reproducibility, traceability, or scoring semantics."
       ]
+    },
+    "15": {
+      "name": "Operational Usage & Project Adoption",
+      "status": "In Progress",
+      "tracking_unit": "operational_adoption_stage",
+      "progress": {"completed": 4, "total": 6, "unit": "phase15_stages"},
+      "components": {
+        "operational-use-case-definition": {"status": "Completed", "evidence": "P15-PILOT-001 operational contract using the My Rewards 3.0 FRS."},
+        "real-requirement-pilot": {"status": "Completed", "evidence": "Grounded Requirement Analysis, Business Rules, Risk Analysis, Scenarios, executable Test Cases, clarification-dependent coverage, and Test Data model."},
+        "artifact-chain-validation": {"status": "Completed", "evidence": "Cross-artifact validation passed with uncertainty propagation and technical-boundary checks."},
+        "change-regression-pilot": {"status": "Completed", "evidence": "Controlled Coupon default-sort change fixture produced scoped regression impact without invented implementation coupling."},
+        "manual-qc-usability-review": {"status": "In Progress", "evidence": "Human QC review checklist prepared; human decision pending."},
+        "adoption-readiness-gate": {"status": "Planned"}
+      },
+      "scope": "Validate that the frozen QA-AI framework can support a Manual QC Engineer on a real project requirement through grounded artifact generation, cross-artifact validation, controlled change/regression analysis, human usability review, and an explicit adoption-readiness gate.",
+      "pilot": "P15-PILOT-001 — FRS - Webview - My rewards 3.0 v1.0.",
+      "out_of_scope": ["self-certifying human usability", "inventing missing project behavior", "promoting project-specific rules into shared knowledge", "silent canonical skill/workflow changes", "production execution", "invented API or database contracts"],
+      "exit_criteria": [
+        "A real project requirement is processed through the defined QA artifact chain with source grounding preserved.",
+        "Cross-artifact validation finds no unresolved blocking contradiction or fabricated project behavior.",
+        "A controlled requirement change produces a useful traceable regression-impact scope.",
+        "A Human QC reviewer completes the usability review and dispositions material findings.",
+        "The adoption-readiness gate is reviewed and approved with no unresolved blocking usability issue.",
+        "Pilot findings remain distinguishable from canonical framework semantics and shared knowledge."
+      ]
     }
   }
 }
