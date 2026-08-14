@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "last_updated": "2026-08-13",
+  "last_updated": "2026-08-14",
   "roadmap": "docs/11-Roadmap.md",
   "tracking_standard": "shared/standards/Roadmap-Progress.md",
   "status_lifecycle": ["Planned", "In Progress", "Review", "Completed", "Frozen"],
@@ -58,7 +58,24 @@
       },
       "freeze_gate": "Passed final 11-skill cross-review covering ownership, input/output contracts, dependency direction, feedback-cycle safety, knowledge dependencies, and downstream usability. Blocking issues were fixed before freeze."
     },
-    "12": {"name": "Scripts Implementation", "status": "Planned"},
+    "12": {
+      "name": "Scripts Implementation",
+      "status": "Frozen",
+      "tracking_unit": "script_group",
+      "progress": {"completed": 8, "total": 8, "unit": "script_groups"},
+      "script_baseline": {"groups": 8, "scripts": 25},
+      "components": {
+        "validation": {"status": "Frozen", "script_count": 4},
+        "knowledge": {"status": "Frozen", "script_count": 3},
+        "prompts": {"status": "Frozen", "script_count": 2},
+        "workflows": {"status": "Frozen", "script_count": 3},
+        "evaluation": {"status": "Frozen", "script_count": 4},
+        "export": {"status": "Frozen", "script_count": 3},
+        "utils": {"status": "Frozen", "script_count": 3},
+        "roadmap": {"status": "Frozen", "script_count": 3}
+      },
+      "freeze_gate": "Passed implementation, local smoke validation, and final cross-script review across canonical inventory, deterministic behavior, CLI failure semantics, workflow boundaries, Phase 8 evaluation semantics, export safety, prompt grounding, and roadmap automation. Review findings were fixed before freeze."
+    },
     "13": {"name": "Platform Integration", "status": "Planned"}
   }
 }
