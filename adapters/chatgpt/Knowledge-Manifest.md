@@ -12,7 +12,7 @@ A Custom GPT currently accepts up to 20 Knowledge files. QA-AI therefore bundles
 
 ## Generated Upload Package
 
-`build_knowledge_bundles.py` generates 13 Markdown files:
+`build_knowledge_bundles.py` generates 14 Markdown files:
 
 | Upload File | Canonical Sources | Purpose |
 |---|---|---|
@@ -29,8 +29,9 @@ A Custom GPT currently accepts up to 20 Knowledge files. QA-AI therefore bundles
 | `11-glossary.md` | `shared/glossary/` | Canonical terminology |
 | `12-evaluation.md` | `datasets/evaluation/`, `datasets/benchmark/` | Quality evaluation semantics |
 | `13-controlled-requirements.md` | `datasets/requirements/` | Controlled benchmark/evaluation requirement datasets referenced by repository path |
+| `14-phase14-pilot-requirement.md` | `datasets/requirements/simple/REQ-AUTH-001.md` | Dedicated retrieval target for the Phase 14 pilot requirement |
 
-The builder also writes `bundle-manifest.json` containing source groups, bundle hashes, and byte sizes. The JSON manifest is for local verification and is not part of the 13-file Knowledge upload set.
+The builder also writes `bundle-manifest.json` containing source groups, bundle hashes, and byte sizes. The JSON manifest is for local verification and is not part of the 14-file Knowledge upload set.
 
 ## Build
 
@@ -52,6 +53,7 @@ output/chatgpt-knowledge/
 - Prefer canonical approved/frozen material.
 - Preserve source-path headings inside each bundle so retrieved content remains traceable.
 - Include controlled requirement datasets used by repository benchmark/evaluation prompts so a Custom GPT can resolve those authoritative paths without guessing.
+- A controlled pilot may also have a dedicated single-source bundle when retrieval from the aggregate dataset bundle is not sufficiently stable; the dedicated bundle must duplicate the exact canonical source without editing its product behavior.
 - Do not merge external or user-project data into reusable QA-AI bundles.
 - Do not duplicate behavioral instructions from `Instructions.md` into Knowledge solely for enforcement.
 - Rebuild bundles after canonical source changes.
@@ -60,3 +62,5 @@ output/chatgpt-knowledge/
 ## Installation Check
 
 After upload, test retrieval for at least one skill, one workflow, one standard, one knowledge domain, and one controlled requirement dataset before considering the ChatGPT adapter ready for controlled runtime evaluation.
+
+For Phase 14, `REQ-AUTH-001` must be retrievable from the dedicated `14-phase14-pilot-requirement.md` bundle in a fresh Preview conversation before rerunning the controlled execution.
