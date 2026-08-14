@@ -60,21 +60,21 @@
     },
     "12": {
       "name": "Scripts Implementation",
-      "status": "Frozen",
+      "status": "Review",
       "tracking_unit": "script_group",
       "progress": {"completed": 8, "total": 8, "unit": "script_groups"},
       "script_baseline": {"groups": 8, "scripts": 25},
       "components": {
-        "validation": {"status": "Frozen", "script_count": 4},
-        "knowledge": {"status": "Frozen", "script_count": 3},
-        "prompts": {"status": "Frozen", "script_count": 2},
-        "workflows": {"status": "Frozen", "script_count": 3},
-        "evaluation": {"status": "Frozen", "script_count": 4},
-        "export": {"status": "Frozen", "script_count": 3},
-        "utils": {"status": "Frozen", "script_count": 3},
-        "roadmap": {"status": "Frozen", "script_count": 3}
+        "validation": {"status": "Completed", "script_count": 4},
+        "knowledge": {"status": "Completed", "script_count": 3},
+        "prompts": {"status": "Completed", "script_count": 2},
+        "workflows": {"status": "Completed", "script_count": 3},
+        "evaluation": {"status": "Completed", "script_count": 4},
+        "export": {"status": "Completed", "script_count": 3},
+        "utils": {"status": "Completed", "script_count": 3},
+        "roadmap": {"status": "Completed", "script_count": 3}
       },
-      "freeze_gate": "Passed implementation, local smoke validation, and final cross-script review across canonical inventory, deterministic behavior, CLI failure semantics, workflow boundaries, Phase 8 evaluation semantics, export safety, prompt grounding, and roadmap automation. Review findings were fixed before freeze."
+      "review_gate": "Cross-script review completed and blocking semantic/safety issues fixed. Post-fix local compile/smoke validation is required before phase freeze and roadmap synchronization."
     },
     "13": {"name": "Platform Integration", "status": "Planned"}
   }
