@@ -50,6 +50,20 @@ def canonical_header_for(path: Path) -> str | None:
     return None
 
 
+def should_check_authoring_markers(path: Path) -> bool:
+    """Return whether unresolved authoring markers are defects for this artifact.
+
+    Generated ChatGPT Knowledge bundles are deterministic concatenations of canonical
+    framework sources. They intentionally preserve template authoring tokens such as
+    ``YYYY-MM-DD`` and ``TBD`` when those tokens are part of the source documentation,
+    so treating them as unresolved generated-output work produces false positives.
+    Curated expected outputs, golden outputs, and other generated deliverables remain
+    subject to the unresolved-marker check.
+    """
+    rel = relative_to_repo(path)
+    return not rel.startswith("output/chatgpt-knowledge/")
+
+
 def validate_file(path: Path) -> list[str]:
     text = path.read_text(encoding="utf-8").strip()
     if not text:
@@ -58,9 +72,10 @@ def validate_file(path: Path) -> list[str]:
     if path.suffix.lower() == ".md":
         if not HEADING.search(text):
             errors.append("Markdown artifact has no heading")
-        hit = UNRESOLVED_MARKERS.search(text)
-        if hit:
-            errors.append(f"unresolved authoring marker: {hit.group(0)}")
+        if should_check_authoring_markers(path):
+            hit = UNRESOLVED_MARKERS.search(text)
+            if hit:
+                errors.append(f"unresolved authoring marker: {hit.group(0)}")
 
         required_header = canonical_header_for(path)
         if required_header and required_header not in text:
