@@ -4,13 +4,25 @@
 
 Phase 13 validates Claude Code directly against the QA-AI repository.
 
-From the QA-AI repository root, copy the adapter instruction file to the root location Claude Code loads as project memory:
+From the QA-AI repository root, install the adapter instruction file to the root location Claude Code loads as project memory:
 
 ```text
-copy adapters\claude\CLAUDE.md CLAUDE.md
+python adapters/claude/install.py
 ```
 
-Equivalent shell/file-copy commands may be used on other operating systems.
+The installer synchronizes:
+
+```text
+adapters/claude/CLAUDE.md → CLAUDE.md
+```
+
+Verify installation without modifying files:
+
+```text
+python adapters/claude/install.py --check
+```
+
+The check fails when the repo-root `CLAUDE.md` is missing or differs from the canonical adapter source. Do not maintain the two files independently; `adapters/claude/CLAUDE.md` is the adapter source and the repo-root `CLAUDE.md` is its installed Claude Code project instruction.
 
 Do not copy only this adapter into an unrelated repository unless the canonical QA-AI core paths are also exposed under a separately validated path contract.
 
@@ -25,6 +37,7 @@ Claude should read the specific owning workflow/skill contract required for the 
 Confirm that Claude Code:
 
 - loads the repository-root `CLAUDE.md` (the `/memory` view can be used to inspect loaded project memory);
+- passes `python adapters/claude/install.py --check`;
 - resolves the canonical repository references used by the instructions;
 - routes each QA objective to the correct skill;
 - follows canonical workflow order for multi-step tasks;
@@ -36,4 +49,4 @@ Recommended smoke prompts should cover requirement analysis, testcase generation
 
 ## Maintenance
 
-When a canonical skill/workflow path or contract changes, update mappings and revalidate imports/references. Keep `CLAUDE.md` concise; do not mirror the entire knowledge library into project memory instructions.
+When `adapters/claude/CLAUDE.md` changes, run `python adapters/claude/install.py` and commit the synchronized repo-root `CLAUDE.md` in the same change. When a canonical skill/workflow path or contract changes, update mappings and revalidate imports/references. Keep `CLAUDE.md` concise; do not mirror the entire knowledge library into project memory instructions.
