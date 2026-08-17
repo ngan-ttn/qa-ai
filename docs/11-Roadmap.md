@@ -102,12 +102,12 @@ Planned → In Progress → Review → Completed → Frozen
 Current baseline and active phase:
 
 ```text
-Latest Frozen Phase: Phase 13 — Platform Integration
+Latest Frozen Phase: Phase 15 — Operational Usage & Project Adoption
 Canonical Skill Library: 11/11
 Knowledge Baseline: 181/181
 Canonical Scripts: 25 / 8 groups
 Platform Adapters: ChatGPT + Claude + Cursor (3/3 Frozen)
-Active Phase: Phase 14 — Controlled Runtime Evaluation & Benchmark Baseline (In Progress)
+Active Phase: None — next phase not yet opened
 ```
 
 ---
