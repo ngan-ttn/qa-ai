@@ -45,6 +45,54 @@ Existing successful and invalid-password login behavior remains part of the base
 
 ---
 
+## Regression Scope Tiers
+
+The tiers below are semantic scopes, not fixed percentages of the available testcase inventory.
+
+### Minimum / Release-Gate Regression
+
+Purpose: the smallest defensible release-gate set that validates the highest-risk confirmed change paths and key baseline behavior required to detect a release-blocking regression.
+
+Include coverage for:
+
+- valid unlocked authentication (`RI-001`);
+- invalid-password rejection (`RI-002`);
+- below-threshold and fifth-failure lock boundary (`RI-004`, `RI-005`);
+- active-lock rejection and required feedback (`RI-007`, `RI-008`);
+- pre-expiry locked state and automatic unlock (`RI-009`, `RI-010`);
+- account isolation (`RI-012`).
+
+This tier intentionally does not claim full verification of every changed behavior.
+
+### Recommended Regression
+
+Purpose: the practical default regression set for the change. It includes the release-gate scope plus the remaining confirmed change behavior and supported adjacent dependencies where regression evidence is justified.
+
+Include the Minimum / Release-Gate Regression scope plus:
+
+- per-account failed-login tracking (`RI-003`);
+- successful-login sequence reset (`RI-006`);
+- post-unlock failed-login tracking (`RI-011`);
+- authentication lifecycle decision behavior (`RI-013`);
+- supported account-state behavior without assuming persistence implementation (`RI-014`);
+- supported session/protected-route/logout checks where the supplied baseline context justifies them (`RI-015`–`RI-017`).
+
+Potential items marked `Clarify` remain outside executable regression expectations until evidence resolves them.
+
+### Full Changed-Feature Verification
+
+Purpose: comprehensive verification of all confirmed behavior for the changed feature, beyond the normal regression recommendation.
+
+Include:
+
+- every confirmed `Include` row in `RI-001`–`RI-017`;
+- all approved focused/boundary/state/lifecycle coverage associated with those behaviors;
+- no `Clarify` item unless authoritative evidence has subsequently promoted it into confirmed scope.
+
+Full Changed-Feature Verification is not automatically the recommended regression tier and is not defined by a fixed testcase-count percentage.
+
+---
+
 ## Excluded Scope
 
 User registration has no confirmed change/dependency and is excluded from the confirmed regression scope. Password management, existing-session invalidation, administrative behavior, audit logging, concurrency, cross-device aggregation, and exact persistence/timer mechanisms remain clarification/investigation items rather than silently included impact.
@@ -61,10 +109,11 @@ User registration has no confirmed change/dependency and is excluded from the co
 
 ## Exit Criteria
 
-- High-priority confirmed regression rows have been revalidated.
-- Existing successful and invalid-password authentication remain functional.
-- New lock/reset/unlock/isolation behavior passes expected results.
-- No unresolved blocker remains in the agreed regression scope.
+- The agreed regression tier has been executed.
+- High-priority confirmed regression rows in that tier have been revalidated.
+- Existing successful and invalid-password authentication remain functional where included by the selected tier.
+- New lock/reset/unlock/isolation behavior included by the selected tier passes expected results.
+- No unresolved blocker remains in the agreed executable regression scope.
 
 ---
 
@@ -89,10 +138,10 @@ User registration has no confirmed change/dependency and is excluded from the co
 
 ## Execution Notes
 
-Smoke regression should cover valid unlocked login, invalid-password rejection, lock on fifth failure, rejection while locked, automatic unlock, and valid login after unlock. Focused regression should additionally cover below-threshold behavior, reset/new sequence, account isolation, session creation/rejection, and repeated lifecycle.
+Use the selected semantic tier rather than deriving scope from a fixed testcase percentage. If actual scenario/testcase IDs are available, map them to the included impact rows and reconcile any reported counts against the unique selected IDs before delivery.
 
 ---
 
 ## Regression Summary
 
-The confirmed regression scope is intentionally concentrated around authentication rather than the whole application. Direct impact covers login, failure tracking, lock state, timer lifecycle, reset, isolation, and session creation. Protected access/logout receive targeted related regression, while unsupported implementation dependencies remain `Clarify` rather than being promoted to confirmed scope.
+The confirmed regression scope is intentionally concentrated around authentication rather than the whole application. Minimum / Release-Gate Regression covers the smallest high-risk release decision set; Recommended Regression adds the remaining confirmed change paths and supported adjacent dependencies; Full Changed-Feature Verification covers every confirmed included behavior. Unsupported implementation dependencies remain `Clarify` rather than being promoted to executable regression scope.
