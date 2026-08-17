@@ -1,123 +1,61 @@
 # Sample Test Scenarios — Account Lock After Failed Login Attempts
 
-## 1. Scope
+## Scenario Summary
 
-The following test scenarios define the testing objectives for which test data must be prepared.
-
-The scenarios focus on authentication credentials, failed-login state, lock-threshold boundaries, counter reset, lock duration, automatic unlock, post-unlock tracking, and account isolation.
+These scenarios define the testing objectives for which reusable test data must be prepared. The set focuses on credentials, failed-login states, threshold boundaries, reset, lock duration, automatic unlock, post-unlock tracking, account isolation, and repeated lifecycle.
 
 ---
 
-## 2. Test Scenarios
+## Test Scenarios
 
-| Scenario ID | Area | Scenario | Coverage Type | Priority | Requirement Traceability |
-|---|---|---|---|---|---|
-| TS-001 | Authentication | Verify a registered user with valid credentials can log in when the account is not locked. | Positive | Medium | Requirements 1–3 |
-| TS-002 | Authentication | Verify login fails when a registered user enters an incorrect password. | Negative | High | Requirement 4 |
-| TS-003 | Failed Login Tracking | Verify the account remains unlocked after four consecutive incorrect-password attempts. | Boundary | High | Requirement 6; AC-01 |
-| TS-004 | Account Lock | Verify the account becomes temporarily locked on the fifth consecutive incorrect-password attempt. | Boundary / State Transition | High | Requirements 6, 8; AC-02 |
-| TS-005 | Counter Reset | Verify a successful login before the fifth consecutive failed attempt resets the failed-login counter. | Positive / State | High | Requirement 7; AC-05 |
-| TS-006 | Locked State | Verify a temporarily locked account cannot authenticate even when the correct password is entered. | Negative / State | High | Requirement 10; AC-03 |
-| TS-007 | Lock Duration | Verify the account remains locked before the 30-minute lock period expires. | Time Boundary | High | Requirements 9–10 |
-| TS-008 | Automatic Unlock | Verify the account is automatically unlocked after the 30-minute lock period expires. | Time Boundary / State Transition | High | Requirements 12–13; AC-04 |
-| TS-009 | Post-Unlock Tracking | Verify failed-login tracking starts again after the account has been automatically unlocked. | State | High | Requirement 14 |
-| TS-010 | Account Isolation | Verify failed login attempts for one registered account do not affect another registered account. | Isolation | High | Requirement 5; Notes |
-| TS-011 | Repeated Lifecycle | Verify an automatically unlocked account can be locked again after five new consecutive incorrect-password attempts. | State / Boundary | High | Requirements 6, 8, 12–14 |
-
----
-
-## 3. Test Data Needs
-
-The scenario set requires representative data for the following states and conditions.
-
-### Authentication Credentials
-
-- Registered account with valid credentials.
-- Correct password.
-- Incorrect password.
-
-### Failed-Login States
-
-Representative account states are required for:
-
-```text
-Failed Count = 0
-Failed Count = 1
-Failed Count = 3
-Failed Count = 4
-```
-
-These states support normal, reset, and threshold-boundary scenarios.
-
-### Account Lock States
-
-Representative accounts are required for:
-
-```text
-Unlocked
-Locked
-Automatically Unlocked
-```
-
-### Time-Based States
-
-Test data must support distinguishing:
-
-```text
-Active Lock
-→ Lock period has not expired
-
-Expired Lock
-→ 30-minute lock period has expired
-```
-
-The exact implementation used to establish these states is outside the scope of this input.
-
-### Account Isolation
-
-At least two independent registered accounts are required so that failed-login state can be manipulated for one account without affecting the other.
+| Scenario ID | Module / Feature | Scenario | Type | Preconditions / Conditions | Expected Behavior | Requirement / Rule Traceability | Risk Traceability | Priority |
+|---|---|---|---|---|---|---|---|---|
+| TS-001 | Authentication | Verify a registered user with valid credentials can log in when the account is not locked. | Positive | Registered account; unlocked; valid credentials. | Authentication succeeds. | Requirements 1–3 | N/A | Medium |
+| TS-002 | Authentication | Verify login fails when a registered user enters an incorrect password. | Negative | Registered account; unlocked; incorrect password. | Authentication fails. | Requirement 4 | N/A | High |
+| TS-003 | Failed Login Tracking | Verify the account remains unlocked after four consecutive incorrect-password attempts. | Boundary | New sequence; four consecutive failures. | Account remains unlocked after failure 4. | Requirement 6; AC-01 | N/A | High |
+| TS-004 | Account Lock | Verify the account becomes temporarily locked on the fifth consecutive incorrect-password attempt. | Boundary / State | Four consecutive failures; fifth failure occurs. | Account becomes temporarily locked. | Requirements 6, 8; AC-02 | N/A | High |
+| TS-005 | Counter Reset | Verify successful login before the fifth failure resets the failed-login sequence. | Positive / State | Account unlocked with 1–4 failures; valid credentials. | Login succeeds and current failure sequence resets. | Requirement 7; AC-05 | N/A | High |
+| TS-006 | Locked State | Verify a temporarily locked account cannot authenticate with the correct password. | Negative / State | Account locked; lock period active; correct password. | Authentication is rejected. | Requirement 10; AC-03 | N/A | High |
+| TS-007 | Lock Duration | Verify the account remains locked before the 30-minute lock period expires. | Time Boundary | Account locked; less than 30 minutes elapsed. | Account remains locked; authentication rejected. | Requirements 9–10 | N/A | High |
+| TS-008 | Automatic Unlock | Verify the account automatically unlocks after the 30-minute lock period expires. | Time Boundary / State | Account locked; defined period expires. | Account automatically unlocks and normal login becomes available. | Requirements 12–13; AC-04 | N/A | High |
+| TS-009 | Post-Unlock Tracking | Verify failed-login tracking starts again after automatic unlock. | State | Automatic unlock completed; new incorrect-password attempt. | New failure participates in a new post-unlock sequence. | Requirement 14 | N/A | High |
+| TS-010 | Account Isolation | Verify failed attempts for one registered account do not affect another account. | Isolation | Two registered accounts with independent states. | Failed-login state remains isolated per account. | Requirement 5; Notes | N/A | High |
+| TS-011 | Repeated Lifecycle | Verify an automatically unlocked account can be locked again after five new consecutive failures. | State / Boundary | Automatic unlock completed; fresh sequence. | Failures 1–4 remain below threshold; failure 5 locks account again. | Requirements 6, 8, 12–14 | N/A | High |
 
 ---
 
-## 4. Data Constraints
+## Test Data Needs
 
-The generated test data must respect the following confirmed requirement constraints:
-
-```text
-Lock Threshold = 5 consecutive failed attempts
-
-Lock Duration = 30 minutes
-
-Tracking Scope = Per account
-
-Successful Login Before Threshold
-→ Failed-login counter reset
-
-Automatic Unlock
-→ Failed-login tracking starts again
-```
+| Data Category | Required State / Value | Purpose |
+|---|---|---|
+| Credentials | Registered account with valid email/password | Positive authentication |
+| Credentials | Incorrect password | Failure/threshold scenarios |
+| Failed-login state | Counts 0, 1, 3, 4 | Normal, reset, and boundary setup |
+| Account state | Unlocked | Normal and threshold testing |
+| Account state | Locked | Locked-state and duration testing |
+| Account state | Automatically unlocked | Post-unlock testing |
+| Time state | Active lock, less than 30 minutes | Before-expiry behavior |
+| Time state | Expired 30-minute lock | Automatic-unlock behavior |
+| Isolation | Two independent registered accounts | Per-account tracking verification |
 
 ---
 
-## 5. Undefined Data Conditions
+## Data Constraints
 
-The following potential data states depend on behavior that is not sufficiently defined by the requirement:
-
-- Failed-login state across different browsers or devices.
-- Concurrent failed-login updates.
-- Failed-login tracking for an unregistered email address.
-- Counter changes caused by attempts during an active lock.
-- Lock expiration changes caused by attempts during an active lock.
-- Exact numeric failed-login counter immediately after automatic unlock.
-
-These conditions should not be assigned assumed system states by the test-data generator.
+- Lock threshold = 5 consecutive failed attempts.
+- Lock duration = 30 minutes.
+- Failed-login tracking scope = per account.
+- Successful login before threshold resets the current sequence.
+- After automatic unlock, failed-login tracking starts again.
 
 ---
 
-## 6. Scenario Notes
+## Open Questions / Undefined Data Conditions
 
-- Test data should be reusable across scenarios where isolation can be maintained.
-- Account state must be clearly identified before execution.
-- Test data must distinguish input values from required system state.
-- Sensitive or real-user credentials must not be used in example test data.
-- Undefined system behavior must not be converted into fabricated data constraints.
+Do not fabricate test states for cross-device/session aggregation, concurrent failed updates, unregistered-account handling, counter effects during lock, timer extension/restart during lock, or the exact numeric failed counter immediately after automatic unlock unless those behaviors are clarified.
+
+---
+
+## Coverage Summary
+
+The fixture supplies enough scenario context for test-data generation while preserving the boundary between input values and system state. Sensitive or real-user credentials must not be used in generated example data.
