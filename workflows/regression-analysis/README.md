@@ -64,6 +64,12 @@ Regression Impact
         ↓
 Map Existing Coverage / Known Dependencies
         ↓
+Minimum / Release-Gate Regression
+        ↓
+Recommended Regression
+        ↓
+Full Changed-Feature Verification Reference
+        ↓
 Structured Regression Impact Analysis
 ```
 
@@ -91,15 +97,25 @@ When coverage/test artifacts are available, identify existing coverage that rema
 
 When Structured Risk Analysis or other supported risk evidence exists, use it to inform regression priority without redefining the risk model.
 
-### Step 6: Define and Prioritize Regression Scope
+### Step 6: Define Canonical Regression Scope Tiers
 
-Classify affected areas as required, recommended, retained/unaffected, or uncertain according to evidence. Preserve the rationale and change/dependency trace for each scope decision.
+Apply the scope semantics from `shared/templates/Regression.md`:
 
-### Step 7: Produce and Validate Regression Analysis
+- **Minimum / Release-Gate Regression**: smallest defensible release-critical subset of direct/high-risk/critical-state coverage and strongly supported dependencies.
+- **Recommended Regression**: Minimum plus justified adjacent/dependent behavior, alternate states/partitions, and material Medium/High-risk coverage.
+- **Full Changed-Feature Verification**: all valid confirmed coverage for the changed feature; this is a reference/full verification tier and is not automatically the default regression recommendation.
 
-Produce the Structured Regression Impact Analysis and verify that change traces, impact findings, scope decisions, priorities, assumptions, and open questions are internally consistent and evidence-based.
+Do not select any tier by aiming for a fixed percentage or testcase count.
 
-The canonical impact inventory must be rendered as the table defined in `shared/templates/Regression.md`. Supporting change overview, excluded scope, criteria, assumptions, and execution notes remain section-based where appropriate.
+### Step 7: Prioritize Regression Scope
+
+Preserve rationale and change/dependency trace for each inclusion/exclusion. If Minimum approaches Full verification, explain why the change/risk evidence requires that breadth.
+
+### Step 8: Produce and Validate Regression Analysis
+
+Produce the Structured Regression Impact Analysis and verify that change traces, impact findings, scope decisions, priorities, assumptions, open questions, selected coverage IDs, and tier counts are internally consistent and evidence-based.
+
+The canonical impact inventory must be rendered as the table defined in `shared/templates/Regression.md`. Supporting change overview, tier summaries, excluded scope, criteria, assumptions, and execution notes remain section-based where appropriate.
 
 ---
 
@@ -120,7 +136,7 @@ The participating skill may resolve applicable resources from:
 | Resource | Purpose |
 |---|---|
 | `shared/standards/` | Artifact and output conventions |
-| `shared/templates/` | Regression analysis structure and canonical table rendering |
+| `shared/templates/` | Regression analysis structure and canonical table/tier rendering |
 | `shared/checklists/` | Review/coverage quality controls where applicable |
 | `shared/prompt-patterns/` | Reusable impact-analysis instructions |
 | `shared/knowledge/qa/` | Regression/risk context |
@@ -139,7 +155,11 @@ The workflow produces a Structured Regression Impact Analysis using a hybrid doc
 | Impact ID | Area / Module | Change Relationship | Regression Scope / Behavior to Revalidate | Impact Type | Evidence / Traceability | Priority | Existing Coverage Reference | Decision |
 |---|---|---|---|---|---|---|---|---|
 
-The table records the actionable impact inventory. Change overview, exclusions, entry/exit criteria, assumptions, and execution notes may remain narrative sections.
+The artifact must also distinguish:
+
+1. Minimum / Release-Gate Regression;
+2. Recommended Regression;
+3. Full Changed-Feature Verification.
 
 The workflow does not execute regression tests, create an execution schedule, generate missing tests automatically, or approve release readiness.
 
@@ -155,5 +175,9 @@ The workflow is complete when:
 - coverage evidence is applied when available without being treated as the source change;
 - unsupported dependencies remain uncertain;
 - regression scope and priorities are justified;
+- all selected scenario/testcase IDs exist in supplied artifacts;
+- Minimum, Recommended, and Full Changed-Feature tiers follow canonical selection semantics;
+- Recommended is a justified superset of Minimum when both are present;
+- scope counts reconcile exactly with unique listed IDs and tier arithmetic;
 - canonical regression table rendering is used;
 - output satisfies `regression-impact` and applicable shared standards/templates.
