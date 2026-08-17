@@ -95,6 +95,7 @@ Planned → In Progress → Review → Completed → Frozen
 | Phase 12 | Scripts Implementation | Frozen | 8/8 script_groups |
 | Phase 13 | Platform Integration | Frozen | 3/3 platform_adapters |
 | Phase 14 | Controlled Runtime Evaluation & Benchmark Baseline | In Progress | 1/6 phase14_stages |
+| Phase 15 | Operational Usage & Project Adoption | Frozen | 6/6 phase15_stages |
 
 <!-- ROADMAP_STATUS:END -->
 
