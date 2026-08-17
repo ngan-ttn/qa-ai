@@ -4,7 +4,7 @@
 
 The `Regression` checklist defines the validation criteria for assessing the quality of regression impact analysis artifacts.
 
-Its purpose is to ensure that regression scope is complete, risk-based, traceable, and suitable for efficient regression testing.
+Its purpose is to ensure that regression scope is complete, risk-based, traceable, internally consistent, and suitable for efficient regression testing.
 
 This checklist defines **what should be validated**. It does not define **how regression analysis is performed**.
 
@@ -14,30 +14,16 @@ This checklist defines **what should be validated**. It does not define **how re
 
 This checklist applies to structured regression impact analysis artifacts produced by QA engineers or AI capabilities.
 
-Artifacts reviewed by this checklist include:
-
-- Impact analysis
-- Regression scope
-- Impacted modules
-- Impacted business flows
-- Test priorities
-- Risk assessment
-- Regression recommendations
-
 ---
 
 ## How To Use
 
 Apply this checklist after the regression analysis has been completed.
 
-Review each validation category independently before determining the final review result.
-
 - Verify all **MUST** criteria.
 - Evaluate **SHOULD** criteria where applicable.
 - Record review findings.
 - Determine the final review result.
-
-This checklist evaluates artifact quality only. It should not be used as a regression analysis guide or template.
 
 ---
 
@@ -45,139 +31,96 @@ This checklist evaluates artifact quality only. It should not be used as a regre
 
 ### 1. Completeness
 
-Review whether the regression analysis identifies all relevant impacts.
-
 | Validation Criteria | Level |
-|---------------------|:-----:|
-| Changed functionality is identified. | MUST |
-| Impacted modules are identified. | MUST |
-| Impacted business flows are identified. | MUST |
-| Dependencies are identified where applicable. | SHOULD |
-| Out-of-scope items are explicitly documented where applicable. | SHOULD |
-
----
+|---|:---:|
+| Changed functionality/change delta is identified. | MUST |
+| Directly impacted behavior is identified. | MUST |
+| Potential/indirect dependencies are considered where supported. | SHOULD |
+| Out-of-scope or excluded behavior is explicit where applicable. | SHOULD |
+| Unresolved dependencies are explicit. | MUST |
 
 ### 2. Impact Assessment
 
-Review whether the identified impacts are accurate and sufficient.
-
 | Validation Criteria | Level |
-|---------------------|:-----:|
-| Direct impacts are identified. | MUST |
-| Indirect impacts are considered where applicable. | SHOULD |
-| Shared components are evaluated where applicable. | SHOULD |
-| Integration impacts are identified where applicable. | SHOULD |
-
----
+|---|:---:|
+| Direct impact is distinguished from indirect/potential impact. | MUST |
+| Unsupported technical coupling is not invented. | MUST |
+| Each material inclusion/exclusion has evidence/rationale. | MUST |
+| Existing coverage is reused where valid rather than duplicated. | SHOULD |
 
 ### 3. Risk Assessment
 
-Review whether regression priorities are aligned with business and technical risks.
+| Validation Criteria | Level |
+|---|:---:|
+| Business-critical/high-risk confirmed behavior influences scope. | MUST |
+| Regression priority reflects supported impact/risk. | MUST |
+| Lower-risk/depth coverage is not promoted to Minimum without rationale. | SHOULD |
+
+### 4. Canonical Scope Tiers
 
 | Validation Criteria | Level |
-|---------------------|:-----:|
-| Business-critical functionality is prioritized. | MUST |
-| High-risk areas are identified. | MUST |
-| Regression priority reflects impact severity. | MUST |
-| Low-risk changes are appropriately categorized. | SHOULD |
-
----
-
-### 4. Coverage
-
-Review whether the regression scope provides sufficient verification coverage.
-
-| Validation Criteria | Level |
-|---------------------|:-----:|
-| All impacted business flows are covered. | MUST |
-| Critical integrations are included where applicable. | SHOULD |
-| High-risk regression scenarios are included. | MUST |
-| Historical defect areas are considered where applicable. | SHOULD |
-
----
+|---|:---:|
+| `Minimum / Release-Gate Regression` is identified when executable existing coverage is available. | MUST |
+| Minimum represents the smallest defensible release-critical direct/high-risk/critical-state scope; it is not selected to hit a target percentage/count. | MUST |
+| `Recommended Regression` is identified and contains justified additional coverage beyond Minimum. | MUST |
+| Recommended is a superset of Minimum when both are produced. | MUST |
+| `Full Changed-Feature Verification` is explicitly distinguished from default regression recommendations. | MUST |
+| If Minimum approaches Full verification, the artifact explains why the change/risk evidence requires that breadth. | SHOULD |
+| Clarification-dependent behavior without an oracle is not included as executable tier content. | MUST |
 
 ### 5. Traceability
 
-Review whether the regression analysis can be traced to upstream artifacts.
+| Validation Criteria | Level |
+|---|:---:|
+| Regression items trace to requirements/change/dependency evidence. | MUST |
+| Impacted scenario/testcase references are valid where supplied. | MUST |
+| No selected coverage ID is fabricated or absent from supplied artifacts. | MUST |
+
+### 6. Count / Scope Integrity
 
 | Validation Criteria | Level |
-|---------------------|:-----:|
-| Regression items are traceable to requirements or change requests. | MUST |
-| Impacted test scenarios are identified where applicable. | SHOULD |
-| Impacted test cases are identified where applicable. | SHOULD |
-| Impact rationale is documented. | MUST |
+|---|:---:|
+| Minimum count equals the number of unique listed selected IDs. | MUST |
+| Recommended count equals the number of unique listed selected IDs. | MUST |
+| Full Changed-Feature count reconciles with the stated confirmed feature coverage baseline. | MUST |
+| Additional/overlap counts between tiers are arithmetically consistent. | MUST |
+| Percentages use reconciled numerator/denominator values. | MUST |
 
----
-
-### 6. Maintainability
-
-Review whether the regression analysis can be maintained efficiently.
+### 7. Maintainability / Testability
 
 | Validation Criteria | Level |
-|---------------------|:-----:|
-| Regression scope is clearly organized. | SHOULD |
+|---|:---:|
+| Regression scope is clearly organized and behavior-oriented. | SHOULD |
 | Duplicate regression items are avoided. | SHOULD |
-| Regression recommendations remain understandable after future changes. | SHOULD |
-
----
-
-### 7. Testability
-
-Review whether the regression analysis supports effective regression execution.
-
-| Validation Criteria | Level |
-|---------------------|:-----:|
-| Regression scope can be translated into executable test activities. | MUST |
-| Regression priorities support execution planning. | MUST |
-| Required environments or dependencies are identified where applicable. | SHOULD |
-| Blocking assumptions are documented where applicable. | SHOULD |
+| Scope can be translated into executable test activity. | MUST |
+| Blocking assumptions/dependencies are documented. | SHOULD |
 
 ---
 
 ## Acceptance Criteria
 
 | Review Result | Criteria |
-|---------------|----------|
-| **PASS** | All **MUST** criteria are satisfied. No critical review findings remain unresolved. The regression analysis provides sufficient impact assessment and supports downstream regression testing. |
-| **FAIL** | One or more **MUST** criteria are not satisfied, or critical review findings prevent reliable regression planning or execution. |
+|---|---|
+| **PASS** | All **MUST** criteria are satisfied. Scope tiers, traceability, and counts are evidence-based and internally consistent. |
+| **FAIL** | One or more **MUST** criteria are not satisfied, including fabricated dependencies/coverage IDs, invalid tier semantics, or count mismatches. |
 
 ---
 
 ## Common Review Findings
 
 | Category | Typical Findings |
-|----------|------------------|
-| Completeness | Missing impacted modules, business flows, or dependencies |
-| Impact Assessment | Indirect impacts or integration impacts not considered |
-| Risk Assessment | Incorrect regression priority or missing high-risk areas |
-| Coverage | Missing impacted scenarios or historical defect areas |
-| Traceability | Missing links to requirements, change requests, or test assets |
-| Maintainability | Duplicate regression items or poorly organized scope |
-| Testability | Regression scope cannot be translated into executable testing |
-
----
-
-## Input Artifacts
-
-- Requirement analysis
-- Change requests
-- Business rules
-- Test scenarios
-- Test cases
-
----
-
-## Output Artifacts
-
-- Reviewed regression analysis
-- Regression scope
-- Regression execution planning
-- Regression test suite updates
+|---|---|
+| Impact | Adjacent area included without supported dependency |
+| Tiering | Minimum selected by percentage; Recommended nearly/full suite without rationale; Full verification mislabeled as regression |
+| Traceability | Selected TC/SC IDs do not exist or do not support the stated impact |
+| Uncertainty | Clarification-dependent behavior converted into executable regression expectation |
+| Count Integrity | Tier counts, additional counts, overlaps, or percentages do not reconcile |
 
 ---
 
 ## References
 
-- `shared/standards/`
+- `shared/standards/Output.md`
 - `shared/templates/Regression.md`
-- `shared/glossary/`
+- `skills/regression-impact/README.md`
+- `workflows/regression-analysis/README.md`
