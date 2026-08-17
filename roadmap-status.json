@@ -20,17 +20,28 @@
     "13": {"name": "Platform Integration", "status": "Frozen", "tracking_unit": "platform_adapter", "progress": {"completed": 3, "total": 3, "unit": "platform_adapters"}},
     "14": {
       "name": "Controlled Runtime Evaluation & Benchmark Baseline",
-      "status": "In Progress",
+      "status": "Frozen",
       "tracking_unit": "evaluation_run_set",
-      "progress": {"completed": 5, "total": 6, "unit": "phase14_stages"},
+      "progress": {"completed": 6, "total": 6, "unit": "phase14_stages"},
       "components": {
-        "evaluation-execution-definition": {"status": "Completed", "evidence": "P14-RUNSET-001 defines the controlled dataset, workflow, three supported platforms, evaluation configuration, run identities, evidence requirements, and quality gates."},
-        "controlled-runtime-execution": {"status": "Completed", "evidence": "Accepted controlled runtime evidence exists for P14-RUN-CHATGPT-003, P14-RUN-CLAUDE-001, and P14-RUN-CURSOR-001; the historical Claude connectivity blocker is resolved."},
-        "evaluation-results": {"status": "Completed", "evidence": "Canonical measured results: ChatGPT 100/Excellent/PASS, Claude 99/Excellent/PASS, Cursor 99/Excellent/PASS; no accepted run has a critical failure."},
-        "benchmark-records": {"status": "Completed", "evidence": "Platform baseline candidates and the three-platform comparison candidate were reviewed against BENCH-BASELINE-001 with no blocking finding; final baseline promotion remains a 14.6 gate action."},
-        "reproducibility-traceability": {"status": "Completed", "evidence": "Accepted runs retain raw output, execution metadata, scoring input, evaluation result, and candidate baseline references; known metadata gaps remain explicit and no scoring-semantics blocker remains."},
-        "final-quality-gate": {"status": "Planned"}
-      }
+        "evaluation-execution-definition": {"status": "Frozen", "evidence": "P14-RUNSET-001 defines the controlled dataset, workflow, three supported platforms, evaluation configuration, run identities, evidence requirements, and quality gates."},
+        "controlled-runtime-execution": {"status": "Frozen", "evidence": "Accepted controlled runtime evidence exists for P14-RUN-CHATGPT-003, P14-RUN-CLAUDE-001, and P14-RUN-CURSOR-001; the historical Claude connectivity blocker is resolved."},
+        "evaluation-results": {"status": "Frozen", "evidence": "Canonical measured results: ChatGPT 100/Excellent/PASS, Claude 99/Excellent/PASS, Cursor 99/Excellent/PASS; no accepted run has a critical failure."},
+        "benchmark-records": {"status": "Frozen", "evidence": "Platform baseline candidates and the three-platform comparison were reviewed against BENCH-BASELINE-001 with no blocking finding and approved by the Phase 14 final quality gate as the initial compatible regression reference."},
+        "reproducibility-traceability": {"status": "Frozen", "evidence": "Accepted runs retain raw output, execution metadata, scoring input, evaluation result, and baseline references; known metadata gaps remain explicit and no blocking traceability or scoring-semantics issue remains."},
+        "final-quality-gate": {"status": "Frozen", "evidence": "Human QC approval recorded 2026-08-17 after stages 14.1-14.5 passed and deterministic repository validation reported PASS; final gate decision PASS."}
+      },
+      "scope": "Establish an evidence-backed controlled runtime evaluation baseline across ChatGPT, Claude, and Cursor using equivalent QA-AI inputs, canonical evaluation semantics, reproducibility review, and an explicit final quality gate.",
+      "baseline": "P14-RUNSET-001 — REQ-AUTH-001 / testcase-generation / Structured Test Case Model across ChatGPT, Claude, and Cursor.",
+      "freeze_evidence": "Full Phase 14 review passed; measured accepted results were ChatGPT 100, Claude 99, and Cursor 99 with Excellent/PASS and zero critical failures. Benchmark-record and reproducibility reviews found no blocking issue, Human QC approved the final gate on 2026-08-17, and deterministic validation had reported PASS before freeze.",
+      "exit_criteria": [
+        "At least one controlled dataset is executed on ChatGPT, Claude, and Cursor under the defined run set.",
+        "Each accepted run preserves generated artifact, evaluation result, and runtime metadata with unknown values left explicit rather than reconstructed.",
+        "Baseline benchmark records are produced from actual controlled execution and reviewed against canonical benchmark requirements.",
+        "Cross-platform comparison uses equivalent controlled inputs and compatible canonical evaluation semantics.",
+        "A regression-ready initial baseline is approved for future compatible framework evaluation.",
+        "No unresolved blocker remains for source traceability, accepted-run evidence, reproducibility, or scoring semantics."
+      ]
     },
     "15": {
       "name": "Operational Usage & Project Adoption",
