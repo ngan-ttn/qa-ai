@@ -22,13 +22,13 @@
       "name": "Controlled Runtime Evaluation & Benchmark Baseline",
       "status": "In Progress",
       "tracking_unit": "evaluation_run_set",
-      "progress": {"completed": 1, "total": 6, "unit": "phase14_stages"},
+      "progress": {"completed": 3, "total": 6, "unit": "phase14_stages"},
       "components": {
-        "evaluation-execution-definition": {"status": "Completed"},
-        "controlled-runtime-execution": {"status": "In Progress"},
-        "evaluation-results": {"status": "In Progress"},
-        "benchmark-records": {"status": "In Progress"},
-        "reproducibility-traceability": {"status": "In Progress"},
+        "evaluation-execution-definition": {"status": "Completed", "evidence": "P14-RUNSET-001 defines the controlled dataset, workflow, three supported platforms, evaluation configuration, run identities, evidence requirements, and quality gates."},
+        "controlled-runtime-execution": {"status": "Completed", "evidence": "Accepted controlled runtime evidence exists for P14-RUN-CHATGPT-003, P14-RUN-CLAUDE-001, and P14-RUN-CURSOR-001; the historical Claude connectivity blocker is resolved."},
+        "evaluation-results": {"status": "Completed", "evidence": "Canonical measured results: ChatGPT 100/Excellent/PASS, Claude 99/Excellent/PASS, Cursor 99/Excellent/PASS; no accepted run has a critical failure."},
+        "benchmark-records": {"status": "In Progress", "evidence": "Platform baseline candidates and a complete three-platform cross-platform comparison candidate exist; promotion/review remains."},
+        "reproducibility-traceability": {"status": "In Progress", "evidence": "Runtime metadata and evidence references exist for all accepted runs; final cross-run reproducibility/traceability review remains."},
         "final-quality-gate": {"status": "Planned"}
       }
     },
