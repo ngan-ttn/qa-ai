@@ -1,302 +1,51 @@
 # Business Rules — Account Lock After Failed Login Attempts
 
-## 1. Overview
+## Rule Summary
 
-This artifact structures the business rules derived from `Requirement-Analysis.md` for the temporary account-locking feature.
-
-Only behavior supported by the supplied requirement and requirement analysis is treated as confirmed. Undefined behavior remains clarification-dependent and is not converted into business rules.
+This artifact structures the confirmed business rules derived from `Sample-Requirement.md` and `Requirement-Analysis.md`. Undefined behavior remains clarification-dependent and is not promoted to a business rule.
 
 ---
 
-## 2. Business Rule Summary
+## Business Rules
 
-| Rule ID | Rule | Category | Source |
-|---|---|---|---|
-| BR-001 | Incorrect-password attempts are tracked separately for each registered account. | Tracking | R5 |
-| BR-002 | Five consecutive incorrect-password attempts temporarily lock the account. | Threshold | R6, R8, AC-01, AC-02 |
-| BR-003 | A successful login before the fifth consecutive failure resets failed-login tracking. | Reset | R7, AC-05 |
-| BR-004 | A temporarily locked account remains locked for 30 minutes. | Time-Based | R9 |
-| BR-005 | Authentication is rejected while the account is locked, including when the correct password is provided. | Access Control | R10, AC-03 |
-| BR-006 | A login attempt while locked displays the defined temporary-lock message. | User Feedback | R11, AC-03 |
-| BR-007 | The account automatically unlocks after the 30-minute lock period expires. | State Transition | R12, AC-04 |
-| BR-008 | After automatic unlock, the user can attempt authentication again. | State Transition | R13, AC-04 |
-| BR-009 | Failed-login tracking starts again after automatic unlock. | Reset / Tracking | R14 |
-
----
-
-## 3. Detailed Business Rules
-
-### BR-001 — Account-Specific Failed-Login Tracking
-
-**Rule:** Incorrect-password login attempts MUST be tracked separately for each registered account.
-
-**Trigger:** A registered user submits an incorrect password.
-
-**Expected Behavior:**
-
-```text
-Authentication Fails
-        ↓
-Failed Attempt Recorded
-        ↓
-Tracking Associated with That Account
-```
-
-Failed attempts belonging to one account must not contribute to another account's failed-login state.
-
-**Traceability:** R5; Requirement Analysis §8 Account Isolation.
+| Rule ID | Rule Type | Business Rule | Conditions / Inputs | Expected Outcome / Constraint | Source Traceability | Dependencies | Status |
+|---|---|---|---|---|---|---|---|
+| BR-001 | Constraint / Tracking | Incorrect-password attempts are tracked separately for each registered account. | Registered account receives incorrect-password login attempt. | Failed attempt contributes only to that account's sequence. | R5 | N/A | Confirmed |
+| BR-002 | Threshold / State | Five consecutive incorrect-password attempts temporarily lock the account. | Same account reaches five consecutive failures. | Attempts 1–4 remain below threshold; fifth causes locked state. | R6, R8, AC-01, AC-02 | BR-001, BR-003 | Confirmed |
+| BR-003 | Reset / Sequence | A successful login before the fifth consecutive failure resets failed-login tracking. | Account unlocked with 1–4 failures; valid credentials submitted. | Authentication succeeds; current sequence resets; later failure starts a new sequence. | R7, AC-05 | BR-002 | Confirmed |
+| BR-004 | Time Constraint | A temporarily locked account remains locked for 30 minutes. | Account is in temporary locked state. | Lock remains active for the defined period. | R9 | BR-002 | Confirmed |
+| BR-005 | Access Control | Authentication is rejected while the account is locked, including when the correct password is provided. | Account locked; login attempted. | Authentication is rejected. | R10, AC-03 | BR-002, BR-004 | Confirmed |
+| BR-006 | User Feedback | A login attempt while locked displays the defined temporary-lock message. | Account locked; login attempted. | `Your account has been temporarily locked. Please try again later.` is displayed. | R11, AC-03 | BR-005 | Confirmed |
+| BR-007 | State Transition | The account automatically unlocks after the 30-minute lock period expires. | Account locked; defined period expires. | Account transitions to unlocked automatically. | R12, AC-04 | BR-004 | Confirmed |
+| BR-008 | Access | After automatic unlock, the user can attempt authentication again. | BR-007 completed. | Normal login becomes available again. | R13, AC-04 | BR-007 | Confirmed |
+| BR-009 | Reset / Tracking | Failed-login tracking starts again after automatic unlock. | BR-007 completed; subsequent failures occur. | A new post-unlock failure sequence is tracked. | R14 | BR-007 | Confirmed |
 
 ---
 
-### BR-002 — Temporary Lock After Five Consecutive Failures
+## Rule Dependencies
 
-**Rule:** A registered account MUST become temporarily locked after the fifth consecutive incorrect-password login attempt.
-
-**Boundary:**
-
-```text
-4 consecutive failures → Account remains unlocked
-5th consecutive failure → Account becomes locked
-```
-
-**Dependencies:** BR-001 and BR-003.
-
-**Traceability:** R6, R8, AC-01, AC-02; Requirement Analysis §6 State Model and §7 Boundary Conditions.
+The primary rule chain is `BR-001 → BR-002 → BR-004/BR-005/BR-006 → BR-007 → BR-008/BR-009`, with `BR-003` resetting the sequence before threshold.
 
 ---
 
-### BR-003 — Reset After Successful Login
+## Assumptions
 
-**Rule:** A successful login occurring before the fifth consecutive failure MUST reset failed-login tracking for the account.
-
-**Condition:**
-
-```text
-Consecutive Failed Attempts = 1–4
-+
-Valid Credentials
-+
-Account Not Locked
-```
-
-A subsequent incorrect-password attempt begins a new consecutive failure sequence.
-
-**Traceability:** R7, AC-05; Requirement Analysis §5 Flow 4 and §6 State Model.
+No implementation storage, timer mechanism, cross-device aggregation, or concurrency rule is assumed.
 
 ---
 
-### BR-004 — Thirty-Minute Lock Duration
+## Open Questions
 
-**Rule:** A temporarily locked account MUST remain locked for 30 minutes.
-
-```text
-Lock Begins
-    ↓
-30-Minute Lock Period
-    ↓
-Lock Period Expires
-```
-
-The exact evaluation semantics for a request occurring precisely at the expiration instant are not defined.
-
-**Dependency:** BR-002.
-
-**Traceability:** R9; Requirement Analysis §6 State Model and §7 Lock Duration.
-
----
-
-### BR-005 — Authentication Rejection During Lock
-
-**Rule:** A locked account MUST NOT authenticate while the temporary lock is active, including when the submitted password is correct.
-
-```text
-Account State = Locked
-        ↓
-Login Attempt
-        ↓
-Authentication Rejected
-```
-
-**Traceability:** R10, AC-03; Requirement Analysis §5 Flow 5 and §6 State Model.
-
----
-
-### BR-006 — Locked-Account Message
-
-**Rule:** A login attempt while the account is locked MUST display:
-
-```text
-Your account has been temporarily locked. Please try again later.
-```
-
-Authentication is rejected and the defined message is displayed.
-
-**Dependency:** BR-005.
-
-**Traceability:** R11, AC-03; Requirement Analysis §9 User Feedback.
-
----
-
-### BR-007 — Automatic Unlock
-
-**Rule:** A temporarily locked account MUST automatically return to the unlocked state after the 30-minute lock period expires.
-
-```text
-LOCKED
-   ↓
-30-Minute Period Expires
-   ↓
-UNLOCKED
-```
-
-No manual unlock action is required by the supplied requirement.
-
-**Dependency:** BR-004.
-
-**Traceability:** R12, AC-04; Requirement Analysis §5 Flow 6 and §6 State Model.
-
----
-
-### BR-008 — Authentication Available After Unlock
-
-**Rule:** After automatic unlock, the user MUST be able to attempt authentication again.
-
-Successful authentication still depends on valid credentials.
-
-**Dependency:** BR-007.
-
-**Traceability:** R13, AC-04; Requirement Analysis §5 Flow 6.
-
----
-
-### BR-009 — Restart Failed-Login Tracking After Unlock
-
-**Rule:** Failed-login tracking MUST start again after the account has been automatically unlocked.
-
-Subsequent incorrect-password attempts participate in a new failed-login sequence. The internal numeric counter representation immediately after unlock is not explicitly defined.
-
-**Dependency:** BR-007.
-
-**Traceability:** R14; Requirement Analysis §5 Flow 6 and §10 Derived Analysis.
-
----
-
-## 4. Rule Relationships
-
-```text
-BR-001 Account-Specific Tracking
-        ↓
-BR-002 Five-Failure Threshold
-        ↓
-Temporary Lock
-        ↓
-BR-004 30-Minute Duration
-        ↓
-BR-007 Automatic Unlock
-        ↓
-┌───────────────┐
-│               │
-▼               ▼
-BR-008          BR-009
-Authentication  Tracking
-Available       Restarts
-```
-
-Successful-login reset operates alongside this chain:
-
-```text
-Failed Attempts 1–4
-        ↓
-Successful Login
-        ↓
-BR-003 Tracking Reset
-        ↓
-New Failure Sequence
-```
-
-Locked-state behavior is governed by BR-005 and BR-006.
-
----
-
-## 5. Rule Interaction Matrix
-
-| Condition | Account State | Authentication | Failed-Login Tracking | Result |
-|---|---|---|---|---|
-| Correct password before threshold | Unlocked | Allowed | Reset | Login succeeds |
-| Incorrect password, failures 1–4 | Unlocked | Rejected | Incremented | Account remains unlocked |
-| 5th consecutive incorrect password | Unlocked → Locked | Rejected | Threshold reached | Account locked |
-| Correct password during lock | Locked | Rejected | Not defined | Lock remains active |
-| Incorrect password during lock | Locked | Rejected | Not defined | Lock remains active |
-| Lock period expires | Locked → Unlocked | Available again | Starts again | Account unlocked |
-
-The effect of login attempts during the active lock period on the counter or timer is not defined.
-
----
-
-## 6. Clarification-Dependent Behavior
-
-The following behaviors MUST NOT be converted into confirmed business rules without additional requirement information.
-
-| ID | Area | Undefined Behavior | Requirement Analysis Source |
-|---|---|---|---|
-| BR-CL-001 | Active Lock | Whether locked-state login attempts change failed-login tracking. | Q-001 |
-| BR-CL-002 | Active Lock | Whether locked-state login attempts restart or extend the lock timer. | Q-002 |
-| BR-CL-003 | Lock Expiration | Exact behavior at the precise 30-minute expiration instant. | Q-003 |
-| BR-CL-004 | Tracking Scope | Same-account tracking across browser sessions and devices. | Q-004, Q-005 |
-| BR-CL-005 | Concurrency | Ordering/evaluation of simultaneous attempts near threshold. | Q-006 |
-| BR-CL-006 | Existing Session | Effect of lock on an already authenticated session. | Q-007 |
-| BR-CL-007 | Password Management | Interaction with password reset/change. | Q-008 |
-| BR-CL-008 | Unknown Account | Failed-login behavior for an unregistered email address. | Q-009 |
-
----
-
-## 7. Rule Traceability
-
-| Business Rule | Requirement Analysis Evidence | Source Requirement / AC |
+| Question ID | Area | Clarification Needed |
 |---|---|---|
-| BR-001 | §8 Account Isolation | R5 |
-| BR-002 | §6 State Model; §7 Failed-Login Threshold | R6, R8, AC-01, AC-02 |
-| BR-003 | §5 Flow 4; §6 State Model | R7, AC-05 |
-| BR-004 | §6 State Model; §7 Lock Duration | R9 |
-| BR-005 | §5 Flow 5; §6 State Model | R10, AC-03 |
-| BR-006 | §9 User Feedback | R11, AC-03 |
-| BR-007 | §5 Flow 6; §6 State Model | R12, AC-04 |
-| BR-008 | §5 Flow 6 | R13, AC-04 |
-| BR-009 | §5 Flow 6; §10 Derived Analysis | R14 |
-
-All confirmed business rules are now traceable directly to identifiers and sections that exist in `Requirement-Analysis.md`.
+| CQ-001 | Lock Expiration Boundary | Exact behavior for a request occurring precisely at the 30-minute expiration instant. |
+| CQ-002 | Locked Attempts | Whether attempts during lock modify failure count. |
+| CQ-003 | Lock Extension | Whether attempts during lock restart/extend the timer. |
+| CQ-004 | Cross-Session / Device | Whether account-level failure state is aggregated across sessions/devices. |
+| CQ-005 | Concurrency | How simultaneous attempts near threshold are processed. |
 
 ---
 
-## 8. Business Rule Summary
+## Rule Coverage Summary
 
-The feature is governed by three connected rule groups:
-
-```text
-Failed-Login Control
-├── Account-specific tracking
-├── Consecutive-failure threshold
-└── Successful-login reset
-
-Temporary Lock
-├── Lock after fifth failure
-├── 30-minute duration
-├── Reject authentication
-└── Display lock message
-
-Recovery
-├── Automatic unlock
-├── Authentication available again
-└── Failed-login tracking restarts
-```
-
-Critical boundaries remain:
-
-```text
-4 failures → Account remains unlocked
-5 failures → Account becomes locked
-Active lock → Authentication prohibited
-30-minute expiration → Automatic unlock
-```
-
-Undefined behavior remains explicitly separated from confirmed rules and is carried downstream as clarification-dependent information.
+The canonical rule table preserves all nine confirmed rules used by downstream risk, scenario, testcase, coverage, and regression artifacts while keeping undefined behavior explicitly outside the confirmed model.
