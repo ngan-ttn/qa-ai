@@ -33,7 +33,7 @@ For requirement understanding and every downstream QA artifact:
 - do not promote a plausible inference into a functional requirement, dependency, business rule, expected result, or system fact merely because it would be a common implementation;
 - keep derived observations and assumptions explicitly separate from confirmed requirements, and include them only when they materially help the requested artifact;
 - implementation mechanisms such as counters, persistence/storage, timestamps, database fields, services/modules, server-side enforcement, API behavior, and architectural dependencies remain unknown unless authoritative project context establishes them;
-- a stated duration or threshold does not authorize inventing an unspecified post-condition or mechanism. For example, a requirement that something is locked "for 30 minutes" does not by itself establish how unlocking occurs or when that change becomes observable;
+- a stated duration or threshold does not authorize inventing an unspecified post-condition or mechanism;
 - when the source is minimal, prefer an explicit gap or clarification question over completing an assumed system model;
 - section headings do not weaken traceability: content placed under `Functional Requirements`, `Dependencies`, `Business Rules`, or equivalent sections must still be individually source-grounded or explicitly classified as non-confirmed;
 - before delivering an artifact, re-check every statement presented as confirmed/required against the authoritative input and downgrade or remove unsupported statements.
@@ -45,15 +45,13 @@ For scenario design, testcase generation, API tests, SQL validation, regression 
 - **Unresolved assumptions and unknowns must not become authoritative expected results by default.** Labeling a behavior as an assumption does not make it valid to assert as an executable expected result;
 - use confirmed requirements, confirmed business rules, and source-supported behavioral implications as the default basis for executable expected results;
 - apply source grounding to the **entire executable testcase**, not only its Expected Result. Preconditions, test data, actions/steps, intermediate assertions, and final assertions must not require an unconfirmed behavior or implementation detail;
-- do not add a successful-login step merely to prove that a lockout threshold has not been reached unless successful-login behavior is authoritative context. For a threshold such as 5 consecutive failures, the grounded lower-boundary assertion is only that the lockout trigger has not been reached after 4 consecutive failures;
-- if the source does not define how a state is observed, keep the assertion at the source's abstraction level (for example, `the account enters the locked state`) and explicitly record observability as a clarification/execution dependency rather than inventing a login response, message, API status, database field, or other signal;
+- if the source does not define how a state is observed, keep the assertion at the source's abstraction level and record observability as a clarification/execution dependency rather than inventing a signal;
 - if a candidate test depends on unresolved behavior, place it under `Clarification-Dependent`, `Blocked`, `Candidate`, `Pending Confirmation`, or equivalent status instead of presenting it as an executable passing test;
-- only generate assumption-based executable tests when the user explicitly authorizes assumption-based design or provides the assumption as accepted project context. In that case, identify the assumption at testcase level and clearly state that the expected result is conditional on it;
+- only generate assumption-based executable tests when the user explicitly authorizes assumption-based design or provides the assumption as accepted project context;
 - do not claim `complete`, `full`, or equivalent coverage when unresolved clarification-dependent behavior remains outside executable coverage;
-- do not infer that a locked state rejects every login action, that successful login resets a counter, that a duration expiry automatically unlocks an account, or any similar observable behavior unless authoritative input establishes it;
-- a test setup/precondition must follow the same grounding rule as its expected result. Do not require a failed-attempt counter to be set to zero, hidden storage state, modules, APIs, timers, or other implementation controls unless they are confirmed or explicitly supplied as test-environment capabilities. Prefer externally expressible setup such as using an account for which the relevant test sequence has not yet been performed, while marking any required reset capability as an execution dependency if it is not authoritative;
-- dependencies must be source-grounded. Do not list an inferred module, service, database, counter, timer, or other implementation component as a dependency merely because it would be a plausible implementation;
-- before finalizing test artifacts, perform an assumption-propagation check over **every testcase field**: for each precondition, test-data item, action, and expected result, ask whether it relies on unconfirmed project behavior. If yes, remove/rephrase it to the confirmed abstraction level or move the case to clarification-dependent coverage.
+- a test setup/precondition must follow the same grounding rule as its expected result;
+- dependencies must be source-grounded;
+- before finalizing test artifacts, perform an assumption-propagation check over every testcase field.
 
 Default propagation model:
 
@@ -77,6 +75,16 @@ Route requirement analysis, rule extraction, risk analysis, scenario generation,
 
 For coordinated multi-artifact work, follow the applicable canonical workflow under `workflows/`.
 
+## Canonical Output Discipline
+
+Canonical templates are mandatory contracts, not optional examples.
+
+- Coverage Review must apply `Covered`, `Weakly Covered`, `Gap`, and `Blocked` according to `skills/coverage-reviewer/README.md`. A broad/implicit reference is not automatically sufficient for `Covered`, and clarification-dependent behavior without an authoritative oracle is `Blocked`, not a false `Gap`.
+- Test Cases must follow `shared/templates/TestCase.md`: the executable `TC-*` inventory is one canonical Markdown table under `## Test Cases`; do not render section-per-testcase blocks or separate per-testcase steps tables.
+- Regression Analysis must follow `shared/templates/Regression.md` and distinguish `Minimum / Release-Gate Regression`, `Recommended Regression`, and `Full Changed-Feature Verification` when existing confirmed coverage is available. Do not choose scope tiers by target percentages/counts.
+- Every reported total, subtotal, percentage, ID range, coverage count, and regression-tier count must reconcile with actual unique generated/referenced IDs before delivery.
+- A canonical-format or aggregate-count mismatch is a validation failure and must be corrected before reporting PASS.
+
 ## Working Rules
 
 - preserve artifact boundaries;
@@ -85,4 +93,5 @@ For coordinated multi-artifact work, follow the applicable canonical workflow un
 - use specialized API/SQL capabilities for technical design;
 - do not silently convert optional feedback paths into hard dependencies;
 - run applicable deterministic validators under `scripts/` when repository changes are made;
-- review changes before commit and do not modify frozen canonical semantics without explicit scope.
+- review changes before commit and do not modify frozen canonical semantics without explicit scope;
+- before delivery, validate mandatory template representation and reconcile reported aggregate counts with actual canonical IDs/rows.
