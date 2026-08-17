@@ -17,6 +17,7 @@ from scripts.utils.file_utils import iter_files, relative_to_repo
 # explicit authoring markers and unresolved template dates.
 UNRESOLVED_MARKERS = re.compile(r"\b(TODO|TBD|FIXME)\b|YYYY-MM-DD", re.I)
 HEADING = re.compile(r"^#{1,6}\s+\S", re.M)
+TESTCASE_SECTION_PER_ITEM = re.compile(r"^#{2,6}\s+TC(?:-[A-Z0-9]+)+\b", re.M | re.I)
 
 # Table-oriented output contracts apply to current curated examples/golden references.
 # Historical runtime evidence under output/ or benchmark run records is intentionally
@@ -37,6 +38,19 @@ GOLDEN_SUFFIX_HEADERS = {
     "-Regression-Analysis.md": CANONICAL_TABLE_HEADERS["Regression-Analysis.md"],
 }
 
+REGRESSION_TIER_MARKERS = (
+    "Minimum / Release-Gate Regression",
+    "Recommended Regression",
+    "Full Changed-Feature Verification",
+)
+
+COVERAGE_STATUS_MARKERS = (
+    "Covered",
+    "Weakly Covered",
+    "Gap",
+    "Blocked",
+)
+
 
 def canonical_header_for(path: Path) -> str | None:
     """Return required canonical table header for curated list-oriented QA outputs."""
@@ -48,6 +62,27 @@ def canonical_header_for(path: Path) -> str | None:
             if path.name.endswith(suffix):
                 return header
     return None
+
+
+def is_curated_testcase(path: Path) -> bool:
+    rel = relative_to_repo(path)
+    return (
+        ("/expected-output/" in f"/{rel}" and path.name == "Test-Cases.md")
+        or (rel.startswith("datasets/golden-output/") and path.name.endswith("-Test-Cases.md"))
+    )
+
+
+def is_curated_regression(path: Path) -> bool:
+    rel = relative_to_repo(path)
+    return (
+        ("/expected-output/" in f"/{rel}" and path.name == "Regression-Analysis.md")
+        or (rel.startswith("datasets/golden-output/") and path.name.endswith("-Regression-Analysis.md"))
+    )
+
+
+def is_curated_coverage_review(path: Path) -> bool:
+    rel = relative_to_repo(path)
+    return "/expected-output/" in f"/{rel}" and path.name == "Coverage-Review.md"
 
 
 def should_check_authoring_markers(path: Path) -> bool:
@@ -62,6 +97,36 @@ def should_check_authoring_markers(path: Path) -> bool:
     """
     rel = relative_to_repo(path)
     return not rel.startswith("output/chatgpt-knowledge/")
+
+
+def validate_testcase_contract(text: str) -> list[str]:
+    errors: list[str] = []
+    header = CANONICAL_TABLE_HEADERS["Test-Cases.md"]
+    if text.count(header) != 1:
+        errors.append("testcase artifact must contain exactly one canonical testcase inventory header")
+    if TESTCASE_SECTION_PER_ITEM.search(text):
+        errors.append("section-per-testcase rendering is not canonical; TC-* must be rows in the single testcase table")
+    return errors
+
+
+def validate_regression_contract(text: str) -> list[str]:
+    errors: list[str] = []
+    for marker in REGRESSION_TIER_MARKERS:
+        if marker not in text:
+            errors.append(f"missing canonical regression scope tier: {marker}")
+    return errors
+
+
+def validate_coverage_contract(text: str) -> list[str]:
+    errors: list[str] = []
+    for marker in COVERAGE_STATUS_MARKERS:
+        if marker not in text:
+            errors.append(f"missing canonical coverage status semantic: {marker}")
+    if re.search(r"\|\s*Partial\s*\|", text, re.I):
+        errors.append("legacy coverage status 'Partial' found; use 'Weakly Covered'")
+    if re.search(r"\|\s*Clarification-Dependent\s*\|", text, re.I):
+        errors.append("legacy coverage sufficiency status 'Clarification-Dependent' found; use 'Blocked' for unresolved oracle/dependency")
+    return errors
 
 
 def validate_file(path: Path) -> list[str]:
@@ -80,6 +145,13 @@ def validate_file(path: Path) -> list[str]:
         required_header = canonical_header_for(path)
         if required_header and required_header not in text:
             errors.append("missing canonical table-oriented core header")
+
+        if is_curated_testcase(path):
+            errors.extend(validate_testcase_contract(text))
+        if is_curated_regression(path):
+            errors.extend(validate_regression_contract(text))
+        if is_curated_coverage_review(path):
+            errors.extend(validate_coverage_contract(text))
     return errors
 
 
