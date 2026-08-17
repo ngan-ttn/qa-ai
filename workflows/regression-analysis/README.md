@@ -99,6 +99,8 @@ Classify affected areas as required, recommended, retained/unaffected, or uncert
 
 Produce the Structured Regression Impact Analysis and verify that change traces, impact findings, scope decisions, priorities, assumptions, and open questions are internally consistent and evidence-based.
 
+The canonical impact inventory must be rendered as the table defined in `shared/templates/Regression.md`. Supporting change overview, excluded scope, criteria, assumptions, and execution notes remain section-based where appropriate.
+
 ---
 
 ## Required Skills
@@ -118,7 +120,7 @@ The participating skill may resolve applicable resources from:
 | Resource | Purpose |
 |---|---|
 | `shared/standards/` | Artifact and output conventions |
-| `shared/templates/` | Regression analysis structure |
+| `shared/templates/` | Regression analysis structure and canonical table rendering |
 | `shared/checklists/` | Review/coverage quality controls where applicable |
 | `shared/prompt-patterns/` | Reusable impact-analysis instructions |
 | `shared/knowledge/qa/` | Regression/risk context |
@@ -132,15 +134,12 @@ Authoritative project change/dependency evidence overrides generic framework kno
 
 ## Output
 
-The workflow produces a Structured Regression Impact Analysis that may include:
+The workflow produces a Structured Regression Impact Analysis using a hybrid document with a table-oriented core:
 
-- authoritative change trace;
-- direct and indirect affected areas;
-- existing coverage mapping;
-- regression scope decisions;
-- relative priority and rationale;
-- known dependencies;
-- assumptions, uncertainties, and open questions.
+| Impact ID | Area / Module | Change Relationship | Regression Scope / Behavior to Revalidate | Impact Type | Evidence / Traceability | Priority | Existing Coverage Reference | Decision |
+|---|---|---|---|---|---|---|---|---|
+
+The table records the actionable impact inventory. Change overview, exclusions, entry/exit criteria, assumptions, and execution notes may remain narrative sections.
 
 The workflow does not execute regression tests, create an execution schedule, generate missing tests automatically, or approve release readiness.
 
@@ -156,4 +155,5 @@ The workflow is complete when:
 - coverage evidence is applied when available without being treated as the source change;
 - unsupported dependencies remain uncertain;
 - regression scope and priorities are justified;
+- canonical regression table rendering is used;
 - output satisfies `regression-impact` and applicable shared standards/templates.
