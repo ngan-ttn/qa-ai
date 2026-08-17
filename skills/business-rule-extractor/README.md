@@ -79,18 +79,27 @@ Provide stable IDs and traceability to authoritative sources.
 
 ## Output
 
-Typical fields include:
+The canonical rendering follows `shared/templates/Business-Rule.md` and uses a **hybrid document with a table-oriented core rule inventory**.
 
-- Rule ID;
+The Business Rules section should render one logical rule per table row using the canonical columns:
+
+| Rule ID | Rule Type | Business Rule | Conditions / Inputs | Expected Outcome / Constraint | Source Traceability | Dependencies | Status |
+|---|---|---|---|---|---|---|---|
+
+Supporting assumptions, conflicts, and open questions remain separate sections when needed.
+
+Typical rule information includes:
+
+- stable Rule ID;
 - source traceability;
-- rule category;
+- rule category/type;
 - condition/trigger;
-- action/outcome;
-- scope/actor/state;
+- action/outcome or constraint;
+- scope/actor/state when relevant;
 - dependencies/related rules;
 - exception/default behavior when defined;
 - precedence/effective period when defined;
-- assumptions/conflicts/open questions.
+- confirmed vs clarification-dependent status.
 
 ---
 
@@ -99,7 +108,7 @@ Typical fields include:
 | Resource | Purpose |
 |---|---|
 | `shared/standards/` | Output/documentation conventions |
-| `shared/templates/` | Business-rule structure |
+| `shared/templates/` | Business-rule structure and canonical rendering |
 | `shared/checklists/` | Requirement/rule quality review where applicable |
 | `shared/prompt-patterns/` | Reusable extraction reasoning |
 | `shared/knowledge/domain/` | Business-rule/domain semantics |
@@ -146,4 +155,5 @@ Validate that:
 - dependencies, exceptions, conflicts, and unknown precedence are visible;
 - project-specific values are never supplied from generic knowledge;
 - duplicate rules are consolidated without losing scope differences;
+- the canonical rule table remains scanable and one logical rule is represented per row;
 - downstream consumers can distinguish confirmed rules from unresolved questions.
