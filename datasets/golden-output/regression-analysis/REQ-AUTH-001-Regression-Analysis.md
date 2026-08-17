@@ -6,7 +6,7 @@
 - Source Requirement: `datasets/requirements/simple/REQ-AUTH-001.md`
 - Artifact Type: `Regression Analysis`
 - Review Status: `Approved`
-- Evaluation Purpose: Reference output for evaluating direct-versus-potential impact separation, prioritization, dependency reasoning, scope control, traceability, and assumption management
+- Evaluation Purpose: Reference output for evaluating direct-versus-potential impact separation, prioritization, dependency reasoning, canonical regression-scope tiering, traceability, count integrity, and assumption management
 
 ---
 
@@ -15,6 +15,14 @@
 The requirement changes username-and-password authentication by adding per-account failed-attempt tracking, a five-attempt threshold, a 15-minute temporary lock, active-lock rejection, automatic unlock/reset, and successful-login reset/new-sequence behavior.
 
 The source does not define UI, API, database, session-management, password-reset, alternative-authentication, or concurrency contracts; these remain potential/clarification areas rather than confirmed impact.
+
+Scope reference based on the existing confirmed `TS-AUTH-*` coverage:
+
+- **Minimum / Release-Gate Regression:** 10 scenarios
+- **Recommended Regression:** 15 scenarios
+- **Full Changed-Feature Verification:** 17 scenarios
+
+These counts are based on unique scenario IDs listed in the tier sections below, not target percentages.
 
 ---
 
@@ -47,9 +55,39 @@ Confirmed change relationship: existing password authentication now depends on a
 
 ---
 
+## Regression Scope Tiers
+
+### Minimum / Release-Gate Regression — 10 scenarios
+
+`TS-AUTH-001`, `TS-AUTH-002`, `TS-AUTH-004`, `TS-AUTH-005`, `TS-AUTH-007`, `TS-AUTH-009`, `TS-AUTH-010`, `TS-AUTH-011`, `TS-AUTH-012`, `TS-AUTH-015`
+
+Rationale: covers normal/failed authentication, threshold below/at lock, correct-password rejection while locked, active-lock duration, automatic unlock, post-unlock reset, successful-login reset, and per-account isolation.
+
+### Recommended Regression — 15 scenarios
+
+Minimum set plus:
+
+`TS-AUTH-003`, `TS-AUTH-006`, `TS-AUTH-013`, `TS-AUTH-014`, `TS-AUTH-016`
+
+Unique total: **15**.
+
+Rationale: adds tracking detail, lock-start timing, additional successful-login reset partition, sequence separation, and first post-unlock failure behavior.
+
+### Full Changed-Feature Verification — 17 scenarios
+
+Recommended set plus:
+
+`TS-AUTH-008`, `TS-AUTH-017`
+
+Unique total: **17** (`TS-AUTH-001`–`TS-AUTH-017`).
+
+These add depth for incorrect-password attempts during active lock and repeated full lifecycle verification. They remain valid confirmed feature coverage but are not required by default in the smaller regression tiers.
+
+---
+
 ## Excluded Scope
 
-Alternative authentication is explicitly outside current dataset scope. UI/API/storage/session/password-management/concurrency areas are not confirmed direct impacts and must not be treated as mandatory regression without additional evidence.
+Alternative authentication is explicitly outside current dataset scope. UI/API/storage/session/password-management/concurrency areas are not confirmed direct impacts and must not be treated as executable regression without additional evidence.
 
 ---
 
@@ -62,8 +100,8 @@ Alternative authentication is explicitly outside current dataset scope. UI/API/s
 
 ## Exit Criteria
 
-- All confirmed direct rows are revalidated under compatible implementation behavior.
-- No critical regression remains in the five-attempt threshold, active lock, 15-minute lifecycle, reset paths, or account isolation.
+- The selected release tier passes for all confirmed included behavior.
+- No critical regression remains in the five-attempt threshold, active lock, 15-minute lifecycle, reset paths, or account isolation represented by that tier.
 - Potential rows are either supported by new evidence and promoted through review or remain explicitly non-confirmed.
 
 ---
@@ -74,12 +112,12 @@ No implementation architecture is assumed. Potential adjacent rows require addit
 
 ---
 
-## Execution Notes
+## Count Integrity Self-Check
 
-Preserve both sides of the key boundaries: `4 → unlocked`, `5 → locked`; before 15 minutes → locked, at/after defined expiry → automatically unlocked; successful-login and automatic-unlock reset paths → counter 0; next failure → new sequence 1.
+- Minimum unique scenario IDs: **10**.
+- Recommended unique scenario IDs: **15** = 10 Minimum + 5 additional.
+- Full Changed-Feature unique scenario IDs: **17** = 15 Recommended + 2 additional.
+- Confirmed direct impact rows: **9**.
+- Potential/excluded adjacent rows: **7**.
 
----
-
-## Regression Summary
-
-Nine confirmed direct regression areas cover all source-defined changed authentication behavior. Seven adjacent candidates remain potential/excluded according to source evidence. This separation prevents unsupported implementation assumptions from expanding mandatory regression scope.
+All reported tier counts and additions reconcile with the listed unique IDs.
