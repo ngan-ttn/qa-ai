@@ -50,6 +50,7 @@ Examples:
 - Existing structured requirement analysis
 - Existing structured business rule model
 - Existing structured test scenario model
+- Structured Coverage Assessment
 - Business context
 - Related QA documents
 - Existing test cases for reference
@@ -120,9 +121,21 @@ The user-facing scenario inventory must be rendered as the canonical table defin
 
 Execute `skills/testcase-generator` using the structured test scenario model.
 
-Generated test cases should be executable, organized, and aligned with the applicable testcase templates and standards.
+When a Structured Coverage Assessment is supplied, use it according to the canonical coverage semantics from `skills/coverage-reviewer`:
 
-The user-facing executable inventory must be rendered as the canonical table defined in `shared/templates/TestCase.md`. Ordered steps remain in a single row cell using numbered text and `<br>` separators.
+- `Covered` — do not add artificial cases merely to increase count.
+- `Weakly Covered` — improve testcase precision/decomposition when authoritative behavior already supports it.
+- `Gap` — close at testcase level only when the confirmed missing behavior can be represented without changing upstream scenario ownership; otherwise route remediation upstream.
+- `Blocked` — do not convert into executable expected results until the authoritative oracle/dependency is resolved.
+
+Generated test cases must be executable, organized, source-grounded, and aligned with the applicable testcase template and standards.
+
+The user-facing executable inventory MUST be rendered as **one canonical Markdown table under `## Test Cases`** as defined in `shared/templates/TestCase.md`.
+
+- Every executable `TC-*` appears exactly once as a row.
+- Section-per-testcase rendering such as `### TC-*` is not canonical and must not be used.
+- Separate per-testcase steps tables must not be used.
+- Ordered steps remain in the `Test Steps` cell using numbered text and `<br>` separators.
 
 ---
 
@@ -130,19 +143,22 @@ The user-facing executable inventory must be rendered as the canonical table def
 
 Validate that the workflow completed its required artifact chain and that each output satisfies the applicable skill contract.
 
-Validation should confirm:
+Validation must confirm:
 
-- Required upstream artifacts are available
-- Business rules remain consistent with the analyzed requirement
-- Test scenarios remain traceable to applicable business behavior
-- Test cases remain aligned with the structured test scenarios
-- Canonical table rendering is used for Business Rules, Test Scenarios, and Test Cases
-- Applicable QA standards and templates are followed
-- Missing, duplicate, ambiguous, or conflicting information identified by participating skills remains visible where relevant
+- Required upstream artifacts are available.
+- Business rules remain consistent with the analyzed requirement.
+- Test scenarios remain traceable to applicable business behavior.
+- Test cases remain aligned with confirmed structured test scenarios.
+- Canonical table rendering is used for Business Rules, Test Scenarios, and Test Cases.
+- The testcase artifact contains one canonical executable inventory and no section-per-testcase alternate representation.
+- Clarification-dependent/blocked behavior without an authoritative oracle is excluded from executable testcase rows.
+- Applicable QA standards and templates are followed.
+- Missing, duplicate, ambiguous, or conflicting information identified by participating skills remains visible where relevant.
+- All reported scenario/testcase/category counts reconcile with actual unique IDs/rows.
 
-Detailed artifact-specific validation criteria should remain in the applicable shared checklists and skill definitions.
+Detailed artifact-specific validation criteria remain in the applicable shared checklists and skill definitions.
 
-Coverage review of the generated testcase set is outside this workflow's responsibility and should be performed by the applicable quality-review capability or workflow.
+Coverage review of a generated testcase set is outside this core workflow's mandatory responsibility and may be performed by the applicable quality-review capability/workflow. When an existing Coverage Review is explicitly supplied as input, it is active downstream design evidence rather than a mandatory pipeline stage.
 
 ---
 
@@ -188,7 +204,7 @@ The workflow produces the following artifact chain:
 The primary user-facing deliverables for testcase-generation execution are typically:
 
 - Test scenarios — canonical table-oriented core output
-- Test cases — canonical table-oriented core output
+- Test cases — canonical hybrid + table-oriented output with one executable testcase inventory table
 
 Intermediate business-rule output also uses its canonical table-oriented core when exposed. Narrative sections may surround the tables where the shared template requires document-level context.
 
@@ -198,11 +214,13 @@ Intermediate business-rule output also uses its canonical table-oriented core wh
 
 The workflow is complete when:
 
-- Required stages have completed or valid existing upstream artifacts have been reused
-- Artifact dependencies are satisfied
-- The structured test scenario model is suitable for testcase generation
-- The structured test case model is suitable for downstream QA activities
-- Applicable standards/templates and canonical table rendering are followed
-- Blocking information gaps are resolved or explicitly reported
+- Required stages have completed or valid existing upstream artifacts have been reused.
+- Artifact dependencies are satisfied.
+- The structured test scenario model is suitable for testcase generation.
+- The structured test case model is suitable for downstream QA activities.
+- Applicable standards/templates and canonical table rendering are followed.
+- Testcase representation complies with `shared/templates/TestCase.md`.
+- Reported aggregate counts reconcile with the actual generated IDs/rows.
+- Blocking information gaps are resolved or explicitly reported.
 
 This workflow does not perform testcase coverage review, regression impact analysis, test execution, or test result management.
