@@ -1,360 +1,88 @@
 # Test Scenarios — Account Lock After Failed Login Attempts
 
-## 1. Scenario Scope
+## Scenario Summary
 
-This document defines test scenarios for the Account Lock After Failed Login Attempts feature.
+This scenario set covers successful authentication, failed-login tracking, the five-attempt lock threshold, successful-login reset, locked-state behavior, 30-minute automatic unlock, post-unlock tracking, account isolation, and repeated lock lifecycle. Undefined behavior remains clarification-dependent.
 
-The scenario coverage focuses on:
+---
 
-- Successful authentication.
-- Failed-login tracking.
-- Five-attempt lock threshold.
+## Scope
+
+- Authentication and incorrect-password handling.
+- Consecutive failed-login tracking per account.
+- Threshold boundary at five failures.
 - Successful-login counter reset.
-- Locked-state authentication.
-- Lock-message behavior.
-- Automatic unlock.
-- Post-unlock failed-login tracking.
-- Account-specific failed-login isolation.
-- Relevant boundary and state-transition behavior.
-
-Behaviors that are not sufficiently defined by the requirement are identified separately and are not assigned invented expected results.
+- Temporary account lock and locked-state authentication rejection.
+- 30-minute lock duration and automatic unlock.
+- Post-unlock tracking and repeated lifecycle.
+- Account isolation.
 
 ---
 
-## 2. Test Scenarios
+## Assumptions
 
-| Scenario ID | Area | Scenario | Coverage Type | Priority | Requirement Traceability |
-|---|---|---|---|---|---|
-| TS-001 | Authentication | Verify a registered user with valid credentials can log in when the account is not locked. | Positive | Medium | Requirements 1–3 |
-| TS-002 | Authentication | Verify login fails when a registered user enters an incorrect password. | Negative | High | Requirement 4 |
-| TS-003 | Failed Login Tracking | Verify the first consecutive incorrect-password attempt is recorded and the account remains unlocked. | Boundary | High | Requirements 5–6; AC-01 |
-| TS-004 | Failed Login Tracking | Verify the account remains unlocked after four consecutive incorrect-password attempts. | Boundary | High | Requirement 6; AC-01 |
-| TS-005 | Account Lock | Verify the account becomes temporarily locked on the fifth consecutive incorrect-password attempt. | Boundary / State Transition | High | Requirements 6, 8; AC-02 |
-| TS-006 | Failed Login Tracking | Verify a successful login after one or more but fewer than five consecutive failed attempts resets the failed-login counter. | Positive / State | High | Requirement 7; AC-05 |
-| TS-007 | Failed Login Tracking | Verify a new failed-login sequence starts after the counter has been reset by a successful login. | State | High | Requirement 7; AC-05 |
-| TS-008 | Account Lock | Verify a locked account cannot authenticate when the correct password is entered. | Negative / State | High | Requirement 10; AC-03 |
-| TS-009 | Account Lock | Verify a login attempt against a locked account is rejected when an incorrect password is entered. | Negative / State | High | Requirements 10–11; AC-03 |
-| TS-010 | Account Lock | Verify the defined temporary-lock message is displayed when a login attempt is made while the account is locked. | UI / Functional | Medium | Requirement 11; AC-03 |
-| TS-011 | Lock Duration | Verify the account remains locked before the 30-minute lock period has expired. | Time Boundary | High | Requirements 9–10 |
-| TS-012 | Automatic Unlock | Verify the account is automatically unlocked after the 30-minute lock period expires. | Time Boundary / State Transition | High | Requirement 12; AC-04 |
-| TS-013 | Automatic Unlock | Verify the user can successfully log in with valid credentials after the account is automatically unlocked. | Positive / State | High | Requirements 12–13; AC-04 |
-| TS-014 | Post-Unlock Tracking | Verify failed-login tracking starts again after the account has been automatically unlocked. | State | High | Requirement 14 |
-| TS-015 | Post-Unlock Tracking | Verify previous failed attempts from before the lock do not cause an earlier lock in the new post-unlock tracking sequence. | State / Boundary | High | Requirement 14 |
-| TS-016 | Account Isolation | Verify failed login attempts for one registered account do not affect the failed-login state of another registered account. | Isolation | High | Requirement 5; Notes |
-| TS-017 | Account Isolation | Verify one account can remain available for authentication while another account is temporarily locked. | Isolation / State | High | Requirements 5, 8–10 |
-| TS-018 | Repeated Lifecycle | Verify an account can enter a new lock cycle after automatic unlock when five new consecutive incorrect-password attempts occur. | End-to-End State | High | Requirements 6, 8, 12–14 |
-| TS-019 | Counter Reset | Verify multiple successful-login resets do not carry failed attempts from earlier consecutive-failure sequences into later sequences. | State | Medium | Requirement 7 |
-| TS-020 | Lock Lifecycle | Verify the complete defined lifecycle from unlocked state through five consecutive failures, temporary lock, automatic unlock, and successful login. | End-to-End | High | Requirements 5–14; AC-01–AC-05 |
+No expected behavior is added for timer-boundary semantics, attempts during lock, cross-device aggregation, unknown-account handling, concurrency, or exact post-unlock numeric counter state unless defined by the requirement.
 
 ---
 
-## 3. Positive Coverage
+## Test Scenarios
 
-### TS-001 — Successful Login While Unlocked
-
-Verify a registered user can authenticate successfully when:
-
-- Valid credentials are provided.
-- The account is not locked.
-
-Expected behavior is defined by Requirements 1–3.
-
----
-
-### TS-006 — Successful Login Resets Failed Counter
-
-Verify a successful login resets the failed-login counter when the account has between one and four consecutive failed login attempts.
-
-Representative sequences include:
-
-```text
-Fail → Success
-Fail → Fail → Success
-Fail → Fail → Fail → Success
-Fail → Fail → Fail → Fail → Success
-```
-
-Each successful login ends the current consecutive-failure sequence.
+| Scenario ID | Module / Feature | Scenario | Type | Preconditions / Conditions | Expected Behavior | Requirement / Rule Traceability | Risk Traceability | Priority |
+|---|---|---|---|---|---|---|---|---|
+| TS-001 | Authentication | Verify a registered user with valid credentials can log in when the account is not locked. | Positive | Registered account; account unlocked; valid credentials. | Authentication succeeds. | Requirements 1–3 | N/A | Medium |
+| TS-002 | Authentication | Verify login fails when a registered user enters an incorrect password. | Negative | Registered account; account unlocked; incorrect password. | Authentication fails and the failed attempt is recorded for that account. | Requirements 4–5 | N/A | High |
+| TS-003 | Failed Login Tracking | Verify the first consecutive incorrect-password attempt is recorded and the account remains unlocked. | Boundary | New failure sequence; first incorrect-password attempt. | Failure is recorded; account remains unlocked. | Requirements 5–6; AC-01 | N/A | High |
+| TS-004 | Failed Login Tracking | Verify the account remains unlocked after four consecutive incorrect-password attempts. | Boundary | Four consecutive incorrect-password attempts; no successful login between attempts. | All attempts fail; account remains unlocked after attempt 4. | Requirement 6; AC-01 | N/A | High |
+| TS-005 | Account Lock | Verify the account becomes temporarily locked on the fifth consecutive incorrect-password attempt. | Boundary / State | Account unlocked with four consecutive failures; fifth incorrect-password attempt occurs. | Fifth attempt fails and account transitions to temporarily locked. | Requirements 6, 8; AC-02 | N/A | High |
+| TS-006 | Counter Reset | Verify a successful login after one to four consecutive failures resets the failed-login sequence. | Positive / State | Account unlocked with 1–4 consecutive failures; valid credentials submitted. | Login succeeds and the previous failed-login sequence is reset. | Requirement 7; AC-05 | N/A | High |
+| TS-007 | Counter Reset | Verify a new failed-login sequence starts after the counter is reset by successful login. | State | Successful-login reset completed; later incorrect password submitted. | Later failure belongs to a new sequence and does not inherit previous failures. | Requirement 7; AC-05 | N/A | High |
+| TS-008 | Account Lock | Verify a locked account cannot authenticate when the correct password is entered. | Negative / State | Account locked; 30-minute period not expired; correct password submitted. | Authentication is rejected. | Requirement 10; AC-03 | N/A | High |
+| TS-009 | Account Lock | Verify a login attempt against a locked account is rejected when an incorrect password is entered. | Negative / State | Account locked; incorrect password submitted. | Authentication is rejected; no counter/timer effect is asserted. | Requirements 10–11; AC-03 | N/A | High |
+| TS-010 | Account Lock | Verify the defined temporary-lock message is displayed for a login attempt while locked. | Functional | Account locked; login attempted. | Authentication is rejected and `Your account has been temporarily locked. Please try again later.` is displayed. | Requirement 11; AC-03 | N/A | Medium |
+| TS-011 | Lock Duration | Verify the account remains locked before the 30-minute lock period expires. | Time Boundary | Account locked; less than 30 minutes elapsed. | Account remains locked and authentication is rejected. | Requirements 9–10 | N/A | High |
+| TS-012 | Automatic Unlock | Verify the account is automatically unlocked after the 30-minute lock period expires. | Time Boundary / State | Account locked; defined lock period expires. | Account automatically transitions to unlocked. | Requirement 12; AC-04 | N/A | High |
+| TS-013 | Automatic Unlock | Verify valid credentials can authenticate after automatic unlock. | Positive / State | Automatic unlock completed; valid credentials submitted. | Authentication succeeds. | Requirements 12–13; AC-04 | N/A | High |
+| TS-014 | Post-Unlock Tracking | Verify failed-login tracking starts again after automatic unlock. | State | Automatic unlock completed; new incorrect-password attempts occur. | New failed-login tracking sequence begins. | Requirement 14 | N/A | High |
+| TS-015 | Post-Unlock Tracking | Verify previous pre-lock failures do not cause an earlier lock in the new post-unlock sequence. | State / Boundary | Account automatically unlocked; four new failures occur. | Account remains unlocked through the fourth new failure. | Requirement 14 | N/A | High |
+| TS-016 | Account Isolation | Verify failed-login attempts for one registered account do not affect another account. | Isolation | Two registered unlocked accounts; failures applied to Account A. | Account B's failed-login state remains unaffected. | Requirement 5; Notes | N/A | High |
+| TS-017 | Account Isolation | Verify one account can remain available while another account is temporarily locked. | Isolation / State | Account A locked; Account B registered and unlocked. | Account B remains able to authenticate independently. | Requirements 5, 8–10 | N/A | High |
+| TS-018 | Repeated Lifecycle | Verify an account can enter a new lock cycle after automatic unlock when five new consecutive failures occur. | End-to-End State | Prior lock expired; new failure sequence begins. | Account locks again only on the fifth new consecutive failure. | Requirements 6, 8, 12–14 | N/A | High |
+| TS-019 | Counter Reset | Verify multiple successful-login resets do not carry failures from earlier sequences into later sequences. | State | Multiple below-threshold failure sequences separated by successful logins. | Each successful login resets its current sequence; earlier failures do not accumulate. | Requirement 7 | N/A | Medium |
+| TS-020 | Lock Lifecycle | Verify the complete lifecycle from unlocked state through five failures, temporary lock, automatic unlock, and successful login. | End-to-End | New sequence; account unlocked initially. | Account remains unlocked through failure 4, locks on failure 5, rejects login while locked, unlocks after 30 minutes, then permits valid authentication. | Requirements 5–14; AC-01–AC-05 | N/A | High |
 
 ---
 
-### TS-013 — Successful Login After Automatic Unlock
+## Out of Scope
 
-Verify the user can authenticate again after the defined lock period expires and the account is automatically unlocked.
-
----
-
-## 4. Negative Coverage
-
-### TS-002 — Incorrect Password
-
-Verify an incorrect password:
-
-- Causes authentication to fail.
-- Contributes to the consecutive failed-login sequence for the account.
+No implementation-specific persistence, API, database, timer-storage, device/session aggregation, or concurrency behavior is asserted unless it is explicitly defined by the requirement.
 
 ---
 
-### TS-008 — Correct Password While Locked
-
-Verify valid credentials do not bypass an active account lock.
-
-```text
-Account = Locked
-Password = Correct
-
-Expected:
-Authentication Rejected
-```
-
-This is a high-priority scenario because allowing authentication would violate the primary locked-state rule.
-
----
-
-### TS-009 — Incorrect Password While Locked
-
-Verify authentication remains unavailable when an incorrect password is submitted against an already locked account.
-
-The requirement supports rejection of authentication.
-
-The effect of this attempt on the counter or lock timer is not defined and must not be assumed.
-
----
-
-## 5. Boundary Coverage
-
-### Failed-Login Threshold
-
-The critical threshold is five consecutive failed login attempts.
-
-```text
-0 → Unlocked
-1 → Unlocked
-2 → Unlocked
-3 → Unlocked
-4 → Unlocked
-5 → Locked
-```
-
-Primary scenarios:
-
-- TS-003 verifies the lower sequence begins correctly.
-- TS-004 verifies the account remains unlocked immediately below the threshold.
-- TS-005 verifies the transition at the threshold.
-
-The most critical boundary is:
-
-```text
-4 Failed Attempts
-       ↓
-5th Failed Attempt
-       ↓
-Locked
-```
-
----
-
-### Lock Duration
-
-The lock duration is 30 minutes.
-
-Relevant defined coverage:
-
-```text
-Before 30-minute expiration
-→ Locked
-
-After 30-minute period expires
-→ Automatically Unlocked
-```
-
-The exact behavior at the precise expiration instant requires clarification before assigning a more specific expected result.
-
----
-
-## 6. State Transition Coverage
-
-The primary states are:
-
-```text
-UNLOCKED
-LOCKED
-```
-
-### Transition 1 — Unlocked to Locked
-
-```text
-UNLOCKED
-   │
-   │ 5 consecutive incorrect-password attempts
-   ▼
-LOCKED
-```
-
-Covered by:
-
-- TS-003
-- TS-004
-- TS-005
-
-### Transition 2 — Locked to Unlocked
-
-```text
-LOCKED
-   │
-   │ 30-minute lock period expires
-   ▼
-UNLOCKED
-```
-
-Covered by:
-
-- TS-011
-- TS-012
-- TS-013
-
-### Counter Reset Without Lock-State Change
-
-```text
-UNLOCKED
-   │
-   │ 1–4 failed attempts
-   │ followed by successful login
-   ▼
-UNLOCKED
-Failed Counter Reset
-```
-
-Covered by:
-
-- TS-006
-- TS-007
-- TS-019
-
-### Repeated Lock Cycle
-
-```text
-UNLOCKED
-    ↓
-5 Failures
-    ↓
-LOCKED
-    ↓
-30-Minute Expiration
-    ↓
-UNLOCKED
-    ↓
-5 New Failures
-    ↓
-LOCKED
-```
-
-Covered by TS-018.
-
----
-
-## 7. Account Isolation Coverage
-
-The requirement explicitly states that failed-login attempts are tracked separately for each account.
-
-Representative coverage:
-
-```text
-Account A
-Failed Count = 4
-
-Account B
-Failed Count = 0
-```
-
-A failed attempt against Account A must not modify Account B's failed-login state.
-
-The following scenarios cover account isolation:
-
-- TS-016 — independent failed-login tracking.
-- TS-017 — independent account lock state.
-
----
-
-## 8. Requirement Coverage Matrix
-
-| Requirement / AC | Covered By |
-|---|---|
-| Requirement 1 | TS-001 |
-| Requirement 2 | TS-001, TS-002 |
-| Requirement 3 | TS-001 |
-| Requirement 4 | TS-002 |
-| Requirement 5 | TS-003, TS-016, TS-017 |
-| Requirement 6 | TS-003, TS-004, TS-005, TS-018 |
-| Requirement 7 | TS-006, TS-007, TS-019 |
-| Requirement 8 | TS-005, TS-017, TS-018 |
-| Requirement 9 | TS-011, TS-012 |
-| Requirement 10 | TS-008, TS-009, TS-011 |
-| Requirement 11 | TS-009, TS-010 |
-| Requirement 12 | TS-012, TS-013, TS-018 |
-| Requirement 13 | TS-013 |
-| Requirement 14 | TS-014, TS-015, TS-018 |
-| AC-01 | TS-003, TS-004 |
-| AC-02 | TS-005 |
-| AC-03 | TS-008, TS-009, TS-010 |
-| AC-04 | TS-012, TS-013 |
-| AC-05 | TS-006, TS-007 |
-
----
-
-## 9. Clarification-Dependent Scenarios
-
-The following areas are relevant to testing but do not have sufficiently defined expected behavior.
-
-They should not be converted into executable scenarios with assumed expected results until clarification is available.
+## Open Questions / Clarification-Dependent Coverage
 
 | Item ID | Area | Potential Scenario | Missing Information |
 |---|---|---|---|
 | CD-001 | Lock Timer | Login exactly at the 30-minute expiration boundary. | Exact timer-boundary semantics are undefined. |
-| CD-002 | Locked Attempts | Verify counter behavior when login attempts occur while locked. | Effect on failed-login counter is undefined. |
-| CD-003 | Lock Extension | Verify whether repeated attempts while locked affect lock expiration. | Timer extension/restart behavior is undefined. |
-| CD-004 | Cross-Device | Verify failed-login accumulation across multiple devices or browsers. | Cross-device/session tracking behavior is not explicit. |
-| CD-005 | Unknown Account | Verify failed-login behavior for an unregistered email address. | Unknown-account behavior is undefined. |
-| CD-006 | Concurrency | Verify two simultaneous failed attempts when the account currently has four failures. | Concurrent counter/locking semantics are undefined. |
-| CD-007 | Post-Unlock Counter | Verify the exact numeric counter immediately after automatic unlock. | Requirement states tracking starts again but does not explicitly define the numeric reset value. |
+| CD-002 | Locked Attempts | Counter behavior for login attempts made while locked. | Effect on failed-login counter is undefined. |
+| CD-003 | Lock Extension | Whether repeated attempts while locked affect lock expiration. | Timer extension/restart behavior is undefined. |
+| CD-004 | Cross-Device | Failed-login accumulation across devices/browsers/sessions. | Cross-device/session tracking behavior is not explicit. |
+| CD-005 | Unknown Account | Login using an unregistered email address. | Unknown-account behavior is undefined. |
+| CD-006 | Concurrency | Simultaneous failed attempts when the account has four failures. | Concurrent counter/locking semantics are undefined. |
+| CD-007 | Post-Unlock Counter | Exact numeric counter immediately after automatic unlock. | Requirement states tracking starts again but does not explicitly define the numeric value. |
 
 ---
 
-## 10. Scenario Coverage Summary
+## Coverage Summary
 
-The scenario set covers the requirement-defined behavior across:
+| Coverage Area | Scenario IDs |
+|---|---|
+| Authentication | TS-001, TS-002 |
+| Failed-login threshold | TS-003, TS-004, TS-005 |
+| Counter reset / new sequence | TS-006, TS-007, TS-019 |
+| Locked-state behavior | TS-008, TS-009, TS-010 |
+| Lock duration / automatic unlock | TS-011, TS-012, TS-013 |
+| Post-unlock tracking | TS-014, TS-015 |
+| Account isolation | TS-016, TS-017 |
+| Repeated / E2E lifecycle | TS-018, TS-020 |
 
-```text
-Authentication
-      +
-Failed-Login Tracking
-      +
-Threshold Boundary
-      +
-Counter Reset
-      +
-Account Lock
-      +
-Locked-State Enforcement
-      +
-Lock Duration
-      +
-Automatic Unlock
-      +
-Post-Unlock Tracking
-      +
-Account Isolation
-      +
-Repeated State Lifecycle
-```
-
-The highest-priority coverage focuses on:
-
-1. The `4 → 5` failed-attempt boundary.
-2. Authentication rejection while locked.
-3. The 30-minute lock lifecycle.
-4. Successful-login counter reset.
-5. Post-unlock tracking.
-6. Account-specific isolation.
-
-Behavior not defined by the requirement remains explicitly separated as clarification-dependent coverage rather than receiving invented expected results.
+The highest-priority coverage remains the `4 → 5` threshold, authentication rejection while locked, the 30-minute lifecycle, successful-login reset, post-unlock tracking, and account isolation.
