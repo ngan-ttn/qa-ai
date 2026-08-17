@@ -18,6 +18,37 @@ from scripts.utils.file_utils import iter_files, relative_to_repo
 UNRESOLVED_MARKERS = re.compile(r"\b(TODO|TBD|FIXME)\b|YYYY-MM-DD", re.I)
 HEADING = re.compile(r"^#{1,6}\s+\S", re.M)
 
+# Table-oriented output contracts apply to current curated examples/golden references.
+# Historical runtime evidence under output/ or benchmark run records is intentionally
+# excluded from this representation check because it must remain immutable evidence.
+CANONICAL_TABLE_HEADERS = {
+    "Business-Rules.md": "| Rule ID | Rule Type | Business Rule | Conditions / Inputs | Expected Outcome / Constraint | Source Traceability | Dependencies | Status |",
+    "Risk-Analysis.md": "| Risk ID | Area / Feature | Risk Description | Trigger / Cause | Impact | Likelihood | Severity / Exposure | Mitigation / QA Focus | Traceability | Status |",
+    "Test-Scenarios.md": "| Scenario ID | Module / Feature | Scenario | Type | Preconditions / Conditions | Expected Behavior | Requirement / Rule Traceability | Risk Traceability | Priority |",
+    "Test-Cases.md": "| Test Case ID | Module / Function | Scenario ID | Test Case Title | Preconditions / Setup | Test Steps | Test Data | Expected Result | Priority | Traceability |",
+    "Regression-Analysis.md": "| Impact ID | Area / Module | Change Relationship | Regression Scope / Behavior to Revalidate | Impact Type | Evidence / Traceability | Priority | Existing Coverage Reference | Decision |",
+}
+
+GOLDEN_SUFFIX_HEADERS = {
+    "-Business-Rules.md": CANONICAL_TABLE_HEADERS["Business-Rules.md"],
+    "-Risk-Analysis.md": CANONICAL_TABLE_HEADERS["Risk-Analysis.md"],
+    "-Test-Scenarios.md": CANONICAL_TABLE_HEADERS["Test-Scenarios.md"],
+    "-Test-Cases.md": CANONICAL_TABLE_HEADERS["Test-Cases.md"],
+    "-Regression-Analysis.md": CANONICAL_TABLE_HEADERS["Regression-Analysis.md"],
+}
+
+
+def canonical_header_for(path: Path) -> str | None:
+    """Return required canonical table header for curated list-oriented QA outputs."""
+    rel = relative_to_repo(path)
+    if "/expected-output/" in f"/{rel}":
+        return CANONICAL_TABLE_HEADERS.get(path.name)
+    if rel.startswith("datasets/golden-output/"):
+        for suffix, header in GOLDEN_SUFFIX_HEADERS.items():
+            if path.name.endswith(suffix):
+                return header
+    return None
+
 
 def validate_file(path: Path) -> list[str]:
     text = path.read_text(encoding="utf-8").strip()
@@ -30,6 +61,10 @@ def validate_file(path: Path) -> list[str]:
         hit = UNRESOLVED_MARKERS.search(text)
         if hit:
             errors.append(f"unresolved authoring marker: {hit.group(0)}")
+
+        required_header = canonical_header_for(path)
+        if required_header and required_header not in text:
+            errors.append("missing canonical table-oriented core header")
     return errors
 
 
