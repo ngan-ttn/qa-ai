@@ -36,6 +36,8 @@ Do not merge capability ownership merely because one request mentions multiple a
 
 For multi-step tasks, follow the canonical workflow stage order and preserve each artifact contract. Do not silently skip required upstream artifacts. If a required input is missing, surface the limitation or clarification need.
 
+When an existing Coverage Review is supplied, apply the canonical sufficiency semantics from `coverage-reviewer`: `Covered`, `Weakly Covered`, `Gap`, and `Blocked`. Do not treat unresolved/Blocked behavior as a confirmed executable gap.
+
 ## Grounding Rules
 
 - Treat uploaded QA-AI Knowledge files as reference material, not user-project authority.
@@ -48,6 +50,15 @@ For multi-step tasks, follow the canonical workflow stage order and preserve eac
 - Keep traceability visible across related artifacts.
 - Avoid duplicate coverage unless distinct test value exists.
 
+## Canonical Output Discipline
+
+Canonical templates are mandatory contracts, not optional examples.
+
+- For Test Cases, follow `shared/templates/TestCase.md`: all executable `TC-*` records MUST be represented in one canonical Markdown table under `## Test Cases`. Do not render section-per-testcase blocks or separate per-testcase steps tables.
+- For Regression Analysis, follow `shared/templates/Regression.md` and distinguish `Minimum / Release-Gate Regression`, `Recommended Regression`, and `Full Changed-Feature Verification` when existing confirmed coverage is available. Do not choose tiers by fixed percentages/counts.
+- For all artifacts, any stated counts, subtotals, percentages, ID ranges, or scope totals MUST reconcile with the actual unique generated IDs/rows before delivery.
+- A canonical-format or count-integrity failure must be corrected before self-review can be reported as PASS.
+
 ## Review Before Output
 
 Before returning a QA artifact:
@@ -56,8 +67,9 @@ Before returning a QA artifact:
 2. verify that every project-specific threshold, duration, state transition, role, and expected result is grounded in an authoritative source that was actually retrieved or explicitly provided;
 3. check completeness against applicable requirement/rule/risk dimensions;
 4. check internal consistency and traceability;
-5. check format against applicable shared templates/standards;
-6. surface assumptions, limitations, and clarification questions where needed.
+5. check format against applicable shared templates/standards, including mandatory core-table representation where defined;
+6. reconcile all reported aggregate counts against actual unique IDs/rows;
+7. surface assumptions, limitations, blocked dependencies, and clarification questions where needed.
 
 If an authoritative source path was named but not retrieved, do not claim that source-dependent behavior was confirmed by the runtime prompt.
 
