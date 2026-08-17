@@ -1,0 +1,85 @@
+{
+  "criteria": {
+    "C01": {
+      "weight": 15,
+      "level": "L4",
+      "factor": 1.0,
+      "weighted_score": 15.0
+    },
+    "C02": {
+      "weight": 15,
+      "level": "L4",
+      "factor": 1.0,
+      "weighted_score": 15.0
+    },
+    "C03": {
+      "weight": 12,
+      "level": "L4",
+      "factor": 1.0,
+      "weighted_score": 12.0
+    },
+    "C04": {
+      "weight": 8,
+      "level": "L4",
+      "factor": 1.0,
+      "weighted_score": 8.0
+    },
+    "C05": {
+      "weight": 8,
+      "level": "L4",
+      "factor": 1.0,
+      "weighted_score": 8.0
+    },
+    "C06": {
+      "weight": 10,
+      "level": "L4",
+      "factor": 1.0,
+      "weighted_score": 10.0
+    },
+    "C07": {
+      "weight": 5,
+      "level": "L3",
+      "factor": 0.8,
+      "weighted_score": 4.0
+    },
+    "C08": {
+      "weight": 7,
+      "level": "L4",
+      "factor": 1.0,
+      "weighted_score": 7.0
+    },
+    "C09": {
+      "weight": 5,
+      "level": "L4",
+      "factor": 1.0,
+      "weighted_score": 5.0
+    },
+    "C10": {
+      "weight": 5,
+      "level": "L4",
+      "factor": 1.0,
+      "weighted_score": 5.0
+    },
+    "C11": {
+      "weight": 5,
+      "level": "N/A",
+      "weighted_score": null,
+      "justification": "Risk Awareness is supporting-only for this evaluated Structured Test Case Model; the canonical testcase-generation workflow does not execute risk-analyzer and no risk decision is required for this controlled run."
+    },
+    "C12": {
+      "weight": 5,
+      "level": "L4",
+      "factor": 1.0,
+      "weighted_score": 5.0
+    }
+  },
+  "raw_weighted_score": 94.0,
+  "active_weight": 95,
+  "normalized_score": 98.95,
+  "critical_failures": [],
+  "applied_cap": null,
+  "final_unrounded_score": 98.95,
+  "final_score": 99,
+  "quality_band": "Excellent",
+  "result": "PASS"
+}
