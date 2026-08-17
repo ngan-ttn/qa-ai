@@ -110,22 +110,23 @@ Organize the result into a reusable decision-support artifact with assumptions a
 
 ## Output
 
-Typical fields include:
+The canonical rendering follows `shared/templates/Regression.md` and uses a **hybrid document with a table-oriented Regression Impact / Coverage section**.
 
-| Field | Description |
-|---|---|
-| Impact ID | Stable identifier |
-| Change Trace | Source change driving the impact |
-| Affected Area | Requirement, flow, API, data, role, state, etc. |
-| Impact Type | Direct, indirect, coverage update, uncertainty |
-| Existing Coverage | Relevant existing scenario/test references |
-| Regression Decision | Required, recommended, retained/unaffected, uncertain |
-| Priority | Supported relative priority |
-| Rationale | Evidence supporting scope decision |
-| Dependencies | Known impact paths |
-| Assumptions / Questions | Missing information affecting confidence |
+The impact inventory should use these canonical columns:
 
-The exact rendering follows applicable shared output standards and templates.
+| Impact ID | Area / Module | Change Relationship | Regression Scope / Behavior to Revalidate | Impact Type | Evidence / Traceability | Priority | Existing Coverage Reference | Decision |
+|---|---|---|---|---|---|---|---|---|
+
+Supporting change overview, excluded scope, entry/exit criteria, assumptions/open questions, and execution notes remain section-based.
+
+The regression table must make clear:
+
+- what changed and why an area is related;
+- direct/indirect/potential impact distinction;
+- the behavior to revalidate, not only a broad module name;
+- existing scenario/testcase coverage that can be reused;
+- evidence supporting Include / Exclude / Clarify decisions;
+- uncertainty without inventing implementation coupling.
 
 ---
 
@@ -134,7 +135,7 @@ The exact rendering follows applicable shared output standards and templates.
 | Resource | Purpose |
 |---|---|
 | `shared/standards/` | Output and documentation conventions |
-| `shared/templates/` | Regression analysis structure where applicable |
+| `shared/templates/` | Regression analysis structure and canonical rendering |
 | `shared/checklists/` | Review/coverage quality controls where applicable |
 | `shared/prompt-patterns/` | Reusable impact-analysis reasoning |
 | `shared/knowledge/qa/` | Regression, risk, lifecycle, traceability context |
@@ -185,7 +186,8 @@ Validate that:
 - existing coverage is reused where valid rather than duplicated;
 - coverage gaps and outdated tests are explicit;
 - risk influences priority without being redefined;
-- regression decisions include rationale;
+- regression decisions include rationale/evidence;
 - unsupported implementation assumptions are visible;
 - uncertainty and missing dependency information are explicit;
+- the canonical regression table remains scanable and export-friendly;
 - the output is actionable without requiring downstream consumers to reconstruct the impact reasoning.
