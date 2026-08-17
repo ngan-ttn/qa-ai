@@ -17,7 +17,17 @@
     "10": {"name": "Knowledge Library Completion", "status": "Frozen", "progress": {"completed": 181, "total": 181, "unit": "knowledge_articles"}},
     "11": {"name": "Skill Library Expansion", "status": "Frozen", "tracking_unit": "skill", "progress": {"completed": 5, "total": 5, "unit": "expansion_skills"}, "library_baseline": {"foundation": 6, "expansion": 5, "total": 11}},
     "12": {"name": "Scripts Implementation", "status": "Frozen", "tracking_unit": "script_group", "progress": {"completed": 8, "total": 8, "unit": "script_groups"}, "script_baseline": {"groups": 8, "scripts": 25}},
-    "13": {"name": "Platform Integration", "status": "Frozen", "tracking_unit": "platform_adapter", "progress": {"completed": 3, "total": 3, "unit": "platform_adapters"}},
+    "13": {
+      "name": "Platform Integration",
+      "status": "Frozen",
+      "tracking_unit": "platform_adapter",
+      "progress": {"completed": 3, "total": 3, "unit": "platform_adapters"},
+      "components": {
+        "chatgpt": {"status": "Frozen", "evidence": "Canonical ChatGPT adapter, mappings, usage guidance, and deterministic Knowledge bundle builder are present and validated."},
+        "claude": {"status": "Frozen", "evidence": "Canonical Claude adapter, mappings, usage guidance, and integration contract are present and validated."},
+        "cursor": {"status": "Frozen", "evidence": "Canonical Cursor adapter package, mappings, commands, rules, and usage guidance are present and validated."}
+      }
+    },
     "14": {
       "name": "Controlled Runtime Evaluation & Benchmark Baseline",
       "status": "Frozen",
