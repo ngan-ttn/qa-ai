@@ -96,18 +96,27 @@ Organize stable IDs, title, preconditions, steps, data references, expected resu
 
 ## Output
 
-Typical fields include:
+The canonical rendering follows `shared/templates/TestCase.md` and uses a **hybrid document with a table-oriented Test Cases section**.
 
-- Test Case ID;
+The executable inventory should use these canonical columns:
+
+| Test Case ID | Module / Function | Scenario ID | Test Case Title | Preconditions / Setup | Test Steps | Test Data | Expected Result | Priority | Traceability |
+|---|---|---|---|---|---|---|---|---|---|
+
+Multiple ordered steps must remain in one table cell using numbered text separated by `<br>`. Shared suite-level context may remain in separate sections, but case-specific setup and expected results must remain visible in the row.
+
+The testcase table must preserve:
+
+- stable Test Case ID;
 - scenario/requirement/rule/risk traceability;
-- title/objective;
-- preconditions;
-- ordered steps;
+- module/function grouping;
+- single test objective/title;
+- case-specific preconditions/setup;
+- ordered executable steps;
 - test-data references/requirements;
-- expected results;
+- observable expected result;
 - priority;
-- technical-validation references;
-- assumptions/open questions.
+- uncertainty without inventing expected behavior.
 
 ---
 
@@ -116,7 +125,7 @@ Typical fields include:
 | Resource | Purpose |
 |---|---|
 | `shared/standards/` | Output/documentation conventions |
-| `shared/templates/` | Testcase structure |
+| `shared/templates/` | Testcase structure and canonical rendering |
 | `shared/checklists/` | Testcase quality controls |
 | `shared/prompt-patterns/` | Reusable generation reasoning |
 | `shared/knowledge/qa/` | Generic testcase principles |
@@ -162,12 +171,13 @@ This skill does not:
 
 Validate that:
 
-- each case has one primary objective and upstream traceability;
+- each testcase row has one primary objective and upstream traceability;
 - preconditions and data needs are sufficient and non-invented;
 - steps are ordered and executable;
 - expected results are observable and authoritative or explicitly uncertain;
 - risk/priority context is preserved where available;
 - technical specialization is referenced rather than duplicated;
 - duplicate coverage is minimized;
-- assumptions/open questions are visible;
+- assumptions/open questions are visible outside executable expected behavior;
+- the canonical testcase table remains readable and export-friendly;
 - cases can be executed without downstream consumers having to infer missing core logic.
