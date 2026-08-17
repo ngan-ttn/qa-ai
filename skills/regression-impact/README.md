@@ -21,7 +21,7 @@ Trace Dependent / Indirect Impact
         ↓
 Map Existing Coverage
         ↓
-Define and Prioritize Regression Scope
+Define Minimum / Recommended / Full Changed-Feature Scope
         ↓
 Structured Regression Impact Analysis
 ```
@@ -94,9 +94,15 @@ When coverage/test artifacts are available, determine which existing scenarios/c
 
 Use Structured Risk Analysis or supported risk reasoning to distinguish business-critical, failure-sensitive, uncertain, or high-blast-radius areas. Risk informs priority; this skill does not redefine the risk model.
 
-### Step 6 — Define Regression Scope
+### Step 6 — Define Regression Scope Tiers
 
-Classify regression areas as required, recommended, unaffected/retained, or uncertain according to supported evidence. Preserve traceability from each scope decision to the change/dependency that justifies it.
+Use the canonical tiers in `shared/templates/Regression.md`:
+
+1. **Minimum / Release-Gate Regression** — smallest defensible release-critical set focused on direct change paths, critical boundaries/states, highest-risk confirmed behavior, and strongly supported dependencies.
+2. **Recommended Regression** — Minimum plus justified adjacent/dependent behavior, important alternate partitions/states, and material Medium/High-risk coverage.
+3. **Full Changed-Feature Verification** — all valid confirmed functional coverage for the changed feature, including depth/display cases that are not required in smaller tiers.
+
+Do not target a fixed percentage or testcase count. If Minimum necessarily approaches Full verification, explain the evidence for that result.
 
 ### Step 7 — Prioritize Regression Areas
 
@@ -117,15 +123,18 @@ The impact inventory should use these canonical columns:
 | Impact ID | Area / Module | Change Relationship | Regression Scope / Behavior to Revalidate | Impact Type | Evidence / Traceability | Priority | Existing Coverage Reference | Decision |
 |---|---|---|---|---|---|---|---|---|
 
-Supporting change overview, excluded scope, entry/exit criteria, assumptions/open questions, and execution notes remain section-based.
+Supporting change overview, excluded scope, entry/exit criteria, assumptions/open questions, execution notes, and regression-tier summaries remain section-based.
 
-The regression table must make clear:
+The regression output must make clear:
 
 - what changed and why an area is related;
 - direct/indirect/potential impact distinction;
 - the behavior to revalidate, not only a broad module name;
 - existing scenario/testcase coverage that can be reused;
 - evidence supporting Include / Exclude / Clarify decisions;
+- Minimum / Release-Gate scope;
+- Recommended Regression scope;
+- Full Changed-Feature Verification scope;
 - uncertainty without inventing implementation coupling.
 
 ---
@@ -189,5 +198,9 @@ Validate that:
 - regression decisions include rationale/evidence;
 - unsupported implementation assumptions are visible;
 - uncertainty and missing dependency information are explicit;
+- Minimum / Release-Gate, Recommended, and Full Changed-Feature tiers follow their canonical selection semantics rather than arbitrary counts;
+- every selected testcase/scenario reference exists in supplied artifacts;
+- reported scope counts reconcile exactly with unique selected IDs;
+- Recommended is a justified superset of Minimum where both are produced;
 - the canonical regression table remains scanable and export-friendly;
 - the output is actionable without requiring downstream consumers to reconstruct the impact reasoning.
