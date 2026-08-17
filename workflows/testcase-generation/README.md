@@ -102,6 +102,8 @@ Execute `skills/business-rule-extractor` using the structured requirement analys
 
 The resulting structured business rule model should preserve relevant rules, relationships, dependencies, constraints, exceptions, and unresolved items required by downstream scenario generation.
 
+The canonical rule inventory must follow the table-oriented core format defined in `shared/templates/Business-Rule.md`.
+
 ---
 
 ### Step 3: Generate Test Scenarios
@@ -110,6 +112,8 @@ Execute `skills/scenario-generator` using the structured business rule model.
 
 The resulting structured test scenario model should represent meaningful validation objectives, relevant user journeys, scenario relationships, dependencies, and identified gaps.
 
+The user-facing scenario inventory must be rendered as the canonical table defined in `shared/templates/Scenario.md`; supporting scope/assumption/open-question context may remain section-based.
+
 ---
 
 ### Step 4: Generate Test Cases
@@ -117,6 +121,8 @@ The resulting structured test scenario model should represent meaningful validat
 Execute `skills/testcase-generator` using the structured test scenario model.
 
 Generated test cases should be executable, organized, and aligned with the applicable testcase templates and standards.
+
+The user-facing executable inventory must be rendered as the canonical table defined in `shared/templates/TestCase.md`. Ordered steps remain in a single row cell using numbered text and `<br>` separators.
 
 ---
 
@@ -130,6 +136,7 @@ Validation should confirm:
 - Business rules remain consistent with the analyzed requirement
 - Test scenarios remain traceable to applicable business behavior
 - Test cases remain aligned with the structured test scenarios
+- Canonical table rendering is used for Business Rules, Test Scenarios, and Test Cases
 - Applicable QA standards and templates are followed
 - Missing, duplicate, ambiguous, or conflicting information identified by participating skills remains visible where relevant
 
@@ -161,7 +168,7 @@ The participating skills may resolve applicable resources from the shared module
 | Resource | Purpose |
 |---|---|
 | `shared/standards/` | Apply applicable QA and artifact standards |
-| `shared/templates/` | Structure generated QA artifacts |
+| `shared/templates/` | Structure generated QA artifacts and canonical table rendering |
 | `shared/checklists/` | Support applicable validation activities |
 | `shared/prompt-patterns/` | Provide reusable instruction patterns where required by participating skills |
 
@@ -180,12 +187,10 @@ The workflow produces the following artifact chain:
 
 The primary user-facing deliverables for testcase-generation execution are typically:
 
-- Test scenarios
-- Test cases
+- Test scenarios — canonical table-oriented core output
+- Test cases — canonical table-oriented core output
 
-Intermediate artifacts may remain internal unless requested by the user or required as workflow deliverables by the execution context.
-
-Output formats should follow the applicable templates and output standards defined in shared resources.
+Intermediate business-rule output also uses its canonical table-oriented core when exposed. Narrative sections may surround the tables where the shared template requires document-level context.
 
 ---
 
@@ -197,7 +202,7 @@ The workflow is complete when:
 - Artifact dependencies are satisfied
 - The structured test scenario model is suitable for testcase generation
 - The structured test case model is suitable for downstream QA activities
-- Applicable standards and templates are followed
+- Applicable standards/templates and canonical table rendering are followed
 - Blocking information gaps are resolved or explicitly reported
 
 This workflow does not perform testcase coverage review, regression impact analysis, test execution, or test result management.
