@@ -4,7 +4,7 @@
 
 The `TestCase-Review` checklist defines the validation criteria for assessing the quality of structured test case artifacts.
 
-Its purpose is to ensure that test cases are complete, correct, executable, maintainable, and suitable for efficient manual or automated testing.
+Its purpose is to ensure that test cases are complete, correct, executable, maintainable, traceable, and compliant with the canonical testcase representation.
 
 This checklist defines **what should be validated**. It does not define **how test cases are created**.
 
@@ -16,6 +16,7 @@ This checklist applies to structured test case artifacts produced by QA engineer
 
 Artifacts reviewed by this checklist include:
 
+- Canonical testcase inventory format
 - Test case metadata
 - Test objective
 - Preconditions
@@ -30,160 +31,127 @@ Artifacts reviewed by this checklist include:
 
 ## How To Use
 
-Apply this checklist after the test case has been completed.
-
-Review each validation category independently before determining the final review result.
+Apply this checklist after the test case artifact has been completed.
 
 - Verify all **MUST** criteria.
 - Evaluate **SHOULD** criteria where applicable.
 - Record review findings.
 - Determine the final review result.
 
-This checklist evaluates artifact quality only. It should not be used as a test case generation guide or template.
-
 ---
 
 ## Validation Categories
 
-### 1. Completeness
-
-Review whether the test case contains all required information.
+### 1. Canonical Format Compliance
 
 | Validation Criteria | Level |
-|---------------------|:-----:|
+|---|:---:|
+| `## Test Cases` contains one canonical Markdown testcase inventory table. | MUST |
+| Every executable `TC-*` appears exactly once as a row in the canonical inventory. | MUST |
+| Section-per-testcase rendering such as `### TC-*` is not used as the canonical representation. | MUST |
+| Separate per-testcase/nested steps tables are not used. | MUST |
+| Ordered steps are represented in the `Test Steps` cell using numbered `<br>` content. | MUST |
+| Supporting sections do not duplicate or fragment the canonical testcase inventory. | MUST |
+
+### 2. Completeness
+
+| Validation Criteria | Level |
+|---|:---:|
 | The test objective is clearly defined. | MUST |
 | Preconditions are documented where required. | MUST |
 | Test steps are complete. | MUST |
 | Expected results are provided for every verification point. | MUST |
 | Required test data is identified where applicable. | SHOULD |
 | Test priority is assigned where applicable. | SHOULD |
-| A unique test case identifier exists where applicable. | SHOULD |
+| A unique test case identifier exists. | MUST |
 
----
-
-### 2. Correctness
-
-Review whether the test case accurately verifies the intended business behavior.
+### 3. Correctness
 
 | Validation Criteria | Level |
-|---------------------|:-----:|
-| The test case aligns with the approved requirement. | MUST |
+|---|:---:|
+| The test case aligns with approved authoritative behavior. | MUST |
 | The verification objective matches the intended business behavior. | MUST |
-| Expected results represent the correct system behavior. | MUST |
+| Expected results represent source-supported system behavior. | MUST |
 | Unsupported assumptions are not introduced. | MUST |
+| Clarification-dependent behavior without an authoritative oracle is excluded from executable rows. | MUST |
 
----
-
-### 3. Executability
-
-Review whether the test case can be executed without additional interpretation.
+### 4. Executability
 
 | Validation Criteria | Level |
-|---------------------|:-----:|
+|---|:---:|
 | Test steps are sequential and executable. | MUST |
-| Each step describes a single executable action or verification. | MUST |
+| Each step describes a clear executable action or verification. | MUST |
 | Test steps avoid ambiguous wording. | SHOULD |
 | Expected results are objectively verifiable. | MUST |
 | Required environment or setup is identified where applicable. | SHOULD |
 
----
-
-### 4. Coverage
-
-Review whether the test case contributes sufficient verification coverage.
+### 5. Coverage
 
 | Validation Criteria | Level |
-|---------------------|:-----:|
+|---|:---:|
 | Business-critical functionality is covered. | MUST |
 | Positive validation is included where applicable. | MUST |
 | Negative validation is included where applicable. | SHOULD |
 | Boundary conditions are verified where applicable. | SHOULD |
 | Error handling is verified where applicable. | SHOULD |
+| Supplied Coverage Review findings are handled according to `Covered / Weakly Covered / Gap / Blocked` semantics. | SHOULD |
 
----
-
-### 5. Traceability
-
-Review whether the test case can be traced to upstream artifacts.
+### 6. Traceability
 
 | Validation Criteria | Level |
-|---------------------|:-----:|
-| The test case is traceable to one or more requirements. | MUST |
-| Supporting business rules are referenced where applicable. | SHOULD |
-| One or more test scenarios are referenced where applicable. | SHOULD |
+|---|:---:|
+| Every executable testcase traces to at least one approved scenario. | MUST |
+| Requirements/business rules/risks are referenced where the canonical workflow supplies them. | SHOULD |
 | The verification objective remains traceable throughout the QA workflow. | MUST |
 
----
-
-### 6. Maintainability
-
-Review whether the test case can be maintained efficiently over time.
+### 7. Maintainability
 
 | Validation Criteria | Level |
-|---------------------|:-----:|
+|---|:---:|
 | Test steps avoid unnecessary implementation details. | SHOULD |
 | Test data is reusable where applicable. | SHOULD |
 | Duplicate validation logic is avoided. | SHOULD |
+| Shared setup is factored out without hiding case-specific setup. | SHOULD |
 | The test case remains understandable after requirement updates. | SHOULD |
 
----
-
-### 7. Testability
-
-Review whether the test case supports reliable execution and objective evaluation.
+### 8. Count / Inventory Integrity
 
 | Validation Criteria | Level |
-|---------------------|:-----:|
-| The expected outcome is measurable. | MUST |
-| Pass or fail can be determined objectively. | MUST |
-| Manual execution is possible without additional interpretation. | SHOULD |
-| The test case supports automation where applicable. | SHOULD |
+|---|:---:|
+| Reported testcase totals equal the number of unique `TC-*` rows. | MUST |
+| Functional-area subtotals reconcile with the stated total when categories are exhaustive. | MUST |
+| Scenario coverage counts reconcile with actual unique scenario IDs represented by executable rows. | MUST |
+| ID ranges are not reported as continuous unless the IDs actually exist. | MUST |
 
 ---
 
 ## Acceptance Criteria
 
 | Review Result | Criteria |
-|---------------|----------|
-| **PASS** | All **MUST** criteria are satisfied. No critical review findings remain unresolved. The test case is executable and suitable for downstream testing activities. |
-| **FAIL** | One or more **MUST** criteria are not satisfied, or critical review findings prevent reliable execution or downstream testing activities. |
+|---|---|
+| **PASS** | All **MUST** criteria are satisfied. No critical review findings remain unresolved. The artifact is canonical-format compliant, executable, source-grounded, traceable, and internally consistent. |
+| **FAIL** | One or more **MUST** criteria are not satisfied, including canonical representation or count-integrity failures. |
 
 ---
 
 ## Common Review Findings
 
 | Category | Typical Findings |
-|----------|------------------|
+|---|---|
+| Canonical Format | Section-per-testcase output; separate per-case steps tables; duplicated testcase inventory |
 | Completeness | Missing preconditions, test data, or expected results |
-| Correctness | Expected results do not align with business requirements |
+| Correctness | Expected results do not align with authoritative behavior |
 | Executability | Ambiguous steps or missing execution details |
-| Coverage | Missing negative, boundary, or error validation |
-| Traceability | Missing links to requirements or test scenarios |
-| Maintainability | Duplicate steps or implementation-dependent wording |
-| Testability | Expected results are subjective or cannot determine pass/fail objectively |
-
----
-
-## Input Artifacts
-
-- Requirement analysis
-- Business rules
-- Test scenarios
-
----
-
-## Output Artifacts
-
-- Reviewed test cases
-- Manual test execution
-- Automated test implementation
-- Coverage assessment
-- Regression testing
+| Coverage | Missing confirmed negative/boundary/state coverage; blocked behavior converted to executable oracle |
+| Traceability | Missing scenario or upstream references |
+| Maintainability | Duplicate steps or unnecessary implementation-dependent wording |
+| Count Integrity | Summary count/subtotals do not reconcile with actual TC/SC IDs |
 
 ---
 
 ## References
 
-- `shared/standards/`
+- `shared/standards/Output.md`
 - `shared/templates/TestCase.md`
-- `shared/glossary/`
+- `skills/testcase-generator/README.md`
+- `skills/coverage-reviewer/README.md`
