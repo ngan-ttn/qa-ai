@@ -1,0 +1,59 @@
+{
+  "baseline_id": "BASE-REQ-AUTH-001-TC-CLAUDE-001",
+  "baseline_version": "1.0.0",
+  "status": "Candidate",
+  "dataset": {
+    "id": "REQ-AUTH-001",
+    "reference": "datasets/requirements/simple/REQ-AUTH-001.md",
+    "artifact_type": "Structured Test Case Model"
+  },
+  "framework": {
+    "version": "1.0.0",
+    "workflow": "workflows/testcase-generation",
+    "repository_commit": "533fcee460291dd6dc92e64df7186e1a46d049a1"
+  },
+  "execution": {
+    "run_id": "P14-RUN-CLAUDE-001",
+    "platform": "Claude",
+    "runtime_or_model": "Claude Code (Sonnet 5, claude-sonnet-5)",
+    "adapter_reference": "adapters/claude/CLAUDE.md at phase14-runtime-evaluation; installed unchanged as repository-root CLAUDE.md for controlled execution"
+  },
+  "evaluation": {
+    "criteria": "EVAL-CRITERIA-001",
+    "rubric": "EVAL-RUBRIC-001",
+    "scoring": "EVAL-SCORING-001",
+    "profile": "canonical-default",
+    "criterion_levels": {
+      "C01": "L4",
+      "C02": "L4",
+      "C03": "L4",
+      "C04": "L4",
+      "C05": "L4",
+      "C06": "L4",
+      "C07": "L3",
+      "C08": "L4",
+      "C09": "L4",
+      "C10": "L4",
+      "C11": "N/A",
+      "C12": "L4"
+    },
+    "unrounded_score": 98.95,
+    "final_score": 99,
+    "quality_band": "Excellent",
+    "critical_failures": [],
+    "result": "PASS"
+  },
+  "evidence": {
+    "raw_output_reference": "datasets/benchmark/runs/phase14/records/claude/Raw-Output.md",
+    "execution_metadata_reference": "datasets/benchmark/runs/phase14/records/claude/Execution-Metadata.json",
+    "scoring_input_reference": "datasets/benchmark/runs/phase14/records/claude/Scoring-Input.json",
+    "evaluation_result_reference": "datasets/benchmark/runs/phase14/records/claude/Evaluation-Result.json"
+  },
+  "approved_by": null,
+  "approval_date": null,
+  "notes": [
+    "Candidate only; not an approved Phase 14 baseline until the full three-platform benchmark, reproducibility review, and final quality gate are complete.",
+    "The controlled run surfaced undefined locked-state counter behavior and elapsed-time verification mechanics as open/execution-dependent rather than inventing implementation behavior.",
+    "C07 is L3 because the response retains the full upstream analysis chain and is more verbose than necessary for the final Structured Test Case Model; this is non-critical."
+  ]
+}
