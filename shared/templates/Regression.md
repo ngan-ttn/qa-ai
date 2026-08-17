@@ -2,48 +2,37 @@
 
 ## Purpose
 
-This template provides a structured approach for planning and documenting regression testing activities.
+This template provides a structured approach for documenting regression impact and planned revalidation after software changes.
 
-Its purpose is to identify the scope of revalidation after software changes, ensuring that existing functionality continues to operate as expected without unintended side effects.
+Its purpose is to identify **what existing behavior needs to be retested, why it is in scope, and what can remain out of scope** without inventing implementation coupling.
 
 ---
 
-## When to Use
+## Canonical Output Format
 
-Use this template when:
-
-- Preparing regression testing after new feature implementation.
-- Validating bug fixes.
-- Assessing changes before a release.
-- Planning regression testing for maintenance or hotfix deployments.
-- Evaluating the impact of system modifications.
+Regression artifacts use a **hybrid format**. Change context, assumptions, entry/exit criteria, and execution notes remain section-based. The canonical regression-impact inventory is maintained as a table for scope review, prioritization, and traceability.
 
 ---
 
 ## Template Structure
 
 ```text
-# Regression Plan
+# Regression Analysis
 
 ## Regression Summary
 
 ## Change Overview
 
-## Regression Scope
+## Regression Impact / Coverage
+    → canonical regression table
 
 ## Excluded Scope
-
-## Impact Assessment
-
-## Regression Coverage
-
-## Test Prioritization
 
 ## Entry Criteria
 
 ## Exit Criteria
 
-## Risks
+## Assumptions / Open Questions
 
 ## Execution Notes
 
@@ -52,63 +41,57 @@ Use this template when:
 
 ---
 
-## Section Descriptions
+## Canonical Regression Table
 
-| Section | Description |
-|----------|-------------|
-| Regression Summary | Provide an overview of the regression testing objective. |
-| Change Overview | Summarize the software changes that trigger regression testing. |
-| Regression Scope | Define the features, modules, or workflows that require revalidation. |
-| Excluded Scope | Identify areas intentionally excluded from regression testing. |
-| Impact Assessment | Describe the expected impact of the implemented changes. |
-| Regression Coverage | Summarize the planned regression coverage across affected functionality. |
-| Test Prioritization | Identify high, medium, and low priority regression areas based on risk and business impact. |
-| Entry Criteria | Define the conditions required before regression testing can begin. |
-| Exit Criteria | Define the conditions that determine regression completion. |
-| Risks | Identify risks that may affect regression quality or completeness. |
-| Execution Notes | Record additional considerations, limitations, or observations for regression testing. |
-| Regression Summary | Summarize the overall regression strategy and readiness. |
+| Impact ID | Area / Module | Change Relationship | Regression Scope / Behavior to Revalidate | Impact Type | Evidence / Traceability | Priority | Existing Coverage Reference | Decision |
+|---|---|---|---|---|---|---|---|---|
+| RI-001 | <area> | Direct / Indirect / Dependency / Potential | <existing behavior requiring revalidation> | Confirmed / Potential | <change/REQ/BR/SC/TC reference> | High / Medium / Low | <scenario/testcase IDs or N/A> | Include / Exclude / Clarify |
+
+### Column Rules
+
+| Column | Requirement |
+|---|---|
+| Impact ID | Stable unique identifier, e.g. `RI-001`. |
+| Area / Module | Feature, workflow, integration, or business area under impact review. |
+| Change Relationship | Why the area is related to the authoritative change delta. |
+| Regression Scope / Behavior to Revalidate | Existing behavior that should be retested; describe behavior, not vague module names alone. |
+| Impact Type | `Confirmed` only with supporting evidence; use `Potential` when coupling is plausible but not proven. |
+| Evidence / Traceability | Change, requirement, rule, scenario, test case, dependency, or other authoritative reference. |
+| Priority | Risk/business-based regression priority. |
+| Existing Coverage Reference | Existing scenario/testcase IDs that can be reused where available. |
+| Decision | `Include`, `Exclude`, or `Clarify`; exclusion must be supportable. |
 
 ---
 
 ## Writing Guidelines
 
-When planning regression testing:
-
-- Focus on affected business functionality rather than individual defects.
-- Prioritize testing based on business impact and technical risk.
-- Clearly distinguish included and excluded scope.
-- Document assumptions and limitations explicitly.
-- Maintain traceability to the related software changes.
+- Base regression scope on an authoritative change delta plus known baseline behavior.
+- Separate direct/confirmed impact from potential impact.
+- Do not infer API, database, service, or module coupling without evidence.
+- Keep one primary impacted behavior per row where practical.
+- Prefer behavior-level scope over broad statements such as "regression entire module".
+- Preserve existing coverage references so execution can reuse scenarios/test cases.
+- Keep unresolved impact in `Clarify`/Potential rather than silently promoting it to confirmed scope.
 
 ---
 
 ## Expected Output
 
-A completed regression plan should:
+A completed regression artifact should:
 
-- Clearly explain why regression testing is required.
-- Define the regression scope.
-- Identify affected business areas.
-- Prioritize regression activities.
-- Support efficient and risk-based regression execution.
-
----
-
-## Best Practices
-
-- Base regression scope on change impact rather than system size.
-- Prioritize critical business workflows.
-- Include both direct and indirect impacts.
-- Avoid unnecessary regression of unrelated functionality.
-- Review and update the regression plan whenever the implementation scope changes.
+- make impacted and excluded behavior easy to review;
+- explain why each area is included, excluded, or clarification-dependent;
+- preserve traceability to the actual change and existing QA coverage;
+- support risk-based regression execution without unnecessary unrelated retesting;
+- be easy to filter or export for release/regression tracking.
 
 ---
 
 ## Related Templates
 
 - `Requirement-Analysis.md`
+- `Business-Rule.md`
+- `Risk-Analysis.md`
 - `Scenario.md`
 - `TestCase.md`
 - `Bug-Report.md`
-- `Risk-Analysis.md`
