@@ -4,19 +4,13 @@
 
 This template provides a structured approach for identifying, documenting, and organizing business rules extracted from software requirements.
 
-Its purpose is to separate business logic from implementation details, ensuring that business behaviors are explicit, testable, and reusable throughout the QA process.
+Its purpose is to separate business logic from implementation details, ensuring that business behaviors are explicit, testable, traceable, and reusable throughout the QA process.
 
 ---
 
-## When to Use
+## Canonical Output Format
 
-Use this template when:
-
-- Analyzing functional requirements.
-- Reviewing business specifications.
-- Preparing test scenarios.
-- Identifying validation logic.
-- Clarifying implicit business behaviors.
+Business-rule documents use a **hybrid format**. Narrative context and unresolved questions remain section-based, while the canonical rule inventory is maintained as a table for easier review and downstream traceability.
 
 ---
 
@@ -28,84 +22,68 @@ Use this template when:
 ## Rule Summary
 
 ## Business Rules
-
-## Validation Rules
-
-## Decision Rules
-
-## Exception Rules
-
-## Preconditions
-
-## Postconditions
-
-## Business Constraints
+    → canonical rule table
 
 ## Rule Dependencies
 
+## Assumptions
+
 ## Open Questions
 
-## Rule Summary
+## Rule Coverage Summary
 ```
 
 ---
 
-## Section Descriptions
+## Canonical Business Rule Table
 
-| Section | Description |
-|----------|-------------|
-| Rule Summary | Provide a brief overview of the business logic covered by the requirement. |
-| Business Rules | Define the core business rules governing the feature or process. |
-| Validation Rules | Describe validation conditions for user input, system behavior, or data integrity. |
-| Decision Rules | Define conditional logic that determines system behavior. |
-| Exception Rules | Describe how exceptional or invalid conditions should be handled. |
-| Preconditions | Identify conditions that must be satisfied before a rule can be applied. |
-| Postconditions | Describe the expected system state after a rule is successfully executed. |
-| Business Constraints | Document limitations imposed by business policies or regulations. |
-| Rule Dependencies | Identify relationships with other rules, modules, or external systems. |
-| Open Questions | Record unclear or unresolved business logic requiring clarification. |
-| Rule Summary | Summarize the extracted business logic and overall completeness. |
+| Rule ID | Rule Type | Business Rule | Conditions / Inputs | Expected Outcome / Constraint | Source Traceability | Dependencies | Status |
+|---|---|---|---|---|---|---|---|
+| BR-001 | Core / Validation / Decision / Exception / Precondition / Postcondition / Constraint | <single business rule> | <when/if/applicable conditions> | <required behavior or constraint> | <REQ/AC/source reference> | <related BR/module or N/A> | Confirmed / Clarification-Dependent |
+
+### Column Rules
+
+| Column | Requirement |
+|---|---|
+| Rule ID | Stable unique identifier, e.g. `BR-001`. |
+| Rule Type | Primary rule classification used for grouping/filtering. |
+| Business Rule | One logical rule per row, written in business terms. |
+| Conditions / Inputs | Preconditions, decision inputs, validation context, or triggering state. |
+| Expected Outcome / Constraint | Required business behavior, permitted/forbidden outcome, or invariant. |
+| Source Traceability | Authoritative requirement, acceptance criterion, specification, or source location. |
+| Dependencies | Other rules, modules, roles, or externally defined dependencies when explicitly supported. |
+| Status | `Confirmed` only when grounded; otherwise `Clarification-Dependent`. |
 
 ---
 
 ## Writing Guidelines
 
-When documenting business rules:
-
-- Focus on business behavior rather than implementation details.
-- Keep each rule independent whenever possible.
-- Write one rule per statement.
-- Use clear and measurable language.
-- Separate mandatory rules from optional behaviors.
-- Record assumptions explicitly instead of embedding them into rules.
+- Focus on business behavior rather than technical implementation.
+- Keep one logical rule per row.
+- Preserve thresholds, durations, roles, states, defaults, and precedence exactly as supported by the source.
+- Do not convert generic QA knowledge into project-specific policy.
+- Separate unresolved behavior from confirmed rules.
+- Use rule types for organization instead of splitting the document into many repetitive rule sections.
+- Keep source traceability explicit enough for downstream scenario/testcase generation.
 
 ---
 
 ## Expected Output
 
-A completed business rule document should:
+A completed business-rule document should:
 
-- Clearly define all business logic.
-- Separate business rules from technical implementation.
-- Capture explicit and implicit behaviors.
-- Support downstream scenario and test case design.
-- Reduce ambiguity during development and testing.
-
----
-
-## Best Practices
-
-- Assign one logical idea to each business rule.
-- Keep wording concise and unambiguous.
-- Avoid mixing multiple conditions in a single rule.
-- Identify missing business rules early.
-- Validate rule completeness before creating test scenarios.
+- make the complete rule inventory easy to scan and compare;
+- separate confirmed and clarification-dependent behavior;
+- maintain source authority and traceability;
+- support scenario, risk, testcase, coverage, and regression artifacts without reinterpreting the original requirement;
+- be straightforward to export or filter in tabular tools.
 
 ---
 
 ## Related Templates
 
 - `Requirement-Analysis.md`
+- `Risk-Analysis.md`
 - `Scenario.md`
 - `TestCase.md`
-- `Risk-Analysis.md`
+- `Regression.md`
