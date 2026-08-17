@@ -21,7 +21,7 @@ Assess Requirement / Rule / Risk Coverage
         ↓
 Assess Technical and Data Coverage
         ↓
-Detect Gaps / Duplication / Inconsistency
+Detect Gaps / Weak Coverage / Duplication / Inconsistency
         ↓
 Structured Coverage Assessment
 ```
@@ -59,6 +59,29 @@ Coverage cannot be assessed reliably from tests alone when the expected coverage
 
 ---
 
+## Canonical Coverage Status Model
+
+Coverage findings MUST use the following semantics for authoritative obligations under review:
+
+| Status | Canonical Meaning |
+|---|---|
+| `Covered` | The confirmed obligation is represented clearly enough by the reviewed test artifact that a downstream consumer does not need to reconstruct the intended oracle or primary coverage objective. |
+| `Weakly Covered` | The confirmed obligation has relevant coverage, but that coverage is broad, implicit, aggregated, or insufficiently precise, creating material risk that downstream testcase design/execution may omit or misinterpret the obligation. |
+| `Gap` | A confirmed, testable obligation has no adequate reviewed-artifact coverage. |
+| `Blocked` | Authoritative coverage cannot yet be established because the expected behavior, source content, dependency, or executable oracle is unresolved or inaccessible. |
+
+These statuses are mutually distinct:
+
+- A requirement is **not `Covered` merely because its wording can be found somewhere inside a broad scenario/testcase**. The reviewed artifact must represent the obligation with sufficient objective/outcome precision for its abstraction level.
+- `Weakly Covered` means coverage exists; remediation improves precision/decomposition. It is not equivalent to `Gap`.
+- `Gap` is reserved for **confirmed behavior that should be coverable now** but lacks adequate coverage.
+- Clarification-dependent or inaccessible behavior is `Blocked`, not `Gap`, when no authoritative executable oracle exists.
+- `Blocked` does not imply product failure or test-design failure; it identifies an upstream information dependency.
+
+Additional finding labels such as `Duplicate`, `Inconsistent`, or `Not Applicable` MAY be used for maintenance/quality findings, but they do not replace the four canonical coverage-sufficiency statuses above.
+
+---
+
 ## Processing
 
 ### Step 1 — Establish Coverage Baseline
@@ -72,6 +95,8 @@ Map each test artifact to supported upstream sources. Flag orphan tests and unco
 ### Step 3 — Assess Behavioral Coverage
 
 Review positive, negative, boundary, state, role/permission, exception, dependency, and recovery coverage where applicable.
+
+For every confirmed obligation, decide `Covered`, `Weakly Covered`, or `Gap` using the canonical status semantics. Use `Blocked` when the source/oracle is unresolved.
 
 ### Step 4 — Assess Risk Coverage
 
@@ -87,7 +112,9 @@ Identify contradictory expectations, duplicate tests with no distinct value, bro
 
 ### Step 7 — Classify Findings
 
-Separate blocking gaps, material gaps, duplication/maintenance issues, and optional improvements. Preserve uncertainty when the source itself is incomplete.
+Apply the canonical coverage-sufficiency status model first, then record duplication, inconsistency, maintenance, or optional-improvement findings separately where needed.
+
+Preserve uncertainty when the source itself is incomplete. Do not downgrade `Blocked` behavior into `Gap` simply because no executable test exists.
 
 ### Step 8 — Produce Structured Coverage Assessment
 
@@ -102,11 +129,13 @@ Typical fields include:
 - Coverage Finding ID;
 - source requirement/rule/risk;
 - covered-by artifact references;
-- coverage status;
-- gap/duplication/inconsistency description;
+- coverage status (`Covered`, `Weakly Covered`, `Gap`, or `Blocked`);
+- gap/weakness/duplication/inconsistency description;
 - impact/priority;
 - recommended action;
 - assumptions/open questions.
+
+Where counts are reported, they MUST reconcile with the actual reviewed IDs/rows and the status categories used in the assessment.
 
 ---
 
@@ -131,8 +160,8 @@ Typical fields include:
 The output may be consumed by:
 
 - `regression-impact` as coverage evidence;
-- `scenario-generator` when scenario gaps require generation;
-- `testcase-generator` when testcase gaps require generation;
+- `scenario-generator` when scenario gaps/weak coverage require remediation;
+- `testcase-generator` when testcase gaps/weak coverage require remediation;
 - `api-test-generator`, `sql-validation`, or `test-data-generator` when specialized gaps are identified;
 - testcase-quality-review and regression workflows.
 
@@ -159,10 +188,13 @@ Validate that:
 
 - the coverage baseline is explicit;
 - findings trace to authoritative sources and test artifacts;
+- `Covered`, `Weakly Covered`, `Gap`, and `Blocked` follow the canonical semantics;
+- broad/implicit references are not automatically treated as sufficient coverage;
+- clarification-dependent behavior without an authoritative oracle is `Blocked`, not a false `Gap`;
 - requirement, rule, and risk coverage are distinguished where useful;
 - technical/data gaps are identified only when relevant;
 - duplicate coverage is not confused with deliberate multi-layer validation;
-- missing source information is reported as uncertainty rather than a false gap;
-- recommendations identify which owning skill should remediate the gap;
+- recommendations identify which owning skill should remediate a gap/weakness;
 - the assessment does not silently generate replacement artifacts;
-- downstream consumers can act on findings without reconstructing traceability.
+- all reported aggregate counts reconcile with actual reviewed IDs/status rows;
+- downstream consumers can act on findings without reconstructing traceability or coverage semantics.
