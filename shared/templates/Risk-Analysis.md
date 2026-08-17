@@ -2,21 +2,15 @@
 
 ## Purpose
 
-This template provides a structured approach for identifying, assessing, and documenting risks that may affect software quality, testing activities, or successful project delivery.
+This template provides a structured approach for identifying, assessing, prioritizing, and documenting risks that may affect software quality, testing activities, or successful project delivery.
 
-Its purpose is to enable proactive risk management by identifying potential issues early, evaluating their impact, and defining appropriate mitigation strategies.
+Its purpose is to enable proactive, evidence-based risk management without converting uncertainty into confirmed product behavior.
 
 ---
 
-## When to Use
+## Canonical Output Format
 
-Use this template when:
-
-- Planning a new testing effort.
-- Reviewing new or changed requirements.
-- Preparing release or regression testing.
-- Assessing project readiness.
-- Identifying quality risks before implementation or deployment.
+Risk-analysis documents use a **hybrid format**. Risk context and analysis notes remain section-based, while the canonical risk inventory is maintained as a table for prioritization, review, and traceability.
 
 ---
 
@@ -27,51 +21,52 @@ Use this template when:
 
 ## Risk Summary
 
-## Risk Identification
+## Risk Register
+    → canonical risk table
 
-## Risk Assessment
+## Assumptions / Dependencies
 
-## Risk Prioritization
+## Monitoring Notes
 
-## Risk Mitigation
-
-## Risk Monitoring
-
-## Assumptions
-
-## Dependencies
+## Open Questions
 
 ## Analysis Summary
 ```
 
 ---
 
-## Section Descriptions
+## Canonical Risk Table
 
-| Section | Description |
-|----------|-------------|
-| Risk Summary | Provide an overview of the identified quality and testing risks. |
-| Risk Identification | Describe potential risks that could affect software quality, testing, or project outcomes. |
-| Risk Assessment | Evaluate the likelihood, impact, and overall significance of each identified risk. |
-| Risk Prioritization | Rank risks based on business impact and testing priority. |
-| Risk Mitigation | Define actions to reduce the likelihood or impact of identified risks. |
-| Risk Monitoring | Describe how risks should be monitored throughout the project lifecycle. |
-| Assumptions | Document assumptions made during the risk analysis process. |
-| Dependencies | Identify external factors, systems, teams, or deliverables that influence risk. |
-| Analysis Summary | Summarize the overall risk profile and recommended focus areas. |
+| Risk ID | Area / Feature | Risk Description | Trigger / Cause | Impact | Likelihood | Severity / Exposure | Mitigation / QA Focus | Traceability | Status |
+|---|---|---|---|---|---|---|---|---|---|
+| R-001 | <area> | <potential quality/business risk> | <supported cause or condition> | <business/quality impact> | High / Medium / Low / Not Rated | High / Medium / Low / Not Rated | <test/clarification/monitoring focus> | <REQ/AC/BR IDs> | Open / Monitored / Mitigated / Clarification-Dependent |
+
+### Column Rules
+
+| Column | Requirement |
+|---|---|
+| Risk ID | Stable unique identifier, e.g. `R-001`. |
+| Area / Feature | Functional or quality area affected. |
+| Risk Description | A potential failure or exposure, not a confirmed defect. |
+| Trigger / Cause | Requirement condition, ambiguity, dependency, change, or plausible supported cause. |
+| Impact | Consequence if the risk materializes. |
+| Likelihood | Use the project/canonical rating only when evidence supports it; otherwise `Not Rated`. |
+| Severity / Exposure | Relative priority or exposure; do not invent numeric formulas unless a defined model exists. |
+| Mitigation / QA Focus | Practical test, review, clarification, or monitoring action. |
+| Traceability | Requirement/rule/change references supporting the risk. |
+| Status | Operational state of the risk item. |
 
 ---
 
 ## Writing Guidelines
 
-When performing risk analysis:
-
 - Focus on risks rather than confirmed issues.
-- Distinguish clearly between facts, assumptions, and uncertainties.
-- Consider both business and technical perspectives.
-- Prioritize risks according to potential impact and likelihood.
-- Define practical mitigation actions whenever possible.
-- Review risks throughout the project lifecycle as conditions change.
+- Distinguish facts, assumptions, and uncertainty.
+- Prioritize according to available evidence; do not fabricate likelihood or severity.
+- Keep one primary risk per row.
+- Trace each material risk to the requirement, rule, change, or dependency that supports it.
+- Use mitigation as QA focus, not as invented implementation guidance.
+- Keep clarification-dependent risks visible until authoritative behavior is available.
 
 ---
 
@@ -79,22 +74,11 @@ When performing risk analysis:
 
 A completed risk analysis should:
 
-- Identify significant quality and testing risks.
-- Explain why each risk matters.
-- Prioritize risks objectively.
-- Recommend practical mitigation strategies.
-- Support risk-based planning and decision-making.
-
----
-
-## Best Practices
-
-- Identify risks as early as possible.
-- Review risks whenever project scope changes.
-- Consider both functional and non-functional risks.
-- Focus mitigation efforts on high-impact areas.
-- Keep risk descriptions specific and actionable.
-- Update the analysis as new information becomes available.
+- provide one scanable risk register;
+- make prioritization and mitigation focus easy to compare;
+- expose uncertainty and dependencies explicitly;
+- support scenario/testcase prioritization and regression planning;
+- remain traceable to authoritative project inputs.
 
 ---
 
