@@ -52,6 +52,7 @@ AI outputs MUST:
 - Maintain consistent terminology.
 - Preserve technical and business accuracy.
 - Keep unsupported or clarification-dependent behavior visibly separate from confirmed behavior.
+- Reconcile any reported aggregate counts with the actual generated identifiers/rows before delivery.
 
 AI outputs SHOULD:
 
@@ -112,6 +113,26 @@ A platform/export adapter MAY transform the presentation format, but it MUST pre
 
 ---
 
+## Aggregate Count Integrity
+
+Whenever an artifact reports counts, totals, percentages, ranges, or category summaries derived from generated records, those values are **derived data** and MUST be validated against the actual artifact content before delivery.
+
+Mandatory rules:
+
+1. Count unique canonical IDs/rows, not prose mentions.
+2. Category subtotals MUST reconcile to the stated total when the categories are presented as exhaustive.
+3. If categories overlap, explicitly label them as overlapping and do not present their sum as a unique total.
+4. Range statements such as `TC-001–TC-020` MUST match the IDs that actually exist; do not assume ranges are continuous unless verified.
+5. Regression tier counts MUST equal the number of unique selected testcase/scenario IDs in that tier.
+6. Coverage-status counts MUST match the actual reviewed items classified under those statuses.
+7. If an artifact distinguishes register rows from additional blocked/open dependencies, label and count them separately rather than combining unlike objects into one ambiguous total.
+8. Percentages MUST use the reconciled numerator and denominator shown or defined in the artifact.
+9. A count mismatch is a validation failure; correct the summary or the underlying inventory before marking self-review PASS.
+
+When deterministic tooling is available, prefer computed counts. When generation is model-driven, explicitly perform an ID/row reconciliation pass during self-review.
+
+---
+
 ## Formatting
 
 Outputs SHOULD follow repository documentation standards.
@@ -144,6 +165,7 @@ Outputs MUST:
 - Align with related repository standards/templates.
 - Avoid contradictory statements.
 - Preserve the same canonical columns for equivalent artifacts unless an explicitly defined export profile applies.
+- Keep summary counts, record IDs, traceability references, and stated coverage internally consistent.
 
 ---
 
@@ -169,6 +191,7 @@ Examples SHOULD:
 - Be concise enough to scan.
 - Reflect repository templates and field semantics.
 - Preserve authoritative behavior and uncertainty boundaries.
+- Use reconciled counts when totals or category summaries are shown.
 
 Examples SHOULD NOT replace the actual requested output or introduce alternate artifact schemas without an explicit reason.
 
@@ -197,6 +220,7 @@ Before considering an output complete, verify that it:
 - Uses consistent terminology and IDs.
 - Preserves traceability and uncertainty boundaries.
 - Contains no unnecessary repeated per-record sections.
+- Reconciles every reported count/total/category summary against actual canonical IDs/rows.
 - Is grammatically clear.
 - Can be reused/exported with minimal modification.
 
