@@ -89,21 +89,27 @@ Provide stable IDs, objective, traceability, conditions, expected behavior at sc
 
 ## Output
 
-Typical fields include:
+The canonical rendering follows `shared/templates/Scenario.md` and uses a **hybrid document with a table-oriented Test Scenarios section**.
 
-- Scenario ID;
-- objective/title;
+The scenario inventory should use these canonical columns:
+
+| Scenario ID | Module / Feature | Scenario | Type | Preconditions / Conditions | Expected Behavior | Requirement / Rule Traceability | Risk Traceability | Priority |
+|---|---|---|---|---|---|---|---|---|
+
+Supporting scope, assumptions, out-of-scope items, open questions, and coverage summary remain section-based.
+
+The scenario table must preserve:
+
+- stable Scenario ID;
+- concise objective/title;
+- module/feature grouping;
+- scenario type;
 - requirement/rule traceability;
 - risk traceability where available;
-- actor/preconditions;
-- scenario condition or flow;
+- actor/preconditions/conditions;
 - expected behavior at scenario level;
-- technique/coverage rationale where useful;
 - priority;
-- dependencies;
-- assumptions/open questions.
-
-The exact representation follows applicable shared standards/templates.
+- uncertainty without inventing executable detail.
 
 ---
 
@@ -112,7 +118,7 @@ The exact representation follows applicable shared standards/templates.
 | Resource | Purpose |
 |---|---|
 | `shared/standards/` | Output/documentation conventions |
-| `shared/templates/` | Scenario artifact structure |
+| `shared/templates/` | Scenario artifact structure and canonical rendering |
 | `shared/checklists/` | Scenario review controls |
 | `shared/prompt-patterns/` | Reusable generation reasoning |
 | `shared/knowledge/testing-techniques/` | Test-design techniques |
@@ -155,11 +161,12 @@ This skill does not:
 Validate that:
 
 - scenarios trace to supported requirements/rules/risks;
-- each scenario has a clear primary coverage objective;
+- each scenario row has a clear primary coverage objective;
 - relevant positive, negative, boundary, state, permission, exception, and dependency behavior is considered;
 - test-design techniques are applied only where relevant;
 - high-priority risks are represented when risk input exists;
 - duplicates are minimized without collapsing materially different outcomes;
 - ambiguity and missing rules are explicit;
 - scenario detail stops before executable testcase-level implementation;
+- the canonical scenario table remains readable and export-friendly;
 - downstream consumers can use the model without reconstructing its traceability.
