@@ -44,6 +44,7 @@ REQUIRED_FILES: dict[str, tuple[str, ...]] = {
         "Workflow-Mapping.md",
         "Knowledge-Mapping.md",
         "Usage.md",
+        "install.py",
     ),
     "cursor": (
         "README.md",
@@ -93,6 +94,18 @@ def validate() -> list[str]:
             for workflow in WORKFLOWS:
                 if workflow not in text:
                     errors.append(f"{platform} workflow mapping missing canonical workflow: {workflow}")
+
+    # Claude Code loads project instructions from repo-root CLAUDE.md. The adapter
+    # copy is the source; the root file is the installed runtime representation.
+    claude_source = ADAPTERS / "claude" / "CLAUDE.md"
+    claude_root = ROOT / "CLAUDE.md"
+    if not claude_root.is_file() or claude_root.stat().st_size == 0:
+        errors.append("Claude Code project instruction missing/non-content: CLAUDE.md")
+    elif claude_source.is_file() and _read(claude_root) != _read(claude_source):
+        errors.append(
+            "Claude Code project instruction is stale: CLAUDE.md differs from "
+            "adapters/claude/CLAUDE.md; run python adapters/claude/install.py"
+        )
 
     for skill in SKILLS:
         path = ROOT / "skills" / skill / "README.md"
