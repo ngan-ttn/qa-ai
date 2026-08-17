@@ -1,237 +1,90 @@
 # Test Cases — Account Lock After Failed Login Attempts
 
-## 1. Test Case Scope
+## Test Suite Summary
 
-This document contains detailed test cases for the Account Lock After Failed Login Attempts feature.
+This executable test set covers successful login, incorrect-password handling, consecutive failed-login tracking, the five-attempt threshold, successful-login reset, locked-state behavior, 30-minute automatic unlock, post-unlock tracking, account isolation, and repeated lock lifecycle.
 
-The test cases cover:
-
-- Successful login.
-- Incorrect-password handling.
-- Consecutive failed-login tracking.
-- Five-attempt lock threshold.
-- Successful-login counter reset.
-- Authentication while locked.
-- Lock-message behavior.
-- 30-minute lock duration.
-- Automatic unlock.
-- Post-unlock failed-login tracking.
-- Account-specific tracking.
-- Repeated account-lock lifecycle.
-
-Only behavior supported by the provided requirement is included as executable expected behavior.
-
-Requirement gaps that require clarification are documented separately and are not converted into assumed test expectations.
+Only requirement-supported behavior is asserted as an expected result. Undefined behavior is retained as clarification-dependent coverage.
 
 ---
 
-## 2. Test Cases
+## Shared Preconditions / Environment
 
-| Test Case ID | Module | Test Title | Preconditions | Test Steps | Test Data | Expected Result | Priority | Status |
-|---|---|---|---|---|---|---|---|---|
-| TC-001 | Login | Verify successful login for an unlocked account | 1. A registered account exists.<br>2. Account is unlocked.<br>3. Failed-login counter has no active failed sequence. | 1. Open the login page.<br>2. Enter the registered email address.<br>3. Enter the correct password.<br>4. Submit the login request. | Valid registered email.<br>Correct password. | Authentication succeeds and the user is logged in. | Medium | Not Run |
-| TC-002 | Login | Verify login fails with an incorrect password | 1. A registered account exists.<br>2. Account is unlocked. | 1. Open the login page.<br>2. Enter the registered email address.<br>3. Enter an incorrect password.<br>4. Submit the login request. | Valid registered email.<br>Incorrect password. | Authentication fails and the failed-login attempt is recorded for the account. | High | Not Run |
-| TC-003 | Failed Login Tracking | Verify account remains unlocked after the first failed login attempt | 1. A registered account exists.<br>2. Account is unlocked.<br>3. No consecutive failed login attempts exist for the current sequence. | 1. Attempt to log in using the registered email and an incorrect password.<br>2. Attempt to log in again using the correct password. | Valid registered email.<br>Incorrect password.<br>Correct password. | The first login fails without locking the account. The subsequent valid login is allowed. | High | Not Run |
-| TC-004 | Failed Login Tracking | Verify account remains unlocked after four consecutive failed attempts | 1. A registered account exists.<br>2. Account is unlocked.<br>3. Failed-login counter is at the beginning of a new sequence. | 1. Submit an incorrect password four consecutive times.<br>2. Submit the correct password. | Valid registered email.<br>Incorrect password ×4.<br>Correct password. | All four incorrect-password attempts fail. The account remains unlocked after the fourth failure and the valid login is allowed. | High | Not Run |
-| TC-005 | Account Lock | Verify account is locked on the fifth consecutive failed attempt | 1. A registered account exists.<br>2. Account is unlocked.<br>3. The account has four consecutive failed login attempts. | 1. Enter the registered email address.<br>2. Enter an incorrect password.<br>3. Submit the login request. | Valid registered email.<br>Incorrect password. | The fifth consecutive login attempt fails and the account becomes temporarily locked. | High | Not Run |
-| TC-006 | Counter Reset | Verify successful login resets the failed-login counter before the threshold | 1. A registered account exists.<br>2. Account is unlocked.<br>3. The account has three consecutive failed login attempts. | 1. Log in using the correct password.<br>2. Log out if required to return to the login page.<br>3. Submit four consecutive login attempts using an incorrect password.<br>4. Submit a login attempt using the correct password. | Valid registered email.<br>Correct password.<br>Incorrect password ×4. | The first valid login succeeds and resets the previous failed-login sequence. The following four incorrect attempts do not lock the account, and the final valid login is allowed. | High | Not Run |
-| TC-007 | Counter Reset | Verify a new failed-login sequence starts after successful-login reset | 1. A registered account exists.<br>2. Account is unlocked.<br>3. Account has at least one but fewer than five consecutive failed attempts. | 1. Log in successfully using valid credentials.<br>2. Return to the login page.<br>3. Submit one login attempt using an incorrect password.<br>4. Submit a login attempt using the correct password. | Valid registered email.<br>Correct password.<br>Incorrect password. | Successful authentication resets the previous failure sequence. The later incorrect-password attempt is treated as part of a new sequence and does not lock the account. | High | Not Run |
-| TC-008 | Account Lock | Verify correct password cannot authenticate while account is locked | 1. A registered account exists.<br>2. Account is temporarily locked.<br>3. The 30-minute lock period has not expired. | 1. Open the login page.<br>2. Enter the registered email address.<br>3. Enter the correct password.<br>4. Submit the login request. | Locked registered account.<br>Correct password. | Authentication is rejected and the user is not logged in. | High | Not Run |
-| TC-009 | Account Lock | Verify incorrect password cannot authenticate while account is locked | 1. A registered account exists.<br>2. Account is temporarily locked.<br>3. The 30-minute lock period has not expired. | 1. Open the login page.<br>2. Enter the registered email address.<br>3. Enter an incorrect password.<br>4. Submit the login request. | Locked registered account.<br>Incorrect password. | Authentication is rejected. No expected result is asserted for counter or timer changes because those behaviors are not defined by the requirement. | High | Not Run |
-| TC-010 | Account Lock | Verify lock message is displayed for a login attempt while locked | 1. A registered account exists.<br>2. Account is temporarily locked.<br>3. The lock period has not expired. | 1. Attempt to log in to the locked account. | Locked registered account. | Authentication is rejected and the system displays exactly: `Your account has been temporarily locked. Please try again later.` | Medium | Not Run |
-| TC-011 | Lock Duration | Verify account remains locked before the 30-minute lock period expires | 1. A registered account has reached five consecutive failed attempts and is locked.<br>2. Less than 30 minutes have elapsed since the applicable lock period began. | 1. Before the 30-minute lock period expires, submit a login attempt using the correct password. | Locked registered account.<br>Correct password. | Authentication is rejected because the account is still locked. | High | Not Run |
-| TC-012 | Automatic Unlock | Verify account is automatically unlocked after the 30-minute lock period | 1. A registered account is temporarily locked.<br>2. The account has not been manually modified. | 1. Allow the 30-minute lock period to expire.<br>2. Attempt to log in using the correct password. | Locked registered account.<br>Correct password. | The account is automatically unlocked after the lock period and the valid login is allowed. | High | Not Run |
-| TC-013 | Post-Unlock Tracking | Verify failed-login tracking starts again after automatic unlock | 1. A registered account has completed a temporary lock period and is automatically unlocked. | 1. Submit four consecutive login attempts using an incorrect password.<br>2. Submit a login attempt using the correct password. | Valid registered email.<br>Incorrect password ×4.<br>Correct password. | The four post-unlock failures do not lock the account. The valid login is allowed, demonstrating that the previous pre-lock failure sequence does not cause an earlier new lock. | High | Not Run |
-| TC-014 | Post-Unlock Tracking | Verify account can be locked again after five new consecutive failures | 1. A registered account was previously locked.<br>2. The 30-minute lock period has expired.<br>3. Account is unlocked and failed-login tracking has started again. | 1. Submit five consecutive login attempts using an incorrect password. | Valid registered email.<br>Incorrect password ×5. | Attempts one through four fail while the account remains unlocked. The fifth consecutive post-unlock failure locks the account again. | High | Not Run |
-| TC-015 | Account Isolation | Verify failed attempts for one account do not affect another account | 1. Two registered accounts exist: Account A and Account B.<br>2. Both accounts are unlocked.<br>3. Both accounts begin with independent failed-login tracking states. | 1. Submit four consecutive incorrect-password attempts for Account A.<br>2. Submit a valid login for Account B. | Account A credentials.<br>Account B credentials.<br>Incorrect password for Account A.<br>Correct password for Account B. | Account A's failed attempts do not prevent Account B from authenticating successfully. Account B remains unaffected by Account A's failed-login sequence. | High | Not Run |
-| TC-016 | Account Isolation | Verify locking one account does not lock another account | 1. Two registered accounts exist: Account A and Account B.<br>2. Both accounts are initially unlocked. | 1. Submit five consecutive incorrect-password attempts for Account A.<br>2. Verify Account A is locked.<br>3. Submit valid credentials for Account B. | Account A credentials.<br>Account B credentials.<br>Incorrect password for Account A ×5.<br>Correct password for Account B. | Account A becomes locked after its fifth consecutive failure. Account B remains unlocked and can authenticate successfully. | High | Not Run |
-| TC-017 | Lock Lifecycle | Verify complete account lock and automatic-unlock lifecycle | 1. A registered account exists.<br>2. Account is unlocked.<br>3. Failed-login tracking is at the beginning of a new sequence. | 1. Submit four consecutive incorrect-password attempts.<br>2. Verify the account remains available for login.<br>3. Submit the fifth incorrect-password attempt.<br>4. Attempt login using the correct password while the lock is active.<br>5. Allow the 30-minute lock period to expire.<br>6. Submit the correct password again. | Valid registered email.<br>Incorrect password ×5.<br>Correct password. | The account remains unlocked through the fourth failure, becomes locked on the fifth failure, rejects authentication while locked, automatically unlocks after the 30-minute period, and then allows valid authentication. | High | Not Run |
+- A functional login page is available.
+- Registered test accounts and valid passwords are available where required.
+- Test setup can establish or observe account lock/failure state as needed without changing the business behavior under test.
 
 ---
 
-## 3. Boundary Coverage
+## Test Cases
 
-### Failed-Login Threshold
-
-The critical business boundary is:
-
-```text
-4 Consecutive Failures
-        ↓
-Account Still Unlocked
-        ↓
-5th Consecutive Failure
-        ↓
-Account Locked
-```
-
-Covered by:
-
-- `TC-004` — immediately below threshold.
-- `TC-005` — at threshold.
-- `TC-017` — complete threshold transition.
-
----
-
-### Lock Duration
-
-The requirement defines:
-
-```text
-Lock Duration = 30 minutes
-```
-
-Covered by:
-
-- `TC-011` — before expiration.
-- `TC-012` — after expiration.
-
-A test case asserting exact behavior at the precise expiration instant is not included because the requirement does not define the timer-boundary semantics with sufficient precision.
+| Test Case ID | Module / Function | Scenario ID | Test Case Title | Preconditions / Setup | Test Steps | Test Data | Expected Result | Priority | Traceability |
+|---|---|---|---|---|---|---|---|---|---|
+| TC-001 | Login | TS-001 | Verify successful login for an unlocked account | Registered account exists; account unlocked; no active failed sequence. | 1. Open login page.<br>2. Enter registered email.<br>3. Enter correct password.<br>4. Submit login. | Registered email; correct password. | Authentication succeeds and the user is logged in. | Medium | Requirements 1–3 |
+| TC-002 | Login | TS-002 | Verify login fails with an incorrect password | Registered account exists; account unlocked. | 1. Open login page.<br>2. Enter registered email.<br>3. Enter incorrect password.<br>4. Submit login. | Registered email; incorrect password. | Authentication fails and the failed attempt is recorded for that account. | High | Requirements 4–5 |
+| TC-003 | Failed Login Tracking | TS-003 | Verify account remains unlocked after the first failed attempt | Registered account exists; account unlocked; new failure sequence. | 1. Submit one incorrect-password login attempt.<br>2. Submit valid credentials. | Registered email; incorrect password; correct password. | First attempt fails without locking the account; subsequent valid login is allowed. | High | Requirements 5–6; AC-01 |
+| TC-004 | Failed Login Tracking | TS-004 | Verify account remains unlocked after four consecutive failed attempts | Registered account exists; account unlocked; new failure sequence. | 1. Submit incorrect password four consecutive times.<br>2. Submit correct password. | Registered email; incorrect password ×4; correct password. | Four attempts fail; account remains unlocked after failure 4; valid login is allowed. | High | Requirement 6; AC-01 |
+| TC-005 | Account Lock | TS-005 | Verify account locks on the fifth consecutive failed attempt | Registered account exists; account unlocked; four consecutive failures already recorded. | 1. Enter registered email.<br>2. Enter incorrect password.<br>3. Submit login. | Registered email; incorrect password. | Fifth consecutive attempt fails and the account becomes temporarily locked. | High | Requirements 6, 8; AC-02 |
+| TC-006 | Counter Reset | TS-006 | Verify successful login resets failed-login sequence before threshold | Registered account exists; account unlocked; three consecutive failures recorded. | 1. Log in with correct password.<br>2. Return to login page if needed.<br>3. Submit four consecutive incorrect-password attempts.<br>4. Submit correct password. | Registered email; correct password; incorrect password ×4. | Initial valid login succeeds and resets prior failures; four later failures do not lock the account; final valid login succeeds. | High | Requirement 7; AC-05 |
+| TC-007 | Counter Reset | TS-007 | Verify a new failed-login sequence starts after successful-login reset | Registered account exists; account unlocked; 1–4 failures recorded. | 1. Log in successfully.<br>2. Return to login page.<br>3. Submit one incorrect-password attempt.<br>4. Submit correct password. | Registered email; correct password; incorrect password. | Successful login resets previous failures; later failure belongs to a new sequence and does not lock the account. | High | Requirement 7; AC-05 |
+| TC-008 | Account Lock | TS-008 | Verify correct password cannot authenticate while locked | Registered account temporarily locked; 30-minute period not expired. | 1. Open login page.<br>2. Enter registered email.<br>3. Enter correct password.<br>4. Submit login. | Locked account; correct password. | Authentication is rejected and no login occurs. | High | Requirement 10; AC-03 |
+| TC-009 | Account Lock | TS-009 | Verify incorrect password cannot authenticate while locked | Registered account temporarily locked; 30-minute period not expired. | 1. Open login page.<br>2. Enter registered email.<br>3. Enter incorrect password.<br>4. Submit login. | Locked account; incorrect password. | Authentication is rejected. No counter or timer change is asserted because that behavior is undefined. | High | Requirements 10–11; AC-03 |
+| TC-010 | Account Lock | TS-010 | Verify lock message is displayed for a login attempt while locked | Registered account temporarily locked; lock period not expired. | 1. Attempt to log in to the locked account. | Locked registered account. | Authentication is rejected and exactly `Your account has been temporarily locked. Please try again later.` is displayed. | Medium | Requirement 11; AC-03 |
+| TC-011 | Lock Duration | TS-011 | Verify account remains locked before the 30-minute period expires | Account reached five consecutive failures and is locked; less than 30 minutes elapsed. | 1. Before lock expiration, submit correct password. | Locked account; correct password. | Authentication is rejected because the account remains locked. | High | Requirements 9–10 |
+| TC-012 | Automatic Unlock | TS-012, TS-013 | Verify account automatically unlocks after 30 minutes and permits valid login | Registered account temporarily locked; account not manually modified. | 1. Allow the 30-minute lock period to expire.<br>2. Submit valid credentials. | Locked account; correct password. | Account automatically unlocks after the lock period and valid login succeeds. | High | Requirements 12–13; AC-04 |
+| TC-013 | Post-Unlock Tracking | TS-014, TS-015 | Verify post-unlock failures start a new sequence | Account completed temporary lock and automatically unlocked. | 1. Submit four consecutive incorrect-password attempts.<br>2. Submit correct password. | Registered email; incorrect password ×4; correct password. | Four post-unlock failures do not lock the account; valid login succeeds, demonstrating prior pre-lock failures do not cause earlier lock. | High | Requirement 14 |
+| TC-014 | Repeated Lifecycle | TS-018 | Verify account can be locked again after five new post-unlock failures | Account previously locked; 30-minute period expired; account unlocked; new tracking sequence active. | 1. Submit five consecutive incorrect-password attempts. | Registered email; incorrect password ×5. | Attempts 1–4 fail while account remains unlocked; fifth new consecutive failure locks the account again. | High | Requirements 6, 8, 12–14 |
+| TC-015 | Account Isolation | TS-016 | Verify failed attempts for one account do not affect another account | Two registered unlocked accounts A and B with independent tracking state. | 1. Submit four incorrect-password attempts for A.<br>2. Submit valid login for B. | Account A/B credentials; A incorrect password; B correct password. | A's failed attempts do not prevent B from authenticating; B remains unaffected. | High | Requirement 5; Notes |
+| TC-016 | Account Isolation | TS-017 | Verify locking one account does not lock another account | Two registered accounts initially unlocked. | 1. Submit five incorrect-password attempts for A.<br>2. Verify A is locked.<br>3. Submit valid credentials for B. | Account A/B credentials; A incorrect password ×5; B correct password. | A locks on its fifth consecutive failure; B remains unlocked and authenticates successfully. | High | Requirements 5, 8–10 |
+| TC-017 | Lock Lifecycle | TS-020 | Verify complete lock and automatic-unlock lifecycle | Registered account exists; account unlocked; new failure sequence. | 1. Submit four incorrect-password attempts.<br>2. Verify account still available.<br>3. Submit fifth incorrect password.<br>4. Attempt correct password while locked.<br>5. Allow 30-minute period to expire.<br>6. Submit correct password again. | Registered email; incorrect password ×5; correct password. | Account remains unlocked through failure 4, locks on failure 5, rejects authentication while locked, automatically unlocks after 30 minutes, and then allows valid authentication. | High | Requirements 5–14; AC-01–AC-05 |
 
 ---
 
-## 4. State Transition Coverage
+## Shared Test Data / Dependencies
 
-### Unlocked → Locked
-
-```text
-UNLOCKED
-    │
-    │ 5 consecutive failed attempts
-    ▼
-LOCKED
-```
-
-Covered by:
-
-- TC-004
-- TC-005
-- TC-017
-
-### Locked → Unlocked
-
-```text
-LOCKED
-    │
-    │ 30-minute period expires
-    ▼
-UNLOCKED
-```
-
-Covered by:
-
-- TC-011
-- TC-012
-- TC-017
-
-### Counter Reset
-
-```text
-1–4 Failed Attempts
-        ↓
-Successful Login
-        ↓
-Counter Reset
-        ↓
-New Failure Sequence
-```
-
-Covered by:
-
-- TC-006
-- TC-007
-
-### New Cycle After Unlock
-
-```text
-LOCKED
-    ↓
-Automatic Unlock
-    ↓
-New Failure Sequence
-    ↓
-5 New Failures
-    ↓
-LOCKED
-```
-
-Covered by:
-
-- TC-013
-- TC-014
-
----
-
-## 5. Requirement Traceability
-
-| Requirement / Acceptance Criteria | Test Cases |
+| Data / Dependency | Purpose |
 |---|---|
-| Requirement 1 | TC-001, TC-002 |
-| Requirement 2 | TC-001, TC-002 |
-| Requirement 3 | TC-001 |
-| Requirement 4 | TC-002 |
-| Requirement 5 | TC-002, TC-015, TC-016 |
-| Requirement 6 | TC-003, TC-004, TC-005, TC-014, TC-017 |
-| Requirement 7 | TC-006, TC-007 |
-| Requirement 8 | TC-005, TC-014, TC-016, TC-017 |
-| Requirement 9 | TC-011, TC-012, TC-017 |
-| Requirement 10 | TC-008, TC-009, TC-011, TC-017 |
-| Requirement 11 | TC-010 |
-| Requirement 12 | TC-012, TC-013, TC-014, TC-017 |
-| Requirement 13 | TC-012, TC-017 |
-| Requirement 14 | TC-013, TC-014 |
-| AC-01 | TC-003, TC-004 |
-| AC-02 | TC-005 |
-| AC-03 | TC-008, TC-009, TC-010 |
-| AC-04 | TC-012, TC-017 |
-| AC-05 | TC-006, TC-007 |
+| Registered unlocked account | Normal authentication and failed-attempt scenarios |
+| Second registered account | Account-isolation scenarios |
+| Valid password | Successful-login verification |
+| Incorrect password | Failed-login and lock-threshold verification |
+| Ability to wait/control test timing without changing business rules | 30-minute lock lifecycle verification |
 
 ---
 
-## 6. Clarification-Dependent Coverage
+## Execution Notes
 
-The following areas are intentionally not converted into test cases with assumed expected behavior.
+- Preserve test-case independence by resetting account state between cases where required.
+- Do not infer failed-counter or timer effects for attempts made while locked.
+- Exact behavior at the precise 30-minute expiration instant requires clarification before a deterministic expected result is added.
+
+---
+
+## Open Questions / Clarification-Dependent Coverage
 
 | Item ID | Area | Coverage Needed | Missing Definition |
 |---|---|---|---|
-| CD-001 | Lock Timer | Login exactly at the 30-minute expiration boundary. | Exact expiration-boundary semantics are not defined. |
-| CD-002 | Locked Attempts | Failed-login counter behavior when login is attempted while locked. | Counter behavior during lock is not defined. |
-| CD-003 | Lock Extension | Effect of repeated login attempts on the active lock duration. | Lock restart/extension behavior is not defined. |
-| CD-004 | Cross-Device | Failed-login tracking across browsers, devices, or sessions. | Cross-device/session behavior is not explicitly defined. |
-| CD-005 | Unknown Account | Login attempt using an unregistered email address. | Unknown-account behavior is not defined. |
-| CD-006 | Concurrency | Simultaneous failed login attempts near the five-attempt threshold. | Concurrent counter-update behavior is not defined. |
-| CD-007 | Post-Unlock Counter | Exact numeric counter value immediately after automatic unlock. | Requirement only states that tracking starts again. |
-
-These items should become executable test cases only after the corresponding expected behavior is clarified.
+| CD-001 | Lock Timer | Login exactly at the 30-minute expiration boundary. | Exact expiration-boundary semantics are undefined. |
+| CD-002 | Locked Attempts | Failed-counter behavior for attempts made while locked. | Counter behavior during lock is undefined. |
+| CD-003 | Lock Extension | Effect of attempts during lock on active lock duration. | Timer restart/extension behavior is undefined. |
+| CD-004 | Cross-Device | Failed-login tracking across browsers/devices/sessions. | Cross-device/session behavior is not explicit. |
+| CD-005 | Unknown Account | Login using an unregistered email. | Unknown-account behavior is undefined. |
+| CD-006 | Concurrency | Simultaneous failures near threshold. | Concurrent counter-update behavior is undefined. |
+| CD-007 | Post-Unlock Counter | Exact numeric counter immediately after automatic unlock. | Requirement only states tracking starts again. |
 
 ---
 
-## 7. Test Case Summary
+## Coverage Summary
 
 | Coverage Area | Test Cases |
 |---|---:|
-| Authentication | 2 |
-| Failed-login threshold | 3 |
-| Counter reset | 2 |
-| Locked-state behavior | 3 |
-| Lock duration / automatic unlock | 2 |
-| Post-unlock behavior | 2 |
-| Account isolation | 2 |
-| End-to-end lifecycle | 1 |
-| **Total** | **17** |
+| Authentication | TC-001, TC-002 |
+| Failed-login threshold | TC-003, TC-004, TC-005 |
+| Counter reset | TC-006, TC-007 |
+| Locked-state behavior | TC-008, TC-009, TC-010 |
+| Lock duration / automatic unlock | TC-011, TC-012 |
+| Post-unlock behavior | TC-013, TC-014 |
+| Account isolation | TC-015, TC-016 |
+| End-to-end lifecycle | TC-017 |
 
-The test set prioritizes the business-critical paths around:
-
-```text
-Failed-Login Counter
-        +
-Five-Attempt Threshold
-        +
-Account Lock State
-        +
-30-Minute Timer
-        +
-Automatic Unlock
-```
-
-Undefined requirement behavior remains visible as clarification-dependent coverage instead of being assigned fabricated expected results.
+Undefined behavior remains outside the executable expected-result set until authoritative clarification is available.
