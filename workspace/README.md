@@ -32,11 +32,15 @@ workspace/
 │               │   ├── requirements/
 │               │   └── supporting/
 │               ├── artifacts/
+│               ├── exports/
+│               │   └── generic/
 │               ├── revisions/
 │               └── archive/
 └── current/
     └── README.md
 ```
+
+`artifacts/` contains canonical QA-AI Markdown artifacts. `exports/` contains derived operational representations and is not a canonical artifact baseline.
 
 ---
 
@@ -48,7 +52,7 @@ From repository root:
 python scripts/workspace/init_workspace.py --project <project-id> --feature <feature-id> --name "<Feature Name>"
 ```
 
-The initializer creates the canonical directories and a metadata skeleton. It does not generate QA artifacts or promote any artifact to `Approved`.
+The initializer creates the canonical directories, `exports/generic/`, and a metadata skeleton. It does not generate QA artifacts or promote any artifact to `Approved`.
 
 ---
 
@@ -106,9 +110,30 @@ Historical evidence is retained under `revisions/<revision-id>/`.
 
 ---
 
+## Derived Exports
+
+Phase 17 exports canonical Markdown through a strict normalized model:
+
+```text
+artifacts/Test-Cases.md
+→ exports/generic/Test-Cases.xlsx
+→ exports/generic/Test-Cases.xlsx.export.json
+```
+
+Example:
+
+```bash
+python scripts/export/export_artifact.py <feature-path>/artifacts/Test-Cases.md --type test-cases --format xlsx --output <feature-path>/exports/generic/Test-Cases.xlsx
+python scripts/export/validate_export.py <feature-path>/artifacts/Test-Cases.md <feature-path>/exports/generic/Test-Cases.xlsx --type test-cases
+```
+
+Exports follow `shared/standards/Export.md`. Editing an export does not update the canonical Markdown source.
+
+---
+
 ## Freshness
 
-Freshness is separate from lifecycle:
+Artifact freshness is separate from lifecycle:
 
 ```text
 Current
@@ -118,7 +143,7 @@ Unknown
 
 An artifact may be `Approved` but `Stale` when its registered required upstream baseline changes.
 
-Workspace tooling detects/reports stale state. It does not silently regenerate downstream artifacts.
+Export freshness is checksum-based and is validated separately by `scripts/export/validate_export.py`.
 
 ---
 
@@ -126,20 +151,21 @@ Workspace tooling detects/reports stale state. It does not silently regenerate d
 
 The workspace does not own:
 
-- Excel/CSV/test-management export;
 - execution results;
 - defects/retest history;
 - semantic change intelligence;
 - automatic regression recommendation;
-- external platform synchronization.
+- external API/platform synchronization.
 
-Those concerns belong to later roadmap phases.
+File-based export interoperability is governed by Phase 17. Test execution and later lifecycle concerns belong to subsequent phases.
 
 ---
 
 ## References
 
 - `shared/standards/Workspace.md`
+- `shared/standards/Export.md`
 - `shared/schemas/workspace-metadata.schema.json`
 - `shared/schemas/revision-metadata.schema.json`
 - `scripts/workspace/`
+- `scripts/export/`
