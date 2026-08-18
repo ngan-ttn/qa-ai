@@ -1,0 +1,35 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "QA-AI Execution Results",
+  "type": "object",
+  "required": ["schema_version", "execution_id", "results"],
+  "properties": {
+    "schema_version": {"const": "1.0"},
+    "execution_id": {"type": "string", "pattern": "^RUN-[A-Za-z0-9-]+$"},
+    "results": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["execution_result_id", "test_case_id", "status", "executed_at"],
+        "properties": {
+          "execution_result_id": {"type": "string", "pattern": "^ER-[0-9]{4,}$"},
+          "test_case_id": {"type": "string", "pattern": "^TC-[A-Za-z0-9-]+$"},
+          "status": {"enum": ["Pass", "Fail", "Blocked", "Not Run", "Not Applicable"]},
+          "actual_result": {"type": ["string", "null"]},
+          "executed_by": {"type": ["string", "null"]},
+          "executed_at": {"type": "string", "minLength": 1},
+          "environment": {"type": ["string", "null"]},
+          "build": {"type": ["string", "null"]},
+          "evidence": {"type": "array", "items": {"type": "object"}},
+          "defect_ids": {"type": "array", "uniqueItems": true, "items": {"type": "string", "pattern": "^BUG-[A-Za-z0-9-]+$"}},
+          "notes": {"type": ["string", "null"]},
+          "retest_of": {"type": ["string", "null"], "pattern": "^ER-[0-9]{4,}$"},
+          "blocker_type": {"type": ["string", "null"]},
+          "blocker_reason": {"type": ["string", "null"]}
+        },
+        "additionalProperties": false
+      }
+    }
+  },
+  "additionalProperties": false
+}
