@@ -12,6 +12,8 @@ workspace/projects/<project-id>/features/<feature-id>/
 
 `workspace/current/` is only a convenience working area. It is not the authoritative long-term source of truth.
 
+Real project workspaces may contain proprietary requirements, account/test data, evidence, or generated artifacts. `workspace/projects/` is ignored by Git by default. Do not commit real project content unless repository policy and project confidentiality explicitly allow it.
+
 ---
 
 ## Canonical Structure
@@ -72,6 +74,12 @@ Use:
 python scripts/workspace/update_artifact_state.py <feature-path> <artifact-key> <new-status>
 ```
 
+Promotion to `Approved` requires explicit operator evidence:
+
+```bash
+python scripts/workspace/update_artifact_state.py <feature-path> <artifact-key> Approved --approved-by "<reviewer>"
+```
+
 AI generation/self-review does not itself authorize `Approved`.
 
 ---
@@ -80,11 +88,19 @@ AI generation/self-review does not itself authorize `Approved`.
 
 A feature revision represents an authoritative product-input baseline.
 
-Before replacing an approved current baseline, preserve it:
+Preserve the current baseline without changing active state:
 
 ```bash
 python scripts/workspace/snapshot_revision.py <feature-path>
 ```
+
+When intentionally opening the next authoritative feature revision, snapshot and advance together:
+
+```bash
+python scripts/workspace/snapshot_revision.py <feature-path> --advance
+```
+
+`--advance` increments the `REV-*` baseline and marks artifacts registered against the prior source revision as `Stale`. It does not regenerate them.
 
 Historical evidence is retained under `revisions/<revision-id>/`.
 
