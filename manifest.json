@@ -10,6 +10,7 @@
     "shared": "shared/",
     "skills": "skills/",
     "workflows": "workflows/",
-    "adapters": "adapters/"
+    "adapters": "adapters/",
+    "workspace": "workspace/"
   }
 }
