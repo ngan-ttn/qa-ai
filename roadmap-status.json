@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "last_updated": "2026-08-17",
+  "last_updated": "2026-08-18",
   "roadmap": "docs/11-Roadmap.md",
   "tracking_standard": "shared/standards/Roadmap-Progress.md",
   "status_lifecycle": ["Planned", "In Progress", "Review", "Completed", "Frozen"],
@@ -76,6 +76,32 @@
         "A Human QC reviewer completes the usability review and dispositions material findings.",
         "The adoption-readiness gate is reviewed and approved with no unresolved blocking usability issue.",
         "Pilot findings remain distinguishable from canonical framework semantics and shared knowledge."
+      ]
+    },
+    "16": {
+      "name": "Project Workspace & Artifact Lifecycle",
+      "status": "In Progress",
+      "tracking_unit": "workspace_lifecycle_stage",
+      "progress": {"completed": 0, "total": 6, "unit": "phase16_stages"},
+      "components": {
+        "workspace-contract": {"status": "In Progress", "evidence": "Canonical workspace structure and Workspace standard have been implemented; deterministic validation is pending."},
+        "identity-metadata": {"status": "In Progress", "evidence": "Feature/source/artifact identity contracts and metadata schema definitions have been implemented; validation is pending."},
+        "artifact-lifecycle": {"status": "In Progress", "evidence": "Lifecycle/freshness separation and controlled state-transition tooling have been implemented; validation is pending."},
+        "dependency-freshness": {"status": "In Progress", "evidence": "Required/supporting/conditional dependency semantics and deterministic stale revision checks are implemented; validation is pending."},
+        "workspace-tooling": {"status": "In Progress", "evidence": "Initializer, validator, revision snapshot/advance, and artifact-state tools are implemented; compile/smoke validation is pending."},
+        "operational-migration-final-gate": {"status": "Planned", "evidence": "My Rewards 3.0 local workspace migration and final Phase 16 quality gate have not yet been executed."}
+      },
+      "scope": "Establish a canonical project/feature workspace with deterministic identity, provenance, revision preservation, artifact lifecycle, dependency relationships, freshness/staleness control, local-project confidentiality defaults, and workspace validation without redefining QA skill/workflow semantics.",
+      "exit_criteria": [
+        "Canonical workspace structure and project/feature identity are defined and validated.",
+        "Source, artifact, revision, lifecycle, freshness, dependency, and provenance metadata are deterministic and internally consistent.",
+        "Lifecycle and freshness remain independent dimensions and artifact approval requires explicit operator evidence.",
+        "Required/supporting/conditional dependency relationships are represented without turning optional workflow paths into hard dependencies.",
+        "Source/upstream revision changes can be detected or represented as stale without automatic regeneration.",
+        "Approved historical baselines can be snapshotted and preserved without destructive overwrite.",
+        "Workspace scripts pass compile, structural, lifecycle, revision, and stale-propagation smoke validation.",
+        "A real My Rewards 3.0 feature workspace is migrated locally without committing proprietary project content.",
+        "No unresolved blocking provenance, staleness, lifecycle, confidentiality, or validation issue remains."
       ]
     }
   }
