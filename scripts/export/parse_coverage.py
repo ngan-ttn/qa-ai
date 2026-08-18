@@ -17,6 +17,10 @@ STATUS_HEADERS = {"Coverage Status", "Status", "Classification"}
 ID_HEADERS = {"Coverage Finding ID", "Finding ID", "Coverage ID"}
 
 
+def _key(header: str) -> str:
+    return re.sub(r"[^a-z0-9]+", "_", header.lower()).strip("_")
+
+
 def parse(path: str | Path) -> dict[str, object]:
     source = Path(path)
     text = source.read_text(encoding="utf-8-sig")
@@ -57,16 +61,19 @@ def parse(path: str | Path) -> dict[str, object]:
         status = row[status_header].strip(" `")
         if status not in CANONICAL_STATUSES:
             raise ValueError(f"noncanonical coverage status {status!r} for {finding_id}")
-        record = {re.sub(r"[^a-z0-9]+", "_", h.lower()).strip("_"): v.strip() for h, v in row.items()}
-        record["coverage_finding_id"] = finding_id
-        record["coverage_status"] = status
+        record: dict[str, str] = {
+            "coverage_finding_id": finding_id,
+            "coverage_status": status,
+        }
+        for header, value in row.items():
+            if header not in {id_header, status_header}:
+                record[_key(header)] = value.strip()
         records.append(record)
     return {
         "schema_version": "1.0",
         "artifact_type": "coverage-review",
         "source_path": source.as_posix(),
         "source_checksum": source_checksum(source),
-        "headers": headers,
         "records": records,
     }
 
