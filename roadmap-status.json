@@ -35,17 +35,33 @@
         "operational-pilot-final-gate": {"status": "Frozen", "evidence": "My Rewards 3.0 pilot exported 63 Test Cases plus current Coverage Review and Regression Analysis; legacy artifacts were correctly rejected, current artifacts validated, spreadsheet usability findings were fixed, Human QC approved, and final repository validation passed."}
       },
       "scope": "Provide deterministic operational export of canonical QA-AI artifacts to interoperable spreadsheet/tabular representations without making exports authoritative or weakening canonical semantics.",
+      "freeze_evidence": "Human QC confirmed PASS on 2026-08-18 after the My Rewards 3.0 operational export pilot and full deterministic validation."
+    },
+    "18": {
+      "name": "Test Execution & Defect Feedback",
+      "status": "In Progress",
+      "tracking_unit": "execution_feedback_stage",
+      "progress": {"completed": 0, "total": 6, "unit": "phase18_stages"},
+      "components": {
+        "execution-contract-schemas": {"status": "In Progress"},
+        "run-result-lifecycle": {"status": "In Progress"},
+        "defect-linkage-evidence": {"status": "In Progress"},
+        "retest-current-disposition": {"status": "In Progress"},
+        "execution-validation-reporting": {"status": "In Progress"},
+        "operational-pilot-final-gate": {"status": "Planned"}
+      },
+      "scope": "Establish deterministic test execution evidence, canonical result statuses, run lifecycle, defect/evidence linkage, retest history, current disposition, summary reconciliation, and provenance without taking ownership of external defect workflow or automated execution.",
       "exit_criteria": [
-        "Canonical export contracts and normalized models are defined for supported artifacts.",
-        "Strict parsers consume current canonical Markdown without silently normalizing unsupported legacy semantics.",
-        "Test Cases and Coverage Review can be exported to usable generic XLSX/CSV representations where lossless representation is supported.",
-        "Regression Analysis can be exported losslessly to XLSX with impact records and all three canonical scope tiers preserved.",
-        "Export validation reconciles identifiers, semantic values, headers, counts, and tier membership with canonical sources.",
-        "Human-readable spreadsheet headers and operational usability are verified by Human QC.",
-        "A real My Rewards 3.0 operational pilot passes export and validation while historical REV-001 evidence remains unchanged.",
-        "Final deterministic repository, metadata, output, adapter, and roadmap gates pass with a clean working tree."
-      ],
-      "freeze_evidence": "Human QC confirmed PASS on 2026-08-18 after the My Rewards 3.0 operational export pilot. Test Cases exported 63/63 to XLSX and CSV; Coverage Review and Regression Analysis exported to XLSX under current canonical semantics; legacy Partial coverage and legacy regression scope representations were correctly rejected rather than silently accepted; spreadsheet header/usability findings were fixed; final validation reported canonical_scripts=36, broken_links=0, metadata issues=0, output issues=0, adapter PASS, roadmap synchronization PASS, and a clean main working tree."
+        "Canonical execution run/result/defect-link models and schemas are defined.",
+        "Run and result lifecycle preserve immutable execution history and testcase provenance.",
+        "Blocked results require an explicit blocker type and reason and remain distinct from Fail.",
+        "Defect and evidence references remain traceable without redefining external defect lifecycle.",
+        "Retest records preserve prior failures and current disposition is deterministic.",
+        "Execution summaries reconcile exactly with unique scoped testcase IDs.",
+        "Stale testcase execution is guarded and any override is explicit and auditable.",
+        "A controlled operational pilot demonstrates Pass, Fail, Blocked, Not Applicable, defect linkage, retest-to-Pass, validation, and Human QC usability approval.",
+        "Final repository validation passes with no blocking execution-lifecycle issue."
+      ]
     }
   }
 }
