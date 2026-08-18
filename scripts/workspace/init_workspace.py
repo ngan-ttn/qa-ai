@@ -62,6 +62,7 @@ def main() -> int:
         feature_dir / "source" / "requirements",
         feature_dir / "source" / "supporting",
         feature_dir / "artifacts",
+        feature_dir / "exports" / "generic",
         feature_dir / "revisions",
         feature_dir / "archive",
     ):
@@ -80,7 +81,8 @@ def main() -> int:
         f"- Project ID: `{args.project}`\n"
         f"- Feature ID: `{args.feature}`\n"
         f"- Current Revision: `REV-001`\n\n"
-        "Use `metadata.json` as the workspace lifecycle/provenance registry.\n",
+        "Use `metadata.json` as the workspace lifecycle/provenance registry. "
+        "Derived exports belong under `exports/` and do not become canonical artifacts.\n",
         encoding="utf-8",
     )
 
@@ -117,7 +119,7 @@ def main() -> int:
 
     print(f"Initialized workspace: {feature_dir.relative_to(ROOT)}")
     print("Current revision: REV-001")
-    print("Artifacts registered as Draft / Unknown freshness; no QA artifact content was generated.")
+    print("Artifacts registered as Draft / Unknown freshness; derived export directory initialized.")
     return 0
 
 
