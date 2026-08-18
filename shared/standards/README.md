@@ -2,7 +2,7 @@
 
 ## Overview
 
-The `shared/standards/` directory contains the core standards that define how documentation, prompts, knowledge, roadmap progress, and AI-generated outputs are created and maintained across this repository.
+The `shared/standards/` directory contains the core standards that define how documentation, prompts, knowledge, roadmap progress, operational workspaces, and AI-generated outputs are created and maintained across this repository.
 
 These standards establish a consistent foundation for contributors and AI assistants so repository artifacts follow shared conventions regardless of domain or purpose.
 
@@ -20,6 +20,7 @@ The standards aim to:
 - standardize AI-generated outputs;
 - define quality gates for reusable knowledge;
 - keep roadmap progress tied to validated repository state;
+- govern project workspace identity, provenance, lifecycle, revisions, dependencies, and freshness;
 - support future expansion without introducing inconsistencies.
 
 ---
@@ -35,6 +36,7 @@ The standards aim to:
 | `Prompt.md` | Defines principles for reusable and maintainable prompts. |
 | `Knowledge-Article.md` | Defines structure, depth, quality gates, ownership, and freeze criteria for knowledge articles. |
 | `Roadmap-Progress.md` | Defines component status tracking, phase aggregation, roadmap synchronization, and the future automation contract. |
+| `Workspace.md` | Defines canonical project/feature workspace structure, source/artifact identity, revision preservation, lifecycle, dependency, provenance, and freshness rules. |
 
 ---
 
@@ -49,6 +51,8 @@ Before creating or modifying repository artifacts:
 5. apply the standards consistently throughout the artifact.
 
 For roadmap-tracked work, file creation alone must not be interpreted as completion. The component must satisfy its defined quality gate before its progress status is promoted.
+
+Operational project artifacts under `workspace/` must additionally follow `Workspace.md`; lifecycle and freshness are separate dimensions and project artifact approval must not be inferred from AI generation/self-review.
 
 ---
 
@@ -77,6 +81,7 @@ These standards are referenced by:
 - `shared/glossary/`
 - `skills/`
 - `workflows/`
+- `workspace/`
 - `docs/11-Roadmap.md`
 - `roadmap-status.json`
 
@@ -86,4 +91,4 @@ These standards are referenced by:
 
 Standards should be updated only when a repository-wide convention needs to be introduced, refined, or replaced.
 
-Changes must preserve consistency across existing artifacts wherever possible. Changes to roadmap tracking semantics require corresponding review of `roadmap-status.json`, `docs/11-Roadmap.md`, and any automation that consumes them.
+Changes must preserve consistency across existing artifacts wherever possible. Changes to roadmap tracking semantics require corresponding review of `roadmap-status.json`, `docs/11-Roadmap.md`, and any automation that consumes them. Changes to workspace lifecycle/provenance semantics require corresponding review of `workspace/`, `shared/schemas/`, and `scripts/workspace/`.
