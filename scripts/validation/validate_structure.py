@@ -21,7 +21,11 @@ SCRIPT_FILES = {
     "prompts": ["assemble_context.py", "build_prompt.py"],
     "workflows": ["load_workflow.py", "resolve_skills.py", "run_workflow.py"],
     "evaluation": ["benchmark.py", "compare_output.py", "score_coverage.py", "score_format.py"],
-    "export": ["export_excel.py", "export_markdown.py", "package_output.py"],
+    "export": [
+        "export_excel.py", "export_markdown.py", "package_output.py",
+        "parse_testcases.py", "parse_coverage.py", "parse_regression.py",
+        "export_artifact.py", "validate_export.py",
+    ],
     "utils": ["config_utils.py", "file_utils.py", "logging_utils.py"],
     "roadmap": ["collect_status.py", "validate_progress.py", "update_roadmap.py"],
     "workspace": [
