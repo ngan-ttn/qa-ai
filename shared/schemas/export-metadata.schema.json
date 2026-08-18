@@ -1,0 +1,20 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "qa-ai/export-metadata.schema.json",
+  "title": "QA-AI Export Metadata",
+  "type": "object",
+  "required": ["schema_version", "artifact_type", "source_path", "source_checksum", "export_path", "export_format", "export_profile", "record_count", "exported_at"],
+  "properties": {
+    "schema_version": {"const": "1.0"},
+    "artifact_type": {"type": "string"},
+    "source_path": {"type": "string"},
+    "source_checksum": {"type": "string"},
+    "export_path": {"type": "string"},
+    "export_format": {"enum": ["xlsx", "csv"]},
+    "export_profile": {"type": "string"},
+    "record_count": {"type": "integer", "minimum": 0},
+    "exported_at": {"type": "string"},
+    "framework_revision": {"type": "string"}
+  },
+  "additionalProperties": false
+}
