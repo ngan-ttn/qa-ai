@@ -1,0 +1,37 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "QA-AI Execution Run",
+  "type": "object",
+  "required": ["schema_version", "execution_id", "feature_revision", "status", "scope_type", "scope_testcase_ids", "testcase_source", "created_at"],
+  "properties": {
+    "schema_version": {"const": "1.0"},
+    "execution_id": {"type": "string", "pattern": "^RUN-[A-Za-z0-9-]+$"},
+    "feature_revision": {"type": "string", "pattern": "^REV-[0-9]{3,}$"},
+    "status": {"enum": ["Planned", "In Progress", "Completed", "Closed"]},
+    "scope_type": {"enum": ["Full Test Suite", "Minimum / Release-Gate Regression", "Recommended Regression", "Full Changed-Feature Verification", "Custom"]},
+    "scope_testcase_ids": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"type": "string", "pattern": "^TC-[A-Za-z0-9-]+$"}},
+    "testcase_source": {
+      "type": "object",
+      "required": ["path", "checksum"],
+      "properties": {
+        "path": {"type": "string", "minLength": 1},
+        "checksum": {"type": "string", "minLength": 1},
+        "artifact_revision": {"type": ["string", "null"]},
+        "freshness": {"enum": ["Current", "Stale", "Unknown"]}
+      },
+      "additionalProperties": false
+    },
+    "regression_source": {"type": ["object", "null"]},
+    "build": {"type": ["string", "null"]},
+    "environment": {"type": ["string", "null"]},
+    "executor": {"type": ["string", "null"]},
+    "allow_stale": {"type": "boolean"},
+    "override_reason": {"type": ["string", "null"]},
+    "created_at": {"type": "string", "minLength": 1},
+    "updated_at": {"type": "string", "minLength": 1},
+    "completed_at": {"type": ["string", "null"]},
+    "closed_at": {"type": ["string", "null"]},
+    "framework_revision": {"type": ["string", "null"]}
+  },
+  "additionalProperties": false
+}
