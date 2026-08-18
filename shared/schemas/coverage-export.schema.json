@@ -1,0 +1,15 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "qa-ai/coverage-export.schema.json",
+  "title": "QA-AI Coverage Export Model",
+  "type": "object",
+  "required": ["schema_version", "artifact_type", "source_path", "source_checksum", "records"],
+  "properties": {
+    "schema_version": {"const": "1.0"},
+    "artifact_type": {"const": "coverage-review"},
+    "source_path": {"type": "string"},
+    "source_checksum": {"type": "string"},
+    "records": {"type": "array", "items": {"type": "object"}}
+  },
+  "additionalProperties": true
+}
