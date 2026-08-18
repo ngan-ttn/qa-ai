@@ -2,7 +2,7 @@
 
 ## Purpose
 
-The `workspace/` directory stores operational project/feature sources and QA-AI artifacts under the lifecycle and provenance rules defined by `shared/standards/Workspace.md`.
+The `workspace/` directory stores operational project/feature sources, QA-AI artifacts, derived exports, and execution evidence under the lifecycle and provenance rules defined by the shared standards.
 
 The canonical project/feature location is:
 
@@ -34,25 +34,25 @@ workspace/
 │               ├── artifacts/
 │               ├── exports/
 │               │   └── generic/
+│               ├── executions/
+│               │   └── RUN-*/
 │               ├── revisions/
 │               └── archive/
 └── current/
     └── README.md
 ```
 
-`artifacts/` contains canonical QA-AI Markdown artifacts. `exports/` contains derived operational representations and is not a canonical artifact baseline.
+`artifacts/` contains canonical QA-AI Markdown artifacts. `exports/` contains derived operational representations and is not a canonical artifact baseline. `executions/` contains structured execution evidence and derived execution summaries.
 
 ---
 
 ## Initialize a Feature Workspace
 
-From repository root:
-
 ```bash
 python scripts/workspace/init_workspace.py --project <project-id> --feature <feature-id> --name "<Feature Name>"
 ```
 
-The initializer creates the canonical directories, `exports/generic/`, and a metadata skeleton. It does not generate QA artifacts or promote any artifact to `Approved`.
+The initializer creates canonical source/artifact/export/execution/revision/archive directories and a metadata skeleton. It does not generate QA artifacts or promote any artifact to `Approved`.
 
 ---
 
@@ -72,62 +72,46 @@ Validation checks structure, metadata, registered paths, identities, dependency 
 Draft → Review → Approved → Superseded → Archived
 ```
 
-Use:
-
-```bash
-python scripts/workspace/update_artifact_state.py <feature-path> <artifact-key> <new-status>
-```
-
-Promotion to `Approved` requires explicit operator evidence:
-
-```bash
-python scripts/workspace/update_artifact_state.py <feature-path> <artifact-key> Approved --approved-by "<reviewer>"
-```
-
-AI generation/self-review does not itself authorize `Approved`.
+Use `scripts/workspace/update_artifact_state.py`. Promotion to `Approved` requires explicit operator evidence. AI generation/self-review does not itself authorize `Approved`.
 
 ---
 
 ## Feature Revisions
 
-A feature revision represents an authoritative product-input baseline.
-
-Preserve the current baseline without changing active state:
-
-```bash
-python scripts/workspace/snapshot_revision.py <feature-path>
-```
-
-When intentionally opening the next authoritative feature revision, snapshot and advance together:
-
-```bash
-python scripts/workspace/snapshot_revision.py <feature-path> --advance
-```
-
-`--advance` increments the `REV-*` baseline and marks artifacts registered against the prior source revision as `Stale`. It does not regenerate them.
-
-Historical evidence is retained under `revisions/<revision-id>/`.
+A feature revision represents an authoritative product-input baseline. Preserve or advance revisions with `scripts/workspace/snapshot_revision.py`. Historical evidence is retained under `revisions/<revision-id>/` and advancement marks prior-baseline artifacts stale without regenerating them.
 
 ---
 
 ## Derived Exports
 
-Phase 17 exports canonical Markdown through a strict normalized model:
+Phase 17 exports canonical Markdown through strict normalized models. Exports follow `shared/standards/Export.md`. Editing an export does not update canonical Markdown.
+
+---
+
+## Test Execution
+
+Phase 18 execution evidence lives under `executions/RUN-*`:
 
 ```text
-artifacts/Test-Cases.md
-→ exports/generic/Test-Cases.xlsx
-→ exports/generic/Test-Cases.xlsx.export.json
+RUN-001/
+├── execution.json
+├── results.json
+├── defects.json
+├── Execution-Summary.md
+└── evidence/
 ```
 
-Example:
+Initialize and record a run with `scripts/execution/`. Execution records follow `shared/standards/Execution.md`.
 
-```bash
-python scripts/export/export_artifact.py <feature-path>/artifacts/Test-Cases.md --type test-cases --format xlsx --output <feature-path>/exports/generic/Test-Cases.xlsx
-python scripts/export/validate_export.py <feature-path>/artifacts/Test-Cases.md <feature-path>/exports/generic/Test-Cases.xlsx --type test-cases
-```
+Important rules:
 
-Exports follow `shared/standards/Export.md`. Editing an export does not update the canonical Markdown source.
+- `Pass`, `Fail`, `Blocked`, `Not Run`, and `Not Applicable` are the canonical result statuses;
+- `Blocked` requires an explicit blocker type and reason;
+- retests create new `ER-*` records and never overwrite earlier attempts;
+- execution summaries use the latest valid attempt as current disposition;
+- status totals must reconcile with unique scoped testcase IDs;
+- stale Test Cases are blocked by default and require an explicit audited override;
+- defect references link execution evidence but do not redefine external defect lifecycle.
 
 ---
 
@@ -141,23 +125,17 @@ Stale
 Unknown
 ```
 
-An artifact may be `Approved` but `Stale` when its registered required upstream baseline changes.
-
-Export freshness is checksum-based and is validated separately by `scripts/export/validate_export.py`.
+An artifact may be `Approved` but `Stale` when its registered required upstream baseline changes. Export freshness is checksum-based. Execution provenance preserves the testcase source checksum used for the run.
 
 ---
 
 ## Phase Boundary
 
-The workspace does not own:
+The workspace itself does not own QA generation semantics, external defect workflow, automatic test execution, semantic change intelligence, automatic regression recommendation, or external API/platform synchronization.
 
-- execution results;
-- defects/retest history;
-- semantic change intelligence;
-- automatic regression recommendation;
-- external API/platform synchronization.
-
-File-based export interoperability is governed by Phase 17. Test execution and later lifecycle concerns belong to subsequent phases.
+- Phase 17 owns file-based export interoperability.
+- Phase 18 owns structured test execution evidence and defect/retest linkage.
+- Later phases may consume this evidence without redefining it.
 
 ---
 
@@ -165,7 +143,12 @@ File-based export interoperability is governed by Phase 17. Test execution and l
 
 - `shared/standards/Workspace.md`
 - `shared/standards/Export.md`
+- `shared/standards/Execution.md`
 - `shared/schemas/workspace-metadata.schema.json`
 - `shared/schemas/revision-metadata.schema.json`
+- `shared/schemas/execution-run.schema.json`
+- `shared/schemas/execution-results.schema.json`
+- `shared/schemas/execution-defects.schema.json`
 - `scripts/workspace/`
 - `scripts/export/`
+- `scripts/execution/`
