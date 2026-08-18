@@ -1,0 +1,28 @@
+{
+  "schema_version": "1.0",
+  "title": "QA-AI Workspace Feature Metadata",
+  "required_fields": [
+    "schema_version",
+    "project_id",
+    "feature_id",
+    "feature_name",
+    "status",
+    "current_revision",
+    "framework_revision",
+    "created_at",
+    "updated_at",
+    "sources",
+    "artifacts"
+  ],
+  "feature_status_values": ["Active", "Inactive", "Archived"],
+  "artifact_status_values": ["Draft", "Review", "Approved", "Superseded", "Archived"],
+  "freshness_values": ["Current", "Stale", "Unknown"],
+  "dependency_relationship_values": ["required", "supporting", "conditional"],
+  "identity_patterns": {
+    "revision": "REV-###",
+    "source": "SRC-###"
+  },
+  "source_required_fields": ["source_id", "type", "path", "authoritative", "registered_at"],
+  "artifact_required_fields": ["artifact_type", "path", "status", "freshness", "revision", "source_revision", "dependencies"],
+  "dependency_required_fields": ["target", "relationship"]
+}
