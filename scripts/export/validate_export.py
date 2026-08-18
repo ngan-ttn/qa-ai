@@ -16,8 +16,16 @@ from parse_coverage import parse as parse_coverage
 from parse_regression import parse as parse_regression
 
 PARSERS = {"test-cases": parse_testcases, "coverage-review": parse_coverage, "regression-analysis": parse_regression}
+
 TC_HEADERS = ["Test Case ID", "Module / Function", "Scenario ID", "Test Case Title", "Preconditions / Setup", "Test Steps", "Test Data", "Expected Result", "Priority", "Traceability"]
 TC_KEYS = ["test_case_id", "module_function", "scenario_id", "title", "preconditions_setup", "steps", "test_data", "expected_result", "priority", "traceability"]
+
+COVERAGE_HEADERS = ["Coverage Finding ID", "Coverage Status", "Related Source", "Current Evidence", "Finding", "Priority", "Recommended Owning Action"]
+COVERAGE_KEYS = ["coverage_finding_id", "coverage_status", "related_source", "current_evidence", "finding", "priority", "recommended_owning_action"]
+
+REGRESSION_HEADERS = ["Impact ID", "Area / Module", "Change Relationship", "Regression Scope / Behavior to Revalidate", "Impact Type", "Evidence / Traceability", "Priority", "Existing Coverage Reference", "Decision"]
+REGRESSION_KEYS = ["impact_id", "area_module", "change_relationship", "behavior_to_revalidate", "impact_type", "evidence_traceability", "priority", "existing_coverage_reference", "decision"]
+
 TIER_TITLES = {
     "Minimum / Release-Gate Regression": "minimum_release_gate",
     "Recommended Regression": "recommended",
@@ -36,11 +44,12 @@ def _norm(value: object) -> str:
 
 
 def _expected(model: dict[str, object]) -> tuple[list[str], list[list[str]]]:
-    if model["artifact_type"] == "test-cases":
+    artifact_type = model["artifact_type"]
+    if artifact_type == "test-cases":
         return TC_HEADERS, [[_norm("\n".join(r[k]) if k == "steps" else r[k]) for k in TC_KEYS] for r in model["records"]]
-    records = model["records"] if model["artifact_type"] == "coverage-review" else model["impact_records"]
-    keys = list(records[0].keys()) if records else []
-    return keys, [[_norm(r.get(k)) for k in keys] for r in records]
+    if artifact_type == "coverage-review":
+        return COVERAGE_HEADERS, [[_norm(r.get(k)) for k in COVERAGE_KEYS] for r in model["records"]]
+    return REGRESSION_HEADERS, [[_norm(r.get(k)) for k in REGRESSION_KEYS] for r in model["impact_records"]]
 
 
 def _read_csv(path: Path) -> tuple[list[str], list[list[str]]]:
@@ -63,7 +72,10 @@ def _read_xlsx(path: Path) -> tuple[list[str], list[list[str]], dict[str, list[s
     if "Regression Scope" in wb.sheetnames:
         tiers = {value: [] for value in TIER_TITLES.values()}
         scope = wb["Regression Scope"]
-        for row in list(scope.iter_rows(values_only=True))[1:]:
+        scope_rows = list(scope.iter_rows(values_only=True))
+        if not scope_rows or [_norm(v) for v in scope_rows[0][:2]] != ["Tier", "Reference ID"]:
+            raise ValueError("Regression Scope sheet header mismatch; expected ['Tier', 'Reference ID']")
+        for row in scope_rows[1:]:
             title = _norm(row[0] if len(row) > 0 else None)
             ref = _norm(row[1] if len(row) > 1 else None)
             if title in TIER_TITLES and ref:
@@ -107,6 +119,20 @@ def validate(source: Path, export_path: Path, artifact_type: str) -> list[str]:
             errors.append("duplicate Test Case ID found in export")
         if set(source_ids) != set(export_ids):
             errors.append("Test Case ID set mismatch between source and export")
+    if artifact_type == "coverage-review" and expected_headers and actual_headers:
+        source_ids = [row[0] for row in expected_rows]
+        export_ids = [row[0] for row in normalized_actual]
+        if len(set(export_ids)) != len(export_ids):
+            errors.append("duplicate Coverage Finding ID found in export")
+        if set(source_ids) != set(export_ids):
+            errors.append("Coverage Finding ID set mismatch between source and export")
+    if artifact_type == "regression-analysis" and expected_headers and actual_headers:
+        source_ids = [row[0] for row in expected_rows]
+        export_ids = [row[0] for row in normalized_actual]
+        if len(set(export_ids)) != len(export_ids):
+            errors.append("duplicate Impact ID found in export")
+        if set(source_ids) != set(export_ids):
+            errors.append("Impact ID set mismatch between source and export")
     if artifact_type == "regression-analysis" and export_path.suffix.lower() == ".xlsx":
         if actual_tiers is None:
             errors.append("Regression Scope sheet is missing")
