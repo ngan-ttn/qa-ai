@@ -13,7 +13,7 @@ if str(EXPORT_DIR) not in sys.path:
 from parse_testcases import parse_table, source_checksum
 
 CANONICAL_STATUSES = {"Covered", "Weakly Covered", "Gap", "Blocked"}
-STATUS_HEADERS = {"Coverage Status", "Status"}
+STATUS_HEADERS = {"Coverage Status", "Status", "Classification"}
 ID_HEADERS = {"Coverage Finding ID", "Finding ID", "Coverage ID"}
 
 
@@ -41,7 +41,7 @@ def parse(path: str | Path) -> dict[str, object]:
         else:
             idx += 1
     if candidate is None:
-        raise ValueError("missing canonical Coverage Review findings table with finding ID and coverage status")
+        raise ValueError("missing canonical Coverage Review findings table with finding ID and canonical coverage classification")
     headers, rows = candidate
     status_header = next(h for h in headers if h in STATUS_HEADERS)
     id_header = next(h for h in headers if h in ID_HEADERS)
