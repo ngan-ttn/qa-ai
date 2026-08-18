@@ -22,7 +22,8 @@ TIERS = {
     "recommended": "Recommended Regression",
     "full_changed_feature": "Full Changed-Feature Verification",
 }
-TC_RE = re.compile(r"\bTC-[A-Za-z0-9-]+\b")
+REF_RE = re.compile(r"\b(?:TC|RI)-[A-Za-z0-9-]+\b")
+RANGE_RE = re.compile(r"\b((?:TC|RI)-[A-Za-z-]*?)(\d+)\s*[–—-]\s*((?:TC|RI)-[A-Za-z-]*?)(\d+)\b")
 
 
 def _find_impact_table(lines: list[str]) -> list[dict[str, str]]:
@@ -46,30 +47,39 @@ def _section_text(text: str, title: str) -> str:
     return match.group("body") if match else ""
 
 
+def _references(body: str) -> list[str]:
+    expanded: list[str] = []
+    for match in RANGE_RE.finditer(body):
+        prefix1, start, prefix2, end = match.groups()
+        if prefix1 == prefix2:
+            width = max(len(start), len(end))
+            expanded.extend(f"{prefix1}{value:0{width}d}" for value in range(int(start), int(end) + 1))
+    refs = REF_RE.findall(body)
+    return list(dict.fromkeys([*refs, *expanded]))
+
+
 def _extract_tier_ids(text: str) -> dict[str, list[str]]:
-    result: dict[str, list[str]] = {}
+    explicit: dict[str, list[str]] = {}
     for key, title in TIERS.items():
         body = _section_text(text, title)
         if not body:
-            # Support documents that introduce each tier using bold labels rather than headings.
             match = re.search(
                 rf"(?:\*\*)?{re.escape(title)}(?:\*\*)?\s*[:\-]?\s*(.*?)(?=(?:\*\*)?(?:Recommended Regression|Full Changed-Feature Verification)(?:\*\*)?|\Z)",
                 text,
                 flags=re.S,
             )
             body = match.group(1) if match else ""
-        ids = list(dict.fromkeys(TC_RE.findall(body)))
-        result[key] = ids
-    if not any(result.values()):
-        raise ValueError("canonical regression scope tiers found no testcase IDs")
-    minimum = set(result["minimum_release_gate"])
-    recommended = set(result["recommended"])
-    full = set(result["full_changed_feature"])
-    if minimum and recommended and not minimum.issubset(recommended):
-        raise ValueError("Recommended Regression is not a superset of Minimum / Release-Gate Regression")
-    if recommended and full and not recommended.issubset(full):
-        raise ValueError("Full Changed-Feature Verification is not a superset of Recommended Regression")
-    return result
+        explicit[key] = _references(body)
+    if not any(explicit.values()):
+        raise ValueError("canonical regression scope tiers found no executable/impact references")
+    minimum = explicit["minimum_release_gate"]
+    recommended = list(dict.fromkeys([*minimum, *explicit["recommended"]]))
+    full = list(dict.fromkeys([*recommended, *explicit["full_changed_feature"]]))
+    return {
+        "minimum_release_gate": minimum,
+        "recommended": recommended,
+        "full_changed_feature": full,
+    }
 
 
 def parse(path: str | Path) -> dict[str, object]:
