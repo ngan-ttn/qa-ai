@@ -2,7 +2,7 @@
 
 ## Overview
 
-The `shared/standards/` directory contains the core standards that define how documentation, prompts, knowledge, roadmap progress, operational workspaces, artifact exports, and AI-generated outputs are created and maintained across this repository.
+The `shared/standards/` directory contains the core standards that define how documentation, prompts, knowledge, roadmap progress, operational workspaces, artifact exports, test execution evidence, and AI-generated outputs are created and maintained across this repository.
 
 These standards establish a consistent foundation for contributors and AI assistants so repository artifacts follow shared conventions regardless of domain or purpose.
 
@@ -22,6 +22,7 @@ The standards aim to:
 - keep roadmap progress tied to validated repository state;
 - govern project workspace identity, provenance, lifecycle, revisions, dependencies, and freshness;
 - preserve canonical artifact semantics across operational exports;
+- govern execution run/result history, defect linkage, retest semantics, and count reconciliation;
 - support future expansion without introducing inconsistencies.
 
 ---
@@ -39,6 +40,7 @@ The standards aim to:
 | `Roadmap-Progress.md` | Defines component status tracking, phase aggregation, roadmap synchronization, and the future automation contract. |
 | `Workspace.md` | Defines canonical project/feature workspace structure, source/artifact identity, revision preservation, lifecycle, dependency, provenance, and freshness rules. |
 | `Export.md` | Defines canonical-source preservation, normalized export models, XLSX/CSV rendering, provenance, freshness, profiles, and export-integrity validation. |
+| `Execution.md` | Defines execution runs/results, canonical statuses, lifecycle, provenance, blockers, defect linkage, retest history, current disposition, and summary reconciliation. |
 
 ---
 
@@ -57,6 +59,8 @@ For roadmap-tracked work, file creation alone must not be interpreted as complet
 Operational project artifacts under `workspace/` must additionally follow `Workspace.md`; lifecycle and freshness are separate dimensions and project artifact approval must not be inferred from AI generation/self-review.
 
 Derived spreadsheet/CSV/import artifacts must follow `Export.md`; exported representations do not become canonical merely because they are easier to execute or import.
+
+Execution records under `workspace/.../executions/` must follow `Execution.md`; result history must remain auditable, `Blocked` must not be conflated with `Fail`, and retest attempts must not overwrite prior results.
 
 ---
 
@@ -87,6 +91,7 @@ These standards are referenced by:
 - `workflows/`
 - `workspace/`
 - `scripts/export/`
+- `scripts/execution/`
 - `docs/11-Roadmap.md`
 - `roadmap-status.json`
 
@@ -96,4 +101,4 @@ These standards are referenced by:
 
 Standards should be updated only when a repository-wide convention needs to be introduced, refined, or replaced.
 
-Changes must preserve consistency across existing artifacts wherever possible. Changes to roadmap tracking semantics require corresponding review of `roadmap-status.json`, `docs/11-Roadmap.md`, and any automation that consumes them. Changes to workspace lifecycle/provenance semantics require corresponding review of `workspace/`, `shared/schemas/`, and `scripts/workspace/`. Changes to export semantics require corresponding review of `shared/schemas/` and `scripts/export/`.
+Changes must preserve consistency across existing artifacts wherever possible. Changes to roadmap tracking semantics require corresponding review of `roadmap-status.json`, `docs/11-Roadmap.md`, and any automation that consumes them. Changes to workspace lifecycle/provenance semantics require corresponding review of `workspace/`, `shared/schemas/`, and `scripts/workspace/`. Changes to export semantics require corresponding review of `shared/schemas/` and `scripts/export/`. Changes to execution semantics require corresponding review of `shared/schemas/`, `workspace/`, and `scripts/execution/`.
