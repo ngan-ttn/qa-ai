@@ -24,7 +24,14 @@ SCRIPT_FILES = {
     "export": ["export_excel.py", "export_markdown.py", "package_output.py"],
     "utils": ["config_utils.py", "file_utils.py", "logging_utils.py"],
     "roadmap": ["collect_status.py", "validate_progress.py", "update_roadmap.py"],
-    "workspace": ["init_workspace.py", "validate_workspace.py", "snapshot_revision.py", "update_artifact_state.py"],
+    "workspace": [
+        "init_workspace.py",
+        "register_source.py",
+        "register_artifact.py",
+        "validate_workspace.py",
+        "snapshot_revision.py",
+        "update_artifact_state.py",
+    ],
 }
 
 
