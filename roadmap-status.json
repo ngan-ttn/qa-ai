@@ -17,7 +17,16 @@
     "10": {"name": "Knowledge Library Completion", "status": "Frozen", "progress": {"completed": 181, "total": 181, "unit": "knowledge_articles"}},
     "11": {"name": "Skill Library Expansion", "status": "Frozen", "progress": {"completed": 5, "total": 5, "unit": "expansion_skills"}},
     "12": {"name": "Scripts Implementation", "status": "Frozen", "progress": {"completed": 8, "total": 8, "unit": "script_groups"}, "script_baseline": {"groups": 8, "scripts": 25}},
-    "13": {"name": "Platform Integration", "status": "Frozen", "progress": {"completed": 3, "total": 3, "unit": "platform_adapters"}},
+    "13": {
+      "name": "Platform Integration",
+      "status": "Frozen",
+      "progress": {"completed": 3, "total": 3, "unit": "platform_adapters"},
+      "components": {
+        "chatgpt": {"status": "Frozen"},
+        "claude": {"status": "Frozen"},
+        "cursor": {"status": "Frozen"}
+      }
+    },
     "14": {"name": "Controlled Runtime Evaluation & Benchmark Baseline", "status": "Frozen", "progress": {"completed": 6, "total": 6, "unit": "phase14_stages"}},
     "15": {"name": "Operational Usage & Project Adoption", "status": "Frozen", "progress": {"completed": 6, "total": 6, "unit": "phase15_stages"}},
     "16": {"name": "Project Workspace & Artifact Lifecycle", "status": "Frozen", "progress": {"completed": 6, "total": 6, "unit": "phase16_stages"}},
