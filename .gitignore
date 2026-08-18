@@ -42,3 +42,10 @@ dist/
 
 # QA-AI generated runtime artifacts
 output/
+
+# Operational project workspaces may contain proprietary requirements,
+# accounts, evidence, or generated project artifacts. Keep real project
+# content local by default; canonical structure/contracts remain tracked.
+workspace/projects/
+workspace/current/*
+!workspace/current/README.md
