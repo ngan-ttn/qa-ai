@@ -13,7 +13,7 @@ from scripts.utils.file_utils import read_json
 
 CORE_PATHS = [
     "README.md", "FRAMEWORK.md", "manifest.json", "docs", "shared", "skills",
-    "workflows", "datasets", "scripts",
+    "workflows", "datasets", "scripts", "workspace",
 ]
 SCRIPT_FILES = {
     "validation": ["validate_structure.py", "validate_links.py", "validate_metadata.py", "validate_outputs.py"],
@@ -24,6 +24,7 @@ SCRIPT_FILES = {
     "export": ["export_excel.py", "export_markdown.py", "package_output.py"],
     "utils": ["config_utils.py", "file_utils.py", "logging_utils.py"],
     "roadmap": ["collect_status.py", "validate_progress.py", "update_roadmap.py"],
+    "workspace": ["init_workspace.py", "validate_workspace.py", "snapshot_revision.py", "update_artifact_state.py"],
 }
 
 
