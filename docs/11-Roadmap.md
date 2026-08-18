@@ -96,13 +96,14 @@ Planned → In Progress → Review → Completed → Frozen
 | Phase 13 | Platform Integration | Frozen | 3/3 platform_adapters |
 | Phase 14 | Controlled Runtime Evaluation & Benchmark Baseline | Frozen | 6/6 phase14_stages |
 | Phase 15 | Operational Usage & Project Adoption | Frozen | 6/6 phase15_stages |
+| Phase 16 | Project Workspace & Artifact Lifecycle | Frozen | 6/6 phase16_stages |
 
 <!-- ROADMAP_STATUS:END -->
 
 Current baseline and active phase:
 
 ```text
-Latest Frozen Phase: Phase 15 — Operational Usage & Project Adoption
+Latest Frozen Phase: Phase 16 — Project Workspace & Artifact Lifecycle
 Canonical Skill Library: 11/11
 Knowledge Baseline: 181/181
 Canonical Scripts: 25 / 8 groups
