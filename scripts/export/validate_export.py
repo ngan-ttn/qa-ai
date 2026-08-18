@@ -18,6 +18,11 @@ from parse_regression import parse as parse_regression
 PARSERS = {"test-cases": parse_testcases, "coverage-review": parse_coverage, "regression-analysis": parse_regression}
 TC_HEADERS = ["Test Case ID", "Module / Function", "Scenario ID", "Test Case Title", "Preconditions / Setup", "Test Steps", "Test Data", "Expected Result", "Priority", "Traceability"]
 TC_KEYS = ["test_case_id", "module_function", "scenario_id", "title", "preconditions_setup", "steps", "test_data", "expected_result", "priority", "traceability"]
+TIER_TITLES = {
+    "Minimum / Release-Gate Regression": "minimum_release_gate",
+    "Recommended Regression": "recommended",
+    "Full Changed-Feature Verification": "full_changed_feature",
+}
 
 
 def sha256(path: Path) -> str:
@@ -44,7 +49,7 @@ def _read_csv(path: Path) -> tuple[list[str], list[list[str]]]:
     return (rows[0], rows[1:]) if rows else ([], [])
 
 
-def _read_xlsx(path: Path) -> tuple[list[str], list[list[str]]]:
+def _read_xlsx(path: Path) -> tuple[list[str], list[list[str]], dict[str, list[str]] | None]:
     try:
         from openpyxl import load_workbook
     except ImportError as exc:
@@ -52,9 +57,18 @@ def _read_xlsx(path: Path) -> tuple[list[str], list[list[str]]]:
     wb = load_workbook(path, data_only=True)
     ws = wb[wb.sheetnames[0]]
     rows = list(ws.iter_rows(values_only=True))
-    if not rows:
-        return [], []
-    return [_norm(v) for v in rows[0]], [[_norm(v) for v in row] for row in rows[1:]]
+    headers = [_norm(v) for v in rows[0]] if rows else []
+    data_rows = [[_norm(v) for v in row] for row in rows[1:]] if rows else []
+    tiers: dict[str, list[str]] | None = None
+    if "Regression Scope" in wb.sheetnames:
+        tiers = {value: [] for value in TIER_TITLES.values()}
+        scope = wb["Regression Scope"]
+        for row in list(scope.iter_rows(values_only=True))[1:]:
+            title = _norm(row[0] if len(row) > 0 else None)
+            ref = _norm(row[1] if len(row) > 1 else None)
+            if title in TIER_TITLES and ref:
+                tiers[TIER_TITLES[title]].append(ref)
+    return headers, data_rows, tiers
 
 
 def validate(source: Path, export_path: Path, artifact_type: str) -> list[str]:
@@ -69,10 +83,11 @@ def validate(source: Path, export_path: Path, artifact_type: str) -> list[str]:
     if metadata.get("artifact_type") != artifact_type:
         errors.append("sidecar artifact_type mismatch")
     expected_headers, expected_rows = _expected(model)
+    actual_tiers = None
     if export_path.suffix.lower() == ".csv":
         actual_headers, actual_rows = _read_csv(export_path)
     elif export_path.suffix.lower() == ".xlsx":
-        actual_headers, actual_rows = _read_xlsx(export_path)
+        actual_headers, actual_rows, actual_tiers = _read_xlsx(export_path)
     else:
         return ["unsupported export format; expected .csv or .xlsx"]
     if actual_headers != expected_headers:
@@ -92,6 +107,14 @@ def validate(source: Path, export_path: Path, artifact_type: str) -> list[str]:
             errors.append("duplicate Test Case ID found in export")
         if set(source_ids) != set(export_ids):
             errors.append("Test Case ID set mismatch between source and export")
+    if artifact_type == "regression-analysis" and export_path.suffix.lower() == ".xlsx":
+        if actual_tiers is None:
+            errors.append("Regression Scope sheet is missing")
+        else:
+            for key, expected in model["tiers"].items():
+                actual = actual_tiers.get(key, [])
+                if actual != expected:
+                    errors.append(f"regression tier mismatch for {key}: source={expected} export={actual}")
     if metadata.get("record_count") != len(expected_rows):
         errors.append("sidecar record_count does not reconcile with canonical source")
     return errors
@@ -103,6 +126,9 @@ def main() -> int:
     parser.add_argument("export")
     parser.add_argument("--type", required=True, choices=tuple(PARSERS))
     args = parser.parse_args()
+    if args.type == "regression-analysis" and Path(args.export).suffix.lower() == ".csv":
+        print("ERROR regression-analysis round-trip validation requires XLSX because canonical tier membership is multi-table data")
+        return 1
     try:
         errors = validate(Path(args.source), Path(args.export), args.type)
     except Exception as exc:
