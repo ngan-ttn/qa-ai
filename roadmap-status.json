@@ -3,279 +3,49 @@
   "last_updated": "2026-08-18",
   "roadmap": "docs/11-Roadmap.md",
   "tracking_standard": "shared/standards/Roadmap-Progress.md",
-  "status_lifecycle": [
-    "Planned",
-    "In Progress",
-    "Review",
-    "Completed",
-    "Frozen"
-  ],
+  "status_lifecycle": ["Planned", "In Progress", "Review", "Completed", "Frozen"],
   "phases": {
-    "1": {
-      "name": "Framework Foundation",
-      "status": "Completed"
-    },
-    "2": {
-      "name": "Shared Standards and Foundations",
-      "status": "Completed"
-    },
-    "3": {
-      "name": "Workflow Library",
-      "status": "Completed"
-    },
-    "4": {
-      "name": "Skill Library Foundation",
-      "status": "Completed",
-      "progress": {
-        "completed": 6,
-        "total": 6,
-        "unit": "foundation_skills"
-      },
+    "1": {"name": "Framework Foundation", "status": "Completed"},
+    "2": {"name": "Shared Standards and Foundations", "status": "Completed"},
+    "3": {"name": "Workflow Library", "status": "Completed"},
+    "4": {"name": "Skill Library Foundation", "status": "Completed", "progress": {"completed": 6, "total": 6, "unit": "foundation_skills"}},
+    "5": {"name": "Knowledge Foundation", "status": "Completed"},
+    "6": {"name": "Examples and End-to-End Validation", "status": "Completed"},
+    "7": {"name": "Framework Integration and Validation", "status": "Completed"},
+    "8": {"name": "Datasets and Evaluation", "status": "Frozen"},
+    "9": {"name": "Repository Completion and Alignment", "status": "Completed"},
+    "10": {"name": "Knowledge Library Completion", "status": "Frozen", "progress": {"completed": 181, "total": 181, "unit": "knowledge_articles"}},
+    "11": {"name": "Skill Library Expansion", "status": "Frozen", "progress": {"completed": 5, "total": 5, "unit": "expansion_skills"}},
+    "12": {"name": "Scripts Implementation", "status": "Frozen", "progress": {"completed": 8, "total": 8, "unit": "script_groups"}, "script_baseline": {"groups": 8, "scripts": 25}},
+    "13": {"name": "Platform Integration", "status": "Frozen", "progress": {"completed": 3, "total": 3, "unit": "platform_adapters"}},
+    "14": {"name": "Controlled Runtime Evaluation & Benchmark Baseline", "status": "Frozen", "progress": {"completed": 6, "total": 6, "unit": "phase14_stages"}},
+    "15": {"name": "Operational Usage & Project Adoption", "status": "Frozen", "progress": {"completed": 6, "total": 6, "unit": "phase15_stages"}},
+    "16": {"name": "Project Workspace & Artifact Lifecycle", "status": "Frozen", "progress": {"completed": 6, "total": 6, "unit": "phase16_stages"}},
+    "17": {
+      "name": "Operational Export & Interoperability",
+      "status": "Frozen",
+      "tracking_unit": "export_interoperability_stage",
+      "progress": {"completed": 6, "total": 6, "unit": "phase17_stages"},
       "components": {
-        "requirement-analyzer": {
-          "status": "Completed"
-        },
-        "business-rule-extractor": {
-          "status": "Completed"
-        },
-        "scenario-generator": {
-          "status": "Completed"
-        },
-        "testcase-generator": {
-          "status": "Completed"
-        },
-        "coverage-reviewer": {
-          "status": "Completed"
-        },
-        "regression-impact": {
-          "status": "Completed"
-        }
-      }
-    },
-    "5": {
-      "name": "Knowledge Foundation",
-      "status": "Completed"
-    },
-    "6": {
-      "name": "Examples and End-to-End Validation",
-      "status": "Completed"
-    },
-    "7": {
-      "name": "Framework Integration and Validation",
-      "status": "Completed"
-    },
-    "8": {
-      "name": "Datasets and Evaluation",
-      "status": "Frozen"
-    },
-    "9": {
-      "name": "Repository Completion and Alignment",
-      "status": "Completed"
-    },
-    "10": {
-      "name": "Knowledge Library Completion",
-      "status": "Frozen",
-      "progress": {
-        "completed": 181,
-        "total": 181,
-        "unit": "knowledge_articles"
-      }
-    },
-    "11": {
-      "name": "Skill Library Expansion",
-      "status": "Frozen",
-      "tracking_unit": "skill",
-      "progress": {
-        "completed": 5,
-        "total": 5,
-        "unit": "expansion_skills"
+        "export-contract-models": {"status": "Frozen", "evidence": "Canonical export contract and normalized models implemented for Test Cases, Coverage Review, Regression Analysis, and export metadata."},
+        "canonical-parsers": {"status": "Frozen", "evidence": "Strict canonical parsers validated current testcase, coverage, and regression semantics without silently accepting legacy representations."},
+        "generic-export": {"status": "Frozen", "evidence": "Generic XLSX/CSV export implemented with human-readable headers, deterministic column order, multiline testcase steps, filtering, freeze panes, and usable column widths."},
+        "integrity-validation": {"status": "Frozen", "evidence": "Round-trip/integrity validation reconciles exported rows, identifiers, headers, semantic values, and regression tier membership against canonical Markdown sources."},
+        "generic-profile": {"status": "Frozen", "evidence": "Verified generic interoperability profile preserves canonical semantics while keeping normalized model keys separate from human-readable spreadsheet rendering."},
+        "operational-pilot-final-gate": {"status": "Frozen", "evidence": "My Rewards 3.0 pilot exported 63 Test Cases plus current Coverage Review and Regression Analysis; legacy artifacts were correctly rejected, current artifacts validated, spreadsheet usability findings were fixed, Human QC approved, and final repository validation passed."}
       },
-      "library_baseline": {
-        "foundation": 6,
-        "expansion": 5,
-        "total": 11
-      }
-    },
-    "12": {
-      "name": "Scripts Implementation",
-      "status": "Frozen",
-      "tracking_unit": "script_group",
-      "progress": {
-        "completed": 8,
-        "total": 8,
-        "unit": "script_groups"
-      },
-      "script_baseline": {
-        "groups": 8,
-        "scripts": 25
-      }
-    },
-    "13": {
-      "name": "Platform Integration",
-      "status": "Frozen",
-      "tracking_unit": "platform_adapter",
-      "progress": {
-        "completed": 3,
-        "total": 3,
-        "unit": "platform_adapters"
-      },
-      "components": {
-        "chatgpt": {
-          "status": "Frozen",
-          "evidence": "Canonical ChatGPT adapter, mappings, usage guidance, and deterministic Knowledge bundle builder are present and validated."
-        },
-        "claude": {
-          "status": "Frozen",
-          "evidence": "Canonical Claude adapter, mappings, usage guidance, and integration contract are present and validated."
-        },
-        "cursor": {
-          "status": "Frozen",
-          "evidence": "Canonical Cursor adapter package, mappings, commands, rules, and usage guidance are present and validated."
-        }
-      }
-    },
-    "14": {
-      "name": "Controlled Runtime Evaluation & Benchmark Baseline",
-      "status": "Frozen",
-      "tracking_unit": "evaluation_run_set",
-      "progress": {
-        "completed": 6,
-        "total": 6,
-        "unit": "phase14_stages"
-      },
-      "components": {
-        "evaluation-execution-definition": {
-          "status": "Frozen",
-          "evidence": "P14-RUNSET-001 defines the controlled dataset, workflow, three supported platforms, evaluation configuration, run identities, evidence requirements, and quality gates."
-        },
-        "controlled-runtime-execution": {
-          "status": "Frozen",
-          "evidence": "Accepted controlled runtime evidence exists for P14-RUN-CHATGPT-003, P14-RUN-CLAUDE-001, and P14-RUN-CURSOR-001; the historical Claude connectivity blocker is resolved."
-        },
-        "evaluation-results": {
-          "status": "Frozen",
-          "evidence": "Canonical measured results: ChatGPT 100/Excellent/PASS, Claude 99/Excellent/PASS, Cursor 99/Excellent/PASS; no accepted run has a critical failure."
-        },
-        "benchmark-records": {
-          "status": "Frozen",
-          "evidence": "Platform baseline candidates and the three-platform comparison were reviewed against BENCH-BASELINE-001 with no blocking finding and approved by the Phase 14 final quality gate as the initial compatible regression reference."
-        },
-        "reproducibility-traceability": {
-          "status": "Frozen",
-          "evidence": "Accepted runs retain raw output, execution metadata, scoring input, evaluation result, and baseline references; known metadata gaps remain explicit and no blocking traceability or scoring-semantics issue remains."
-        },
-        "final-quality-gate": {
-          "status": "Frozen",
-          "evidence": "Human QC approval recorded 2026-08-17 after stages 14.1-14.5 passed and deterministic repository validation reported PASS; final gate decision PASS."
-        }
-      },
-      "scope": "Establish an evidence-backed controlled runtime evaluation baseline across ChatGPT, Claude, and Cursor using equivalent QA-AI inputs, canonical evaluation semantics, reproducibility review, and an explicit final quality gate.",
-      "baseline": "P14-RUNSET-001 — REQ-AUTH-001 / testcase-generation / Structured Test Case Model across ChatGPT, Claude, and Cursor.",
-      "freeze_evidence": "Full Phase 14 review passed; measured accepted results were ChatGPT 100, Claude 99, and Cursor 99 with Excellent/PASS and zero critical failures. Benchmark-record and reproducibility reviews found no blocking issue, Human QC approved the final gate on 2026-08-17, and deterministic validation had reported PASS before freeze.",
+      "scope": "Provide deterministic operational export of canonical QA-AI artifacts to interoperable spreadsheet/tabular representations without making exports authoritative or weakening canonical semantics.",
       "exit_criteria": [
-        "At least one controlled dataset is executed on ChatGPT, Claude, and Cursor under the defined run set.",
-        "Each accepted run preserves generated artifact, evaluation result, and runtime metadata with unknown values left explicit rather than reconstructed.",
-        "Baseline benchmark records are produced from actual controlled execution and reviewed against canonical benchmark requirements.",
-        "Cross-platform comparison uses equivalent controlled inputs and compatible canonical evaluation semantics.",
-        "A regression-ready initial baseline is approved for future compatible framework evaluation.",
-        "No unresolved blocker remains for source traceability, accepted-run evidence, reproducibility, or scoring semantics."
-      ]
-    },
-    "15": {
-      "name": "Operational Usage & Project Adoption",
-      "status": "Frozen",
-      "tracking_unit": "operational_adoption_stage",
-      "progress": {
-        "completed": 6,
-        "total": 6,
-        "unit": "phase15_stages"
-      },
-      "components": {
-        "operational-use-case-definition": {
-          "status": "Frozen",
-          "evidence": "P15-PILOT-001 operational contract using the My Rewards 3.0 FRS."
-        },
-        "real-requirement-pilot": {
-          "status": "Frozen",
-          "evidence": "Grounded real-requirement artifact chain for Voucher, Flight, and Coupon scope."
-        },
-        "artifact-chain-validation": {
-          "status": "Frozen",
-          "evidence": "Cross-artifact validation passed after final material ID reconciliation; no known stale material traceability reference remains."
-        },
-        "change-regression-pilot": {
-          "status": "Frozen",
-          "evidence": "Controlled Coupon default-sort change fixture produced scoped regression impact without invented implementation coupling."
-        },
-        "manual-qc-usability-review": {
-          "status": "Frozen",
-          "evidence": "Human QC approval recorded 2026-08-14; overall decision PASS — Usable."
-        },
-        "adoption-readiness-gate": {
-          "status": "Frozen",
-          "evidence": "Final adoption gate passed with no unresolved blocking usability issue."
-        }
-      },
-      "scope": "Validate that the frozen QA-AI framework can support a Manual QC Engineer on a real project requirement through grounded artifact generation, cross-artifact validation, controlled change/regression analysis, human usability review, and an explicit adoption-readiness gate.",
-      "pilot": "P15-PILOT-001 — FRS - Webview - My rewards 3.0 v1.0.",
-      "freeze_evidence": "Full Phase 15 cross-artifact review passed after correction of the reservation-code testcase traceability reference; final deterministic validation was reported PASS before freeze.",
-      "exit_criteria": [
-        "A real project requirement is processed through the defined QA artifact chain with source grounding preserved.",
-        "Cross-artifact validation finds no unresolved blocking contradiction or fabricated project behavior.",
-        "A controlled requirement change produces a useful traceable regression-impact scope.",
-        "A Human QC reviewer completes the usability review and dispositions material findings.",
-        "The adoption-readiness gate is reviewed and approved with no unresolved blocking usability issue.",
-        "Pilot findings remain distinguishable from canonical framework semantics and shared knowledge."
-      ]
-    },
-    "16": {
-      "name": "Project Workspace & Artifact Lifecycle",
-      "status": "Frozen",
-      "tracking_unit": "workspace_lifecycle_stage",
-      "progress": {
-        "completed": 6,
-        "total": 6,
-        "unit": "phase16_stages"
-      },
-      "components": {
-        "workspace-contract": {
-          "status": "Frozen",
-          "evidence": "Canonical workspace structure and Workspace standard implemented and validated successfully."
-        },
-        "identity-metadata": {
-          "status": "Frozen",
-          "evidence": "Project, feature, source, artifact, revision, provenance, and metadata contracts validated successfully."
-        },
-        "artifact-lifecycle": {
-          "status": "Frozen",
-          "evidence": "Draft → Review → Approved lifecycle, explicit human approval, and independent freshness semantics validated successfully."
-        },
-        "dependency-freshness": {
-          "status": "Frozen",
-          "evidence": "Required/supporting/conditional dependencies and deterministic stale propagation across revision advance validated successfully without automatic regeneration."
-        },
-        "workspace-tooling": {
-          "status": "Frozen",
-          "evidence": "Workspace scripts passed compile, structural, initialization, registration, lifecycle, revision, and workspace validation gates."
-        },
-        "operational-migration-final-gate": {
-          "status": "Frozen",
-          "evidence": "My Rewards 3.0 was migrated into the canonical local workspace; source/artifact provenance validated, REV-001 was preserved, REV-002 advance produced expected stale behavior, and the full Phase 16 validation gate passed."
-        }
-      },
-      "scope": "Establish a canonical project/feature workspace with deterministic identity, provenance, revision preservation, artifact lifecycle, dependency relationships, freshness/staleness control, local-project confidentiality defaults, and workspace validation without redefining QA skill/workflow semantics.",
-      "exit_criteria": [
-        "Canonical workspace structure and project/feature identity are defined and validated.",
-        "Source, artifact, revision, lifecycle, freshness, dependency, and provenance metadata are deterministic and internally consistent.",
-        "Lifecycle and freshness remain independent dimensions and artifact approval requires explicit operator evidence.",
-        "Required/supporting/conditional dependency relationships are represented without turning optional workflow paths into hard dependencies.",
-        "Source/upstream revision changes can be detected or represented as stale without automatic regeneration.",
-        "Approved historical baselines can be snapshotted and preserved without destructive overwrite.",
-        "Workspace scripts pass compile, structural, lifecycle, revision, and stale-propagation smoke validation.",
-        "A real My Rewards 3.0 feature workspace is migrated locally without committing proprietary project content.",
-        "No unresolved blocking provenance, staleness, lifecycle, confidentiality, or validation issue remains."
+        "Canonical export contracts and normalized models are defined for supported artifacts.",
+        "Strict parsers consume current canonical Markdown without silently normalizing unsupported legacy semantics.",
+        "Test Cases and Coverage Review can be exported to usable generic XLSX/CSV representations where lossless representation is supported.",
+        "Regression Analysis can be exported losslessly to XLSX with impact records and all three canonical scope tiers preserved.",
+        "Export validation reconciles identifiers, semantic values, headers, counts, and tier membership with canonical sources.",
+        "Human-readable spreadsheet headers and operational usability are verified by Human QC.",
+        "A real My Rewards 3.0 operational pilot passes export and validation while historical REV-001 evidence remains unchanged.",
+        "Final deterministic repository, metadata, output, adapter, and roadmap gates pass with a clean working tree."
       ],
-      "freeze_evidence": "Human QC confirmed PASS on 2026-08-18 after My Rewards 3.0 local migration, lifecycle approval test, REV-001 snapshot, REV-002 advance, stale-propagation verification, and full deterministic repository validation. No blocking provenance, lifecycle, freshness, confidentiality, or validation issue remains."
+      "freeze_evidence": "Human QC confirmed PASS on 2026-08-18 after the My Rewards 3.0 operational export pilot. Test Cases exported 63/63 to XLSX and CSV; Coverage Review and Regression Analysis exported to XLSX under current canonical semantics; legacy Partial coverage and legacy regression scope representations were correctly rejected rather than silently accepted; spreadsheet header/usability findings were fixed; final validation reported canonical_scripts=36, broken_links=0, metadata issues=0, output issues=0, adapter PASS, roadmap synchronization PASS, and a clean main working tree."
     }
   }
 }
