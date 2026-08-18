@@ -1,0 +1,8 @@
+{
+  "schema_version": "1.0",
+  "profile": "generic",
+  "status": "Supported",
+  "formats": ["xlsx", "csv"],
+  "artifact_types": ["test-cases", "coverage-review", "regression-analysis"],
+  "notes": "Preserves QA-AI normalized fields without vendor-specific remapping."
+}
