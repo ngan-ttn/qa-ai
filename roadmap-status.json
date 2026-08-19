@@ -1,77 +1,41 @@
 {
   "schema_version": "1.0",
-  "last_updated": "2026-08-18",
+  "last_updated": "2026-08-19",
   "roadmap": "docs/11-Roadmap.md",
   "tracking_standard": "shared/standards/Roadmap-Progress.md",
   "status_lifecycle": ["Planned", "In Progress", "Review", "Completed", "Frozen"],
   "phases": {
-    "1": {"name": "Framework Foundation", "status": "Completed"},
-    "2": {"name": "Shared Standards and Foundations", "status": "Completed"},
-    "3": {"name": "Workflow Library", "status": "Completed"},
-    "4": {"name": "Skill Library Foundation", "status": "Completed", "progress": {"completed": 6, "total": 6, "unit": "foundation_skills"}},
-    "5": {"name": "Knowledge Foundation", "status": "Completed"},
-    "6": {"name": "Examples and End-to-End Validation", "status": "Completed"},
-    "7": {"name": "Framework Integration and Validation", "status": "Completed"},
-    "8": {"name": "Datasets and Evaluation", "status": "Frozen"},
-    "9": {"name": "Repository Completion and Alignment", "status": "Completed"},
-    "10": {"name": "Knowledge Library Completion", "status": "Frozen", "progress": {"completed": 181, "total": 181, "unit": "knowledge_articles"}},
-    "11": {"name": "Skill Library Expansion", "status": "Frozen", "progress": {"completed": 5, "total": 5, "unit": "expansion_skills"}},
-    "12": {"name": "Scripts Implementation", "status": "Frozen", "progress": {"completed": 8, "total": 8, "unit": "script_groups"}, "script_baseline": {"groups": 8, "scripts": 25}},
-    "13": {
-      "name": "Platform Integration",
-      "status": "Frozen",
-      "progress": {"completed": 3, "total": 3, "unit": "platform_adapters"},
+    "1": {"name":"Framework Foundation","status":"Completed"}, "2": {"name":"Shared Standards and Foundations","status":"Completed"}, "3": {"name":"Workflow Library","status":"Completed"},
+    "4": {"name":"Skill Library Foundation","status":"Completed","progress":{"completed":6,"total":6,"unit":"foundation_skills"}}, "5": {"name":"Knowledge Foundation","status":"Completed"}, "6": {"name":"Examples and End-to-End Validation","status":"Completed"}, "7": {"name":"Framework Integration and Validation","status":"Completed"}, "8": {"name":"Datasets and Evaluation","status":"Frozen"}, "9": {"name":"Repository Completion and Alignment","status":"Completed"},
+    "10": {"name":"Knowledge Library Completion","status":"Frozen","progress":{"completed":181,"total":181,"unit":"knowledge_articles"}}, "11": {"name":"Skill Library Expansion","status":"Frozen","progress":{"completed":5,"total":5,"unit":"expansion_skills"}}, "12": {"name":"Scripts Implementation","status":"Frozen","progress":{"completed":8,"total":8,"unit":"script_groups"},"script_baseline":{"groups":8,"scripts":25}},
+    "13": {"name":"Platform Integration","status":"Frozen","progress":{"completed":3,"total":3,"unit":"platform_adapters"},"components":{"chatgpt":{"status":"Frozen"},"claude":{"status":"Frozen"},"cursor":{"status":"Frozen"}}},
+    "14": {"name":"Controlled Runtime Evaluation & Benchmark Baseline","status":"Frozen","progress":{"completed":6,"total":6,"unit":"phase14_stages"}}, "15": {"name":"Operational Usage & Project Adoption","status":"Frozen","progress":{"completed":6,"total":6,"unit":"phase15_stages"}}, "16": {"name":"Project Workspace & Artifact Lifecycle","status":"Frozen","progress":{"completed":6,"total":6,"unit":"phase16_stages"}},
+    "17": {"name":"Operational Export & Interoperability","status":"Frozen","tracking_unit":"export_interoperability_stage","progress":{"completed":6,"total":6,"unit":"phase17_stages"},"components":{"export-contract-models":{"status":"Frozen"},"canonical-parsers":{"status":"Frozen"},"generic-export":{"status":"Frozen"},"integrity-validation":{"status":"Frozen"},"generic-profile":{"status":"Frozen"},"operational-pilot-final-gate":{"status":"Frozen"}},"scope":"Provide deterministic operational export of canonical QA-AI artifacts to interoperable spreadsheet/tabular representations without making exports authoritative or weakening canonical semantics.","freeze_evidence":"Human QC confirmed PASS on 2026-08-18 after the My Rewards 3.0 operational export pilot and full deterministic validation."},
+    "18": {"name":"Test Execution & Defect Feedback","status":"Frozen","tracking_unit":"execution_feedback_stage","progress":{"completed":6,"total":6,"unit":"phase18_stages"},"components":{"execution-contract-schemas":{"status":"Frozen"},"run-result-lifecycle":{"status":"Frozen"},"defect-linkage-evidence":{"status":"Frozen"},"retest-current-disposition":{"status":"Frozen"},"execution-validation-reporting":{"status":"Frozen"},"operational-pilot-final-gate":{"status":"Frozen"}},"scope":"Establish deterministic test execution evidence, canonical result statuses, run lifecycle, defect/evidence linkage, retest history, current disposition, summary reconciliation, and provenance without taking ownership of external defect workflow or automated execution.","freeze_evidence":"Human QC confirmed PASS on 2026-08-18 after RUN-P18-001 and final deterministic gates."},
+    "19": {
+      "name": "Change Intelligence & Incremental QA",
+      "status": "In Progress",
+      "tracking_unit": "change_intelligence_stage",
+      "progress": {"completed": 0, "total": 6, "unit": "phase19_stages"},
       "components": {
-        "chatgpt": {"status": "Frozen"},
-        "claude": {"status": "Frozen"},
-        "cursor": {"status": "Frozen"}
-      }
-    },
-    "14": {"name": "Controlled Runtime Evaluation & Benchmark Baseline", "status": "Frozen", "progress": {"completed": 6, "total": 6, "unit": "phase14_stages"}},
-    "15": {"name": "Operational Usage & Project Adoption", "status": "Frozen", "progress": {"completed": 6, "total": 6, "unit": "phase15_stages"}},
-    "16": {"name": "Project Workspace & Artifact Lifecycle", "status": "Frozen", "progress": {"completed": 6, "total": 6, "unit": "phase16_stages"}},
-    "17": {
-      "name": "Operational Export & Interoperability",
-      "status": "Frozen",
-      "tracking_unit": "export_interoperability_stage",
-      "progress": {"completed": 6, "total": 6, "unit": "phase17_stages"},
-      "components": {
-        "export-contract-models": {"status": "Frozen", "evidence": "Canonical export contract and normalized models implemented for Test Cases, Coverage Review, Regression Analysis, and export metadata."},
-        "canonical-parsers": {"status": "Frozen", "evidence": "Strict canonical parsers validated current testcase, coverage, and regression semantics without silently accepting legacy representations."},
-        "generic-export": {"status": "Frozen", "evidence": "Generic XLSX/CSV export implemented with human-readable headers, deterministic column order, multiline testcase steps, filtering, freeze panes, and usable column widths."},
-        "integrity-validation": {"status": "Frozen", "evidence": "Round-trip/integrity validation reconciles exported rows, identifiers, headers, semantic values, and regression tier membership against canonical Markdown sources."},
-        "generic-profile": {"status": "Frozen", "evidence": "Verified generic interoperability profile preserves canonical semantics while keeping normalized model keys separate from human-readable spreadsheet rendering."},
-        "operational-pilot-final-gate": {"status": "Frozen", "evidence": "My Rewards 3.0 pilot exported 63 Test Cases plus current Coverage Review and Regression Analysis; legacy artifacts were correctly rejected, current artifacts validated, spreadsheet usability findings were fixed, Human QC approved, and final repository validation passed."}
+        "change-contract-delta-model": {"status": "In Progress"},
+        "semantic-change-detection": {"status": "In Progress"},
+        "impact-propagation": {"status": "In Progress"},
+        "incremental-qa-plan": {"status": "In Progress"},
+        "validation-explainability": {"status": "In Progress"},
+        "operational-pilot-final-gate": {"status": "Planned"}
       },
-      "scope": "Provide deterministic operational export of canonical QA-AI artifacts to interoperable spreadsheet/tabular representations without making exports authoritative or weakening canonical semantics.",
-      "freeze_evidence": "Human QC confirmed PASS on 2026-08-18 after the My Rewards 3.0 operational export pilot and full deterministic validation."
-    },
-    "18": {
-      "name": "Test Execution & Defect Feedback",
-      "status": "Frozen",
-      "tracking_unit": "execution_feedback_stage",
-      "progress": {"completed": 6, "total": 6, "unit": "phase18_stages"},
-      "components": {
-        "execution-contract-schemas": {"status": "Frozen", "evidence": "Canonical execution standard plus run, result, and defect-link schemas were implemented and passed repository structure, link, and metadata validation."},
-        "run-result-lifecycle": {"status": "Frozen", "evidence": "RUN-P18-001 initialized from four real My Rewards testcase IDs with explicit stale-baseline override; Planned execution began with four Not Run dispositions and immutable result attempts were recorded."},
-        "defect-linkage-evidence": {"status": "Frozen", "evidence": "Controlled Fail result ER-0002 was linked to BUG-P18-001/PILOT-001 while external defect workflow ownership remained outside QA-AI execution lifecycle."},
-        "retest-current-disposition": {"status": "Frozen", "evidence": "Retest preserved the original Fail attempt and added a new Pass attempt, producing deterministic current disposition without overwriting execution history."},
-        "execution-validation-reporting": {"status": "Frozen", "evidence": "Execution validation reconciled Scope=4, Attempts=5, Pass=2, Fail=0, Blocked=1, Not Run=0, Not Applicable=1; workspace and repository validation also passed."},
-        "operational-pilot-final-gate": {"status": "Frozen", "evidence": "Human QC completed the controlled My Rewards Phase 18 pilot and final gate: execution validation PASS, workspace validation PASS, canonical_scripts=42, broken_links=0, metadata issues=0, output issues=0, Phase 13 adapters PASS, roadmap registry PASS, and generated roadmap synchronization PASS."}
-      },
-      "scope": "Establish deterministic test execution evidence, canonical result statuses, run lifecycle, defect/evidence linkage, retest history, current disposition, summary reconciliation, and provenance without taking ownership of external defect workflow or automated execution.",
+      "scope": "Turn revision evidence and registered dependencies into explainable change sets, supported impact propagation, and incremental QA recommendations without automatically regenerating, approving, marking Current, selecting regression tiers, or executing tests.",
       "exit_criteria": [
-        "Canonical execution run/result/defect-link models and schemas are defined.",
-        "Run and result lifecycle preserve immutable execution history and testcase provenance.",
-        "Blocked results require an explicit blocker type and reason and remain distinct from Fail.",
-        "Defect and evidence references remain traceable without redefining external defect lifecycle.",
-        "Retest records preserve prior failures and current disposition is deterministic.",
-        "Execution summaries reconcile exactly with unique scoped testcase IDs.",
-        "Stale testcase execution is guarded and any override is explicit and auditable.",
-        "A controlled operational pilot demonstrates Pass, Fail, Blocked, Not Applicable, defect linkage, retest-to-Pass, validation, and Human QC usability approval.",
-        "Final repository validation passes with no blocking execution-lifecycle issue."
-      ],
-      "freeze_evidence": "Human QC confirmed PASS on 2026-08-18 after RUN-P18-001 exercised four real My Rewards testcase IDs against the preserved stale testcase baseline using an explicit audited override. The run preserved five immutable attempts across Pass, Fail, Blocked, Not Applicable, and retest-to-Pass behavior; defect linkage was retained; current disposition reconciled exactly to Scope=4 with Pass=2, Fail=0, Blocked=1, Not Run=0, Not Applicable=1. Final gates passed: workspace validation, repository structure with canonical_scripts=42, broken_links=0, metadata issues=0, output issues=0, Phase 13 adapters, roadmap registry, and generated roadmap synchronization."
+        "Canonical change, impact, and incremental-plan contracts and schemas are defined.",
+        "Deterministic comparison preserves Added, Modified, Removed, Unchanged, and Unknown without inventing business behavior.",
+        "Impact propagation uses registered artifact/source dependencies and does not invent technical coupling.",
+        "Every registered artifact receives one explainable incremental QA action: Reuse, Review, Regenerate, Revalidate, Re-execute, or Blocked.",
+        "Unknown or unsupported change does not become an authoritative regenerate/re-execute instruction.",
+        "Change, impact, action IDs and aggregate counts reconcile exactly.",
+        "Change intelligence remains evidence/planning and does not mutate canonical artifact lifecycle, freshness, regression scope, or execution results.",
+        "A controlled revision pilot demonstrates both affected and unaffected assets and passes Human QC plus full repository validation."
+      ]
     }
   }
 }
