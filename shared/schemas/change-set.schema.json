@@ -1,0 +1,13 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "QA-AI Change Set",
+  "type": "object",
+  "required": ["schema_version", "base_revision", "target_revision", "changes", "summary"],
+  "properties": {
+    "schema_version": {"const": "1.0"},
+    "base_revision": {"pattern": "^REV-[0-9]{3,}$"},
+    "target_revision": {"pattern": "^REV-[0-9]{3,}$"},
+    "changes": {"type": "array", "items": {"type": "object", "required": ["change_id", "item_key", "classification", "reason", "evidence"], "properties": {"change_id": {"pattern": "^CHG-[0-9]{3,}$"}, "item_key": {"type": "string", "minLength": 1}, "classification": {"enum": ["Added", "Modified", "Removed", "Unchanged", "Unknown"]}, "reason": {"type": "string"}, "evidence": {"type": "array", "items": {"type": "string"}}}}},
+    "summary": {"type": "object"}
+  }
+}
