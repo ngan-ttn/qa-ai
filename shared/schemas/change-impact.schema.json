@@ -1,0 +1,13 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "QA-AI Change Impact Analysis",
+  "type": "object",
+  "required": ["schema_version", "base_revision", "target_revision", "impacts", "summary"],
+  "properties": {
+    "schema_version": {"const": "1.0"},
+    "base_revision": {"pattern": "^REV-[0-9]{3,}$"},
+    "target_revision": {"pattern": "^REV-[0-9]{3,}$"},
+    "impacts": {"type": "array", "items": {"type": "object", "required": ["impact_id", "change_id", "artifact_key", "impact_type", "relationship", "reason", "evidence"], "properties": {"impact_id": {"pattern": "^IMP-[0-9]{3,}$"}, "change_id": {"pattern": "^CHG-[0-9]{3,}$"}, "artifact_key": {"type": "string", "minLength": 1}, "impact_type": {"enum": ["Direct", "Dependency", "Potential", "Unknown"]}, "relationship": {"type": "string"}, "reason": {"type": "string"}, "evidence": {"type": "array", "items": {"type": "string"}}}}},
+    "summary": {"type": "object"}
+  }
+}
