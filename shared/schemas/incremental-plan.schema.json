@@ -1,0 +1,13 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "QA-AI Incremental QA Plan",
+  "type": "object",
+  "required": ["schema_version", "base_revision", "target_revision", "actions", "summary"],
+  "properties": {
+    "schema_version": {"const": "1.0"},
+    "base_revision": {"pattern": "^REV-[0-9]{3,}$"},
+    "target_revision": {"pattern": "^REV-[0-9]{3,}$"},
+    "actions": {"type": "array", "items": {"type": "object", "required": ["action_id", "artifact_key", "action", "impact_ids", "reason", "evidence"], "properties": {"action_id": {"pattern": "^ACT-[0-9]{3,}$"}, "artifact_key": {"type": "string", "minLength": 1}, "action": {"enum": ["Reuse", "Review", "Regenerate", "Revalidate", "Re-execute", "Blocked"]}, "impact_ids": {"type": "array", "items": {"pattern": "^IMP-[0-9]{3,}$"}}, "reason": {"type": "string"}, "evidence": {"type": "array", "items": {"type": "string"}}}}},
+    "summary": {"type": "object"}
+  }
+}
