@@ -11,6 +11,7 @@
     "skills": "skills/",
     "workflows": "workflows/",
     "adapters": "adapters/",
-    "workspace": "workspace/"
+    "workspace": "workspace/",
+    "release": "release/"
   }
 }
