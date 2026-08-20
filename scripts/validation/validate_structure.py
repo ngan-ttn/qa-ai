@@ -5,7 +5,7 @@ from pathlib import Path
 ROOT=Path(__file__).resolve().parents[2]
 if str(ROOT) not in sys.path: sys.path.insert(0,str(ROOT))
 from scripts.utils.file_utils import read_json
-CORE_PATHS=["README.md","FRAMEWORK.md","manifest.json","docs","shared","skills","workflows","datasets","scripts","workspace"]
+CORE_PATHS=["README.md","FRAMEWORK.md","manifest.json","docs","shared","skills","workflows","datasets","scripts","workspace","release"]
 SCRIPT_FILES={
 "validation":["validate_structure.py","validate_links.py","validate_metadata.py","validate_outputs.py"],
 "knowledge":["build_index.py","chunk_knowledge.py","validate_catalog.py"],
@@ -18,6 +18,7 @@ SCRIPT_FILES={
 "workspace":["init_workspace.py","register_source.py","register_artifact.py","validate_workspace.py","snapshot_revision.py","update_artifact_state.py"],
 "execution":["init_execution.py","record_result.py","link_defect.py","record_retest.py","summarize_execution.py","validate_execution.py"],
 "change_intelligence":["analyze_change.py","analyze_impact.py","plan_incremental_qa.py","render_change_report.py","validate_change_intelligence.py"],
+"release":["build_manifest.py","validate_manifest.py","validate_release.py","generate_release_report.py"],
 }
 def validate(root:Path)->list[str]:
  errors=[]
