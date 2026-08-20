@@ -1,0 +1,27 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "QA-AI Release Validation Report",
+  "type": "object",
+  "required": ["schema_version", "release_id", "repository_revision", "validated_at", "validators", "overall"],
+  "properties": {
+    "schema_version": {"const": "1.0"},
+    "release_id": {"type": "string", "minLength": 1},
+    "repository_revision": {"type": "string", "minLength": 7},
+    "validated_at": {"type": "string", "minLength": 1},
+    "validators": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["name", "status", "command", "exit_code"],
+        "properties": {
+          "name": {"type": "string"},
+          "status": {"enum": ["PASS", "FAIL"]},
+          "command": {"type": "string"},
+          "exit_code": {"type": "integer"},
+          "output": {"type": "string"}
+        }
+      }
+    },
+    "overall": {"enum": ["PASS", "FAIL"]}
+  }
+}
