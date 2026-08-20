@@ -2,7 +2,7 @@
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "title": "QA-AI Release Manifest",
   "type": "object",
-  "required": ["schema_version", "release_id", "version", "status", "repository_revision", "generated_at", "capabilities", "validation_requirements"],
+  "required": ["schema_version", "release_id", "version", "status", "repository_revision", "generated_at", "capabilities", "validation_requirements", "evidence"],
   "properties": {
     "schema_version": {"const": "1.0"},
     "release_id": {"type": "string", "minLength": 1},
@@ -12,6 +12,6 @@
     "generated_at": {"type": "string", "minLength": 1},
     "capabilities": {"type": "object"},
     "validation_requirements": {"type": "array", "minItems": 1, "items": {"type": "string"}},
-    "evidence": {"type": "array", "items": {"type": "string"}}
+    "evidence": {"type": "array", "items": {"type": "string", "minLength": 1}}
   }
 }
