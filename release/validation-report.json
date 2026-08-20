@@ -1,8 +1,79 @@
 {
   "schema_version": "1.0",
   "release_id": "QA-AI-1.0.0",
-  "repository_revision": "PENDING-LOCAL-VALIDATION",
-  "validated_at": "2026-08-20T00:00:00Z",
-  "validators": [],
-  "overall": "FAIL"
+  "repository_revision": "6838612bc74a73a7c32b18f55d63b5dbf3887615",
+  "validated_at": "2026-08-20T08:50:09.357390+00:00",
+  "validators": [
+    {
+      "name": "manifest",
+      "status": "PASS",
+      "command": "python scripts/release/validate_manifest.py",
+      "exit_code": 0,
+      "output": "PASS release manifest validation: skills=11 workflows=3 platforms=3"
+    },
+    {
+      "name": "structure",
+      "status": "PASS",
+      "command": "python scripts/validation/validate_structure.py",
+      "exit_code": 0,
+      "output": "PASS: repository structure is valid; canonical_scripts=51"
+    },
+    {
+      "name": "links",
+      "status": "PASS",
+      "command": "python scripts/validation/validate_links.py",
+      "exit_code": 0,
+      "output": "Checked 430 Markdown file(s); broken_links=0"
+    },
+    {
+      "name": "metadata",
+      "status": "PASS",
+      "command": "python scripts/validation/validate_metadata.py",
+      "exit_code": 0,
+      "output": "Checked 224 Markdown file(s); issues=0"
+    },
+    {
+      "name": "outputs",
+      "status": "PASS",
+      "command": "python scripts/validation/validate_outputs.py",
+      "exit_code": 0,
+      "output": "Checked 49 output artifact(s); issues=0"
+    },
+    {
+      "name": "adapters",
+      "status": "PASS",
+      "command": "python adapters/validate_adapters.py",
+      "exit_code": 0,
+      "output": "PASS Phase 13 adapters: platforms=3 skills=11 workflows=3 chatgpt_bundles=14"
+    },
+    {
+      "name": "roadmap",
+      "status": "PASS",
+      "command": "python scripts/roadmap/validate_progress.py",
+      "exit_code": 0,
+      "output": "PASS: roadmap progress registry is internally consistent"
+    },
+    {
+      "name": "workspace",
+      "status": "PASS",
+      "command": "python scripts/workspace/validate_workspace.py workspace/projects/skyjoy/features/my-rewards-3-0",
+      "exit_code": 0,
+      "output": "PASS workspace validation: workspace/projects/skyjoy/features/my-rewards-3-0"
+    },
+    {
+      "name": "change-intelligence",
+      "status": "PASS",
+      "command": "python scripts/change_intelligence/validate_change_intelligence.py workspace/projects/skyjoy/features/my-rewards-3-0 --revision REV-002",
+      "exit_code": 0,
+      "output": "PASS change intelligence validation: C:\\Users\\ngan.nguyen\\OneDrive - Galaxy Technology Services JSC\\Desktop\\2026\\qa-ai\\workspace\\projects\\skyjoy\\features\\my-rewards-3-0\\revisions\\REV-002\\change-intelligence\nChanges=8 Impacts=3 Actions=7"
+    },
+    {
+      "name": "execution",
+      "status": "PASS",
+      "command": "python scripts/execution/validate_execution.py workspace/projects/skyjoy/features/my-rewards-3-0/executions/RUN-P18-001",
+      "exit_code": 0,
+      "output": "PASS execution validation: C:\\Users\\ngan.nguyen\\OneDrive - Galaxy Technology Services JSC\\Desktop\\2026\\qa-ai\\workspace\\projects\\skyjoy\\features\\my-rewards-3-0\\executions\\RUN-P18-001\nScope=4 attempts=5 Pass=2 Fail=0 Blocked=1 Not Run=0 Not Applicable=1"
+    }
+  ],
+  "overall": "PASS"
 }
