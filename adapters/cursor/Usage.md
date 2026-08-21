@@ -27,6 +27,8 @@ Open the QA-AI repository in Cursor and use Agent/Chat. Project Rules provide pe
 
 Authoritative project requirements may be pasted into the conversation or provided through files accessible in the workspace/runtime. They remain higher authority than reusable QA-AI knowledge.
 
+For revision-aware work where Change Intelligence recommends `Regenerate`, Cursor must read the prior canonical artifact baseline and applicable change/impact evidence from the repository before regenerating. `Regenerate` means baseline-preserving evolution, not fresh reconstruction from the target requirement alone. Preserve stable semantic IDs, and reconcile Preserved/Modified/Added/Removed IDs according to `shared/standards/Change-Intelligence.md` and the owning workflow. If the expected prior baseline cannot be resolved, block incremental regeneration rather than silently falling back to fresh generation.
+
 ## Validation
 
 Confirm that:
@@ -36,6 +38,7 @@ Confirm that:
 - skill/workflow references resolve to canonical repository paths;
 - authoritative requirements override generic knowledge;
 - missing information remains explicit;
+- incremental regeneration reads the prior canonical baseline and preserves unchanged semantic IDs;
 - repository changes can run applicable deterministic validators in `scripts/`;
 - one direct skill task, one multi-skill workflow, one review workflow, one regression workflow, and one specialized API/SQL request route correctly.
 
