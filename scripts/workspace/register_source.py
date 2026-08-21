@@ -1,4 +1,4 @@
-"""Register an authoritative or supporting source in a QA-AI feature workspace."""
+"""Register or revise an authoritative/supporting source in a QA-AI feature workspace."""
 from __future__ import annotations
 
 import argparse
@@ -78,26 +78,60 @@ def main() -> int:
 
     checksum = sha256(destination)
     relative_path = destination.relative_to(feature_dir).as_posix()
-    for source in sources:
-        if isinstance(source, dict) and source.get("path") == relative_path and source.get("checksum") == checksum:
-            print(f"ERROR identical source already registered: {source.get('source_id')} {relative_path}")
+    timestamp = now_iso()
+
+    # A canonical source keeps stable identity across revisions when its type/path stay the same.
+    matching = [
+        source for source in sources
+        if isinstance(source, dict)
+        and source.get("type") == args.type
+        and source.get("path") == relative_path
+    ]
+
+    if matching:
+        stable = sorted(matching, key=lambda item: str(item.get("source_id", "")))[0]
+        source_id = stable.get("source_id")
+        if stable.get("checksum") == checksum and stable.get("revision") == args.revision:
+            print(f"ERROR identical source revision already registered: {source_id} {relative_path}")
             return 1
 
-    source_id = next_source_id(sources)
-    timestamp = now_iso()
-    sources.append({
-        "source_id": source_id,
-        "type": args.type,
-        "path": relative_path,
-        "authoritative": bool(args.authoritative),
-        "revision": args.revision,
-        "checksum": checksum,
-        "registered_at": timestamp,
-    })
+        stable.update({
+            "type": args.type,
+            "path": relative_path,
+            "authoritative": bool(args.authoritative),
+            "revision": args.revision,
+            "checksum": checksum,
+            "registered_at": timestamp,
+        })
+
+        # Repair pre-stabilization duplicate registrations for the same canonical path.
+        sources[:] = [
+            source for source in sources
+            if source is stable
+            or not (
+                isinstance(source, dict)
+                and source.get("type") == args.type
+                and source.get("path") == relative_path
+            )
+        ]
+        action = "Updated"
+    else:
+        source_id = next_source_id(sources)
+        sources.append({
+            "source_id": source_id,
+            "type": args.type,
+            "path": relative_path,
+            "authoritative": bool(args.authoritative),
+            "revision": args.revision,
+            "checksum": checksum,
+            "registered_at": timestamp,
+        })
+        action = "Registered"
+
     data["updated_at"] = timestamp
     metadata_path.write_text(json.dumps(data, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
-    print(f"Registered source: {source_id} -> {relative_path}")
-    print(f"SHA-256: {checksum}")
+    print(f"{action} source: {source_id} -> {relative_path}")
+    print(f"Revision: {args.revision}; SHA-256: {checksum}")
     return 0
 
 
