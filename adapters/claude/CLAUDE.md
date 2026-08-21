@@ -69,6 +69,18 @@ Clarification-dependent / blocked test
 NOT an authoritative executable assertion
 ```
 
+## Incremental Regeneration Discipline
+
+When Change Intelligence recommends `Regenerate` for an existing canonical artifact, apply `shared/standards/Change-Intelligence.md` as an execution contract.
+
+Incremental regeneration requires the target source/upstream artifact, the prior canonical artifact baseline, and applicable change/impact evidence. Do not treat `Regenerate` as permission to recreate the artifact from the target requirement alone.
+
+Preserve stable IDs for semantically unchanged BR/SC/TC and clarification-dependent records. Modify affected records in place when identity remains the same. New IDs require genuinely new supported content. Removed IDs require authoritative change evidence or an explicit correction rationale. Do not renumber surviving IDs or change decomposition solely for presentation preference.
+
+Before delivery, report and reconcile Preserved, Modified, Added, and Removed IDs. Every removed item requires a reason.
+
+If a prior baseline is known to exist but cannot be read, incremental regeneration is `Blocked`; do not substitute memory, another example, or a fresh reconstruction. If the user explicitly authorizes fresh/full generation, label it as such and do not claim incremental continuity.
+
 ## Capability Routing
 
 Route requirement analysis, rule extraction, risk analysis, scenario generation, testcase generation, test-data design, coverage review, regression impact, bug review, API test design, and SQL validation to the corresponding canonical skill under `skills/`.
@@ -92,6 +104,7 @@ Canonical templates are mandatory contracts, not optional examples.
 - preserve traceability;
 - use specialized API/SQL capabilities for technical design;
 - do not silently convert optional feedback paths into hard dependencies;
+- for incremental regeneration, preserve prior semantic identity and report Preserved/Modified/Added/Removed reconciliation;
 - run applicable deterministic validators under `scripts/` when repository changes are made;
 - review changes before commit and do not modify frozen canonical semantics without explicit scope;
 - before delivery, validate mandatory template representation and reconcile reported aggregate counts with actual canonical IDs/rows.
