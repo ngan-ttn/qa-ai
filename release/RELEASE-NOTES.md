@@ -1,8 +1,8 @@
 # QA-AI Release 1.0.0
 
 > Release ID: QA-AI-1.0.0
-> Status: Candidate
-> Repository Revision: `6838612bc74a73a7c32b18f55d63b5dbf3887615`
+> Status: Released
+> Repository Revision: `a89f0e86d2a554d63cef6155f60cc1b93bee8462`
 
 ## Capability Baseline
 

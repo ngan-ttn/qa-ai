@@ -99,19 +99,20 @@ Planned → In Progress → Review → Completed → Frozen
 | Phase 16 | Project Workspace & Artifact Lifecycle | Frozen | 6/6 phase16_stages |
 | Phase 17 | Operational Export & Interoperability | Frozen | 6/6 phase17_stages |
 | Phase 18 | Test Execution & Defect Feedback | Frozen | 6/6 phase18_stages |
-| Phase 19 | Change Intelligence & Incremental QA | In Progress | 0/6 phase19_stages |
+| Phase 19 | Change Intelligence & Incremental QA | Frozen | 6/6 phase19_stages |
+| Phase 20 | QA-AI System Release & Operationalization | Frozen | 6/6 phase20_stages |
 
 <!-- ROADMAP_STATUS:END -->
 
 Current baseline and active phase:
 
 ```text
-Latest Frozen Phase: Phase 18 — Test Execution & Defect Feedback
+Latest Frozen Phase: Phase 20 — QA-AI System Release & Operationalization
 Canonical Skill Library: 6/6
 Knowledge Baseline: 181/181
 Canonical Scripts: 25 / 8 groups
 Platform Adapters: ChatGPT + Claude + Cursor (3/3 Frozen)
-Active Phase: Phase 19 — Change Intelligence & Incremental QA (In Progress)
+Active Phase: None — next phase not yet opened
 ```
 
 ---

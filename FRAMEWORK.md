@@ -1,8 +1,8 @@
 # QA-AI Framework
 
 > Version: 1.0.0  
-> Status: Draft  
-> Last Updated: YYYY-MM-DD
+> Status: Approved  
+> Last Updated: 2026-08-20
 
 ## 1. Framework Identity
 
@@ -563,6 +563,15 @@ Determine Execution Mode
      ▼
 Resolve Framework Component
 ```
+
+For canonical testcase generation, the dependency chain is:
+
+`Requirement ? Requirement Analysis ? Business Rules ? Test Scenarios ? Test Cases`.
+
+Risk Analysis and Coverage Review remain valid QA-AI capabilities and may
+participate when required by the selected workflow or QA objective, but they
+must not be interpreted as mandatory stages of the canonical testcase-generation
+dependency chain.
 
 ### 5.1 Identify the QA Objective
 

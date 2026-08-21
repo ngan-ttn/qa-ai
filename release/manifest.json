@@ -2,9 +2,9 @@
   "schema_version": "1.0",
   "release_id": "QA-AI-1.0.0",
   "version": "1.0.0",
-  "status": "Candidate",
-  "repository_revision": "6838612bc74a73a7c32b18f55d63b5dbf3887615",
-  "generated_at": "2026-08-20T08:48:48.041168+00:00",
+  "status": "Released",
+  "repository_revision": "a89f0e86d2a554d63cef6155f60cc1b93bee8462",
+  "generated_at": "2026-08-21T01:42:29.252259+00:00",
   "capabilities": {
     "skills": 11,
     "workflows": 3,
@@ -25,5 +25,8 @@
     "change-intelligence",
     "execution"
   ],
-  "evidence": []
+  "evidence": [
+    "Human release approval: Human QC",
+    "Validation evidence: release/validation-report.json"
+  ]
 }

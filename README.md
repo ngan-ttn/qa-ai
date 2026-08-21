@@ -177,16 +177,20 @@ Contains the frozen deterministic tooling baseline.
 
 ```text
 scripts/
-├── validation/   4
-├── knowledge/    3
-├── prompts/      2
-├── workflows/    3
-├── evaluation/   4
-├── export/       3
-├── utils/        3
-└── roadmap/      3
-                  ──
-                  25 scripts / 8 groups
+??? validation/           4
+??? knowledge/            3
+??? prompts/              2
+??? workflows/            3
+??? evaluation/           4
+??? export/               8
+??? utils/                3
+??? roadmap/              3
+??? workspace/            6
+??? execution/            6
+??? change_intelligence/  5
+??? release/              4
+                         ??
+                         51 scripts / 12 groups
 ```
 
 These scripts validate repository contracts, knowledge/catalog state, workflow behavior, evaluation semantics, export/package behavior, metadata/output consistency, and roadmap synchronization.
@@ -429,7 +433,7 @@ Current frozen baseline:
 Latest Frozen Phase: Phase 13 — Platform Integration
 Canonical Skill Library: 11/11
 Knowledge Baseline: 181/181
-Canonical Scripts: 25 / 8 groups
+Canonical Scripts: 51 / 12 groups
 Platform Adapters: ChatGPT + Claude + Cursor (3/3 Frozen)
 ```
 
