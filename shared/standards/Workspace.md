@@ -1,8 +1,8 @@
 # Workspace Standard
 
-> Version: 1.1.0  
+> Version: 1.2.0  
 > Status: Draft  
-> Last Updated: 2026-08-18
+> Last Updated: 2026-08-21
 
 ## Purpose
 
@@ -50,6 +50,10 @@ A project uses a stable `project_id`; a feature uses a stable `feature_id` withi
 
 Each registered source uses a stable `source_id`, for example `SRC-001`, and records source type, workspace-relative path, authoritative flag, revision when known, checksum when deterministic bytes are available, and registration timestamp.
 
+A source keeps the same `source_id` when a new revision replaces the content at the same canonical source type/path. The working metadata is updated to the new revision/checksum while the prior revision snapshot preserves the earlier metadata. A changed checksum MUST NOT by itself create a new source identity. A new `source_id` is reserved for a distinct canonical source path/type.
+
+This stable identity allows dependencies such as `required,source:SRC-001` to remain valid across feature revisions while Change Intelligence compares the source checksum recorded in the immutable base snapshot with the checksum in the current working revision.
+
 An artifact is a whole QA document such as `Test-Cases.md`. Record-level IDs such as `BR-*`, `SC-*`, and `TC-*` remain owned by their artifact contracts and MUST NOT be replaced by workspace artifact IDs.
 
 Execution-run identities (`RUN-*`) and execution-result identities (`ER-*`) are owned by `Execution.md` and are not artifact lifecycle IDs.
@@ -74,11 +78,14 @@ Recommended identifiers use `REV-001`, `REV-002`, and so on.
 
 When a new authoritative source baseline replaces the previous one:
 
-1. preserve the prior approved baseline as historical evidence;
+1. snapshot the prior canonical baseline as historical evidence;
 2. advance the current feature revision;
-3. register the new/changed authoritative source;
-4. mark affected downstream artifacts stale according to dependency rules;
-5. do not silently overwrite historical evidence.
+3. update the stable source registration with the new source revision/checksum;
+4. mark prior-baseline downstream artifacts stale according to dependency rules;
+5. run change analysis between the immutable base snapshot and the current working target revision;
+6. do not silently overwrite historical evidence.
+
+The target revision does not need to be snapshotted before Change Intelligence runs. While it remains the `current_revision`, working `metadata.json`, source registrations, and current artifact files form the target-side deterministic inventory. Once a revision itself becomes historical, its snapshot is the authoritative comparison evidence.
 
 Historical revision metadata MUST conform to `shared/schemas/revision-metadata.schema.json`.
 
