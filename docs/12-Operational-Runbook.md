@@ -1,8 +1,8 @@
 # QA-AI Operational Runbook
 
-> Version: 1.0.0
+> Version: 1.0.1
 > Status: Draft
-> Last Updated: 2026-08-20
+> Last Updated: 2026-08-21
 
 ## Purpose
 
@@ -19,10 +19,24 @@ Provide the operational path for using QA-AI as a closed QA lifecycle while pres
 7. Initialize an execution run from existing canonical testcase IDs.
 8. Record Pass, Fail, Blocked, Not Run, or Not Applicable evidence; link defects without taking ownership of external defect lifecycle.
 9. Record retests as new immutable attempts and reconcile current disposition.
-10. Snapshot and advance the feature revision when authoritative change occurs.
-11. Run Change Intelligence between immutable revision evidence.
-12. Review the incremental QA plan: Reuse, Review, Regenerate, Revalidate, Re-execute, or Blocked.
-13. Route each action back to its owning skill/workflow/lifecycle process and begin the next QA cycle.
+10. Before introducing an authoritative source revision, snapshot the prior canonical feature baseline and advance the workspace revision.
+11. Register the changed source revision using the same stable source identity when its canonical type/path is unchanged.
+12. Run Change Intelligence between the immutable prior snapshot and the current working target revision; the target does not need a historical snapshot before analysis.
+13. Review the incremental QA plan: Reuse, Review, Regenerate, Revalidate, Re-execute, or Blocked.
+14. Route each action back to its owning skill/workflow/lifecycle process and begin the next QA cycle.
+
+## Source Revision Identity
+
+A canonical source keeps a stable `SRC-*` identity across content revisions when its source type and workspace-relative path are unchanged. The prior snapshot preserves the older revision/checksum, while current workspace metadata records the new revision/checksum.
+
+Example:
+
+```text
+REV-001 snapshot: SRC-001 revision 1.0 checksum A
+REV-002 working:  SRC-001 revision 2.0 checksum B
+```
+
+This permits deterministic Change Intelligence to classify `source:SRC-001` as `Modified` and propagate supported dependency impact without inventing a new source relationship.
 
 ## Release Readiness
 
