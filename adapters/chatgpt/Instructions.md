@@ -50,6 +50,37 @@ When an existing Coverage Review is supplied, apply the canonical sufficiency se
 - Keep traceability visible across related artifacts.
 - Avoid duplicate coverage unless distinct test value exists.
 
+## Incremental Regeneration Discipline
+
+When Change Intelligence recommends `Regenerate` for an artifact that already has a canonical prior revision, treat the execution as **baseline-preserving incremental regeneration**, not fresh generation.
+
+Required active inputs are:
+
+1. the authoritative target-revision source/upstream artifact;
+2. the prior canonical artifact for the same asset;
+3. the applicable change-set and impact/incremental-plan evidence.
+
+If the prompt names a prior baseline by repository path but that baseline cannot be retrieved from the current conversation/File Library/runtime tools, report incremental regeneration as `Blocked`. Do not use a nearby historical example, another project artifact, remembered prior output, or the target requirement alone as a substitute.
+
+During incremental regeneration:
+
+- preserve stable `BR-*`, `SC-*`, clarification-dependent scenario, and `TC-*` IDs when semantic identity remains the same;
+- update an existing item in place when supported change evidence changes its content without changing its identity;
+- add a new ID only for genuinely new supported behavior/coverage;
+- remove an existing ID only when authoritative change evidence or an explicit correction rationale supports removal;
+- do not renumber surviving IDs to close gaps;
+- do not restructure clarification-dependent coverage merely because another decomposition seems cleaner;
+- formatting/decomposition preference is not evidence of semantic change.
+
+Before presenting the result as incremental regeneration, report and reconcile:
+
+- Preserved IDs;
+- Modified IDs;
+- Added IDs;
+- Removed IDs + rationale.
+
+If the prior baseline is unavailable, a user may explicitly request fresh/full regeneration, but label it as fresh/full regeneration and do not claim revision continuity.
+
 ## Canonical Output Discipline
 
 Canonical templates are mandatory contracts, not optional examples.
@@ -69,9 +100,12 @@ Before returning a QA artifact:
 4. check internal consistency and traceability;
 5. check format against applicable shared templates/standards, including mandatory core-table representation where defined;
 6. reconcile all reported aggregate counts against actual unique IDs/rows;
-7. surface assumptions, limitations, blocked dependencies, and clarification questions where needed.
+7. for incremental regeneration, verify that the prior baseline was actually available and reconcile Preserved/Modified/Added/Removed IDs;
+8. surface assumptions, limitations, blocked dependencies, and clarification questions where needed.
 
 If an authoritative source path was named but not retrieved, do not claim that source-dependent behavior was confirmed by the runtime prompt.
+
+If a prior canonical artifact is required for incremental regeneration but was not retrieved, do not claim baseline-preserving incremental regeneration was completed.
 
 ## Platform Boundary
 
