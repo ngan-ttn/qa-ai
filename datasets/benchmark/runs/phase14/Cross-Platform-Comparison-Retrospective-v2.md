@@ -5,18 +5,18 @@
 > Dataset: `REQ-AUTH-001`  
 > Artifact: `Structured Test Case Model`  
 > Evaluation configuration: `EVAL-CRITERIA-001` + `EVAL-RUBRIC-001` + `EVAL-SCORING-001`  
-> Status: **Proposed — project-owner approval pending**  
+> Status: **Provisional — ChatGPT retrospective score approved; cross-platform comparison remains on review hold**  
 > Review date: 2026-10-29
 
 ## Purpose and record handling
 
-This version records a retrospective C07 review of the preserved ChatGPT output. It does not modify the original `Cross-Platform-Comparison-Candidate.md`, raw outputs, or original evaluation files. This comparison must not be treated as an approved replacement baseline until the project owner approves the retrospective evaluation.
+This version records a retrospective C07 review of the preserved ChatGPT output. The project owner approved ChatGPT C07=L2 and score 97/100 on 2026-10-29. It does not modify the original `Cross-Platform-Comparison-Candidate.md`, raw outputs, or original evaluation files. That approval applies only to the ChatGPT retrospective evaluation; this cross-platform comparison remains provisional and must not be treated as an approved replacement baseline because Claude and Cursor have not been rescored under the same checklist.
 
 ## Platform results
 
 | Platform | Run ID | Original score | Retrospective score used here | Result | Critical failures | Review status |
 |---|---|---:|---:|---|---:|---|
-| ChatGPT | `P14-RUN-CHATGPT-003` | 100 | 97 (proposed) | PASS | 0 | C07 review complete; owner approval pending |
+| ChatGPT | `P14-RUN-CHATGPT-003` | 100 | 97 (approved retrospective score) | PASS | 0 | C07 review and score approved by project owner on 2026-10-29 |
 | Claude | `P14-RUN-CLAUDE-001` | 99 | 99 (original evaluation) | PASS | 0 | Not re-evaluated |
 | Cursor | `P14-RUN-CURSOR-001` | 99 | 99 (original evaluation) | PASS | 0 | Not re-evaluated |
 
@@ -54,8 +54,8 @@ Claude and Cursor retain their original recorded scores of 99. Their results wer
 
 ## Approval and next actions
 
-1. Project owner reviews and approves/rejects the proposed ChatGPT C07 L2 rating and score 97.
-2. If approved, publish this comparison as the superseding comparison and update the status register accordingly.
-3. If rejected or adjusted, record the decision and rationale in a new version; do not edit historical evidence.
-4. Fix the table-generation issue in a new runtime output and run a new controlled set before claiming the defect is resolved.
-5. For a definitive current platform comparison, re-evaluate Claude and Cursor under the same retrospective checklist or rerun all platforms with the corrected framework, using new run IDs and complete metadata.
+1. The ChatGPT C07=L2 rating and score 97/100 were approved by the project owner on 2026-10-29; preserve this decision in the versioned retrospective record.
+2. Keep this cross-platform comparison provisional and on review hold; do not promote it as a replacement baseline yet.
+3. Fix the table-generation issue and verify the corrected output in a new controlled run before claiming the defect is resolved.
+4. For a definitive current platform comparison, re-evaluate Claude and Cursor under the same retrospective checklist or rerun all platforms with the corrected framework, using new run IDs and complete metadata.
+5. Do not edit historical raw outputs or original evaluation records.
