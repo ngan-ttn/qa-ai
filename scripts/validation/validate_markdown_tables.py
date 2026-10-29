@@ -16,8 +16,14 @@ def split_cells(line: str) -> list[str] | None:
         return None
     if text.startswith("|"):
         text = text[1:]
-    if text.endswith("|") and not text.endswith(r"\\|"):
-        text = text[:-1]
+    if text.endswith("|"):
+        backslashes = 0
+        pos = len(text) - 2
+        while pos >= 0 and text[pos] == chr(92):
+            backslashes += 1
+            pos -= 1
+        if backslashes % 2 == 0:
+            text = text[:-1]
 
     cells: list[str] = []
     current: list[str] = []
