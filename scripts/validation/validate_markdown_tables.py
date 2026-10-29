@@ -10,14 +10,19 @@ SEPARATOR_CELL = re.compile(r":?-{3,}:?")
 
 
 def split_cells(line: str) -> list[str] | None:
-    """Split a pipe-delimited row while ignoring escaped pipe characters."""
+    """Split a Markdown table row; outer pipes are optional, escaped pipes are data."""
     text = line.strip()
-    if not (text.startswith("|") and text.endswith("|")):
+    if "|" not in text:
         return None
+    if text.startswith("|"):
+        text = text[1:]
+    if text.endswith("|") and not text.endswith(r"\\|"):
+        text = text[:-1]
+
     cells: list[str] = []
     current: list[str] = []
     escaped = False
-    for char in text[1:-1]:
+    for char in text:
         if char == "|" and not escaped:
             cells.append("".join(current).strip())
             current = []
@@ -40,8 +45,8 @@ def is_separator(cells: list[str] | None) -> bool:
 def table_errors(text: str) -> list[str]:
     """Return line-specific errors for malformed Markdown tables.
 
-    Fenced code blocks are skipped so that documented examples are not treated as
-    rendered tables. Canonical table rows must have leading/trailing pipes.
+    Fenced code blocks are skipped. Both common Markdown table forms—with and
+    without leading/trailing outer pipes—are recognized.
     """
     lines = text.splitlines()
     errors: list[str] = []
@@ -85,12 +90,14 @@ def table_errors(text: str) -> list[str]:
                 f"line {start_line}: blank header cell(s) at column(s) "
                 + ", ".join(map(str, blank_headers))
             )
-        expected = len(header)
+        expected = len(separator)
         idx += 2
         while idx < len(lines):
             row = split_cells(lines[idx])
             if row is None:
                 break
+            # A row that does not have the same cell count is still part of the
+            # table when it contains a pipe; report it rather than silently stop.
             if len(row) != expected:
                 errors.append(
                     f"line {idx + 1}: table row has {len(row)} cell(s); expected {expected}"
