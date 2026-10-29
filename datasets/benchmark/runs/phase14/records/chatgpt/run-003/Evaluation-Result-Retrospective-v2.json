@@ -77,7 +77,7 @@
   "review_timestamp": "2026-10-29",
   "approval": "Project owner approved C07 L2 and score 97/100 on 2026-10-29",
   "notes": [
-    "This is a versioned retrospective evaluation proposal, not a mutation of the original historical Evaluation-Result.json.",
+    "This is a versioned retrospective evaluation record, not a mutation of the original historical Evaluation-Result.json.",
     "The raw output is preserved unchanged.",
     "C07 was compared against the approved canonical rubric; Claude and Cursor raw outputs were inspected and do not show the same repeated merged table-header pattern in the reviewed sections.",
     "The numeric gate remains satisfied and no critical failure was identified in this isolated C07 review.",
