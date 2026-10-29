@@ -17,6 +17,11 @@ Requirements for this run:
 - Do not replace executable expected results with generic advice when the dataset provides authoritative expected behavior.
 - If you identify information that is genuinely not defined by the dataset, label it explicitly rather than guessing.
 
+- Apply a Markdown table-integrity check to every table in the response: header, separator, and each data row must have the same number of cells; every column boundary must use a pipe character; never merge adjacent column labels into one cell.
+- Use the exact canonical column labels and order defined by the applicable QA-AI templates for Business Rules, Test Scenarios, and Test Cases.
+- The final Test Cases section must contain one canonical testcase table, with each executable TC-* appearing exactly once as a row; do not use section-per-testcase blocks or separate per-testcase step tables.
+- Before finalizing, self-check every table for malformed/merged headers, missing separators, inconsistent cell counts, and duplicated testcase representations. Correct any formatting defect before returning the final artifact.
+
 Do not use an external requirement or prior conversation behavior to modify the controlled dataset.
 
 ## Capture Rule
