@@ -26,11 +26,11 @@ The dataset is intentionally simple and fully specified. It measures a narrow pi
 
 | Platform | Accepted Run | Original recorded score | Retrospective score | Result / status |
 |---|---|---:|---:|---|
-| ChatGPT | `P14-RUN-CHATGPT-003` | 100 | 97 (proposed; approval pending) | PASS by numeric gate; comparison on review hold |
+| ChatGPT | `P14-RUN-CHATGPT-003` | 100 | 97 (approved retrospective evaluation) | PASS by numeric gate; comparison on review hold |
 | Claude | `P14-RUN-CLAUDE-001` | 99 | Not re-evaluated | Original PASS |
 | Cursor | `P14-RUN-CURSOR-001` | 99 | Not re-evaluated | Original PASS |
 
-The original Phase 14 final gate was approved on 2026-08-17. A retrospective review recommends C07 Clarity L2 instead of L4 for ChatGPT because repeated malformed Markdown table headers reduce reviewability. Under the canonical N/A-normalized scoring model, the proposed score is 97/100. The original raw output and original evaluation files are retained as historical evidence; they are not overwritten.
+The original Phase 14 final gate was approved on 2026-08-17. The project owner approved the retrospective ChatGPT C07 Clarity rating L2 instead of L4 and score 97/100 on 2026-10-29 because repeated malformed Markdown table headers reduce reviewability. Under the canonical N/A-normalized scoring model, the score is 97/100. The original raw output and original evaluation files are retained as historical evidence; they are not overwritten.
 
 The versioned proposal files are:
 - `Retrospective-C07-Reevaluation.md`
@@ -38,7 +38,7 @@ The versioned proposal files are:
 - `Cross-Platform-Comparison-Retrospective-v2.md`
 - `Benchmark-Status-Register.md`
 
-**Important:** the new comparison is provisional, not an approved baseline. Only ChatGPT C07 was retrospectively re-evaluated; Claude and Cursor retain their original scores. Do not interpret the provisional two-point spread as a definitive platform ranking. The current comparison remains on review hold pending project-owner approval and a decision about whether all platforms should be re-evaluated under the same checklist.
+**Important:** the retrospective ChatGPT C07 rating and score are approved, but the cross-platform comparison remains provisional and is not an approved baseline. Only ChatGPT C07 was retrospectively re-evaluated; Claude and Cursor retain their original scores. Do not interpret the two-point spread as a definitive platform ranking. The comparison remains on review hold until all platforms are evaluated under the same checklist or rerun with the corrected framework.
 
 The benchmark expansion is planned but not yet executed:
 - `datasets/benchmark/expansion/Benchmark-Expansion-Plan.md`
@@ -72,4 +72,4 @@ The run set includes the execution definition, prompt, capture checklist, execut
 
 ## Completion and change-control rule
 
-The original controlled execution and Phase 14 gate are complete historically. The current score comparison remains under review until the retrospective C07 decision is approved and a superseding comparison is accepted. Keep raw outputs and original evaluation records frozen; use versioned superseding records for approved corrections.
+The original controlled execution and Phase 14 gate are complete historically. The retrospective C07 decision is approved, but the current cross-platform score comparison remains under review until all platforms are evaluated comparably and a superseding comparison is accepted. Keep raw outputs and original evaluation records frozen; use versioned superseding records for approved corrections.
