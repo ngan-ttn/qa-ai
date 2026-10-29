@@ -2,7 +2,7 @@
 
 > Register ID: P14-STATUS-REGISTER-001  
 > Last reviewed: 2026-10-29  
-> Status: Retrospective score review open
+> Status: Retrospective ChatGPT C07 decision approved; cross-platform comparison remains on review hold
 
 ## Purpose and precedence
 
@@ -19,7 +19,7 @@ This register resolves status-label conflicts without rewriting historical execu
 |---|---|---|
 | Original Phase 14 execution and final gate | Approved (historical decision, 2026-08-17) | The original gate decision remains part of the audit trail. |
 | Raw runtime outputs and original evaluation records | Frozen / immutable evidence | Do not edit historical raw outputs or rewrite the original scores in place. |
-| ChatGPT C07 score | Re-evaluated: 97/100; project-owner approval pending | C07 is recommended to change from L4 to L2 because of repeated malformed table headers. See `Retrospective-C07-Reevaluation.md` and `records/chatgpt/run-003/Evaluation-Result-Retrospective-v2.json`. |
+| ChatGPT C07 score | Approved retrospective re-evaluation: 97/100; owner approval recorded 2026-10-29 | C07 is recommended to change from L4 to L2 because of repeated malformed table headers. See `Retrospective-C07-Reevaluation.md` and `records/chatgpt/run-003/Evaluation-Result-Retrospective-v2.json`. |
 | Claude score | 99/100, original evaluation | No retrospective re-evaluation was performed in this change. |
 | Cursor score | 99/100, original evaluation | No retrospective re-evaluation was performed in this change. |
 | Cross-platform score comparison | Review hold | `Cross-Platform-Comparison-Retrospective-v2.md` is a provisional comparison only; ChatGPT was re-evaluated while Claude and Cursor retain original scores. Do not treat it as an approved replacement baseline. |
@@ -27,7 +27,7 @@ This register resolves status-label conflicts without rewriting historical execu
 
 ## Baseline governance decision
 
-The original Phase 14 gate remains historically approved, but the current score comparison is **not considered fully reconciled** until the project owner approves the retrospective C07 review and decides whether the provisional comparison is acceptable. Keep the raw run evidence frozen. The versioned retrospective evaluation and comparison have been created as proposals only; they do not promote a new baseline.
+The original Phase 14 gate remains historically approved. The project owner approved the retrospective ChatGPT C07=L2 rating and score 97/100 on 2026-10-29. This approval applies to that retrospective evaluation only; it does not approve a definitive cross-platform ranking or promote a new baseline. Claude and Cursor have not been retrospectively rescored under the same checklist. Keep raw run evidence frozen and the aggregate comparison on review hold.
 
 The status words mean:
 - **Candidate** — eligible for review, not promoted.
@@ -37,8 +37,8 @@ The status words mean:
 
 ## Required closure actions
 
-1. Project owner approves/rejects the C07 re-evaluation and score 97.
-2. If approved, accept or revise the provisional comparison and update this register in a new commit.
-3. Keep the original 100/99/99 records available as historical evidence, clearly marked as superseded for current comparison purposes only after approval.
-4. Execute the expanded benchmark only as a new run set with new run IDs and captured metadata.
-5. For a definitive platform comparison, re-evaluate all platforms under the same retrospective checklist or rerun all platforms with the corrected framework.
+1. Record the approved ChatGPT C07=L2 and score 97/100 decision in versioned retrospective records; do not overwrite original evidence.
+2. Keep the cross-platform comparison on review hold until Claude and Cursor are evaluated under the same checklist or all platforms are rerun with the corrected framework.
+3. Fix and verify malformed Markdown table generation in a new runtime output.
+4. Execute expanded benchmarks only as a new run set with new run IDs and captured metadata.
+5. Keep the original 100/99/99 records as historical evidence; do not claim a definitive ranking from non-equivalent evaluations.
