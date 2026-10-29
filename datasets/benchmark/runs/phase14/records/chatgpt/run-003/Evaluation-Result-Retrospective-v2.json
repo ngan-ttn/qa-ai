@@ -1,0 +1,86 @@
+{
+  "run_id": "P14-RUN-CHATGPT-003",
+  "evaluation_id": "RETRO-C07-CHATGPT-001",
+  "supersedes": "records/chatgpt/run-003/Evaluation-Result.json",
+  "status": "Proposed retrospective evaluation; project-owner approval pending",
+  "criteria": "EVAL-CRITERIA-001",
+  "rubric": "EVAL-RUBRIC-001",
+  "scoring": "EVAL-SCORING-001",
+  "evaluation_profile": "canonical-default",
+  "criterion_levels": {
+    "C01": {
+      "level": "L4",
+      "evidence": "Preserves the authoritative threshold of 5 consecutive failed attempts, 15-minute duration, reset behavior, locked-state rejection, automatic unlock, and per-account isolation."
+    },
+    "C02": {
+      "level": "L4",
+      "evidence": "Derived rules, scenarios, and expected results are logically consistent with REQ-AUTH-001; no incorrect critical expected result identified."
+    },
+    "C03": {
+      "level": "L4",
+      "evidence": "Covers lower/upper threshold bounds, lock trigger, locked-state behavior for incorrect and correct passwords, duration persistence/expiry, both reset paths, and account isolation."
+    },
+    "C04": {
+      "level": "L4",
+      "evidence": "Stays technology-neutral and explicitly excludes undefined UI/API/database/timing implementation details."
+    },
+    "C05": {
+      "level": "L4",
+      "evidence": "Undefined implementation and behavior are labeled Unknown/non-asserted; no material unsupported assumption is promoted to fact."
+    },
+    "C06": {
+      "level": "L4",
+      "evidence": "Stable traceability is visible from REQ-AUTH-001 through BR-AUTH and TS-AUTH identifiers into every TC-AUTH case."
+    },
+    "C07": {
+      "level": "L2",
+      "evidence": "Repeated malformed Markdown table headers merge intended fields in business-rule, scenario, testcase-step, and test-data tables (e.g. 'Rule IDConfirmed business rule', 'Scenario IDObjectiveRule trace', 'StepActionExpected result'). Meaning remains partly recoverable, but structure reduces reviewability and requires correction before high-quality use."
+    },
+    "C08": {
+      "level": "L4",
+      "evidence": "Each case has concrete preconditions/actions and observable expected outcomes at the source abstraction level without requiring invented implementation details."
+    },
+    "C09": {
+      "level": "L4",
+      "evidence": "Ten cases have distinct primary objectives; counts 2 and 3 are intentionally covered through the same below-threshold partition rather than duplicated."
+    },
+    "C10": {
+      "level": "L4",
+      "evidence": "Covers 1/4/5 attempt boundaries, locked/unlocked states, duration before/at expiry, reset transitions, new sequences, and per-account state isolation."
+    },
+    "C11": {
+      "level": "N/A",
+      "evidence": "Risk Awareness is supporting-only for this evaluated Structured Test Case Model; testcase-generation does not execute risk-analyzer and this run requires no risk decision."
+    },
+    "C12": {
+      "level": "L4",
+      "evidence": "Thresholds, duration, states, rule IDs, scenario IDs, and expected results remain internally consistent throughout the artifact chain."
+    }
+  },
+  "scoring_details": {
+    "C07_weight": 5,
+    "C07_original_level": "L4",
+    "C07_re_evaluated_level": "L2",
+    "C07_factor": 0.5,
+    "raw_weighted_score": 92.5,
+    "active_weight": 95,
+    "normalized_score": 97.368421,
+    "final_unrounded_score": 97.368421,
+    "final_score": 97,
+    "quality_band": "Excellent",
+    "critical_failures": [],
+    "applied_cap": null,
+    "result": "PASS"
+  },
+  "critical_failures": [],
+  "reviewer": "QA-AI Phase 14 retrospective reviewer",
+  "review_timestamp": "2026-10-29",
+  "approval": "Pending project-owner review",
+  "notes": [
+    "This is a versioned retrospective evaluation proposal, not a mutation of the original historical Evaluation-Result.json.",
+    "The raw output is preserved unchanged.",
+    "C07 was compared against the approved canonical rubric; Claude and Cursor raw outputs were inspected and do not show the same repeated merged table-header pattern in the reviewed sections.",
+    "The numeric gate remains satisfied and no critical failure was identified in this isolated C07 review.",
+    "Do not promote this score to the approved benchmark baseline until project-owner approval and comparison review are recorded."
+  ]
+}
