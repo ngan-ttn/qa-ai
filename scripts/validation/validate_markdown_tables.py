@@ -79,6 +79,12 @@ def table_errors(text: str) -> list[str]:
                 f"line {start_line}: header has {len(header)} cell(s), "
                 f"separator has {len(separator)}"
             )
+        blank_headers = [position + 1 for position, cell in enumerate(header) if not cell]
+        if blank_headers:
+            errors.append(
+                f"line {start_line}: blank header cell(s) at column(s) "
+                + ", ".join(map(str, blank_headers))
+            )
         expected = len(header)
         idx += 2
         while idx < len(lines):
