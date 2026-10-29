@@ -103,6 +103,16 @@ Typical rule information includes:
 
 ---
 
+## Markdown Table Integrity Gate
+
+Before delivery, validate every Markdown table in the artifact, not only the canonical Business Rules table:
+
+- The header row, separator row, and every data row MUST contain the same number of cells.
+- Every column boundary MUST be represented by a pipe character; never concatenate adjacent column labels into one header cell.
+- Use a distinct header cell for each canonical column, exactly as listed above.
+- The separator row MUST contain one valid separator cell per header cell.
+- If a table is malformed, correct the table before delivery; do not treat a malformed table as acceptable because its meaning can be inferred.
+
 ## Dependencies
 
 | Resource | Purpose |

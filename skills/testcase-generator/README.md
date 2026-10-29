@@ -141,6 +141,18 @@ The testcase table must preserve:
 
 ---
 
+## Markdown Table Integrity Gate
+
+Before delivery, validate the entire artifact against the canonical representation rules:
+
+- The Test Cases section MUST contain exactly one canonical executable testcase inventory table.
+- The header row, separator row, and every data row MUST contain the same number of cells.
+- The testcase table MUST have exactly the 10 canonical columns in the order shown above.
+- Every column boundary MUST be represented by a pipe character; never concatenate adjacent column labels into one header cell.
+- Ordered steps may use HTML line breaks inside a cell, but MUST NOT create nested tables or additional testcase rows.
+- Supporting Business Rules, Scenarios, Test Data, or traceability tables MUST also have valid, matching cell counts across header, separator, and data rows.
+- Correct all malformed tables before delivery. An artifact that fails this gate is not canonical-format compliant even if its intended meaning is recoverable.
+
 ## Dependencies
 
 | Resource | Purpose |

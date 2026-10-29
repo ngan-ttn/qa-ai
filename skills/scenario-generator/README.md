@@ -113,6 +113,15 @@ The scenario table must preserve:
 
 ---
 
+## Markdown Table Integrity Gate
+
+Before delivery, validate every Markdown table in the artifact, including supporting tables:
+
+- The header row, separator row, and every data row MUST contain the same number of cells.
+- Every column boundary MUST be represented by a pipe character; never concatenate adjacent column labels into one header cell.
+- The Scenario table MUST use the canonical column names and order listed above.
+- If a table is malformed, correct it before delivery; readability must not depend on a reviewer reconstructing merged or missing columns.
+
 ## Dependencies
 
 | Resource | Purpose |
