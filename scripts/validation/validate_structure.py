@@ -7,7 +7,7 @@ if str(ROOT) not in sys.path: sys.path.insert(0,str(ROOT))
 from scripts.utils.file_utils import read_json
 CORE_PATHS=["README.md","FRAMEWORK.md","manifest.json","docs","shared","skills","workflows","datasets","scripts","workspace","release"]
 SCRIPT_FILES={
-"validation":["validate_structure.py","validate_links.py","validate_metadata.py","validate_outputs.py"],
+"validation":["validate_structure.py","validate_links.py","validate_metadata.py","validate_outputs.py","validate_markdown_tables.py"],
 "knowledge":["build_index.py","chunk_knowledge.py","validate_catalog.py"],
 "prompts":["assemble_context.py","build_prompt.py"],
 "workflows":["load_workflow.py","resolve_skills.py","run_workflow.py"],

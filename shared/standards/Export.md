@@ -122,6 +122,14 @@ Generic spreadsheets SHOULD:
 
 Styling is operational only and MUST NOT encode new QA semantics.
 
+A test-case XLSX keeps the 10 canonical columns first, then adds execution columns that are not part of the Markdown source:
+
+```text
+Status | BUG ID | Note
+```
+
+A fresh export sets `Status` to `NOT RUN` and leaves `BUG ID`, `Bug Priority`, `Bug Status`, and `Note` empty. Test-case status values are `PASS`, `FAIL`, `NOT RUN`, and `PENDING`. Bug priority values are `High`, `Medium`, and `Low`. Bug status values are `Open`, `In Progress`, `Resolved`, and `Closed`. The first sheet is `Report Test Case`. It shows total test cases, colored status counts, total bugs, bug priority, and bug status, each with a pie chart driven by formulas over the `Test Cases` sheet. The export still does not create defects, store execution history, or replace the canonical Markdown artifact. CSV export remains the 10 canonical columns only.
+
 ---
 
 ## CSV Rules

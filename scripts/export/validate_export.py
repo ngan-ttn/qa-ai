@@ -19,6 +19,9 @@ PARSERS = {"test-cases": parse_testcases, "coverage-review": parse_coverage, "re
 
 TC_HEADERS = ["Test Case ID", "Module / Function", "Scenario ID", "Test Case Title", "Preconditions / Setup", "Test Steps", "Test Data", "Expected Result", "Priority", "Traceability"]
 TC_KEYS = ["test_case_id", "module_function", "scenario_id", "title", "preconditions_setup", "steps", "test_data", "expected_result", "priority", "traceability"]
+TC_OPERATIONAL_HEADERS = ["Status", "BUG ID", "Bug Priority", "Bug Status", "Note"]
+EXECUTION_STATUSES = ["PASS", "FAIL", "NOT RUN", "PENDING"]
+REPORT_SHEET = "Report Test Case"
 
 COVERAGE_HEADERS = ["Coverage Finding ID", "Coverage Status", "Related Source", "Current Evidence", "Finding", "Priority", "Recommended Owning Action"]
 COVERAGE_KEYS = ["coverage_finding_id", "coverage_status", "related_source", "current_evidence", "finding", "priority", "recommended_owning_action"]
@@ -64,7 +67,7 @@ def _read_xlsx(path: Path) -> tuple[list[str], list[list[str]], dict[str, list[s
     except ImportError as exc:
         raise RuntimeError("openpyxl is required for XLSX validation") from exc
     wb = load_workbook(path, data_only=True)
-    ws = wb[wb.sheetnames[0]]
+    ws = wb["Test Cases"] if "Test Cases" in wb.sheetnames else wb[wb.sheetnames[0]]
     rows = list(ws.iter_rows(values_only=True))
     headers = [_norm(v) for v in rows[0]] if rows else []
     data_rows = [[_norm(v) for v in row] for row in rows[1:]] if rows else []
@@ -81,6 +84,33 @@ def _read_xlsx(path: Path) -> tuple[list[str], list[list[str]], dict[str, list[s
             if title in TIER_TITLES and ref:
                 tiers[TIER_TITLES[title]].append(ref)
     return headers, data_rows, tiers
+
+
+def _testcase_report_errors(export_path: Path) -> list[str]:
+    from openpyxl import load_workbook
+
+    wb = load_workbook(export_path, data_only=False)
+    if not wb.sheetnames or wb.sheetnames[0] != REPORT_SHEET:
+        return [f"{REPORT_SHEET} sheet must be the first sheet"]
+    ws = wb[REPORT_SHEET]
+    errors: list[str] = []
+    if _norm(ws["A1"].value) != "Test Case Report":
+        errors.append(f"{REPORT_SHEET} sheet is missing its title")
+    labels = {_norm(cell.value) for row in ws.iter_rows(min_col=1, max_col=1) for cell in row}
+    for status in EXECUTION_STATUSES:
+        if status not in labels:
+            errors.append(f"{REPORT_SHEET} sheet is missing status {status}")
+    for label in ("Total test cases", "Total bugs", "Bug priority", "Bug status"):
+        if label not in labels:
+            errors.append(f"{REPORT_SHEET} sheet is missing {label}")
+    formulas = [str(cell.value) for row in ws.iter_rows() for cell in row if isinstance(cell.value, str) and cell.value.startswith("=")]
+    if not any("COUNTIF('Test Cases'!$K$" in formula for formula in formulas):
+        errors.append(f"{REPORT_SHEET} sheet does not count Status from the Test Cases sheet")
+    if not any("COUNTA('Test Cases'!$L$" in formula for formula in formulas):
+        errors.append(f"{REPORT_SHEET} sheet does not count BUG ID values")
+    if len(ws._charts) != 3:
+        errors.append(f"{REPORT_SHEET} sheet must contain 3 pie charts")
+    return errors
 
 
 def validate(source: Path, export_path: Path, artifact_type: str) -> list[str]:
@@ -102,9 +132,16 @@ def validate(source: Path, export_path: Path, artifact_type: str) -> list[str]:
         actual_headers, actual_rows, actual_tiers = _read_xlsx(export_path)
     else:
         return ["unsupported export format; expected .csv or .xlsx"]
-    if actual_headers != expected_headers:
-        errors.append(f"header mismatch: expected={expected_headers} actual={actual_headers}")
-    normalized_actual = [[_norm(v) for v in row] for row in actual_rows]
+    if artifact_type == "test-cases" and export_path.suffix.lower() == ".xlsx":
+        if actual_headers != expected_headers + TC_OPERATIONAL_HEADERS:
+            errors.append(f"header mismatch: expected={expected_headers + TC_OPERATIONAL_HEADERS} actual={actual_headers}")
+        width = len(expected_headers)
+        normalized_actual = [[_norm(value) for value in row[:width]] for row in actual_rows]
+        errors.extend(_testcase_report_errors(export_path))
+    else:
+        if actual_headers != expected_headers:
+            errors.append(f"header mismatch: expected={expected_headers} actual={actual_headers}")
+        normalized_actual = [[_norm(value) for value in row] for row in actual_rows]
     if len(expected_rows) != len(normalized_actual):
         errors.append(f"record count mismatch: source={len(expected_rows)} export={len(normalized_actual)}")
     if expected_rows != normalized_actual:
