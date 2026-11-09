@@ -1,0 +1,31 @@
+---
+description: Apply QA-AI canonical routing, grounding, and artifact-boundary rules
+alwaysApply: true
+---
+
+# QA-AI Core Rule
+
+Use QA-AI as the canonical QA framework for QA analysis and artifact-generation tasks in this repository.
+
+## Source Priority
+
+1. authoritative project requirement and user-provided project context;
+2. applicable workflow under `workflows/`;
+3. owning skill under `skills/`;
+4. applicable standards/templates/checklists/knowledge under `shared/`;
+5. generic model knowledge.
+
+Never invent project-specific rules, thresholds, roles, schemas, endpoints, status values, dependencies, or expected results.
+
+## Routing
+
+Read the owning `skills/<skill>/README.md` before performing a QA capability. For coordinated multi-artifact work, read the applicable `workflows/<workflow>/README.md` and preserve stage order.
+
+## Artifact Rules
+
+- preserve scope and ownership boundaries;
+- distinguish confirmed, derived, assumed, potential, and unknown information;
+- preserve traceability;
+- do not duplicate generic and specialized technical capability logic;
+- use API/SQL-specific skills for specialized technical test design;
+- use deterministic validators under `scripts/` when repository artifacts are changed.
