@@ -95,10 +95,17 @@ def _font(bold: bool = False, color: str | None = None):
     return Font(name="Times New Roman", size=12, bold=bold, color=color)
 
 
+def _existing_rgb(cell) -> str | None:
+    color = cell.font.color if cell.font else None
+    if color is None or color.type != "rgb" or not color.rgb:
+        return None
+    return str(color.rgb)
+
+
 def _apply_font(ws, min_row: int, max_row: int, min_col: int, max_col: int) -> None:
     for row in ws.iter_rows(min_row=min_row, max_row=max_row, min_col=min_col, max_col=max_col):
         for cell in row:
-            cell.font = _font(bool(cell.font and cell.font.bold))
+            cell.font = _font(bool(cell.font and cell.font.bold), _existing_rgb(cell))
 
 
 def _style_count(cell) -> None:
