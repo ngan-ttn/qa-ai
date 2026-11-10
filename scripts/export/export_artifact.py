@@ -89,10 +89,10 @@ def _write_csv(model: dict[str, object], output: Path) -> None:
         writer.writerows(rows)
 
 
-def _font(bold: bool = False):
+def _font(bold: bool = False, color: str | None = None):
     from openpyxl.styles import Font
 
-    return Font(name="Times New Roman", size=12, bold=bold)
+    return Font(name="Times New Roman", size=12, bold=bold, color=color)
 
 
 def _apply_font(ws, min_row: int, max_row: int, min_col: int, max_col: int) -> None:
@@ -109,8 +109,10 @@ def _style_count(cell) -> None:
 
 
 def _center_title(cell) -> None:
-    from openpyxl.styles import Alignment
+    from openpyxl.styles import Alignment, PatternFill
 
+    cell.font = _font(True, "FFFFFF")
+    cell.fill = PatternFill("solid", fgColor="002060")
     cell.alignment = Alignment(horizontal="center", vertical="center", wrap_text=True)
 
 
